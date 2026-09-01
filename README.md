@@ -1,20 +1,72 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Korea DataSpace Platform
 
-# Run and deploy your AI Studio app
+B2B industrial data marketplace built on Catena-X and GAIA-X principles.
+React 19 + TypeScript + Vite, with Tailwind compiled locally.
 
-This contains everything you need to run your app locally.
+## Run locally
 
-View your app in AI Studio: https://ai.studio/apps/drive/13FyKML8BPCE54ynhbfy2Ic4lUmZOE2U_
+Requires Node.js 20 or newer.
 
-## Run Locally
+```bash
+npm install
+npm run dev
+```
 
-**Prerequisites:**  Node.js
+Then open http://localhost:3000. Routing is hash-based, so every screen has
+a shareable URL such as `http://localhost:3000/#/marketplace`.
 
+The Gemini API key is optional: it is only used by the video demo on the
+Tutorial screen. To enable it, put your key in `.env.local`:
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```
+GEMINI_API_KEY=your-key-here
+```
+
+Everything else runs without it.
+
+## Verifying that every screen renders
+
+`npm run verify:render` opens all 23 routes in a real browser and fails if
+any of them throws, logs a console error, fails a local request, or comes
+back visually empty. Screenshots and a JSON report land in `render-report/`.
+
+```bash
+npm run build
+npx vite preview --port 4173 &
+npm run verify:render -- http://127.0.0.1:4173
+```
+
+Third-party asset hosts (fonts, stock imagery) are ignored by the check so
+that an offline or firewalled runner is not reported as an application bug.
+
+The same check runs in CI on every push — see
+`.github/workflows/deploy.yml`. The screenshots it captures are attached to
+each run as the `render-report` artifact, so you can look at what CI
+actually saw.
+
+## Publishing
+
+The workflow deploys `dist/` to GitHub Pages after the render check passes.
+
+GitHub Pages has to be switched on once by hand, because the workflow token
+is not allowed to create the Pages site: go to **Settings → Pages → Build
+and deployment** and set **Source** to **GitHub Actions**. Until that is
+done the deploy step is skipped with a warning and the build still passes.
+
+The site is served from a sub-path, which is why `base` is `./` in
+`vite.config.ts`. Combined with hash routing, the same build works from any
+directory.
+
+## Scripts
+
+| Script | Purpose |
+| --- | --- |
+| `npm run dev` | Dev server on port 3000 |
+| `npm run build` | Compile Tailwind, then build to `dist/` |
+| `npm run preview` | Serve the production build |
+| `npm run css` | Rebuild `index.css` from `tailwind.src.css` |
+| `npm run verify:render` | Browser render check across every route |
+
+`index.css` is generated, not committed. `npm run dev` and `npm run build`
+regenerate it automatically; run `npm run css` yourself if you change class
+names while the dev server is already running.

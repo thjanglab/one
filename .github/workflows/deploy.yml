@@ -70,10 +70,22 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # GITHUB_TOKEN cannot create the Pages site itself, so this step fails
+      # until Pages has been switched on once in the repository settings.
+      # Treat that as a skip rather than a red build: the render verification
+      # above is the part that gates the branch.
       - name: Configure Pages
+        id: pages
+        continue-on-error: true
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
+
+      - name: Pages is not enabled yet
+        if: steps.pages.outcome == 'failure'
+        run: |
+          echo "::warning::GitHub Pages is not enabled for this repository, so the site was not published."
+          echo "Enable it once under Settings -> Pages -> Build and deployment -> Source: GitHub Actions,"
+          echo "then re-run this workflow and the deployment will go through."
 
       - id: deployment
+        if: steps.pages.outcome == 'success'
         uses: actions/deploy-pages@v4
