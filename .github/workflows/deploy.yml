@@ -62,6 +62,14 @@ jobs:
         with:
           path: dist
 
+      # Last step on purpose: this is the part worth reading, and the job log
+      # is easiest to read from the end.
+      - name: Render summary
+        if: always()
+        run: |
+          cat render-report/summary.md
+          cat render-report/summary.md >> "$GITHUB_STEP_SUMMARY"
+
   deploy:
     name: Deploy to GitHub Pages
     needs: verify

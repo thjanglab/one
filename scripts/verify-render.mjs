@@ -101,13 +101,24 @@ await writeFile(`${OUT}/report.json`, JSON.stringify(results, null, 2));
 
 console.log(`\n${results.length - failed}/${results.length} routes rendered cleanly.`);
 
-console.log(`\nExternally hosted assets: ${external.loaded} loaded, ${external.blocked} blocked`);
-for (const [host, n] of [...external.hosts].sort()) {
-  console.log(`  ${host}: ${n.loaded} loaded, ${n.blocked} blocked`);
-}
-if (external.blocked > 0) {
-  console.log('  (blocked third-party assets do not fail this check - the app itself still rendered)');
-}
+const summary = [
+  `### Render check`,
+  ``,
+  `${results.length - failed}/${results.length} routes rendered cleanly.`,
+  ``,
+  `Externally hosted assets: **${external.loaded} loaded, ${external.blocked} blocked**`,
+  ``,
+  `| Host | Loaded | Blocked |`,
+  `| --- | ---: | ---: |`,
+  ...[...external.hosts].sort().map(([host, n]) => `| ${host} | ${n.loaded} | ${n.blocked} |`),
+  ``,
+  external.blocked > 0
+    ? `Blocked third-party assets do not fail this check - the app itself still rendered.`
+    : `All hot-linked imagery resolved.`,
+].join('\n');
+
+console.log('\n' + summary);
+await writeFile(`${OUT}/summary.md`, summary + '\n');
 if (failed > 0) {
   console.error(`${failed} route(s) failed. Screenshots in ./${OUT}/`);
   process.exit(1);
