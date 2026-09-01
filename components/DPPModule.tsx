@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { MOCK_PCF_PRODUCTS, MOCK_DPP_INSPECTIONS, MOCK_DATA_TRANSACTIONS } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
-import { ArrowLeft, ArrowRight, ExternalLink, Search, FileText, CheckCircle2, Shirt, Car, Factory, Globe, Droplets, Wind, Recycle, Tag, MapPin, Award, Layers, Map, Anchor, Truck, Building2, BadgeCheck, Leaf, QrCode, Smartphone, Battery, Cpu, Monitor, Hammer, Wrench, ShieldCheck, RefreshCw, Zap, ChevronRight, Database, X, Clock, PenTool, Hash, Download, FileJson, Link as LinkIcon, Blocks, Eye, Copy, Check, LayoutDashboard, Info, Settings, Stamp } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, Search, FileText, CheckCircle2, Shirt, Car, Factory, Globe, Droplets, Wind, Recycle, Tag, MapPin, Award, Layers, Map, Anchor, Truck, Building2, BadgeCheck, Leaf, QrCode, Smartphone, Battery, Cpu, Monitor, Hammer, Wrench, ShieldCheck, RefreshCw, Zap, ChevronRight, Database, X, Clock, PenTool, Hash, Download, FileJson, Link as LinkIcon, Blocks, Eye, Copy, Check, LayoutDashboard, Info, Settings, Stamp, Server } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { QRCodeSVG } from 'qrcode.react';
 
@@ -13,6 +13,8 @@ const DPPModule: React.FC = () => {
     const [autoTab, setAutoTab] = useState<'DASHBOARD' | 'CHAIN'>('DASHBOARD');
     const [selectedStage, setSelectedStage] = useState<number | null>(null);
     const [selectedAutoNode, setSelectedAutoNode] = useState<string | null>(null);
+    // Node the full supplier report is open for
+    const [autoProfileId, setAutoProfileId] = useState<string | null>(null);
     
     // Certificate Modal State
     const [certificateStep, setCertificateStep] = useState<any | null>(null);
@@ -257,7 +259,170 @@ const DPPModule: React.FC = () => {
 
     return (
         <div className="space-y-8 animate-fadeIn pb-12 relative">
-            
+
+            {/* --- SUPPLIER PROFILE REPORT --- */}
+            {autoProfileId && (() => {
+                const node = HYUNDAI_CHAIN_NODES.find(n => n.id === autoProfileId);
+                if (!node) return null;
+                const isKo = language === 'KO';
+                const TIERS = ['Tier 3', 'Tier 2', 'Tier 1', 'OEM'];
+                const here = TIERS.indexOf(node.type);
+                const co2 = Number(node.co2.replace(/,/g, ''));
+                const chainMax = Math.max(...HYUNDAI_CHAIN_NODES.map(n => Number(n.co2.replace(/,/g, ''))));
+                const chainTotal = HYUNDAI_CHAIN_NODES.reduce((sum, n) => sum + Number(n.co2.replace(/,/g, '')), 0);
+                const share = Math.round((co2 / chainTotal) * 100);
+                // Scope split is illustrative, but derived from the node's own figure
+                // so the parts always add back up to its total.
+                const scopes = [
+                    { key: 'Scope 1', ko: '직접 배출', value: Math.round(co2 * 0.34) },
+                    { key: 'Scope 2', ko: '간접 배출(전력)', value: Math.round(co2 * 0.41) },
+                    { key: 'Scope 3', ko: '기타 간접', value: co2 - Math.round(co2 * 0.34) - Math.round(co2 * 0.41) },
+                ];
+                // Fixed order, never cycled.
+                const SCOPE_COLORS = ['#2563eb', '#059669', '#7c3aed'];
+                const upstream = HYUNDAI_CHAIN_LINKS.filter(l => l.end === node.id).length;
+                const downstream = HYUNDAI_CHAIN_LINKS.filter(l => l.start === node.id).length;
+                const Icon = node.icon;
+
+                return (
+                    <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fadeIn"
+                        onClick={() => setAutoProfileId(null)}>
+                        <div className="bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden animate-scaleUp"
+                            onClick={(e) => e.stopPropagation()}>
+
+                            <div className="bg-slate-900 text-white p-6 flex items-start justify-between gap-4 shrink-0">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-14 h-14 bg-white/10 border border-white/20 rounded-2xl flex items-center justify-center shrink-0">
+                                        <Icon className="w-7 h-7 text-white" />
+                                    </div>
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-600">{node.type}</span>
+                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${node.status === 'Active' ? 'bg-emerald-500' : 'bg-amber-500'}`}>
+                                                {isKo ? (node.status === 'Active' ? '연동 중' : '연동 준비') : node.status}
+                                            </span>
+                                        </div>
+                                        <h3 className="text-2xl font-bold">{node.label}</h3>
+                                        <p className="text-slate-400 text-xs mt-0.5 flex items-center gap-1"><MapPin className="w-3 h-3" /> {node.location}</p>
+                                    </div>
+                                </div>
+                                <button onClick={() => setAutoProfileId(null)}
+                                    aria-label={isKo ? '리포트 닫기' : 'Close the report'}
+                                    className="text-white/70 hover:text-white hover:bg-white/20 rounded-full p-1.5 transition-colors">
+                                    <X className="w-5 h-5" />
+                                </button>
+                            </div>
+
+                            <div className="p-6 space-y-6 overflow-y-auto bg-slate-50">
+                                {/* Where this supplier sits, with material moving toward the OEM */}
+                                <div className="bg-slate-900 rounded-2xl p-5">
+                                    <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">
+                                        {isKo ? '공급망 내 위치' : 'Position in the chain'}
+                                    </h4>
+                                    <svg viewBox="0 0 360 92" className="w-full h-[92px]" role="img"
+                                        aria-label={isKo ? '공급 단계 다이어그램' : 'Supply tier diagram'}>
+                                        <line x1="40" y1="34" x2="320" y2="34" stroke="#334155" strokeWidth="2" />
+                                        <path id="dpp-flow" d="M 40 34 L 320 34" fill="none" stroke="none" />
+                                        {[0, 1, 2].map(i => (
+                                            <circle key={i} r="3.5" fill="#34d399">
+                                                <animateMotion dur="3s" begin={`${i}s`} repeatCount="indefinite">
+                                                    <mpath href="#dpp-flow" />
+                                                </animateMotion>
+                                            </circle>
+                                        ))}
+                                        {TIERS.map((tier, i) => {
+                                            const cx = 40 + i * 93.33;
+                                            const active = i === here;
+                                            return (
+                                                <g key={tier}>
+                                                    {active && (
+                                                        <circle cx={cx} cy="34" r="12" fill="none" stroke="#3b82f6" strokeWidth="2">
+                                                            <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite" />
+                                                            <animate attributeName="opacity" values="0.9;0;0.9" dur="2s" repeatCount="indefinite" />
+                                                        </circle>
+                                                    )}
+                                                    <circle cx={cx} cy="34" r={active ? 11 : 7}
+                                                        fill={active ? '#3b82f6' : '#1e293b'} stroke={active ? '#93c5fd' : '#475569'} strokeWidth="2" />
+                                                    <text x={cx} y="66" textAnchor="middle" fontSize="11"
+                                                        fill={active ? '#bfdbfe' : '#94a3b8'} fontWeight={active ? 700 : 400}>{tier}</text>
+                                                    {active && (
+                                                        <text x={cx} y="82" textAnchor="middle" fontSize="10" fill="#3b82f6" fontWeight="700">
+                                                            {isKo ? '이 공급사' : 'This supplier'}
+                                                        </text>
+                                                    )}
+                                                </g>
+                                            );
+                                        })}
+                                    </svg>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div className="bg-white p-4 rounded-xl border border-slate-200">
+                                        <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">{isKo ? '연간 배출량' : 'Annual emissions'}</p>
+                                        <p className="text-xl font-bold text-slate-900 tabular-nums">{node.co2} <span className="text-xs font-medium text-slate-400">kgCO2e</span></p>
+                                        <div className="mt-3 h-2 bg-slate-100 rounded-full overflow-hidden">
+                                            <div className="h-full bg-emerald-600 rounded-full transition-all duration-700" style={{ width: `${Math.round((co2 / chainMax) * 100)}%` }} />
+                                        </div>
+                                        <p className="mt-1.5 text-[10px] text-slate-400">{isKo ? `체인 합계의 ${share}%` : `${share}% of the chain total`}</p>
+                                    </div>
+                                    <div className="bg-white p-4 rounded-xl border border-slate-200">
+                                        <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">{isKo ? '상류 공급사' : 'Upstream suppliers'}</p>
+                                        <p className="text-xl font-bold text-slate-900 tabular-nums">{upstream}</p>
+                                        <p className="mt-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">{isKo ? '하류 고객사' : 'Downstream customers'}</p>
+                                        <p className="text-xl font-bold text-slate-900 tabular-nums">{downstream}</p>
+                                    </div>
+                                    <div className="bg-white p-4 rounded-xl border border-slate-200">
+                                        <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">{isKo ? '배출 범위 구성' : 'Emissions by scope'}</p>
+                                        <div className="flex h-2 rounded-full overflow-hidden gap-[2px] mb-3">
+                                            {scopes.map((sc, i) => (
+                                                <div key={sc.key} style={{ width: `${(sc.value / co2) * 100}%`, backgroundColor: SCOPE_COLORS[i] }} />
+                                            ))}
+                                        </div>
+                                        <ul className="space-y-1">
+                                            {scopes.map((sc, i) => (
+                                                <li key={sc.key} className="flex items-center gap-1.5 text-[10px]">
+                                                    <span className="w-2 h-2 rounded-sm shrink-0" style={{ backgroundColor: SCOPE_COLORS[i] }} />
+                                                    <span className="text-slate-600">{isKo ? sc.ko : sc.key}</span>
+                                                    <span className="ml-auto font-mono tabular-nums text-slate-800">{sc.value.toLocaleString()}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div className="bg-white p-5 rounded-xl border border-slate-200">
+                                    <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">{isKo ? '공급 품목' : 'What they supply'}</h4>
+                                    <p className="text-sm text-slate-700 leading-relaxed">{node.desc}</p>
+                                </div>
+
+                                <div className="bg-white p-5 rounded-xl border border-slate-200">
+                                    <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">{isKo ? '데이터스페이스 연동' : 'DataSpace connection'}</h4>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div className="p-3 border border-slate-200 rounded-lg flex flex-col items-center text-center">
+                                            <ShieldCheck className="w-6 h-6 text-blue-500 mb-2" />
+                                            <span className="text-xs font-bold text-slate-700">{isKo ? '검증 가능 자격증명 (VC)' : 'Verifiable Credential'}</span>
+                                            <span className="text-[10px] text-slate-400 font-mono mt-0.5">BPN-L-{node.id.toUpperCase()}</span>
+                                        </div>
+                                        <div className="p-3 border border-slate-200 rounded-lg flex flex-col items-center text-center">
+                                            <Server className="w-6 h-6 text-slate-500 mb-2" />
+                                            <span className="text-xs font-bold text-slate-700">EDC {isKo ? '커넥터' : 'Connector'}</span>
+                                            <span className="text-[10px] text-slate-400 font-mono mt-0.5">edc-{node.id}-kr</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="p-4 border-t border-slate-200 bg-white flex justify-end shrink-0">
+                                <button onClick={() => setAutoProfileId(null)}
+                                    className="px-5 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition-colors">
+                                    {isKo ? '닫기' : 'Close'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            })()}
+
             {/* Industry Toggle */}
             <div className="flex justify-center mb-4">
                 <div className="bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm flex gap-2">
@@ -1374,7 +1539,10 @@ const DPPModule: React.FC = () => {
                                             </div>
                                         </div>
                                         <div className="p-4 border-t border-slate-100 bg-slate-50 text-center">
-                                            <button className="text-xs font-bold text-blue-600 hover:underline flex items-center justify-center gap-1">
+                                            <button
+                                                onClick={() => setAutoProfileId(selectedAutoNode)}
+                                                className="text-xs font-bold text-blue-600 hover:underline flex items-center justify-center gap-1"
+                                            >
                                                 {language === 'KO' ? '전체 프로필 보기' : 'View Full Profile'} <ExternalLink className="w-3 h-3" />
                                             </button>
                                         </div>

@@ -127,22 +127,40 @@ const KOREA_NODES: MapNode[] = [
     { 
       id: 'PANGYO-RD', x: 55, y: 30, label: 'R&D Center (Pangyo)', type: 'infra', color: '#8b5cf6', 
       status: 'Active', throughput: '3.1 GB/s', partners: 20, description: 'AI Model Training & Verification.',
-      activeCompanies: ['Kakao Enterprise', 'Naver Cloud', 'AhnLab', 'Hancom']
+      activeCompanies: [
+        'Kakao', 'NCSOFT', 'Nexon', 'SK Planet', 'AhnLab', 'Hancom',
+        'Kakao Mobility', 'Naver Cloud',
+        'KETI', 'Gyeonggi Business & Science Accelerator', 'Pangyo Techno Valley'
+      ]
     },
     { 
       id: 'GUMI-ELEC', x: 58, y: 52, label: 'Electronics Cluster (Gumi)', type: 'partner', color: '#ef4444', 
       status: 'Maintenance', throughput: '2.0 GB/s', partners: 18, description: 'Semiconductor & Display Parts.',
-      activeCompanies: ['LG Display', 'Samsung SDI', 'Toray', 'SK Siltron']
+      activeCompanies: [
+        'Samsung Electronics Gumi', 'LG Electronics', 'LG Display', 'LG Innotek',
+        'SK Siltron', 'Toray Advanced Materials', 'Korea Aerospace Industries',
+        'Gumi Electronics & Information Technology Research Institute',
+        'KICOX Daegu-Gyeongbuk', 'Kumoh National Institute of Technology'
+      ]
     },
     { 
       id: 'DAEGU-NODE', x: 65, y: 60, label: 'Future Mobility (Daegu)', type: 'partner', color: '#10b981', 
       status: 'Active', throughput: '4.1 GB/s', partners: 25, description: 'Robotics & Auto Parts Innovation Hub.',
-      activeCompanies: ['SL Corp', 'PHC', 'Daedong', 'Rainbow Robotics']
+      activeCompanies: [
+        'SL Corporation', 'PHC', 'Daedong', 'Iljin', 'Rainbow Robotics',
+        'Hyundai Robotics',
+        'Korea Institute of Robot Industry Advancement', 'DGIST',
+        'Daegu Technopark', 'Daegu Mechatronics & Materials Institute'
+      ]
     },
     { 
       id: 'ULSAN-FAC', x: 78, y: 68, label: 'Smart Factory (Ulsan)', type: 'partner', color: '#10b981', 
       status: 'Active', throughput: '8.5 GB/s', partners: 35, description: 'Auto-parts Manufacturing Hub.',
-      activeCompanies: ['Hyundai Motor', 'Hyundai Mobis', 'S-Oil', 'Lotte Chemical']
+      activeCompanies: [
+        'Hyundai Motor Ulsan', 'HD Hyundai Heavy Industries', 'Hyundai Mobis',
+        'S-OIL', 'SK Energy', 'Lotte Chemical', 'Hyundai Transys',
+        'Ulsan Technopark', 'UNIST', 'Ulsan Institute'
+      ]
     },
     { 
       id: 'CHANGWON-MACH', x: 70, y: 76, label: 'Machinery Cluster (Changwon)', type: 'partner', color: '#8b5cf6', 
@@ -156,7 +174,11 @@ const KOREA_NODES: MapNode[] = [
     { 
       id: 'BUSAN-PORT', x: 82, y: 80, label: 'Logistics Port (Busan)', type: 'infra', color: '#f59e0b', 
       status: 'Active', throughput: '4.2 GB/s', partners: 15, description: 'Import/Export Logistics Tracking.',
-      activeCompanies: ['HMM', 'Busan Port Authority', 'CJ Logistics', 'SM Line']
+      activeCompanies: [
+        'HMM', 'Busan Port Authority', 'CJ Logistics', 'SM Line', 'Pan Ocean',
+        'Hanjin Transportation',
+        'Busan Technopark', 'KIOST', 'Korea Maritime & Ocean University'
+      ]
     },
 ];
 
