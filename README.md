@@ -36,8 +36,23 @@ npx vite preview --port 4173 &
 npm run verify:render -- http://127.0.0.1:4173
 ```
 
-Third-party asset hosts (fonts, stock imagery) are ignored by the check so
-that an offline or firewalled runner is not reported as an application bug.
+Third-party asset hosts are ignored by the check so that an offline or
+firewalled runner is not reported as an application bug. The check still
+counts them and prints a per-host tally, so a link that has gone dead shows
+up instead of silently rendering nothing.
+
+## Imagery
+
+The photos live in `public/vendor-images/` and are referenced by relative
+path, so the app renders its imagery offline and behind restrictive
+networks. They were originally hot-linked from Unsplash, which meant they
+appeared only where that host was reachable.
+
+`.github/workflows/vendor-images.yml` is what downloaded them, via
+`scripts/vendor-images.mjs`. Re-running it is a no-op now that nothing
+points at images.unsplash.com; it is kept for the next time imagery is
+added by URL. The script refuses to rewrite anything if any download fails,
+so a dead link stops the run rather than half-applying.
 
 The same check runs in CI on every push — see
 `.github/workflows/deploy.yml`. The screenshots it captures are attached to
