@@ -227,7 +227,7 @@ const TransactionMap: React.FC = () => {
                 {/* Dark Overlay Gradient - Lighter at top to show map */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
                 {/* Grid Overlay - lighter */}
-                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5"></div>
+                <div className="absolute inset-0 bg-noise opacity-5"></div>
             </div>
 
             {/* Radar Scan Effect */}

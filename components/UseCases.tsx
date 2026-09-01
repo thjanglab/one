@@ -1061,7 +1061,7 @@ const UseCases: React.FC = () => {
       if (title.includes('Learning') || title.includes('AI') || title.includes('Algorithm')) {
           return (
               <div className="relative h-48 bg-slate-900 rounded-xl overflow-hidden flex items-center justify-center">
-                  <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
+                  <div className="absolute inset-0 bg-noise opacity-10"></div>
                   <div className="w-32 h-32 border-4 border-dashed border-indigo-500 rounded-full flex items-center justify-center animate-spin-slow">
                       <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(99,102,241,0.6)]">
                           <Network className="w-10 h-10 text-white" />
