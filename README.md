@@ -107,3 +107,11 @@ git reset --hard v1.0.0            # discard everything after the tag - destruct
 
 `git switch` is the safe one and is usually what you want: it leaves the
 branch you are on exactly as it is.
+
+A commit works anywhere a tag does, so if a tag has not been published yet,
+use the commit it names instead:
+
+```bash
+git log --oneline            # find the commit
+git switch -c from-there <commit>
+```
