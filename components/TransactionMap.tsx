@@ -37,7 +37,10 @@ const GLOBAL_NODES: MapNode[] = [
         'Hyundai Motor', 'LG Energy Sol', 'Samsung Electronics', 'POSCO', 'Doosan Robotics',
         'SK On', 'Hanwha Solutions', 'CJ Logistics', 'KT', 'Naver Cloud',
         'Kakao Enterprise', 'Hyundai Mobis', 'Hyundai WIA', 'LG Chem', 'Lotte Chemical',
-        'HMM', 'Korean Air', 'KAI', 'HL Mando', 'LS Electric'
+        'HMM', 'Korean Air', 'KAI', 'HL Mando', 'LS Electric',
+        'KITECH', 'KIAT', 'KETI', 'KEIT',
+        'onepredict', 'MakinaRocks',
+        'KIA', 'LG', 'SK', 'SK Energy', 'SK AX'
     ]
   },
   { 
@@ -142,6 +145,15 @@ const KOREA_NODES: MapNode[] = [
       activeCompanies: ['Hyundai Motor', 'Hyundai Mobis', 'S-Oil', 'Lotte Chemical']
     },
     { 
+      id: 'CHANGWON-MACH', x: 70, y: 76, label: 'Machinery Cluster (Changwon)', type: 'partner', color: '#8b5cf6', 
+      status: 'Active', throughput: '6.4 GB/s', partners: 42, description: 'Machinery, power generation and defence manufacturing. Korea\'s first smart industrial complex pilot.',
+      activeCompanies: [
+        'Doosan Enerbility', 'Hyundai Rotem', 'Hyundai WIA', 'HD Hyundai Infracore',
+        'Hanwha Aerospace', 'Hyosung Heavy Industries', 'LG Electronics',
+        'KERI', 'KIMS'
+      ]
+    },
+    { 
       id: 'BUSAN-PORT', x: 82, y: 80, label: 'Logistics Port (Busan)', type: 'infra', color: '#f59e0b', 
       status: 'Active', throughput: '4.2 GB/s', partners: 15, description: 'Import/Export Logistics Tracking.',
       activeCompanies: ['HMM', 'Busan Port Authority', 'CJ Logistics', 'SM Line']
@@ -155,6 +167,8 @@ const KOREA_LINKS = [
     { id: 'k4', from: 'PANGYO-RD', to: 'GUMI-ELEC', traffic: 'Medium' },
     { id: 'k5', from: 'GUMI-ELEC', to: 'DAEGU-NODE', traffic: 'Medium' },
     { id: 'k6', from: 'DAEGU-NODE', to: 'ULSAN-FAC', traffic: 'High' },
+    { id: 'k7', from: 'DAEGU-NODE', to: 'CHANGWON-MACH', traffic: 'Medium' },
+    { id: 'k8', from: 'CHANGWON-MACH', to: 'BUSAN-PORT', traffic: 'High' },
 ];
 
 // Mock Live Transactions for Sidebar
@@ -167,19 +181,17 @@ const MOCK_LIVE_TXS = [
 
 // --- I18N: Korean copy for module-level data (data itself stays English so that
 // ids, types, statuses and asset names remain valid lookup/comparison literals) ---
-const NODE_TEXT_KO: Record<string, { label?: string; description?: string; status?: string }> = {
+// Node names stay English in both languages: they are proper nouns.
+const NODE_TEXT_KO: Record<string, { description?: string; status?: string }> = {
   'KR-HUB': {
-    label: '한국 데이터스페이스 (KR)',
     status: '정상 운영',
     description: '아시아·태평양 루트 CA 및 신원 제공자(DAPS). 국내 제조 데이터 교환의 중심 허브입니다.',
   },
   'JP-NODE': {
-    label: 'Uranos 생태계 (JP)',
     status: '운영 중',
     description: '일본 산업 데이터 생태계. Gaia-X 신뢰 프레임워크를 통해 연결되어 있습니다.',
   },
   'EU-NODE': {
-    label: 'Catena-X 노드 (EU)',
     status: '운영 중',
     description: '유럽 자동차 산업 데이터 게이트웨이. GDPR/PCF 준수 여부를 관리합니다.',
   },
@@ -188,37 +200,34 @@ const NODE_TEXT_KO: Record<string, { label?: string; description?: string; statu
     description: '북미 산업용 커넥터 허브. 고빈도 IoT 스트림을 집계합니다.',
   },
   'SG-HUB': {
-    label: '물류 허브 (SG)',
     status: '동기화 중',
     description: '동남아시아 물류 데이터 중계 거점. 공급망 이벤트를 시각화합니다.',
   },
   'SEOUL-HQ': {
-    label: '한국 본부 (서울)',
     status: '운영 중',
     description: '중앙 관제 타워 및 ID 제공자.',
   },
   'PANGYO-RD': {
-    label: 'R&D 센터 (판교)',
     status: '운영 중',
     description: 'AI 모델 학습 및 검증.',
   },
   'GUMI-ELEC': {
-    label: '전자 클러스터 (구미)',
     status: '점검 중',
     description: '반도체 및 디스플레이 부품.',
   },
   'DAEGU-NODE': {
-    label: '미래 모빌리티 (대구)',
     status: '운영 중',
     description: '로보틱스 및 자동차 부품 혁신 허브.',
   },
   'ULSAN-FAC': {
-    label: '스마트 팩토리 (울산)',
     status: '운영 중',
     description: '자동차 부품 제조 허브.',
   },
+  'CHANGWON-MACH': {
+    status: '운영 중',
+    description: '기계·발전설비·방위산업 제조 거점. 1974년 조성된 창원국가산업단지를 기반으로 하며, 국내 첫 스마트산단 시범단지입니다.',
+  },
   'BUSAN-PORT': {
-    label: '물류 항만 (부산)',
     status: '운영 중',
     description: '수출입 물류 추적.',
   },
@@ -239,7 +248,7 @@ const TX_STATUS_KO: Record<string, string> = {
 };
 
 const getNodeLabel = (node: MapNode, language: string): string =>
-  (language === 'KO' && NODE_TEXT_KO[node.id]?.label) || node.label;
+  node.label;
 
 const getNodeDescription = (node: MapNode, language: string): string =>
   (language === 'KO' && NODE_TEXT_KO[node.id]?.description) || node.description;

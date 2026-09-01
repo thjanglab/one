@@ -30,7 +30,9 @@ const AssetDetail: React.FC = () => {
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
-        <button onClick={() => navigate(-1)} className="text-slate-500 hover:text-slate-800 text-sm font-medium flex items-center gap-1">
+        {/* Goes where the label says. navigate(-1) followed browser history, which
+            left the app entirely when the page was opened directly. */}
+        <button onClick={() => navigate('/marketplace')} className="text-slate-500 hover:text-slate-800 text-sm font-medium flex items-center gap-1">
             &larr; {t('ad_back')}
         </button>
 

@@ -4,6 +4,7 @@ import { MOCK_PCF_PRODUCTS, MOCK_DPP_INSPECTIONS, MOCK_DATA_TRANSACTIONS } from 
 import { useLanguage } from '../contexts/LanguageContext';
 import { ArrowLeft, ArrowRight, ExternalLink, Search, FileText, CheckCircle2, Shirt, Car, Factory, Globe, Droplets, Wind, Recycle, Tag, MapPin, Award, Layers, Map, Anchor, Truck, Building2, BadgeCheck, Leaf, QrCode, Smartphone, Battery, Cpu, Monitor, Hammer, Wrench, ShieldCheck, RefreshCw, Zap, ChevronRight, Database, X, Clock, PenTool, Hash, Download, FileJson, Link as LinkIcon, Blocks, Eye, Copy, Check, LayoutDashboard, Info, Settings, Stamp } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { QRCodeSVG } from 'qrcode.react';
 
 const DPPModule: React.FC = () => {
     const { t, language } = useLanguage();
@@ -1533,10 +1534,15 @@ const DPPModule: React.FC = () => {
 
                                             <div className="mt-8 bg-slate-900 rounded-2xl p-4 w-full max-w-[160px] flex flex-col items-center shadow-lg">
                                                 <div className="bg-white p-2 rounded-lg w-full aspect-square flex items-center justify-center overflow-hidden">
-                                                    <img 
-                                                        src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://korea.io/dpp/product/${activeAutoProduct?.id}`}
-                                                        alt={language === 'KO' ? 'DPP QR 코드' : 'DPP QR Code'} 
-                                                        className="w-full h-full object-contain"
+                                                    {/* Encoded in the page rather than fetched from a QR
+                                                        service, so it renders offline and never 404s. */}
+                                                    <QRCodeSVG
+                                                        value={`https://korea.io/dpp/product/${activeAutoProduct?.id ?? ''}`}
+                                                        size={256}
+                                                        level="M"
+                                                        marginSize={1}
+                                                        title={language === 'KO' ? 'DPP QR 코드' : 'DPP QR Code'}
+                                                        className="w-full h-full"
                                                     />
                                                 </div>
                                                 <div className="mt-2 text-white font-bold flex items-center gap-1.5">

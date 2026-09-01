@@ -813,6 +813,127 @@ const SupplyChainMap: React.FC = () => {
 
                         {/* Modal Content */}
                         <div className="p-8 overflow-y-auto flex-1 bg-slate-50">
+                            {/* --- INFOGRAPHIC BAND --- */}
+                            {(() => {
+                                const TIERS: NodeType[] = ['Tier4', 'Tier3', 'Tier2', 'Tier1', 'OEM'];
+                                const here = TIERS.indexOf(selectedNode.type);
+                                // Fixed viewBox with uniform scaling, so the animated
+                                // marker stays round and the dashes stay even.
+                                const X = (i: number) => 40 + i * 80;
+                                const carbonMax = Math.max(...nodes.map(n => n.carbonFootprint));
+                                const carbonShare = Math.round((selectedNode.carbonFootprint / carbonMax) * 100);
+                                const byLevel = (['Strategic', 'Operational', 'Technical'] as ExchangeLevel[])
+                                    .map(level => ({
+                                        level,
+                                        labelKo: level === 'Strategic' ? '전략' : level === 'Operational' ? '운영' : '기술',
+                                        count: selectedNode.dataExchanges.filter(ex => ex.level === level).length,
+                                    }));
+                                const exTotal = Math.max(1, selectedNode.dataExchanges.length);
+                                // Fixed order, never cycled.
+                                const LEVEL_COLORS = ['#2563eb', '#059669', '#7c3aed'];
+                                const riskTone = selectedNode.riskLevel === 'Low'
+                                    ? { bar: 'bg-emerald-500', text: 'text-emerald-700', pct: 25 }
+                                    : selectedNode.riskLevel === 'Medium'
+                                    ? { bar: 'bg-amber-500', text: 'text-amber-700', pct: 60 }
+                                    : { bar: 'bg-red-500', text: 'text-red-700', pct: 90 };
+
+                                return (
+                                    <div className="mb-8 space-y-4">
+                                        {/* Position in the chain, with data flowing toward the OEM */}
+                                        <div className="bg-slate-900 rounded-2xl p-5">
+                                            <h3 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">
+                                                {isKo ? '공급망 내 위치' : 'Position in the chain'}
+                                            </h3>
+                                            <svg viewBox="0 0 400 92" className="w-full h-[92px]" role="img"
+                                                aria-label={isKo ? '공급망 단계 다이어그램' : 'Supply chain tier diagram'}>
+                                                <line x1={X(0)} y1="34" x2={X(4)} y2="34" stroke="#334155" strokeWidth="2" />
+                                                <path id="scm-flow" d={`M ${X(0)} 34 L ${X(4)} 34`} fill="none" stroke="none" />
+                                                {[0, 1, 2].map(i => (
+                                                    <circle key={i} r="3.5" fill="#38bdf8">
+                                                        <animateMotion dur="3s" begin={`${i}s`} repeatCount="indefinite">
+                                                            <mpath href="#scm-flow" />
+                                                        </animateMotion>
+                                                    </circle>
+                                                ))}
+                                                {TIERS.map((tier, i) => {
+                                                    const active = i === here;
+                                                    return (
+                                                        <g key={tier}>
+                                                            {active && (
+                                                                <circle cx={X(i)} cy="34" r="12" fill="none" stroke="#3b82f6" strokeWidth="2">
+                                                                    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite" />
+                                                                    <animate attributeName="opacity" values="0.9;0;0.9" dur="2s" repeatCount="indefinite" />
+                                                                </circle>
+                                                            )}
+                                                            <circle cx={X(i)} cy="34" r={active ? 11 : 7}
+                                                                fill={active ? '#3b82f6' : '#1e293b'} stroke={active ? '#93c5fd' : '#475569'} strokeWidth="2" />
+                                                            <text x={X(i)} y="66" textAnchor="middle" fontSize="11"
+                                                                fill={active ? '#bfdbfe' : '#94a3b8'} fontWeight={active ? 700 : 400}>{tier}</text>
+                                                            {active && (
+                                                                <text x={X(i)} y="82" textAnchor="middle" fontSize="10" fill="#3b82f6" fontWeight="700">
+                                                                    {isKo ? '이 기업' : 'This company'}
+                                                                </text>
+                                                            )}
+                                                        </g>
+                                                    );
+                                                })}
+                                            </svg>
+                                        </div>
+
+                                        {/* Three readings, each labelled and numbered as well as coloured */}
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+                                                    {isKo ? '공급 리스크' : 'Supply risk'}
+                                                </p>
+                                                <p className={`text-xl font-bold ${riskTone.text}`}>
+                                                    {isKo ? (selectedNode.riskLevel === 'Low' ? '낮음' : selectedNode.riskLevel === 'Medium' ? '보통' : '높음') : selectedNode.riskLevel}
+                                                </p>
+                                                <div className="mt-3 h-2 bg-slate-100 rounded-full overflow-hidden">
+                                                    <div className={`h-full ${riskTone.bar} rounded-full transition-all duration-700`} style={{ width: `${riskTone.pct}%` }} />
+                                                </div>
+                                            </div>
+
+                                            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+                                                    {isKo ? '탄소 배출량' : 'Carbon footprint'}
+                                                </p>
+                                                <p className="text-xl font-bold text-slate-900 tabular-nums">
+                                                    {selectedNode.carbonFootprint.toLocaleString()} <span className="text-xs font-medium text-slate-400">kgCO2e</span>
+                                                </p>
+                                                <div className="mt-3 h-2 bg-slate-100 rounded-full overflow-hidden">
+                                                    <div className="h-full bg-slate-700 rounded-full transition-all duration-700" style={{ width: `${carbonShare}%` }} />
+                                                </div>
+                                                <p className="mt-1.5 text-[10px] text-slate-400">
+                                                    {isKo ? `이 체인 최대치의 ${carbonShare}%` : `${carbonShare}% of the chain's highest`}
+                                                </p>
+                                            </div>
+
+                                            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+                                                    {isKo ? '데이터 교환' : 'Data exchanges'}
+                                                </p>
+                                                <p className="text-xl font-bold text-slate-900 tabular-nums">{selectedNode.dataExchanges.length}</p>
+                                                <div className="mt-3 flex h-2 rounded-full overflow-hidden gap-[2px]">
+                                                    {byLevel.map((lv, i) => lv.count > 0 && (
+                                                        <div key={lv.level} style={{ width: `${(lv.count / exTotal) * 100}%`, backgroundColor: LEVEL_COLORS[i] }} />
+                                                    ))}
+                                                </div>
+                                                <ul className="mt-2 space-y-0.5">
+                                                    {byLevel.map((lv, i) => (
+                                                        <li key={lv.level} className="flex items-center gap-1.5 text-[10px] text-slate-500">
+                                                            <span className="w-2 h-2 rounded-sm shrink-0" style={{ backgroundColor: LEVEL_COLORS[i] }} />
+                                                            <span>{isKo ? lv.labelKo : lv.level}</span>
+                                                            <span className="ml-auto font-mono tabular-nums text-slate-700">{lv.count}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })()}
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 
                                 {/* Left Col: Overview & Connectivity */}
