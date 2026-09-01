@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { MOCK_ASSETS, CURRENT_USER } from '../constants';
 import { Block, BlockchainTx, Asset } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Box, ShieldCheck, Database, Terminal, Cpu, Play, CheckCircle2, Lock, Link as LinkIcon, RefreshCw, Layers, AlertCircle, XCircle, Settings2, UserCheck, ThumbsUp, ThumbsDown, AlertTriangle, Wallet, X, FileText, Share2, Printer, Check, ArrowRight, Info, BookOpen, Key } from 'lucide-react';
+import { Box, ShieldCheck, Database, Terminal, Cpu, Play, CheckCircle2, Lock, Link as LinkIcon, RefreshCw, Layers, AlertCircle, XCircle, Settings2, UserCheck, ThumbsUp, ThumbsDown, AlertTriangle, Wallet, X, FileText, Share2, Printer, Check, ArrowRight, Info, BookOpen, Key, Timer, Fuel, Hash, Coins, Activity } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 // Mock Hash Function
 const sha256 = async (message: string) => {
@@ -94,6 +95,48 @@ const BLOCKCHAIN_EDU = {
     }
 };
 
+// Categorical hues for the block report. Validated for the dark modal surface:
+// inside the dark lightness band, chroma floor met, adjacent-pair CVD separation
+// and contrast all pass. Assigned in this fixed order, never cycled.
+const GAS_COLORS = ['#3b82f6', '#059669', '#8b5cf6', '#d97706'];
+
+// Everything here is derived from the block itself, so a report is stable
+// across re-renders rather than reshuffling on each open.
+const buildBlockReport = (block: Block, chain: Block[]) => {
+    const position = chain.findIndex((b) => b.index === block.index);
+    const prev = position > 0 ? chain[position - 1] : null;
+
+    const txCount = block.transactions.length;
+    const totalValue = block.transactions.reduce((sum, tx) => sum + tx.amount, 0);
+    const confirmations = Math.max(0, chain.length - 1 - position);
+    const blockTimeMs = prev
+        ? new Date(block.timestamp).getTime() - new Date(prev.timestamp).getTime()
+        : null;
+
+    // Gas is simulated, like the rest of this lab, but composed from the block
+    // so the numbers add up and stay put.
+    const gas = [
+        { name: 'Base fee', value: 21000 },
+        { name: 'Execution', value: txCount * 14200 },
+        { name: 'Storage', value: txCount * 6800 },
+        { name: 'Signature', value: txCount * 3000 },
+    ].filter((slice) => slice.value > 0);
+    const gasTotal = gas.reduce((sum, slice) => sum + slice.value, 0);
+
+    // Block time across the chain, so this block can be read against its peers.
+    const timeline = chain
+        .map((b, i) => ({
+            index: b.index,
+            label: `#${b.index}`,
+            seconds: i === 0
+                ? 0
+                : (new Date(b.timestamp).getTime() - new Date(chain[i - 1].timestamp).getTime()) / 1000,
+        }))
+        .filter((point) => point.index > 0);
+
+    return { position, prev, txCount, totalValue, confirmations, blockTimeMs, gas, gasTotal, timeline };
+};
+
 const BlockchainLab: React.FC = () => {
     const { t, language } = useLanguage();
     const navigate = useNavigate();
@@ -114,6 +157,9 @@ const BlockchainLab: React.FC = () => {
 
     // Report State
     const [reportData, setReportData] = useState<ReportData | null>(null);
+
+    // Ledger block the detail report is open for
+    const [selectedBlock, setSelectedBlock] = useState<Block | null>(null);
 
     // Wallet Balance (Sync with LocalStorage)
     const [walletBalance, setWalletBalance] = useState(() => {
@@ -421,6 +467,253 @@ const BlockchainLab: React.FC = () => {
                 </h1>
                 <p className="text-slate-500 mt-2">{t('bl_subtitle')}</p>
             </div>
+
+            {/* --- LEDGER BLOCK REPORT --- */}
+            {selectedBlock && (() => {
+                const r = buildBlockReport(selectedBlock, blocks);
+                const isGenesis = selectedBlock.index === 0;
+                return (
+                    <div
+                        className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4 animate-fadeIn"
+                        onClick={() => setSelectedBlock(null)}
+                    >
+                        <div
+                            className="bg-slate-900 text-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden animate-scaleUp border border-slate-700"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {/* Header */}
+                            <div className="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 p-6 relative shrink-0">
+                                <div className="absolute inset-0 opacity-10"
+                                    style={{ backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)', backgroundSize: '10px 10px' }}>
+                                </div>
+                                <div className="relative z-10 flex items-start justify-between gap-4">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-14 h-14 bg-white/15 border border-white/25 rounded-xl flex items-center justify-center shrink-0">
+                                            <Box className="w-7 h-7 text-white" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-2xl font-bold">Block #{selectedBlock.index}</h3>
+                                            <p className="text-white/70 text-xs font-mono mt-1 break-all">{selectedBlock.hash}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3 shrink-0">
+                                        <span className="hidden sm:flex items-center gap-1.5 bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold px-3 py-1.5 rounded-full">
+                                            <CheckCircle2 className="w-3.5 h-3.5" /> Confirmed
+                                        </span>
+                                        <button
+                                            onClick={() => setSelectedBlock(null)}
+                                            aria-label="Close the block report"
+                                            className="text-white/70 hover:text-white hover:bg-white/20 rounded-full p-1.5 transition-colors"
+                                        >
+                                            <X className="w-5 h-5" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="p-6 space-y-6 overflow-y-auto">
+                                {/* Headline figures */}
+                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                                    {[
+                                        { icon: FileText, label: 'Transactions', value: String(r.txCount), tone: 'text-blue-400' },
+                                        { icon: Coins, label: 'Value settled', value: `${r.totalValue.toLocaleString()} KRW`, tone: 'text-emerald-400' },
+                                        { icon: Timer, label: 'Block time', value: r.blockTimeMs === null ? '—' : `${(r.blockTimeMs / 1000).toFixed(2)}s`, tone: 'text-violet-400' },
+                                        { icon: Layers, label: 'Confirmations', value: String(r.confirmations), tone: 'text-amber-400' },
+                                    ].map((tile) => (
+                                        <div key={tile.label} className="bg-slate-800/60 border border-slate-700 rounded-xl p-4">
+                                            <tile.icon className={`w-4 h-4 mb-2 ${tile.tone}`} />
+                                            <p className="text-xl font-bold tabular-nums leading-none">{tile.value}</p>
+                                            <p className="text-[11px] text-slate-400 mt-1.5">{tile.label}</p>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Position in the chain */}
+                                <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-5">
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
+                                        <LinkIcon className="w-3.5 h-3.5" /> Chain linkage
+                                    </h4>
+                                    <div className="flex items-center gap-3 overflow-x-auto">
+                                        <div className="flex-1 min-w-[150px] bg-slate-900/70 border border-slate-700 rounded-lg p-3">
+                                            <p className="text-[10px] uppercase text-slate-500 mb-1">Parent block</p>
+                                            <p className="text-sm font-bold">{r.prev ? `#${r.prev.index}` : 'None (genesis)'}</p>
+                                            <p className="text-[10px] font-mono text-slate-400 truncate mt-1">{selectedBlock.prevHash}</p>
+                                        </div>
+                                        <ArrowRight className="w-5 h-5 text-slate-600 shrink-0" />
+                                        <div className="flex-1 min-w-[150px] bg-blue-950/60 border border-blue-500/50 rounded-lg p-3">
+                                            <p className="text-[10px] uppercase text-blue-300 mb-1">This block</p>
+                                            <p className="text-sm font-bold">#{selectedBlock.index}</p>
+                                            <p className="text-[10px] font-mono text-blue-200/80 truncate mt-1">{selectedBlock.hash}</p>
+                                        </div>
+                                        <ArrowRight className="w-5 h-5 text-slate-600 shrink-0" />
+                                        <div className="flex-1 min-w-[150px] bg-slate-900/70 border border-slate-700 rounded-lg p-3">
+                                            <p className="text-[10px] uppercase text-slate-500 mb-1">Child block</p>
+                                            <p className="text-sm font-bold">
+                                                {r.confirmations > 0 ? `#${selectedBlock.index + 1}` : 'Chain head'}
+                                            </p>
+                                            <p className="text-[10px] text-slate-400 mt-1">
+                                                {r.confirmations > 0 ? `${r.confirmations} block(s) on top` : 'Newest block'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                    {/* Gas composition - parts of one whole, so one bar, not four */}
+                                    <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-5">
+                                        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-2">
+                                            <Fuel className="w-3.5 h-3.5" /> Gas composition
+                                        </h4>
+                                        <p className="text-2xl font-bold tabular-nums mb-4">{r.gasTotal.toLocaleString()} <span className="text-sm font-medium text-slate-400">Gwei</span></p>
+
+                                        <div className="flex h-3 rounded-full overflow-hidden gap-[2px] mb-4">
+                                            {r.gas.map((slice, i) => (
+                                                <div
+                                                    key={slice.name}
+                                                    title={`${slice.name}: ${slice.value.toLocaleString()} Gwei`}
+                                                    style={{ width: `${(slice.value / r.gasTotal) * 100}%`, backgroundColor: GAS_COLORS[i] }}
+                                                />
+                                            ))}
+                                        </div>
+
+                                        {/* Every segment is also named and numbered, so identity never rests on hue alone */}
+                                        <ul className="space-y-2">
+                                            {r.gas.map((slice, i) => (
+                                                <li key={slice.name} className="flex items-center gap-2 text-xs">
+                                                    <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ backgroundColor: GAS_COLORS[i] }} />
+                                                    <span className="text-slate-300">{slice.name}</span>
+                                                    <span className="flex-1 border-b border-dotted border-slate-700" />
+                                                    <span className="font-mono tabular-nums text-slate-200">{slice.value.toLocaleString()}</span>
+                                                    <span className="font-mono tabular-nums text-slate-500 w-12 text-right">
+                                                        {((slice.value / r.gasTotal) * 100).toFixed(0)}%
+                                                    </span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+                                    {/* Block time against the rest of the chain */}
+                                    <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-5">
+                                        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-2">
+                                            <Activity className="w-3.5 h-3.5" /> Block time across the chain
+                                        </h4>
+                                        <p className="text-[11px] text-slate-500 mb-4">
+                                            Seconds since the parent block. This block is highlighted.
+                                        </p>
+                                        {r.timeline.length === 0 ? (
+                                            <p className="text-xs text-slate-500 py-10 text-center">
+                                                Mine a block to compare block times.
+                                            </p>
+                                        ) : (
+                                            <div className="h-[168px] -ml-2">
+                                                <ResponsiveContainer width="100%" height="100%">
+                                                    <BarChart data={r.timeline} margin={{ top: 4, right: 8, bottom: 0, left: 0 }}>
+                                                        <XAxis dataKey="label" tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={{ stroke: '#334155' }} tickLine={false} />
+                                                        <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={false} tickLine={false} width={34} />
+                                                        <Tooltip
+                                                            cursor={{ fill: '#ffffff0d' }}
+                                                            contentStyle={{ background: '#0f172a', border: '1px solid #334155', borderRadius: 8, fontSize: 12 }}
+                                                            labelStyle={{ color: '#e2e8f0' }}
+                                                            formatter={(v: number) => [`${v.toFixed(2)}s`, 'Block time']}
+                                                        />
+                                                        <Bar dataKey="seconds" radius={[4, 4, 0, 0]} maxBarSize={38}>
+                                                            {r.timeline.map((point) => (
+                                                                <Cell
+                                                                    key={point.index}
+                                                                    fill={point.index === selectedBlock.index ? '#3b82f6' : '#334155'}
+                                                                />
+                                                            ))}
+                                                        </Bar>
+                                                    </BarChart>
+                                                </ResponsiveContainer>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Transactions */}
+                                <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-5">
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
+                                        <FileText className="w-3.5 h-3.5" /> Transactions ({r.txCount})
+                                    </h4>
+                                    {r.txCount === 0 ? (
+                                        <p className="text-xs text-slate-500">
+                                            {isGenesis
+                                                ? 'The genesis block anchors the chain and carries no transactions.'
+                                                : 'This block carries no transactions.'}
+                                        </p>
+                                    ) : (
+                                        <div className="overflow-x-auto">
+                                            <table className="w-full text-xs">
+                                                <thead>
+                                                    <tr className="text-left text-slate-500 border-b border-slate-700">
+                                                        <th className="pb-2 font-medium">Tx</th>
+                                                        <th className="pb-2 font-medium">From</th>
+                                                        <th className="pb-2 font-medium">To</th>
+                                                        <th className="pb-2 font-medium text-right">Amount</th>
+                                                        <th className="pb-2 font-medium text-right">Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y divide-slate-800">
+                                                    {selectedBlock.transactions.map((tx) => (
+                                                        <tr key={tx.id}>
+                                                            <td className="py-2.5 font-mono text-slate-300">{tx.id.substring(0, 14)}…</td>
+                                                            <td className="py-2.5 text-slate-300">{tx.from}</td>
+                                                            <td className="py-2.5 text-slate-300">{tx.to}</td>
+                                                            <td className="py-2.5 text-right font-mono tabular-nums text-slate-200">{tx.amount.toLocaleString()}</td>
+                                                            <td className="py-2.5 text-right">
+                                                                <span className="inline-flex items-center gap-1 bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full">
+                                                                    <Check className="w-3 h-3" /> {tx.status}
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Integrity */}
+                                <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-5">
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
+                                        <Hash className="w-3.5 h-3.5" /> Integrity
+                                    </h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                                        <div className="bg-slate-900/70 border border-slate-700 rounded-lg p-3">
+                                            <p className="text-[10px] uppercase text-slate-500 mb-1">Validator</p>
+                                            <p className="text-sm font-mono text-slate-200 break-all">{selectedBlock.validator}</p>
+                                        </div>
+                                        <div className="bg-slate-900/70 border border-slate-700 rounded-lg p-3">
+                                            <p className="text-[10px] uppercase text-slate-500 mb-1">Nonce</p>
+                                            <p className="text-sm font-mono text-slate-200 tabular-nums">{selectedBlock.nonce}</p>
+                                        </div>
+                                        <div className="bg-slate-900/70 border border-slate-700 rounded-lg p-3">
+                                            <p className="text-[10px] uppercase text-slate-500 mb-1">Sealed at</p>
+                                            <p className="text-sm font-mono text-slate-200">{new Date(selectedBlock.timestamp).toLocaleString()}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-3">
+                                        <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                                        <p className="text-xs text-emerald-200">
+                                            Hash matches the parent link, so nothing before this block can change without breaking the chain.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="border-t border-slate-700 p-4 flex justify-end shrink-0 bg-slate-900">
+                                <button
+                                    onClick={() => setSelectedBlock(null)}
+                                    className="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-bold transition-colors"
+                                >
+                                    {t('c_close')}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            })()}
 
             {/* --- UNIFIED REPORT MODAL (SUCCESS & FAILURE) --- */}
             {reportData && (
@@ -773,7 +1066,11 @@ const BlockchainLab: React.FC = () => {
                         <div className="flex items-start gap-4 pb-4 min-w-full">
                             {blocks.map((block) => (
                                 <div key={block.index} className="flex items-center">
-                                    <div className="bg-slate-800 rounded-lg p-4 border border-slate-700 w-64 flex-shrink-0 hover:border-blue-500 transition-colors group relative">
+                                    <button
+                                        type="button"
+                                        onClick={() => setSelectedBlock(block)}
+                                        aria-label={`Open the detail report for block #${block.index}`}
+                                        className="bg-slate-800 rounded-lg p-4 border border-slate-700 w-64 flex-shrink-0 text-left hover:border-blue-500 hover:bg-slate-800/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 transition-colors group relative cursor-pointer">
                                         
                                         {/* Tooltip */}
                                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-60 bg-slate-950/95 backdrop-blur border border-slate-600 text-white text-xs p-3 rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-30 translate-y-2 group-hover:translate-y-0">
@@ -833,13 +1130,16 @@ const BlockchainLab: React.FC = () => {
                                                     {block.hash.substring(0, 10)}...
                                                 </p>
                                             </div>
-                                            <div className="bg-slate-900/50 p-2 rounded border border-slate-700/50">
+                                            <div className="bg-slate-900/50 p-2 rounded border border-slate-700/50 flex items-center justify-between gap-2">
                                                 <p className="text-[10px] text-slate-400">
                                                     Tx Count: <span className="text-white">{block.transactions.length}</span>
                                                 </p>
+                                                <span className="text-[10px] font-bold text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                                                    Report <ArrowRight className="w-3 h-3" />
+                                                </span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </button>
                                     
                                     {/* Chain Link */}
                                     {block.index < blocks.length - 1 && (

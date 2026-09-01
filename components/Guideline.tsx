@@ -130,25 +130,38 @@ const Guideline: React.FC = () => {
                     <h4 className="text-center font-bold text-red-500 mb-6 flex items-center justify-center gap-2">
                         <XCircle className="w-5 h-5" /> Legacy (Centralized)
                     </h4>
-                    <div className="relative h-40 flex justify-between items-center px-8">
-                        <Database className="w-10 h-10 text-slate-400" />
-                        
-                        {/* Path going UP to Server */}
+                    {/* The dashes used to be a <path> at hardcoded pixel
+                        coordinates while the icons were laid out with
+                        justify-between, so the two only lined up at one
+                        container width. Both now sit on the same percentages:
+                        <line> accepts them, unlike a path's "d". */}
+                    <div className="relative h-40">
                         <svg className="absolute inset-0 w-full h-full pointer-events-none">
-                            <path d="M 60 70 L 200 30 L 340 70" fill="none" stroke="#ef4444" strokeWidth="2" strokeDasharray="4 4" />
-                            <circle r="4" fill="#ef4444">
-                                <animateMotion dur="2s" repeatCount="indefinite" path="M 60 70 L 200 30 L 340 70" />
-                            </circle>
+                            <line x1="14%" y1="128" x2="50%" y2="72" stroke="#ef4444" strokeWidth="2" strokeDasharray="4 4" />
+                            <line x1="50%" y1="72" x2="86%" y2="128" stroke="#ef4444" strokeWidth="2" strokeDasharray="4 4" />
                         </svg>
 
-                        <div className="flex flex-col items-center z-10 mb-20">
+                        {/* Uplink packet, travelling the same two segments */}
+                        <span className="absolute w-2 h-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-500 animate-[legacyUplink_2s_linear_infinite]"></span>
+                        <style>{`
+                            @keyframes legacyUplink {
+                                0%   { left: 14%; top: 128px; opacity: 0; }
+                                10%  { opacity: 1; }
+                                50%  { left: 50%; top: 72px; }
+                                90%  { opacity: 1; }
+                                100% { left: 86%; top: 128px; opacity: 0; }
+                            }
+                        `}</style>
+
+                        <div className="absolute left-1/2 top-1 -translate-x-1/2 flex flex-col items-center z-10">
                             <div className="w-16 h-16 bg-red-50 border-2 border-red-200 rounded-lg flex items-center justify-center">
                                 <Server className="w-8 h-8 text-red-500" />
                             </div>
-                            <span className="text-xs font-bold text-red-600 mt-2 bg-red-50 px-2 py-1 rounded">Operator Stores Data</span>
+                            <span className="text-xs font-bold text-red-600 mt-2 bg-red-50 px-2 py-1 rounded whitespace-nowrap">Operator Stores Data</span>
                         </div>
 
-                        <Database className="w-10 h-10 text-slate-400" />
+                        <Database className="absolute left-[14%] top-[128px] -translate-x-1/2 -translate-y-1/2 w-10 h-10 text-slate-400" />
+                        <Database className="absolute left-[86%] top-[128px] -translate-x-1/2 -translate-y-1/2 w-10 h-10 text-slate-400" />
                     </div>
                 </div>
 
