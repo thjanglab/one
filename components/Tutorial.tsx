@@ -66,8 +66,10 @@ const Tutorial: React.FC = () => {
             description: language === 'KO' 
                 ? '계약이 체결되면 소비자는 EDR(Endpoint Data Reference) 토큰을 받습니다. 이 토큰을 사용하여 Provider Data Plane에 직접 요청하며, 데이터는 암호화된 채널을 통해 P2P로 전송됩니다.' 
                 : 'Upon agreement, the Consumer receives an EDR token. Using this token, they request data directly from the Provider Data Plane, transferred P2P via an encrypted channel.',
-            // New Image: Digital Data Stream / Infographic Style
-            demoImage: 'https://images.unsplash.com/photo-1558494949-efc02570fbc9?auto=format&fit=crop&q=80&w=1200' 
+            // Digital data stream. The photo originally used here was deleted
+            // from Unsplash and returned 404, so this reuses the shot the
+            // marketplace walkthrough already uses for its transfer step.
+            demoImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200' 
         },
       ]
     },
