@@ -175,7 +175,7 @@ const TransactionMap: React.FC = () => {
   
   // Background Image - World Map for both
   // We will use CSS transforms to "zoom in" on Korea when in Korea mode
-  const bgImage = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop";
+  const bgImage = "vendor-images/photo-1451187580459-43490279c0fa-w2000.jpg";
 
   // Simulate incoming transactions
   useEffect(() => {

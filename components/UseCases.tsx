@@ -388,7 +388,7 @@ const UseCases: React.FC = () => {
       industry: language === 'KO' ? '자동차 & 모빌리티' : 'Automotive & Mobility',
       category: 'Automotive',
       logoColor: 'text-[#002c5f]',
-      heroImage: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=1200',
+      heroImage: 'vendor-images/photo-1619642751034-765dfdf7c58e-w1200.jpg',
       icon: <Car className="w-6 h-6" />,
       infographic: <HyundaiDiagram />,
       content: {
@@ -442,7 +442,7 @@ const UseCases: React.FC = () => {
       industry: language === 'KO' ? '반도체 & 전자' : 'Semiconductor & Electronics',
       category: 'Electronics',
       logoColor: 'text-[#1428a0]',
-      heroImage: 'https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&q=80&w=1200',
+      heroImage: 'vendor-images/photo-1597852074816-d933c7d2b988-w1200.jpg',
       icon: <Cpu className="w-6 h-6" />,
       infographic: <SamsungDiagram />,
       content: {
@@ -496,7 +496,7 @@ const UseCases: React.FC = () => {
       industry: language === 'KO' ? '스마트 가전 & 홈' : 'Smart Home & Appliances',
       category: 'Electronics',
       logoColor: 'text-[#a50034]',
-      heroImage: 'https://images.unsplash.com/photo-1530893609608-32a9af3aa95c?auto=format&fit=crop&q=80&w=1200',
+      heroImage: 'vendor-images/photo-1530893609608-32a9af3aa95c-w1200.jpg',
       icon: <Smartphone className="w-6 h-6" />,
       infographic: <LGDiagram />,
       content: {
@@ -550,7 +550,7 @@ const UseCases: React.FC = () => {
       industry: language === 'KO' ? '철강 & 소재' : 'Steel & Materials',
       category: 'Materials',
       logoColor: 'text-[#005aab]',
-      heroImage: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=1200',
+      heroImage: 'vendor-images/photo-1504917595217-d4dc5ebe6122-w1200.jpg',
       icon: <Hammer className="w-6 h-6" />,
       infographic: <PoscoDiagram />,
       content: {
@@ -604,7 +604,7 @@ const UseCases: React.FC = () => {
       industry: language === 'KO' ? '해운 & 물류' : 'Shipping & Logistics',
       category: 'Logistics',
       logoColor: 'text-[#0c2c56]',
-      heroImage: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=1200',
+      heroImage: 'vendor-images/photo-1578575437130-527eed3abbec-w1200.jpg',
       icon: <Ship className="w-6 h-6" />,
       infographic: <HMMDiagram />,
       content: {
@@ -658,7 +658,7 @@ const UseCases: React.FC = () => {
       industry: language === 'KO' ? '화학 & 바이오' : 'Chemical & Bio',
       category: 'Chemical',
       logoColor: 'text-[#c3002f]',
-      heroImage: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80&w=1200',
+      heroImage: 'vendor-images/photo-1532094349884-543bc11b234d-w1200.jpg',
       icon: <FlaskConical className="w-6 h-6" />,
       infographic: <LGChemDiagram />,
       content: {
@@ -712,7 +712,7 @@ const UseCases: React.FC = () => {
       industry: language === 'KO' ? '신재생 에너지' : 'Renewable Energy',
       category: 'Energy',
       logoColor: 'text-[#f37321]',
-      heroImage: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=1200',
+      heroImage: 'vendor-images/photo-1509391366360-2e959784a276-w1200.jpg',
       icon: <Sun className="w-6 h-6" />,
       infographic: <HanwhaDiagram />,
       content: {
@@ -766,7 +766,7 @@ const UseCases: React.FC = () => {
       industry: language === 'KO' ? '로봇 & 자동화' : 'Robotics & Automation',
       category: 'Robotics',
       logoColor: 'text-[#003f84]',
-      heroImage: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&q=80&w=1200',
+      heroImage: 'vendor-images/photo-1531746790731-6c087fecd65a-w1200.jpg',
       icon: <Bot className="w-6 h-6" />,
       infographic: <DoosanDiagram />,
       content: {
@@ -820,7 +820,7 @@ const UseCases: React.FC = () => {
       industry: language === 'KO' ? '물류 & 리테일' : 'Logistics & Retail',
       category: 'Logistics',
       logoColor: 'text-[#ff7f00]',
-      heroImage: 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=1200',
+      heroImage: 'vendor-images/photo-1587293852726-70cdb56c2866-w1200.jpg',
       icon: <Package className="w-6 h-6" />,
       infographic: <CJDiagram />,
       content: {
@@ -874,7 +874,7 @@ const UseCases: React.FC = () => {
       industry: language === 'KO' ? '조선 & 중공업' : 'Shipbuilding & Heavy Ind.',
       category: 'Shipbuilding',
       logoColor: 'text-[#006e51]',
-      heroImage: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=1200', 
+      heroImage: 'vendor-images/photo-1578575437130-527eed3abbec-w1200.jpg', 
       icon: <Anchor className="w-6 h-6" />,
       infographic: <HDDiagram />,
       content: {

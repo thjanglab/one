@@ -22,7 +22,7 @@ export const MOCK_PCF_PRODUCTS: PCFProduct[] = [
     lastUpdate: '2022.12.31',
     status: 'YES',
     // Hyundai Elantra (CN7) White
-    imageUrl: 'https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&q=80&w=800' 
+    imageUrl: 'vendor-images/photo-1616422285623-13ff0162193c-w800.jpg' 
   },
   {
     id: '23458872',
@@ -34,7 +34,7 @@ export const MOCK_PCF_PRODUCTS: PCFProduct[] = [
     lastUpdate: '2023.03.05',
     status: 'DONE',
     // Hyundai SUV (Representing Palisade/Tuscon class)
-    imageUrl: 'https://images.unsplash.com/photo-1621929747188-0b4dc28498d2?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'vendor-images/photo-1621929747188-0b4dc28498d2-w800.jpg'
   },
   {
     id: '23459081',
@@ -46,7 +46,7 @@ export const MOCK_PCF_PRODUCTS: PCFProduct[] = [
     lastUpdate: '2022.07.31',
     status: 'DONE',
     // Hyundai/Kia Hatchback style
-    imageUrl: 'https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'vendor-images/photo-1609521263047-f8f205293f24-w800.jpg'
   }
 ];
 
@@ -54,7 +54,7 @@ export const MOCK_DPP_INSPECTIONS: DPPInspection[] = [
   {
     id: 'insp_001',
     // Synced with the CN7 product image
-    imageUrl: 'https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&q=80&w=800',
+    imageUrl: 'vendor-images/photo-1616422285623-13ff0162193c-w800.jpg',
     timestamp: '2023-09-08 14:26:43',
     result: 'OK',
     defects: []
@@ -83,7 +83,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD/mo',
     rating: 4.9,
     reviewCount: 85,
-    imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1581091226825-a6a2a5aee158-w600.jpg',
     tags: ['Optimization', 'Recipe', 'Process'],
     certified: true
   },
@@ -99,7 +99,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD/mo',
     rating: 4.6,
     reviewCount: 45,
-    imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1518770660439-4636190af475-w600.jpg',
     tags: ['Quality', 'Prediction', 'Zero Defect'],
     certified: true
   },
@@ -115,7 +115,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD/mo',
     rating: 4.8,
     reviewCount: 120,
-    imageUrl: 'https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1537462715879-360eeb61a0ad-w600.jpg',
     dataPoints: 15000000,
     tags: ['Vision', 'Inspection', 'Automated'],
     certified: true
@@ -132,7 +132,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD/yr',
     rating: 4.7,
     reviewCount: 42,
-    imageUrl: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1563986768609-322da13575f3-w600.jpg',
     tags: ['Digital Twin', 'Virtual Factory', 'Simulation'],
     certified: true
   },
@@ -148,7 +148,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD/mo',
     rating: 4.8,
     reviewCount: 156,
-    imageUrl: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1466611653911-95081537e5b7-w600.jpg',
     tags: ['Carbon Reduction', 'Energy Efficiency', 'ESG'],
     certified: true
   },
@@ -164,7 +164,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD/yr',
     rating: 5.0,
     reviewCount: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1551288049-bebda4e38f71-w600.jpg',
     tags: ['Preprocessing', 'MLOps', 'Automation', 'Data Ops'],
     certified: true
   },
@@ -180,7 +180,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD/mo',
     rating: 4.7,
     reviewCount: 34,
-    imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1586528116311-ad8dd3c8310d-w600.jpg',
     tags: ['SCM', 'Demand', 'Logistics'],
     certified: true
   },
@@ -195,7 +195,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.9,
     reviewCount: 120,
-    imageUrl: 'https://images.unsplash.com/photo-1620288627223-53302f4e8c74?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1620288627223-53302f4e8c74-w600.jpg',
     dataPoints: 10000000,
     tags: ['Battery', 'EV', 'Energy Storage'],
     certified: true
@@ -211,7 +211,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.7,
     reviewCount: 45,
-    imageUrl: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1504917595217-d4dc5ebe6122-w600.jpg',
     dataPoints: 500000,
     tags: ['Steel', 'Material Science', 'Quality'],
     certified: true
@@ -227,7 +227,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.8,
     reviewCount: 210,
-    imageUrl: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1449965408869-eaa3f722e40d-w600.jpg',
     dataPoints: 200000000,
     tags: ['Autonomous', 'LIDAR', 'Mobility'],
     certified: true
@@ -243,7 +243,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 5.0,
     reviewCount: 89,
-    imageUrl: 'https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1555664424-778a1e5e1b48-w600.jpg',
     dataPoints: 50000,
     tags: ['Semiconductor', 'Vision', 'Defect'],
     certified: true
@@ -259,7 +259,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.5,
     reviewCount: 32,
-    imageUrl: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1578575437130-527eed3abbec-w600.jpg',
     dataPoints: 1200000,
     tags: ['Logistics', 'Shipping', 'Supply Chain'],
     certified: false
@@ -275,7 +275,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.6,
     reviewCount: 15,
-    imageUrl: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1532094349884-543bc11b234d-w600.jpg',
     dataPoints: 3000000,
     tags: ['Chemical', 'R&D', 'Process Data'],
     certified: true
@@ -291,7 +291,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.7,
     reviewCount: 60,
-    imageUrl: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1508514177221-188b1cf16e9d-w600.jpg',
     dataPoints: 80000,
     tags: ['Solar', 'Renewable', 'Weather'],
     certified: true
@@ -307,7 +307,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.9,
     reviewCount: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1531746790731-6c087fecd65a-w600.jpg',
     tags: ['Robot', 'Hardware', 'Automation'],
     certified: true
   },
@@ -322,7 +322,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.8,
     reviewCount: 8,
-    imageUrl: 'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1526628953301-3e589a6a8b74-w600.jpg',
     tags: ['CNC', 'Machining', 'Heavy Equip'],
     certified: true
   },
@@ -337,7 +337,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.7,
     reviewCount: 22,
-    imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1586528116311-ad8dd3c8310d-w600.jpg',
     tags: ['AGV', 'Logistics', 'Automation'],
     certified: true
   },
@@ -352,7 +352,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.5,
     reviewCount: 5,
-    imageUrl: 'https://images.unsplash.com/photo-1631541909061-71e349d1f203?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1631541909061-71e349d1f203-w600.jpg',
     tags: ['3D Print', 'Additive', 'Metal'],
     certified: false
   },
@@ -367,7 +367,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.9,
     reviewCount: 15,
-    imageUrl: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1504917595217-d4dc5ebe6122-w600.jpg',
     tags: ['Press', 'Stamping', 'Heavy Machinery'],
     certified: true
   },
@@ -382,7 +382,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.6,
     reviewCount: 30,
-    imageUrl: 'https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1597852074816-d933c7d2b988-w600.jpg',
     tags: ['SMT', 'Electronics', 'Assembly'],
     certified: true
   },
@@ -397,7 +397,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.8,
     reviewCount: 18,
-    imageUrl: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1473968512647-3e447244af8f-w600.jpg',
     tags: ['Drone', 'Inspection', 'Hydrogen'],
     certified: true
   },
@@ -412,7 +412,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.5,
     reviewCount: 28,
-    imageUrl: 'https://images.unsplash.com/photo-1592659762303-90081d34b277?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1592659762303-90081d34b277-w600.jpg',
     tags: ['CNC', 'Spare Part', 'Controller'],
     certified: false
   },
@@ -427,7 +427,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.8,
     reviewCount: 56,
-    imageUrl: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1581092160562-40aa08e78837-w600.jpg',
     tags: ['Motor', 'Servo', 'Automation'],
     certified: true
   },
@@ -442,7 +442,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.6,
     reviewCount: 42,
-    imageUrl: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1558346490-a72e53ae2d4f-w600.jpg',
     tags: ['IoT', 'Gateway', 'Connectivity'],
     certified: true
   },
@@ -457,7 +457,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.7,
     reviewCount: 19,
-    imageUrl: 'https://images.unsplash.com/photo-1530893609608-32a9af3aa95c?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1530893609608-32a9af3aa95c-w600.jpg',
     tags: ['Gripper', 'Robot', 'End Effector'],
     certified: true
   },
@@ -472,7 +472,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.5,
     reviewCount: 33,
-    imageUrl: 'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1526628953301-3e589a6a8b74-w600.jpg',
     tags: ['HMI', 'Display', 'Control'],
     certified: true
   },
@@ -487,7 +487,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.9,
     reviewCount: 14,
-    imageUrl: 'https://images.unsplash.com/photo-1616423640778-28d1b53229bd?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1616423640778-28d1b53229bd-w600.jpg',
     tags: ['Linear Motion', 'Hardware', 'Mechanical'],
     certified: true
   },
@@ -502,7 +502,7 @@ export const MOCK_ASSETS: Asset[] = [
     currency: 'USD',
     rating: 4.7,
     reviewCount: 25,
-    imageUrl: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&q=80&w=600',
+    imageUrl: 'vendor-images/photo-1581092580497-e0d23cbdf1dc-w600.jpg',
     tags: ['Hydraulic', 'Pump', 'Fluid Power'],
     certified: true
   }

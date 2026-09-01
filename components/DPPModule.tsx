@@ -32,7 +32,7 @@ const DPPModule: React.FC = () => {
         id: "TEX-24-8821",
         brand: "Re:Wear",
         batch: "RW-2024-Q3-005",
-        image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&q=80&w=600",
+        image: "vendor-images/photo-1556905055-8f358a7a47b2-w600.jpg",
         description: "Made from 85% post-consumer recycled cotton. Fully traceable from fiber to fashion.",
         composition: [
             { name: 'Recycled Cotton', value: 85, color: '#10b981' },
@@ -140,7 +140,7 @@ const DPPModule: React.FC = () => {
         name: "Galaxy S25 Ultra - Eco Edition",
         id: "EL-2025-X992",
         manufacturer: "Samsung Electronics",
-        image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&q=80&w=800", 
+        image: "vendor-images/photo-1610945415295-d9bbf067e59c-w800.jpg", 
         metrics: {
             repairability: 9.2,
             recyclability: 95,
@@ -611,7 +611,7 @@ const DPPModule: React.FC = () => {
                             <div className="bg-slate-900 rounded-3xl border border-slate-700 overflow-hidden relative h-[450px] shadow-2xl group">
                                 {/* 1. Background Image - Enhanced Visibility */}
                                 <img
-                                    src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200"
+                                    src="vendor-images/photo-1451187580459-43490279c0fa-w1200.jpg"
                                     alt="World Map"
                                     className="absolute inset-0 w-full h-full object-cover opacity-70"
                                 />

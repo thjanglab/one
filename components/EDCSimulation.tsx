@@ -35,7 +35,7 @@ const EDCSimulation: React.FC = () => {
             id: "BATT-MOD-2024-X99",
             manufacturer: "LG Energy Solution",
             location: "Ochang Plant #2, KR",
-            image: "https://images.unsplash.com/photo-1620288627223-53302f4e8c74?auto=format&fit=crop&q=80&w=300"
+            image: "vendor-images/photo-1620288627223-53302f4e8c74-w300.jpg"
         },
         structure: [
             { name: "Root", type: "Object", children: [

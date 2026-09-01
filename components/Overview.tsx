@@ -70,7 +70,7 @@ const REPORT_DATA = {
         regions: 32,
         nodes: 156,
         uptime: "99.99%",
-        mapUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600",
+        mapUrl: "vendor-images/photo-1451187580459-43490279c0fa-w600.jpg",
         countries: ["South Korea", "Germany", "USA", "Japan", "Vietnam", "Singapore"]
     }
 };

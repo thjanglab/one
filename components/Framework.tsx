@@ -98,7 +98,7 @@ const Framework: React.FC = () => {
                          {/* Abstract Particles Background simulation */}
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(0,200,150,0.3),rgba(0,0,0,0))]"></div>
                         <div className="absolute top-0 right-0 w-full h-full opacity-40 mix-blend-screen" 
-                             style={{backgroundImage: 'url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800")', backgroundSize: 'cover', backgroundPosition: 'center'}}>
+                             style={{backgroundImage: 'url("vendor-images/photo-1451187580459-43490279c0fa-w800.jpg")', backgroundSize: 'cover', backgroundPosition: 'center'}}>
                         </div>
                     </div>
                     
