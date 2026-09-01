@@ -85,3 +85,25 @@ directory.
 `index.css` is generated, not committed. `npm run dev` and `npm run build`
 regenerate it automatically; run `npm run css` yourself if you change class
 names while the dev server is already running.
+
+## Versions
+
+Tagged versions are listed in [CHANGELOG.md](CHANGELOG.md). `v1.0.0` is the
+first one.
+
+```bash
+git tag -l -n1              # what tags exist, with their subject
+git show v1.0.0             # what that version was
+git diff v1.0.0..HEAD       # what has changed since
+```
+
+To go back:
+
+```bash
+git switch -c from-v1.0.0 v1.0.0   # branch off the tag, current branch untouched
+git revert <commit>                # undo one commit, keeping history
+git reset --hard v1.0.0            # discard everything after the tag - destructive
+```
+
+`git switch` is the safe one and is usually what you want: it leaves the
+branch you are on exactly as it is.
