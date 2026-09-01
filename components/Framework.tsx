@@ -15,21 +15,22 @@ const getIconInitials = (title: string) => {
     return 'Ai';
 };
 
-// Helper for the Korean subtitle based on screenshot context
-const getSubtitle = (title: string) => {
-    if (title.includes('Recipe')) return '생산조건최적화서비스';
-    if (title.includes('Quality')) return '품질예측서비스';
-    if (title.includes('Inspection')) return '품질검사서비스';
-    if (title.includes('DT')) return '가상공장서비스';
-    if (title.includes('NetZero')) return '에너지 최적화·탄소 저감';
-    if (title.includes('Preprocessing')) return '전처리자동화';
-    if (title.includes('SCM')) return '공급망 최적화/수요관리';
-    return '산업용 AI 솔루션';
+// Helper for the service subtitle based on screenshot context
+const getSubtitle = (title: string, language: string) => {
+    const isKO = language === 'KO';
+    if (title.includes('Recipe')) return isKO ? '생산조건최적화서비스' : 'Production Condition Optimization';
+    if (title.includes('Quality')) return isKO ? '품질예측서비스' : 'Quality Prediction Service';
+    if (title.includes('Inspection')) return isKO ? '품질검사서비스' : 'Quality Inspection Service';
+    if (title.includes('DT')) return isKO ? '가상공장서비스' : 'Virtual Factory Service';
+    if (title.includes('NetZero')) return isKO ? '에너지 최적화·탄소 저감' : 'Energy Optimization & Carbon Reduction';
+    if (title.includes('Preprocessing')) return isKO ? '전처리자동화' : 'Automated Data Preprocessing';
+    if (title.includes('SCM')) return isKO ? '공급망 최적화/수요관리' : 'Supply Chain Optimization / Demand Management';
+    return isKO ? '산업용 AI 솔루션' : 'Industrial AI Solution';
 };
 
 const Framework: React.FC = () => {
     const navigate = useNavigate();
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
 
     // Show all assets to include the new 3 items
     const mainAssets = MOCK_ASSETS; 
@@ -69,7 +70,7 @@ const Framework: React.FC = () => {
                                 </div>
                                 <div className="px-3 py-1 bg-white border border-slate-200 rounded text-xs font-semibold text-slate-600 shadow-sm flex items-center gap-1.5">
                                     <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
-                                    활성화
+                                    {language === 'KO' ? '활성화' : 'Active'}
                                 </div>
                             </div>
                         </div>
@@ -80,7 +81,7 @@ const Framework: React.FC = () => {
                                 {asset.title.split(' ')[0]}
                             </h3>
                             <p className="text-sm text-slate-400 font-medium">
-                                {getSubtitle(asset.title)}
+                                {getSubtitle(asset.title, language)}
                             </p>
                         </div>
                     </div>

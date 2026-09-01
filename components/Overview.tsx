@@ -17,70 +17,88 @@ const trafficData = [
   { name: '23:59', upload: 250, download: 430 },
 ];
 
-const ecosystemData = [
-  { name: 'Automotive', value: 35, color: '#3b82f6' },
-  { name: 'Electronics', value: 25, color: '#8b5cf6' },
-  { name: 'Energy', value: 20, color: '#f59e0b' },
-  { name: 'Logistics', value: 15, color: '#10b981' },
-  { name: 'Other', value: 5, color: '#64748b' },
+const getEcosystemData = (language: string) => [
+  { name: language === 'KO' ? '자동차' : 'Automotive', value: 35, color: '#3b82f6' },
+  { name: language === 'KO' ? '전자' : 'Electronics', value: 25, color: '#8b5cf6' },
+  { name: language === 'KO' ? '에너지' : 'Energy', value: 20, color: '#f59e0b' },
+  { name: language === 'KO' ? '물류' : 'Logistics', value: 15, color: '#10b981' },
+  { name: language === 'KO' ? '기타' : 'Other', value: 5, color: '#64748b' },
 ];
 
 // Mock Data for Popups
-const REPORT_DATA = {
+const getReportData = (language: string) => ({
     PARTICIPANTS: {
-        title: "Ecosystem Participants",
+        title: language === 'KO' ? "에코시스템 참여 기업" : "Ecosystem Participants",
         total: 142,
         growth: "+12%",
         chartData: [
-            { name: 'Jan', value: 80 }, { name: 'Feb', value: 95 }, { name: 'Mar', value: 110 },
-            { name: 'Apr', value: 125 }, { name: 'May', value: 142 }
+            { name: language === 'KO' ? '1월' : 'Jan', value: 80 },
+            { name: language === 'KO' ? '2월' : 'Feb', value: 95 },
+            { name: language === 'KO' ? '3월' : 'Mar', value: 110 },
+            { name: language === 'KO' ? '4월' : 'Apr', value: 125 },
+            { name: language === 'KO' ? '5월' : 'May', value: 142 }
         ],
         companies: MOCK_COMPANIES
     },
     VOLUME: {
-        title: "Data Volume Analytics",
+        title: language === 'KO' ? "데이터 볼륨 분석" : "Data Volume Analytics",
         total: "2,450 TB",
         growth: "+5.4%",
         chartData: [
-            { name: 'W1', value: 2100 }, { name: 'W2', value: 2250 }, { name: 'W3', value: 2380 }, { name: 'W4', value: 2450 }
+            { name: language === 'KO' ? '1주차' : 'W1', value: 2100 },
+            { name: language === 'KO' ? '2주차' : 'W2', value: 2250 },
+            { name: language === 'KO' ? '3주차' : 'W3', value: 2380 },
+            { name: language === 'KO' ? '4주차' : 'W4', value: 2450 }
         ],
         types: [
-            { name: 'IoT Streams', value: 60, color: '#8b5cf6' },
-            { name: 'Images/Video', value: 25, color: '#ec4899' },
-            { name: 'Structured', value: 15, color: '#64748b' }
+            { name: language === 'KO' ? 'IoT 스트림' : 'IoT Streams', value: 60, color: '#8b5cf6' },
+            { name: language === 'KO' ? '이미지/영상' : 'Images/Video', value: 25, color: '#ec4899' },
+            { name: language === 'KO' ? '정형 데이터' : 'Structured', value: 15, color: '#64748b' }
         ],
         recentHistory: [
-            { id: 1, type: "IoT Batch", size: "125 GB", time: "10 min ago" },
-            { id: 2, type: "Video Log", size: "2.4 TB", time: "1 hr ago" },
-            { id: 3, type: "CAD Files", size: "500 MB", time: "2 hrs ago" }
+            { id: 1, type: language === 'KO' ? "IoT 배치 전송" : "IoT Batch", size: "125 GB", time: language === 'KO' ? "10분 전" : "10 min ago" },
+            { id: 2, type: language === 'KO' ? "영상 로그" : "Video Log", size: "2.4 TB", time: language === 'KO' ? "1시간 전" : "1 hr ago" },
+            { id: 3, type: language === 'KO' ? "CAD 파일" : "CAD Files", size: "500 MB", time: language === 'KO' ? "2시간 전" : "2 hrs ago" }
         ]
     },
     TRANSACTIONS: {
-        title: "Transaction Services Report",
+        title: language === 'KO' ? "거래 서비스 리포트" : "Transaction Services Report",
         total: "$1.2M",
         growth: "+8.2%",
         chartData: [
-            { name: 'Mon', value: 150 }, { name: 'Tue', value: 230 }, { name: 'Wed', value: 180 },
-            { name: 'Thu', value: 290 }, { name: 'Fri', value: 200 }, { name: 'Sat', value: 90 }, { name: 'Sun', value: 60 }
+            { name: language === 'KO' ? '월' : 'Mon', value: 150 },
+            { name: language === 'KO' ? '화' : 'Tue', value: 230 },
+            { name: language === 'KO' ? '수' : 'Wed', value: 180 },
+            { name: language === 'KO' ? '목' : 'Thu', value: 290 },
+            { name: language === 'KO' ? '금' : 'Fri', value: 200 },
+            { name: language === 'KO' ? '토' : 'Sat', value: 90 },
+            { name: language === 'KO' ? '일' : 'Sun', value: 60 }
         ],
         services: MOCK_ASSETS.slice(0, 5)
     },
     CONNECTIVITY: {
-        title: "Global Connectivity Status",
+        title: language === 'KO' ? "글로벌 연결 현황" : "Global Connectivity Status",
         regions: 32,
         nodes: 156,
         uptime: "99.99%",
         mapUrl: "vendor-images/photo-1451187580459-43490279c0fa-w600.jpg",
-        countries: ["South Korea", "Germany", "USA", "Japan", "Vietnam", "Singapore"]
+        countries: language === 'KO'
+            ? ["대한민국", "독일", "미국", "일본", "베트남", "싱가포르"]
+            : ["South Korea", "Germany", "USA", "Japan", "Vietnam", "Singapore"]
     }
-};
+});
+
+type ReportKey = keyof ReturnType<typeof getReportData>;
 
 const Overview: React.FC = () => {
     const navigate = useNavigate();
-    const { t } = useLanguage();
-    const [activeReport, setActiveReport] = useState<keyof typeof REPORT_DATA | null>(null);
+    const { t, language } = useLanguage();
+    const [activeReport, setActiveReport] = useState<ReportKey | null>(null);
     const [showAllCompanies, setShowAllCompanies] = useState(false);
     const [companySearch, setCompanySearch] = useState('');
+
+    const ecosystemData = getEcosystemData(language);
+    const REPORT_DATA = getReportData(language);
 
     const renderReportContent = () => {
         if (!activeReport) return null;
@@ -96,7 +114,7 @@ const Overview: React.FC = () => {
                             </div>
                             <div>
                                 <h2 className="text-xl font-bold">{data.title}</h2>
-                                <p className="text-xs text-slate-400">Real-time System Metrics</p>
+                                <p className="text-xs text-slate-400">{language === 'KO' ? '실시간 시스템 지표' : 'Real-time System Metrics'}</p>
                             </div>
                         </div>
                         <button onClick={() => setActiveReport(null)} className="text-slate-400 hover:text-white transition-colors">
@@ -108,11 +126,11 @@ const Overview: React.FC = () => {
                         {/* Summary Cards */}
                         <div className="grid grid-cols-2 gap-4 mb-8">
                             <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                                <p className="text-xs font-bold text-slate-500 uppercase mb-1">Total Metric</p>
+                                <p className="text-xs font-bold text-slate-500 uppercase mb-1">{language === 'KO' ? '전체 지표' : 'Total Metric'}</p>
                                 <h3 className="text-3xl font-bold text-slate-900">{(data as any).total || (data as any).regions}</h3>
                             </div>
                             <div className="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
-                                <p className="text-xs font-bold text-emerald-600 uppercase mb-1">Growth Rate</p>
+                                <p className="text-xs font-bold text-emerald-600 uppercase mb-1">{language === 'KO' ? '성장률' : 'Growth Rate'}</p>
                                 <h3 className="text-3xl font-bold text-emerald-600">{(data as any).growth || (data as any).uptime}</h3>
                             </div>
                         </div>
@@ -121,17 +139,17 @@ const Overview: React.FC = () => {
                         {activeReport === 'CONNECTIVITY' ? (
                             <div className="space-y-6">
                                 <div className="rounded-xl overflow-hidden relative h-48 border border-slate-200 shadow-inner">
-                                    <img src={(data as any).mapUrl} className="w-full h-full object-cover" alt="Global Map" />
+                                    <img src={(data as any).mapUrl} className="w-full h-full object-cover" alt={language === 'KO' ? '글로벌 지도' : 'Global Map'} />
                                     <div className="absolute inset-0 bg-blue-900/20"></div>
                                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
                                         <div className="w-4 h-4 bg-emerald-500 rounded-full animate-ping mb-2"></div>
                                         <span className="bg-black/70 text-white px-3 py-1 rounded-full text-xs font-bold backdrop-blur">
-                                            {(data as any).nodes} Active Nodes
+                                            {language === 'KO' ? `활성 노드 ${(data as any).nodes}개` : `${(data as any).nodes} Active Nodes`}
                                         </span>
                                     </div>
                                 </div>
                                 <div>
-                                    <h4 className="text-sm font-bold text-slate-800 mb-2">Connected Regions</h4>
+                                    <h4 className="text-sm font-bold text-slate-800 mb-2">{language === 'KO' ? '연결된 국가' : 'Connected Regions'}</h4>
                                     <div className="flex flex-wrap gap-2">
                                         {(data as any).countries.map((c: string, i: number) => (
                                             <span key={i} className="px-3 py-1 bg-slate-100 rounded-full text-xs text-slate-600 font-bold border border-slate-200">
@@ -144,7 +162,7 @@ const Overview: React.FC = () => {
                         ) : activeReport === 'PARTICIPANTS' ? (
                             <div className="space-y-6">
                                 <div className="h-64 w-full bg-white border border-slate-100 rounded-xl p-4 shadow-sm flex items-center justify-center relative">
-                                    <h4 className="absolute top-4 left-4 text-xs font-bold text-slate-500 uppercase">Industry Distribution</h4>
+                                    <h4 className="absolute top-4 left-4 text-xs font-bold text-slate-500 uppercase">{language === 'KO' ? '산업별 분포' : 'Industry Distribution'}</h4>
                                     <ResponsiveContainer width="100%" height="100%">
                                         <PieChart>
                                             <Pie
@@ -168,12 +186,12 @@ const Overview: React.FC = () => {
                                 
                                 <div>
                                     <div className="flex justify-between items-center mb-3">
-                                        <h4 className="text-sm font-bold text-slate-800">Top 5 Partners</h4>
+                                        <h4 className="text-sm font-bold text-slate-800">{language === 'KO' ? '주요 파트너 TOP 5' : 'Top 5 Partners'}</h4>
                                         <button 
                                             onClick={() => setShowAllCompanies(true)}
                                             className="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1"
                                         >
-                                            View Full List <ChevronRight className="w-3 h-3" />
+                                            {language === 'KO' ? '전체 목록 보기' : 'View Full List'} <ChevronRight className="w-3 h-3" />
                                         </button>
                                     </div>
                                     <div className="space-y-2">
@@ -186,7 +204,7 @@ const Overview: React.FC = () => {
                                                     <div className="text-sm font-bold text-slate-800">{comp.name}</div>
                                                     <div className="text-xs text-slate-500">{comp.industry}</div>
                                                 </div>
-                                                <span className="text-[10px] font-mono bg-slate-100 px-2 py-1 rounded text-slate-500">{comp.productsCount} Assets</span>
+                                                <span className="text-[10px] font-mono bg-slate-100 px-2 py-1 rounded text-slate-500">{language === 'KO' ? `자산 ${comp.productsCount}건` : `${comp.productsCount} Assets`}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -215,7 +233,7 @@ const Overview: React.FC = () => {
                         {/* Lists / Breakdowns for other reports */}
                         {activeReport === 'VOLUME' && (
                             <div className="mt-6">
-                                <h4 className="text-sm font-bold text-slate-800 mb-3">Recent Transfer Log</h4>
+                                <h4 className="text-sm font-bold text-slate-800 mb-3">{language === 'KO' ? '최근 전송 이력' : 'Recent Transfer Log'}</h4>
                                 <div className="space-y-2">
                                     {(data as any).recentHistory.map((item: any) => (
                                         <div key={item.id} className="flex justify-between items-center p-3 bg-slate-50 rounded-lg text-xs">
@@ -233,7 +251,7 @@ const Overview: React.FC = () => {
 
                         {activeReport === 'TRANSACTIONS' && (
                             <div className="mt-6">
-                                <h4 className="text-sm font-bold text-slate-800 mb-3">Top Traded Services</h4>
+                                <h4 className="text-sm font-bold text-slate-800 mb-3">{language === 'KO' ? '거래 상위 서비스' : 'Top Traded Services'}</h4>
                                 <div className="space-y-2">
                                     {(data as any).services.map((asset: any) => (
                                         <div key={asset.id} className="flex justify-between items-center p-2 hover:bg-slate-50 rounded-lg border-b border-slate-100 last:border-0">
@@ -248,7 +266,7 @@ const Overview: React.FC = () => {
                     
                     <div className="p-4 border-t border-slate-200 bg-slate-50 text-right shrink-0">
                         <button onClick={() => setActiveReport(null)} className="px-6 py-2 bg-slate-900 text-white rounded-lg font-bold hover:bg-slate-800 transition-colors">
-                            Close Report
+                            {language === 'KO' ? '리포트 닫기' : 'Close Report'}
                         </button>
                     </div>
                 </div>
@@ -267,7 +285,7 @@ const Overview: React.FC = () => {
                         <div className="bg-slate-900 text-white p-5 flex justify-between items-center shrink-0">
                             <div className="flex items-center gap-3">
                                 <Building2 className="w-6 h-6" />
-                                <h2 className="text-xl font-bold">Participating Companies</h2>
+                                <h2 className="text-xl font-bold">{language === 'KO' ? '참여 기업 전체' : 'Participating Companies'}</h2>
                             </div>
                             <button onClick={() => setShowAllCompanies(false)} className="text-slate-400 hover:text-white">
                                 <X className="w-6 h-6" />
@@ -279,7 +297,7 @@ const Overview: React.FC = () => {
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                 <input 
                                     type="text" 
-                                    placeholder="Search by company name, industry..." 
+                                    placeholder={language === 'KO' ? '기업명, 산업 분야로 검색...' : 'Search by company name, industry...'}
                                     className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-300 focus:outline-none focus:border-blue-500"
                                     value={companySearch}
                                     onChange={(e) => setCompanySearch(e.target.value)}
@@ -305,8 +323,8 @@ const Overview: React.FC = () => {
                                         </div>
                                         <p className="text-xs text-slate-500 line-clamp-2 mb-3">{company.description}</p>
                                         <div className="flex items-center justify-between pt-3 border-t border-slate-50">
-                                            <span className="text-[10px] font-mono bg-slate-100 px-2 py-1 rounded text-slate-500">Items: {company.productsCount}</span>
-                                            <button className="text-xs font-bold text-blue-600 hover:underline">Profile</button>
+                                            <span className="text-[10px] font-mono bg-slate-100 px-2 py-1 rounded text-slate-500">{language === 'KO' ? `항목: ${company.productsCount}` : `Items: ${company.productsCount}`}</span>
+                                            <button className="text-xs font-bold text-blue-600 hover:underline">{language === 'KO' ? '프로필' : 'Profile'}</button>
                                         </div>
                                     </div>
                                 ))}
@@ -315,7 +333,7 @@ const Overview: React.FC = () => {
                         
                         <div className="p-4 border-t border-slate-200 bg-white text-right">
                             <button onClick={() => setShowAllCompanies(false)} className="px-6 py-2 bg-slate-100 text-slate-600 font-bold rounded-lg hover:bg-slate-200">
-                                Close
+                                {language === 'KO' ? '닫기' : 'Close'}
                             </button>
                         </div>
                     </div>
@@ -393,7 +411,7 @@ const Overview: React.FC = () => {
                         </div>
                     </div>
                     <div>
-                        <h3 className="text-2xl font-bold text-slate-900">32 Regions</h3>
+                        <h3 className="text-2xl font-bold text-slate-900">{language === 'KO' ? '32개 지역' : '32 Regions'}</h3>
                         <p className="text-xs text-slate-500 font-medium uppercase tracking-wide">{t('ov_global_conn')}</p>
                     </div>
                 </div>
@@ -431,8 +449,8 @@ const Overview: React.FC = () => {
                                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11}} dy={10} />
                                 <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11}} />
                                 <Tooltip contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 10px rgba(0,0,0,0.05)'}} />
-                                <Area type="monotone" dataKey="download" stackId="1" stroke="#3b82f6" fill="url(#colorDown)" name="Download (MB)" />
-                                <Area type="monotone" dataKey="upload" stackId="1" stroke="#10b981" fill="url(#colorUp)" name="Upload (MB)" />
+                                <Area type="monotone" dataKey="download" stackId="1" stroke="#3b82f6" fill="url(#colorDown)" name={language === 'KO' ? '다운로드 (MB)' : 'Download (MB)'} />
+                                <Area type="monotone" dataKey="upload" stackId="1" stroke="#10b981" fill="url(#colorUp)" name={language === 'KO' ? '업로드 (MB)' : 'Upload (MB)'} />
                             </AreaChart>
                         </ResponsiveContainer>
                     </div>
@@ -452,7 +470,7 @@ const Overview: React.FC = () => {
                         </ResponsiveContainer>
                     </div>
                     <div className="text-center pt-4 border-t border-slate-100">
-                        <p className="text-sm text-slate-500">{t('ov_highest_growth')} <span className="font-semibold text-slate-900">Automotive</span> {t('ov_sector')}</p>
+                        <p className="text-sm text-slate-500">{t('ov_highest_growth')} <span className="font-semibold text-slate-900">{language === 'KO' ? '자동차' : 'Automotive'}</span> {t('ov_sector')}</p>
                     </div>
                 </div>
             </div>

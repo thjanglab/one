@@ -165,8 +165,96 @@ const MOCK_LIVE_TXS = [
     { hash: '0x1d...ee', from: 'Hanwha (KR)', to: 'Grid Ops (SG)', asset: 'Solar Output', status: 'Success', type: 'Cross-Border' },
 ];
 
+// --- I18N: Korean copy for module-level data (data itself stays English so that
+// ids, types, statuses and asset names remain valid lookup/comparison literals) ---
+const NODE_TEXT_KO: Record<string, { label?: string; description?: string; status?: string }> = {
+  'KR-HUB': {
+    label: '한국 데이터스페이스 (KR)',
+    status: '정상 운영',
+    description: '아시아·태평양 루트 CA 및 신원 제공자(DAPS). 국내 제조 데이터 교환의 중심 허브입니다.',
+  },
+  'JP-NODE': {
+    label: 'Uranos 생태계 (JP)',
+    status: '운영 중',
+    description: '일본 산업 데이터 생태계. Gaia-X 신뢰 프레임워크를 통해 연결되어 있습니다.',
+  },
+  'EU-NODE': {
+    label: 'Catena-X 노드 (EU)',
+    status: '운영 중',
+    description: '유럽 자동차 산업 데이터 게이트웨이. GDPR/PCF 준수 여부를 관리합니다.',
+  },
+  'US-NODE': {
+    status: '운영 중',
+    description: '북미 산업용 커넥터 허브. 고빈도 IoT 스트림을 집계합니다.',
+  },
+  'SG-HUB': {
+    label: '물류 허브 (SG)',
+    status: '동기화 중',
+    description: '동남아시아 물류 데이터 중계 거점. 공급망 이벤트를 시각화합니다.',
+  },
+  'SEOUL-HQ': {
+    label: '한국 본부 (서울)',
+    status: '운영 중',
+    description: '중앙 관제 타워 및 ID 제공자.',
+  },
+  'PANGYO-RD': {
+    label: 'R&D 센터 (판교)',
+    status: '운영 중',
+    description: 'AI 모델 학습 및 검증.',
+  },
+  'GUMI-ELEC': {
+    label: '전자 클러스터 (구미)',
+    status: '점검 중',
+    description: '반도체 및 디스플레이 부품.',
+  },
+  'DAEGU-NODE': {
+    label: '미래 모빌리티 (대구)',
+    status: '운영 중',
+    description: '로보틱스 및 자동차 부품 혁신 허브.',
+  },
+  'ULSAN-FAC': {
+    label: '스마트 팩토리 (울산)',
+    status: '운영 중',
+    description: '자동차 부품 제조 허브.',
+  },
+  'BUSAN-PORT': {
+    label: '물류 항만 (부산)',
+    status: '운영 중',
+    description: '수출입 물류 추적.',
+  },
+};
+
+const TX_ASSET_KO: Record<string, string> = {
+  'Battery PCF': '배터리 PCF',
+  'Quality Cert': '품질 인증서',
+  'Robot Logs': '로봇 로그',
+  'Solar Output': '태양광 발전량',
+};
+
+const TX_STATUS_KO: Record<string, string> = {
+  'Verifying': '검증 중',
+  'Success': '완료',
+  'Processing': '처리 중',
+  'Anchoring': '앵커링 중',
+};
+
+const getNodeLabel = (node: MapNode, language: string): string =>
+  (language === 'KO' && NODE_TEXT_KO[node.id]?.label) || node.label;
+
+const getNodeDescription = (node: MapNode, language: string): string =>
+  (language === 'KO' && NODE_TEXT_KO[node.id]?.description) || node.description;
+
+const getNodeStatus = (node: MapNode, language: string): string =>
+  (language === 'KO' && NODE_TEXT_KO[node.id]?.status) || node.status;
+
+const getTxAsset = (asset: string, language: string): string =>
+  (language === 'KO' && TX_ASSET_KO[asset]) || asset;
+
+const getTxStatus = (status: string, language: string): string =>
+  (language === 'KO' && TX_STATUS_KO[status]) || status;
+
 const TransactionMap: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [viewMode, setViewMode] = useState<'GLOBAL' | 'KOREA'>('GLOBAL');
   const [liveTxs, setLiveTxs] = useState(MOCK_LIVE_TXS);
   const [selectedNode, setSelectedNode] = useState<MapNode | null>(null);
@@ -209,7 +297,7 @@ const TransactionMap: React.FC = () => {
                         viewMode === 'GLOBAL' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'
                     }`}
                 >
-                    <Globe className="w-3 h-3" /> Global
+                    <Globe className="w-3 h-3" /> {language === 'KO' ? '글로벌' : 'Global'}
                 </button>
                 <button 
                     onClick={() => { setViewMode('KOREA'); setSelectedNode(null); }}
@@ -217,7 +305,7 @@ const TransactionMap: React.FC = () => {
                         viewMode === 'KOREA' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'
                     }`}
                 >
-                    <Navigation className="w-3 h-3" /> Korea
+                    <Navigation className="w-3 h-3" /> {language === 'KO' ? '국내' : 'Korea'}
                 </button>
             </div>
 
@@ -225,7 +313,7 @@ const TransactionMap: React.FC = () => {
             <div className="absolute inset-0 z-0 transition-opacity duration-700 bg-slate-950 overflow-hidden">
                 <img 
                     src={bgImage} 
-                    alt="Map Background" 
+                    alt={language === 'KO' ? '지도 배경' : 'Map Background'}
                     // Adjusted scale and opacity for better visibility of the map itself
                     className={`w-full h-full object-cover transition-transform duration-1000 mix-blend-normal ${viewMode === 'GLOBAL' ? 'scale-100 opacity-80' : 'scale-[3] opacity-60 grayscale origin-[82%_38%]'}`}
                 />
@@ -252,7 +340,7 @@ const TransactionMap: React.FC = () => {
                     <div className="p-2 bg-blue-600/20 border border-blue-500/50 rounded-lg backdrop-blur-md">
                         {viewMode === 'GLOBAL' ? <Globe className="w-6 h-6 text-blue-400" /> : <MapIcon className="w-6 h-6 text-blue-400" />}
                     </div>
-                    실시간 데이터 생태계 맵
+                    {language === 'KO' ? '실시간 데이터 생태계 맵' : 'Real-time Data Ecosystem Map'}
                 </h3>
                 <div className="flex flex-col gap-2 mt-4 bg-slate-900/80 backdrop-blur-md p-3 rounded-xl border border-slate-700/50 pointer-events-auto">
                     <div className="flex items-center gap-2 text-xs text-slate-300">
@@ -260,19 +348,19 @@ const TransactionMap: React.FC = () => {
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
                         </span>
-                        Trust Anchor
+                        {language === 'KO' ? '신뢰 앵커' : 'Trust Anchor'}
                     </div>
                     <div className="flex items-center gap-2 text-xs text-slate-300">
                         <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]"></div>
-                        Partner Node
+                        {language === 'KO' ? '파트너 노드' : 'Partner Node'}
                     </div>
                     <div className="flex items-center gap-2 text-xs text-slate-300">
                         <div className="w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.6)]"></div>
-                        Infra Node
+                        {language === 'KO' ? '인프라 노드' : 'Infra Node'}
                     </div>
                     <div className="flex items-center gap-2 text-xs text-slate-400 mt-1 pt-1 border-t border-slate-700">
                         <Lock className="w-3 h-3 text-blue-400" />
-                        EDC Secured Link
+                        EDC {language === 'KO' ? '보안 연결' : 'Secured Link'}
                     </div>
                 </div>
             </div>
@@ -360,7 +448,7 @@ const TransactionMap: React.FC = () => {
                             hoveredNode === node.id || selectedNode?.id === node.id || node.isHighlighted ? 'opacity-100 translate-y-0' : 'opacity-70 translate-y-1'
                         }`}>
                             <span className={`text-[10px] font-bold text-white bg-black/50 px-2 py-1 rounded backdrop-blur-sm border border-white/10 ${node.isHighlighted ? 'border-blue-400 text-blue-100' : ''}`}>
-                                {node.label}
+                                {getNodeLabel(node, language)}
                             </span>
                         </div>
                     </div>
@@ -386,8 +474,8 @@ const TransactionMap: React.FC = () => {
                                 <Server className="w-5 h-5 text-blue-400" />
                             </div>
                             <div>
-                                <h4 className="font-bold text-lg leading-tight">{selectedNode.label}</h4>
-                                <span className="text-[10px] text-slate-400 font-mono uppercase">{selectedNode.type} Node</span>
+                                <h4 className="font-bold text-lg leading-tight">{getNodeLabel(selectedNode, language)}</h4>
+                                <span className="text-[10px] text-slate-400 font-mono uppercase">{selectedNode.type} {language === 'KO' ? '노드' : 'Node'}</span>
                             </div>
                         </div>
 
@@ -395,7 +483,7 @@ const TransactionMap: React.FC = () => {
                         {selectedNode.id === 'KR-HUB' && (
                             <div className="mb-4 bg-gradient-to-r from-amber-200 to-yellow-400 text-amber-900 px-3 py-1.5 rounded-lg font-bold text-xs flex items-center gap-2 shadow-lg animate-pulse">
                                 <BadgeCheck className="w-4 h-4" />
-                                Korea Manufacturing-X Certified
+                                Korea Manufacturing-X {language === 'KO' ? '인증' : 'Certified'}
                             </div>
                         )}
 
@@ -407,29 +495,29 @@ const TransactionMap: React.FC = () => {
                         )}
 
                         <p className="text-xs text-slate-300 mb-4 leading-relaxed border-b border-white/10 pb-4">
-                            {selectedNode.description}
+                            {getNodeDescription(selectedNode, language)}
                         </p>
 
                         <div className="grid grid-cols-2 gap-3">
                             <div className="bg-black/30 p-2 rounded-lg border border-white/5">
                                 <div className="flex items-center gap-1.5 mb-1 text-slate-400 text-[10px] uppercase font-bold">
-                                    <Activity className="w-3 h-3" /> Throughput
+                                    <Activity className="w-3 h-3" /> {language === 'KO' ? '처리량' : 'Throughput'}
                                 </div>
                                 <div className="text-sm font-mono text-emerald-400">{selectedNode.throughput}</div>
                             </div>
                             <div className="bg-black/30 p-2 rounded-lg border border-white/5">
                                 <div className="flex items-center gap-1.5 mb-1 text-slate-400 text-[10px] uppercase font-bold">
-                                    <Building2 className="w-3 h-3" /> Partners
+                                    <Building2 className="w-3 h-3" /> {language === 'KO' ? '파트너' : 'Partners'}
                                 </div>
-                                <div className="text-sm font-mono text-blue-400">{selectedNode.partners} Active</div>
+                                <div className="text-sm font-mono text-blue-400">{selectedNode.partners}{language === 'KO' ? '개 활성' : ' Active'}</div>
                             </div>
                             <div className="bg-black/30 p-2 rounded-lg border border-white/5 col-span-2">
                                 <div className="flex items-center gap-1.5 mb-1 text-slate-400 text-[10px] uppercase font-bold">
-                                    <Signal className="w-3 h-3" /> Network Status
+                                    <Signal className="w-3 h-3" /> {language === 'KO' ? '네트워크 상태' : 'Network Status'}
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                                    <span className="text-sm text-white">{selectedNode.status} (99.99% Uptime)</span>
+                                    <span className="text-sm text-white">{getNodeStatus(selectedNode, language)} {language === 'KO' ? '(가동률 99.99%)' : '(99.99% Uptime)'}</span>
                                 </div>
                             </div>
                         </div>
@@ -438,7 +526,7 @@ const TransactionMap: React.FC = () => {
                         {selectedNode.activeCompanies && (
                             <div className="mt-4 pt-4 border-t border-white/10">
                                 <h5 className="text-[10px] text-slate-400 uppercase font-bold mb-2 flex items-center gap-1">
-                                    <Building2 className="w-3 h-3" /> Connected Entities
+                                    <Building2 className="w-3 h-3" /> {language === 'KO' ? '연결된 기관' : 'Connected Entities'}
                                 </h5>
                                 <div className="flex flex-wrap gap-2">
                                     {selectedNode.activeCompanies.slice(0, 4).map((company, idx) => (
@@ -451,7 +539,7 @@ const TransactionMap: React.FC = () => {
                                             onClick={() => setShowCompanyModal(true)}
                                             className="text-[10px] bg-blue-600/20 text-blue-300 px-2 py-1 rounded border border-blue-500/30 hover:bg-blue-600 hover:text-white transition-colors flex items-center gap-1"
                                         >
-                                            +{selectedNode.activeCompanies.length - 4} More
+                                            +{selectedNode.activeCompanies.length - 4}{language === 'KO' ? '개 더보기' : ' More'}
                                         </button>
                                     )}
                                 </div>
@@ -473,8 +561,8 @@ const TransactionMap: React.FC = () => {
                                 <Building2 className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-xl font-bold">{selectedNode.label}</h2>
-                                <p className="text-xs text-slate-400">Ecosystem Partners • {selectedNode.activeCompanies?.length} Entities</p>
+                                <h2 className="text-xl font-bold">{getNodeLabel(selectedNode, language)}</h2>
+                                <p className="text-xs text-slate-400">{language === 'KO' ? '생태계 파트너 • ' : 'Ecosystem Partners • '}{selectedNode.activeCompanies?.length}{language === 'KO' ? '개 기관' : ' Entities'}</p>
                             </div>
                         </div>
                         <button onClick={() => setShowCompanyModal(false)} className="p-2 hover:bg-slate-800 rounded-full transition-colors text-slate-400">
@@ -487,7 +575,7 @@ const TransactionMap: React.FC = () => {
                         <div className="relative">
                             <input 
                                 type="text" 
-                                placeholder="Search partner company..." 
+                                placeholder={language === 'KO' ? '파트너 기업 검색...' : 'Search partner company...'}
                                 className="w-full pl-9 pr-4 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-blue-500"
                             />
                             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -506,7 +594,7 @@ const TransactionMap: React.FC = () => {
                                         <h4 className="font-bold text-slate-800 text-sm truncate">{company}</h4>
                                         <div className="flex items-center gap-1.5 mt-1">
                                             <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                                            <span className="text-[10px] text-slate-500">Active</span>
+                                            <span className="text-[10px] text-slate-500">{language === 'KO' ? '운영 중' : 'Active'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -520,7 +608,7 @@ const TransactionMap: React.FC = () => {
                             onClick={() => setShowCompanyModal(false)}
                             className="px-6 py-2 bg-slate-900 text-white rounded-lg text-sm font-bold hover:bg-slate-800 transition-colors"
                         >
-                            Close List
+                            {language === 'KO' ? '목록 닫기' : 'Close List'}
                         </button>
                     </div>
                 </div>
@@ -539,7 +627,7 @@ const TransactionMap: React.FC = () => {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                     </span>
-                    <span className="text-[10px] text-emerald-600 font-bold uppercase tracking-wider">Real-time</span>
+                    <span className="text-[10px] text-emerald-600 font-bold uppercase tracking-wider">{language === 'KO' ? '실시간' : 'Real-time'}</span>
                 </div>
             </div>
             
@@ -558,7 +646,7 @@ const TransactionMap: React.FC = () => {
                                 tx.status === 'Verifying' ? 'bg-blue-50 text-blue-700 border-blue-100' :
                                 'bg-amber-50 text-amber-700 border-amber-100'
                             }`}>
-                                {tx.status}
+                                {getTxStatus(tx.status, language)}
                             </span>
                         </div>
                         
@@ -577,9 +665,9 @@ const TransactionMap: React.FC = () => {
                         <div className="flex justify-between items-center pt-2 mt-1 border-t border-slate-50">
                             <div className="text-[10px] text-slate-500 flex items-center gap-1">
                                 <Database className="w-3 h-3" />
-                                {tx.asset}
+                                {getTxAsset(tx.asset, language)}
                             </div>
-                            <div className="text-[9px] text-slate-400">12ms latency</div>
+                            <div className="text-[9px] text-slate-400">12ms {language === 'KO' ? '지연' : 'latency'}</div>
                         </div>
                     </div>
                 ))}
@@ -590,7 +678,7 @@ const TransactionMap: React.FC = () => {
                     onClick={() => setShowLedgerModal(true)}
                     className="text-xs text-blue-600 font-bold hover:underline flex items-center justify-center gap-1 w-full"
                 >
-                    View Full Ledger <Activity className="w-3 h-3" />
+                    {language === 'KO' ? '전체 원장 보기' : 'View Full Ledger'} <Activity className="w-3 h-3" />
                 </button>
             </div>
         </div>
@@ -605,8 +693,8 @@ const TransactionMap: React.FC = () => {
                                 <Activity className="w-6 h-6 text-emerald-400" />
                             </div>
                             <div>
-                                <h2 className="text-xl font-bold text-white">Live Transaction Ledger</h2>
-                                <p className="text-xs text-slate-400 font-mono">Consensus: IBFT 2.0 • Block Time: 2s</p>
+                                <h2 className="text-xl font-bold text-white">{language === 'KO' ? '실시간 트랜잭션 원장' : 'Live Transaction Ledger'}</h2>
+                                <p className="text-xs text-slate-400 font-mono">{language === 'KO' ? '합의 알고리즘: IBFT 2.0 • 블록 생성 주기: 2s' : 'Consensus: IBFT 2.0 • Block Time: 2s'}</p>
                             </div>
                         </div>
                         <button onClick={() => setShowLedgerModal(false)} className="text-slate-400 hover:text-white transition-colors">
@@ -624,12 +712,12 @@ const TransactionMap: React.FC = () => {
                             <table className="w-full text-left text-sm font-mono text-slate-300">
                                 <thead className="bg-slate-900/90 sticky top-0 z-10 border-b border-slate-800 text-slate-500">
                                     <tr>
-                                        <th className="px-6 py-4">Tx Hash</th>
-                                        <th className="px-6 py-4">Block</th>
-                                        <th className="px-6 py-4">From</th>
-                                        <th className="px-6 py-4">To</th>
-                                        <th className="px-6 py-4">Payload</th>
-                                        <th className="px-6 py-4 text-right">Status</th>
+                                        <th className="px-6 py-4">{language === 'KO' ? '트랜잭션 해시' : 'Tx Hash'}</th>
+                                        <th className="px-6 py-4">{language === 'KO' ? '블록' : 'Block'}</th>
+                                        <th className="px-6 py-4">{language === 'KO' ? '보내는 곳' : 'From'}</th>
+                                        <th className="px-6 py-4">{language === 'KO' ? '받는 곳' : 'To'}</th>
+                                        <th className="px-6 py-4">{language === 'KO' ? '페이로드' : 'Payload'}</th>
+                                        <th className="px-6 py-4 text-right">{language === 'KO' ? '상태' : 'Status'}</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-800/50">
@@ -645,7 +733,7 @@ const TransactionMap: React.FC = () => {
                                             </td>
                                             <td className="px-6 py-3 text-right">
                                                 <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                                                    CONFIRMED
+                                                    {language === 'KO' ? '확정 완료' : 'CONFIRMED'}
                                                 </span>
                                             </td>
                                         </tr>
@@ -656,9 +744,9 @@ const TransactionMap: React.FC = () => {
                     </div>
                     
                     <div className="p-4 bg-slate-900 border-t border-slate-800 flex justify-between items-center text-xs text-slate-500">
-                        <span>Sync Status: 100%</span>
+                        <span>{language === 'KO' ? '동기화 상태: 100%' : 'Sync Status: 100%'}</span>
                         <div className="flex gap-4">
-                            <span>Peers: 142</span>
+                            <span>{language === 'KO' ? '피어: 142' : 'Peers: 142'}</span>
                             <span>TPS: 4,200</span>
                         </div>
                     </div>

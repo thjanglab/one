@@ -29,10 +29,10 @@ const EnergyModule: React.FC = () => {
 
     // Mock Data: Zone Efficiency
     const zones = [
-        { id: 1, name: 'Assembly Line A', status: 'Optimal', efficiency: 92, consumption: 450, temp: 24 },
-        { id: 2, name: 'Welding Shop', status: 'Warning', efficiency: 78, consumption: 820, temp: 28 },
-        { id: 3, name: 'Paint Booth', status: 'Optimal', efficiency: 88, consumption: 320, temp: 23 },
-        { id: 4, name: 'Warehouse', status: 'Saving', efficiency: 96, consumption: 150, temp: 21 },
+        { id: 1, name: language === 'KO' ? '조립 라인 A' : 'Assembly Line A', status: 'Optimal', efficiency: 92, consumption: 450, temp: 24 },
+        { id: 2, name: language === 'KO' ? '용접 공장' : 'Welding Shop', status: 'Warning', efficiency: 78, consumption: 820, temp: 28 },
+        { id: 3, name: language === 'KO' ? '도장 부스' : 'Paint Booth', status: 'Optimal', efficiency: 88, consumption: 320, temp: 23 },
+        { id: 4, name: language === 'KO' ? '물류 창고' : 'Warehouse', status: 'Saving', efficiency: 96, consumption: 150, temp: 21 },
     ];
 
     const handleAutoPilotToggle = () => {
@@ -75,8 +75,8 @@ const EnergyModule: React.FC = () => {
                 </div>
             </div>
             <div className="flex justify-between text-[10px] text-slate-400 px-1">
-                <span>Before (Manual)</span>
-                <span>After (AI Auto)</span>
+                <span>{language === 'KO' ? '개선 전 (수동)' : 'Before (Manual)'}</span>
+                <span>{language === 'KO' ? '개선 후 (AI 자동)' : 'After (AI Auto)'}</span>
             </div>
         </div>
     );
@@ -96,7 +96,7 @@ const EnergyModule: React.FC = () => {
                 <div className={`flex items-center gap-4 p-2 rounded-xl border shadow-sm transition-all duration-500 ${autoPilot ? 'bg-emerald-50 border-emerald-200' : 'bg-white border-slate-200'}`}>
                     <div className="pl-2">
                         <span className={`text-sm font-bold block ${autoPilot ? 'text-emerald-700' : 'text-slate-600'}`}>{t('en_autopilot')}</span>
-                        {autoPilot && <span className="text-[10px] text-emerald-500 font-medium flex items-center gap-1"><Sparkles className="w-3 h-3" /> AI Optimizing</span>}
+                        {autoPilot && <span className="text-[10px] text-emerald-500 font-medium flex items-center gap-1"><Sparkles className="w-3 h-3" /> {language === 'KO' ? 'AI 최적화 진행 중' : 'AI Optimizing'}</span>}
                     </div>
                     <button 
                         onClick={handleAutoPilotToggle}
@@ -126,7 +126,9 @@ const EnergyModule: React.FC = () => {
                     </div>
                     <div className={`mt-4 flex items-center gap-2 text-xs font-medium ${autoPilot ? 'text-emerald-600' : 'text-slate-400'}`}>
                         <TrendingDown className="w-4 h-4" />
-                        {autoPilot ? '15.8% Optimized' : '12% vs Baseline'}
+                        {language === 'KO'
+                            ? (autoPilot ? '15.8% 최적화 적용' : '기준 대비 12% 절감')
+                            : (autoPilot ? '15.8% Optimized' : '12% vs Baseline')}
                     </div>
                     {/* Background Decor */}
                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-amber-50 rounded-full opacity-50 group-hover:scale-110 transition-transform"></div>
@@ -146,7 +148,9 @@ const EnergyModule: React.FC = () => {
                     </div>
                     <div className="mt-4 flex items-center gap-2 text-xs font-medium text-emerald-600">
                         <TrendingDown className="w-4 h-4" />
-                        {autoPilot ? '15.5% Reduced' : '8% Reduction'}
+                        {language === 'KO'
+                            ? (autoPilot ? '15.5% 감축' : '8% 감축')
+                            : (autoPilot ? '15.5% Reduced' : '8% Reduction')}
                     </div>
                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-emerald-50 rounded-full opacity-50"></div>
                 </div>
@@ -162,7 +166,7 @@ const EnergyModule: React.FC = () => {
                         </div>
                     </div>
                     <div className="mt-4 text-xs text-slate-400">
-                        Self-Sufficiency Rate
+                        {language === 'KO' ? '에너지 자급률' : 'Self-Sufficiency Rate'}
                     </div>
                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-50 rounded-full opacity-50"></div>
                 </div>
@@ -180,7 +184,9 @@ const EnergyModule: React.FC = () => {
                         </div>
                     </div>
                     <div className={`mt-4 text-xs ${autoPilot ? 'text-emerald-100' : 'text-slate-300'}`}>
-                        {autoPilot ? 'AI Optimization Active' : 'Estimated Monthly Savings'}
+                        {language === 'KO'
+                            ? (autoPilot ? 'AI 최적화 작동 중' : '월간 예상 절감액')
+                            : (autoPilot ? 'AI Optimization Active' : 'Estimated Monthly Savings')}
                     </div>
                     {autoPilot && <div className="absolute top-0 right-0 p-4 opacity-20"><Sparkles className="w-20 h-20 text-white animate-pulse" /></div>}
                 </div>
@@ -236,10 +242,10 @@ const EnergyModule: React.FC = () => {
                         <div className="flex justify-between items-center mb-6">
                             <h3 className="text-lg font-bold text-slate-900">{t('en_chart_title')}</h3>
                             <div className="flex items-center gap-3 text-xs">
-                                <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-slate-900"></div> Actual</span>
-                                <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-slate-300"></div> AI Baseline</span>
-                                {autoPilot && <span className="flex items-center gap-1 animate-fadeIn"><div className="w-2 h-2 rounded-full bg-emerald-500"></div> Optimized (AI)</span>}
-                                <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-amber-400"></div> Solar</span>
+                                <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-slate-900"></div> {language === 'KO' ? '실측치' : 'Actual'}</span>
+                                <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-slate-300"></div> {language === 'KO' ? 'AI 기준선' : 'AI Baseline'}</span>
+                                {autoPilot && <span className="flex items-center gap-1 animate-fadeIn"><div className="w-2 h-2 rounded-full bg-emerald-500"></div> {language === 'KO' ? '최적화 (AI)' : 'Optimized (AI)'}</span>}
+                                <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-amber-400"></div> {language === 'KO' ? '태양광' : 'Solar'}</span>
                             </div>
                         </div>
                         <div className="h-80 w-full relative">
@@ -247,7 +253,7 @@ const EnergyModule: React.FC = () => {
                                 <div className="absolute inset-0 bg-white/80 z-10 flex items-center justify-center backdrop-blur-sm rounded-lg">
                                     <div className="flex flex-col items-center gap-2">
                                         <Settings className="w-8 h-8 text-emerald-500 animate-spin" />
-                                        <span className="text-sm font-bold text-emerald-700">Calibrating AI Models...</span>
+                                        <span className="text-sm font-bold text-emerald-700">{language === 'KO' ? 'AI 모델 보정 중...' : 'Calibrating AI Models...'}</span>
                                     </div>
                                 </div>
                             )}
@@ -295,11 +301,11 @@ const EnergyModule: React.FC = () => {
                             <table className="w-full text-left text-sm">
                                 <thead className="bg-slate-50 text-slate-500 font-medium">
                                     <tr>
-                                        <th className="px-4 py-3 rounded-l-lg">Zone Name</th>
-                                        <th className="px-4 py-3">Status</th>
-                                        <th className="px-4 py-3">Temperature</th>
-                                        <th className="px-4 py-3">Consumption</th>
-                                        <th className="px-4 py-3 rounded-r-lg">Efficiency</th>
+                                        <th className="px-4 py-3 rounded-l-lg">{language === 'KO' ? '구역명' : 'Zone Name'}</th>
+                                        <th className="px-4 py-3">{language === 'KO' ? '상태' : 'Status'}</th>
+                                        <th className="px-4 py-3">{language === 'KO' ? '온도' : 'Temperature'}</th>
+                                        <th className="px-4 py-3">{language === 'KO' ? '사용량' : 'Consumption'}</th>
+                                        <th className="px-4 py-3 rounded-r-lg">{language === 'KO' ? '효율' : 'Efficiency'}</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-50">
@@ -313,7 +319,11 @@ const EnergyModule: React.FC = () => {
                                                     zone.status === 'Warning' ? 'bg-amber-100 text-amber-700' :
                                                     'bg-blue-100 text-blue-700')
                                                 }`}>
-                                                    {autoPilot ? 'AI Controlled' : zone.status}
+                                                    {autoPilot
+                                                        ? (language === 'KO' ? 'AI 제어 중' : 'AI Controlled')
+                                                        : (language === 'KO'
+                                                            ? (zone.status === 'Optimal' ? '정상' : zone.status === 'Warning' ? '주의' : '절감')
+                                                            : zone.status)}
                                                 </span>
                                             </td>
                                             <td className="px-4 py-4 text-slate-600 flex items-center gap-1">
@@ -352,7 +362,7 @@ const EnergyModule: React.FC = () => {
                     <div className="bg-slate-900 rounded-2xl p-6 text-white text-center">
                         <h3 className="font-bold mb-6 flex items-center justify-center gap-2">
                             <Factory className="w-5 h-5 text-blue-400" />
-                            Current Energy Mix
+                            {language === 'KO' ? '현재 에너지 구성' : 'Current Energy Mix'}
                         </h3>
                         <div className="relative w-48 h-48 mx-auto mb-6">
                             <svg className="w-full h-full transform -rotate-90">
@@ -362,15 +372,15 @@ const EnergyModule: React.FC = () => {
                             </svg>
                             <div className="absolute inset-0 flex flex-col items-center justify-center">
                                 <span className="text-3xl font-bold transition-all duration-500">{autoPilot ? '48%' : '55%'}</span>
-                                <span className="text-xs text-slate-400">Grid Power</span>
+                                <span className="text-xs text-slate-400">{language === 'KO' ? '계통 전력' : 'Grid Power'}</span>
                             </div>
                         </div>
                         <div className="flex justify-center gap-4 text-xs">
                             <div className="flex items-center gap-1">
-                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div> Grid
+                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div> {language === 'KO' ? '계통' : 'Grid'}
                             </div>
                             <div className="flex items-center gap-1">
-                                <div className="w-2 h-2 bg-amber-400 rounded-full"></div> Solar
+                                <div className="w-2 h-2 bg-amber-400 rounded-full"></div> {language === 'KO' ? '태양광' : 'Solar'}
                             </div>
                             <div className="flex items-center gap-1">
                                 <div className="w-2 h-2 bg-emerald-500 rounded-full"></div> ESS
@@ -392,11 +402,13 @@ const EnergyModule: React.FC = () => {
                                         {autoPilot ? <CheckCircle2 className="w-5 h-5 text-slate-400" /> : <AlertTriangle className="w-5 h-5 text-amber-500" />}
                                     </div>
                                     <div>
-                                        <h4 className="text-sm font-bold text-slate-800">Peak Load Predicted</h4>
-                                        <p className="text-xs text-slate-600 mt-1">Grid demand expected to spike at 14:00. Recommendation: Discharge ESS.</p>
+                                        <h4 className="text-sm font-bold text-slate-800">{language === 'KO' ? '피크 부하 예측' : 'Peak Load Predicted'}</h4>
+                                        <p className="text-xs text-slate-600 mt-1">{language === 'KO'
+                                            ? '14:00에 계통 수요가 급증할 것으로 예상됩니다. ESS 방전을 권장합니다.'
+                                            : 'Grid demand expected to spike at 14:00. Recommendation: Discharge ESS.'}</p>
                                         {!autoPilot && (
                                             <button className="mt-2 px-3 py-1 bg-amber-500 text-white text-xs font-bold rounded hover:bg-amber-600 transition-colors">
-                                                Activate Peak Shaving
+                                                {language === 'KO' ? '피크 저감 실행' : 'Activate Peak Shaving'}
                                             </button>
                                         )}
                                     </div>
@@ -409,11 +421,15 @@ const EnergyModule: React.FC = () => {
                                         <Battery className={`w-5 h-5 ${autoPilot ? 'text-emerald-500' : 'text-blue-500'}`} />
                                     </div>
                                     <div>
-                                        <h4 className="text-sm font-bold text-slate-800">ESS Optimization</h4>
+                                        <h4 className="text-sm font-bold text-slate-800">{language === 'KO' ? 'ESS 최적화' : 'ESS Optimization'}</h4>
                                         <p className="text-xs text-slate-600 mt-1">
-                                            {autoPilot ? 'AI is managing charge/discharge cycles automatically based on real-time pricing.' : 'Charge battery now (Low Tariff) to prep for evening peak.'}
+                                            {language === 'KO'
+                                                ? (autoPilot
+                                                    ? 'AI가 실시간 전력 요금을 반영해 충·방전 주기를 자동으로 관리하고 있습니다.'
+                                                    : '저녁 피크에 대비해 경부하 요금 시간대인 지금 배터리를 충전하세요.')
+                                                : (autoPilot ? 'AI is managing charge/discharge cycles automatically based on real-time pricing.' : 'Charge battery now (Low Tariff) to prep for evening peak.')}
                                         </p>
-                                        {autoPilot && <span className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-emerald-600 animate-pulse"><Sparkles className="w-3 h-3" /> AI Active</span>}
+                                        {autoPilot && <span className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-emerald-600 animate-pulse"><Sparkles className="w-3 h-3" /> {language === 'KO' ? 'AI 작동 중' : 'AI Active'}</span>}
                                     </div>
                                 </div>
                             </div>
@@ -424,11 +440,15 @@ const EnergyModule: React.FC = () => {
                                         <Thermometer className={`w-5 h-5 ${autoPilot ? 'text-emerald-500' : 'text-slate-500'}`} />
                                     </div>
                                     <div>
-                                        <h4 className="text-sm font-bold text-slate-800">HVAC Adjustment</h4>
+                                        <h4 className="text-sm font-bold text-slate-800">{language === 'KO' ? 'HVAC 설정 조정' : 'HVAC Adjustment'}</h4>
                                         <p className="text-xs text-slate-600 mt-1">
-                                            {autoPilot ? 'Zone temperatures optimized for occupancy and weather.' : 'Increase setpoint in Welding Shop by 1°C to save 4% energy.'}
+                                            {language === 'KO'
+                                                ? (autoPilot
+                                                    ? '재실 인원과 기상 상황에 맞춰 구역별 온도가 최적화되었습니다.'
+                                                    : '용접 공장의 설정 온도를 1°C 높이면 에너지를 4% 절감할 수 있습니다.')
+                                                : (autoPilot ? 'Zone temperatures optimized for occupancy and weather.' : 'Increase setpoint in Welding Shop by 1°C to save 4% energy.')}
                                         </p>
-                                        {autoPilot && <span className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-emerald-600"><CheckCircle2 className="w-3 h-3" /> Optimized</span>}
+                                        {autoPilot && <span className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-emerald-600"><CheckCircle2 className="w-3 h-3" /> {language === 'KO' ? '최적화 완료' : 'Optimized'}</span>}
                                     </div>
                                 </div>
                             </div>

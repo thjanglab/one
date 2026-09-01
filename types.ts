@@ -29,11 +29,14 @@ export enum AICategory {
 export interface Asset {
   id: string;
   title: string;
+  /** Korean copy. Absent for product names that stay as-is in both languages. */
+  titleKo?: string;
   provider: string;
   type: AssetType;
   industry: Industry;
   aiCategory?: AICategory; 
   description: string;
+  descriptionKo?: string;
   price: number;
   currency: string;
   rating: number;
@@ -48,6 +51,7 @@ export interface Company {
   id: string;
   name: string;
   description: string;
+  descriptionKo?: string;
   logo: string; 
   logoUrl: string; 
   industry: Industry;

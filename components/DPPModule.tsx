@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowRight, ExternalLink, Search, FileText, CheckCircle2, Sh
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 const DPPModule: React.FC = () => {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const [activeIndustry, setActiveIndustry] = useState<'AUTO' | 'TEXTILE' | 'ELECTRONICS'>('AUTO');
     const [textileTab, setTextileTab] = useState<'PASSPORT' | 'CHAIN'>('PASSPORT');
     const [autoTab, setAutoTab] = useState<'DASHBOARD' | 'CHAIN'>('DASHBOARD');
@@ -33,66 +33,66 @@ const DPPModule: React.FC = () => {
         brand: "Re:Wear",
         batch: "RW-2024-Q3-005",
         image: "vendor-images/photo-1556905055-8f358a7a47b2-w600.jpg",
-        description: "Made from 85% post-consumer recycled cotton. Fully traceable from fiber to fashion.",
+        description: language === 'KO' ? "85% 소비자 사용 후 재활용 면으로 만들어졌습니다. 원사부터 완제품까지 전 과정을 추적할 수 있습니다." : "Made from 85% post-consumer recycled cotton. Fully traceable from fiber to fashion.",
         composition: [
-            { name: 'Recycled Cotton', value: 85, color: '#10b981' },
-            { name: 'Organic Cotton', value: 10, color: '#3b82f6' },
-            { name: 'Elastane', value: 5, color: '#f59e0b' },
+            { name: language === 'KO' ? '재생 면' : 'Recycled Cotton', value: 85, color: '#10b981' },
+            { name: language === 'KO' ? '유기농 면' : 'Organic Cotton', value: 10, color: '#3b82f6' },
+            { name: language === 'KO' ? '엘라스탄' : 'Elastane', value: 5, color: '#f59e0b' },
         ],
         journey: [
             { 
                 id: 1,
-                stage: 'Raw Fiber Collection', 
-                location: 'Izmir, Turkey', 
+                stage: language === 'KO' ? '원료 섬유 수거' : 'Raw Fiber Collection', 
+                location: language === 'KO' ? '터키 이즈미르' : 'Izmir, Turkey', 
                 company: 'Global Fibers Ltd.', 
                 date: '2023.12.10', 
                 icon: <Recycle className="w-4 h-4" />,
                 x: 200, y: 150, // Map coordinates
                 facilityId: "FAC-TR-992",
-                audit: "GOTS Certified",
-                desc: "Certified organic cotton farm using drip irrigation systems to minimize water usage.",
+                audit: language === 'KO' ? "GOTS 인증 취득" : "GOTS Certified",
+                desc: language === 'KO' ? "점적 관개 시스템으로 물 사용량을 최소화하는 유기농 인증 목화 농장입니다." : "Certified organic cotton farm using drip irrigation systems to minimize water usage.",
                 co2: "0.8 kg",
                 water: "120 L"
             },
             { 
                 id: 2,
-                stage: 'Yarn Spinning', 
-                location: 'Da Nang, Vietnam', 
+                stage: language === 'KO' ? '방적' : 'Yarn Spinning', 
+                location: language === 'KO' ? '베트남 다낭' : 'Da Nang, Vietnam', 
                 company: 'SpinTex Vina', 
                 date: '2024.01.15', 
                 icon: <Layers className="w-4 h-4" />,
                 x: 600, y: 300,
                 facilityId: "FAC-VN-881",
-                audit: "SA8000 Passed",
-                desc: "High-efficiency spinning mill powered by 40% on-site solar energy.",
+                audit: language === 'KO' ? "SA8000 적합 판정" : "SA8000 Passed",
+                desc: language === 'KO' ? "자체 태양광으로 전력의 40%를 충당하는 고효율 방적 공장입니다." : "High-efficiency spinning mill powered by 40% on-site solar energy.",
                 co2: "1.2 kg",
                 water: "40 L"
             },
             { 
                 id: 3,
-                stage: 'Fabric Knitting', 
-                location: 'Daegu, Korea', 
+                stage: language === 'KO' ? '원단 편직' : 'Fabric Knitting', 
+                location: language === 'KO' ? '대한민국 대구' : 'Daegu, Korea', 
                 company: 'K-Textile Co.', 
                 date: '2024.02.20', 
                 icon: <Factory className="w-4 h-4" />,
                 x: 720, y: 140,
                 facilityId: "FAC-KR-102",
                 audit: "Oeko-Tex Std 100",
-                desc: "Zero-liquid-discharge dyeing and knitting facility ensuring no chemical runoff.",
+                desc: language === 'KO' ? "폐수 무방류 방식으로 화학물질 유출이 없는 염색·편직 시설입니다." : "Zero-liquid-discharge dyeing and knitting facility ensuring no chemical runoff.",
                 co2: "0.9 kg",
                 water: "250 L"
             },
             { 
                 id: 4,
-                stage: 'Garment Assembly', 
-                location: 'Seoul, Korea', 
+                stage: language === 'KO' ? '봉제 및 완성' : 'Garment Assembly', 
+                location: language === 'KO' ? '대한민국 서울' : 'Seoul, Korea', 
                 company: 'Re:Wear Mfg.', 
                 date: '2024.03.05', 
                 icon: <Shirt className="w-4 h-4" />,
                 x: 700, y: 110,
                 facilityId: "FAC-KR-001",
                 audit: "ISO 9001/14001",
-                desc: "Final assembly, quality control, and packaging using recycled materials.",
+                desc: language === 'KO' ? "최종 봉제와 품질 검사를 거쳐 재활용 소재로 포장합니다." : "Final assembly, quality control, and packaging using recycled materials.",
                 co2: "0.3 kg",
                 water: "10 L"
             },
@@ -114,12 +114,12 @@ const DPPModule: React.FC = () => {
 
     // Enhanced Mock Data for Hyundai Automotive Map
     const HYUNDAI_CHAIN_NODES = [
-        { id: 'oem', label: 'Hyundai Motor', type: 'OEM', x: 700, y: 250, co2: '12,500', status: 'Active', location: 'Ulsan, KR', desc: 'Final Assembly Plant. Manufactures IONIQ 5, GV60.', icon: Car },
-        { id: 't1_1', label: 'Hyundai Mobis', type: 'Tier 1', x: 500, y: 150, co2: '4,200', status: 'Active', location: 'Seoul, KR', desc: 'Chassis, Cockpit, and Frontend modules.', icon: Layers },
-        { id: 't1_2', label: 'LG Energy Sol', type: 'Tier 1', x: 500, y: 350, co2: '8,500', status: 'Active', location: 'Ochang, KR', desc: 'High-performance EV Battery Packs.', icon: Battery },
-        { id: 't2_1', label: 'Hyundai WIA', type: 'Tier 2', x: 300, y: 100, co2: '2,800', status: 'Active', location: 'Changwon, KR', desc: 'Engine parts and constant velocity joints.', icon: Settings },
-        { id: 't2_2', label: 'HL Mando', type: 'Tier 2', x: 300, y: 200, co2: '1,500', status: 'Pending', location: 'Pyeongtaek, KR', desc: 'Brake, Steering, and Suspension systems.', icon: Disc },
-        { id: 't3_1', label: 'POSCO', type: 'Tier 3', x: 100, y: 250, co2: '15,000', status: 'Active', location: 'Pohang, KR', desc: 'Automotive Steel Sheets & Coils.', icon: Hammer },
+        { id: 'oem', label: 'Hyundai Motor', type: 'OEM', x: 700, y: 250, co2: '12,500', status: 'Active', location: language === 'KO' ? '대한민국 울산' : 'Ulsan, KR', desc: language === 'KO' ? '완성차 조립 공장. IONIQ 5, GV60을 생산합니다.' : 'Final Assembly Plant. Manufactures IONIQ 5, GV60.', icon: Car },
+        { id: 't1_1', label: 'Hyundai Mobis', type: 'Tier 1', x: 500, y: 150, co2: '4,200', status: 'Active', location: language === 'KO' ? '대한민국 서울' : 'Seoul, KR', desc: language === 'KO' ? '섀시, 칵핏, 프런트엔드 모듈을 공급합니다.' : 'Chassis, Cockpit, and Frontend modules.', icon: Layers },
+        { id: 't1_2', label: 'LG Energy Sol', type: 'Tier 1', x: 500, y: 350, co2: '8,500', status: 'Active', location: language === 'KO' ? '대한민국 오창' : 'Ochang, KR', desc: language === 'KO' ? '고성능 전기차 배터리 팩을 생산합니다.' : 'High-performance EV Battery Packs.', icon: Battery },
+        { id: 't2_1', label: 'Hyundai WIA', type: 'Tier 2', x: 300, y: 100, co2: '2,800', status: 'Active', location: language === 'KO' ? '대한민국 창원' : 'Changwon, KR', desc: language === 'KO' ? '엔진 부품과 등속 조인트를 생산합니다.' : 'Engine parts and constant velocity joints.', icon: Settings },
+        { id: 't2_2', label: 'HL Mando', type: 'Tier 2', x: 300, y: 200, co2: '1,500', status: 'Pending', location: language === 'KO' ? '대한민국 평택' : 'Pyeongtaek, KR', desc: language === 'KO' ? '제동, 조향, 현가 시스템을 공급합니다.' : 'Brake, Steering, and Suspension systems.', icon: Disc },
+        { id: 't3_1', label: 'POSCO', type: 'Tier 3', x: 100, y: 250, co2: '15,000', status: 'Active', location: language === 'KO' ? '대한민국 포항' : 'Pohang, KR', desc: language === 'KO' ? '자동차용 강판과 코일을 공급합니다.' : 'Automotive Steel Sheets & Coils.', icon: Hammer },
     ];
 
     // Connections for Animation
@@ -150,75 +150,75 @@ const DPPModule: React.FC = () => {
             SCREEN: {
                 name: "Dynamic AMOLED 3X Infinity-O",
                 supplier: "Samsung Display",
-                location: "Asan, Korea",
+                location: language === 'KO' ? "대한민국 아산" : "Asan, Korea",
                 pcf: "4.8 kgCO2e",
-                material: ["Gorilla Glass Victus 3", "OLED Organic (Korea)"],
+                material: ["Gorilla Glass Victus 3", language === 'KO' ? "OLED 유기 소재 (국내산)" : "OLED Organic (Korea)"],
                 status: "Normal",
                 passport: "DISP-PASS-205",
                 icon: <Monitor className="w-5 h-5" />,
-                details: "Next-gen LTPO technology with 1-144Hz variable refresh rate. 100% recycled glass."
+                details: language === 'KO' ? "1~144Hz 가변 주사율을 지원하는 차세대 LTPO 기술을 적용했으며, 100% 재활용 유리를 사용했습니다." : "Next-gen LTPO technology with 1-144Hz variable refresh rate. 100% recycled glass."
             },
             PCB: {
-                name: "Logic Board (Snapdragon 8 Gen 4)",
+                name: language === 'KO' ? "로직 보드 (Snapdragon 8 Gen 4)" : "Logic Board (Snapdragon 8 Gen 4)",
                 supplier: "TSMC",
-                location: "Hsinchu, Taiwan",
+                location: language === 'KO' ? "대만 신주" : "Hsinchu, Taiwan",
                 pcf: "3.5 kgCO2e",
-                material: ["Gold (Conflict-Free)", "Silicon", "Recycled Copper"],
+                material: language === 'KO' ? ["금 (분쟁 광물 미사용)", "실리콘", "재활용 구리"] : ["Gold (Conflict-Free)", "Silicon", "Recycled Copper"],
                 status: "Normal",
                 passport: "PCB-PASS-601",
                 icon: <Cpu className="w-5 h-5" />,
-                details: "3nm process node. Conflict-free mineral certified (3TG) with full traceability."
+                details: language === 'KO' ? "3nm 공정으로 생산되며, 분쟁 광물 미사용(3TG) 인증과 전 과정 추적성을 확보했습니다." : "3nm process node. Conflict-free mineral certified (3TG) with full traceability."
             },
             BATTERY: {
-                name: "Solid-State Ready Battery (5500mAh)",
+                name: language === 'KO' ? "전고체 대응 배터리 (5500mAh)" : "Solid-State Ready Battery (5500mAh)",
                 supplier: "Samsung SDI",
-                location: "Ulsan, Korea",
+                location: language === 'KO' ? "대한민국 울산" : "Ulsan, Korea",
                 pcf: "11.2 kgCO2e",
-                material: ["Lithium (Chile)", "Cobalt (Recycled)"],
+                material: language === 'KO' ? ["리튬 (칠레산)", "코발트 (재활용)"] : ["Lithium (Chile)", "Cobalt (Recycled)"],
                 status: "Normal",
                 cycles: 1500,
                 passport: "BATT-PASS-991",
                 icon: <Battery className="w-5 h-5" />,
-                details: "Post-consumer recycled cobalt 25%. Enhanced energy density and safety."
+                details: language === 'KO' ? "재활용 코발트를 25% 사용했으며, 에너지 밀도와 안전성을 개선했습니다." : "Post-consumer recycled cobalt 25%. Enhanced energy density and safety."
             },
             CASING: {
-                name: "Titanium & Ocean Plastic Frame",
+                name: language === 'KO' ? "티타늄 & 해양 플라스틱 프레임" : "Titanium & Ocean Plastic Frame",
                 supplier: "Intops",
-                location: "Gumi, Korea",
+                location: language === 'KO' ? "대한민국 구미" : "Gumi, Korea",
                 pcf: "1.5 kgCO2e",
-                material: ["Recycled Al (95%)", "Titanium Grade 5", "Ocean Plastic"],
+                material: language === 'KO' ? ["재활용 알루미늄 (95%)", "Titanium Grade 5", "해양 플라스틱"] : ["Recycled Al (95%)", "Titanium Grade 5", "Ocean Plastic"],
                 status: "Normal",
                 passport: "CASE-PASS-442",
                 icon: <Smartphone className="w-5 h-5" />,
-                details: "CNC machined with 100% renewable energy. Incorporates recycled fishing nets."
+                details: language === 'KO' ? "100% 재생에너지로 CNC 가공하며, 수거된 폐어망을 재활용해 사용합니다." : "CNC machined with 100% renewable energy. Incorporates recycled fishing nets."
             }
         }
     };
 
     // --- Repair Data Mock ---
     const repairData = {
-        difficulty: "Moderate",
-        time: "35 mins",
-        tools: ["Phillips #00", "Spudger", "Suction Handle", "Heat Gun"],
+        difficulty: language === 'KO' ? "보통" : "Moderate",
+        time: language === 'KO' ? "35분" : "35 mins",
+        tools: language === 'KO' ? ["Phillips #00", "스퍼저", "흡착 손잡이", "열풍기"] : ["Phillips #00", "Spudger", "Suction Handle", "Heat Gun"],
         parts: [
-            { name: "Replacement Battery (Part #B-25U)", stock: "Available", price: "$55.00" },
-            { name: "Adhesive Strips (Eco)", stock: "In Stock", price: "$6.50" }
+            { name: language === 'KO' ? "교체용 배터리 (부품 #B-25U)" : "Replacement Battery (Part #B-25U)", stock: language === 'KO' ? "구매 가능" : "Available", price: "$55.00" },
+            { name: language === 'KO' ? "접착 스트립 (친환경)" : "Adhesive Strips (Eco)", stock: language === 'KO' ? "재고 있음" : "In Stock", price: "$6.50" }
         ],
         steps: [
-            "Power off the device and apply low heat to the titanium back cover.",
-            "Use a suction handle and pick to separate the back cover (improved adhesive).",
-            "Remove the 12 Phillips screws securing the wireless charging coil.",
-            "Disconnect the battery flex cable (orange).",
-            "Use pull-tabs to easily remove the battery (no prying needed)."
+            language === 'KO' ? "기기의 전원을 끄고 티타늄 후면 커버에 낮은 온도의 열을 가합니다." : "Power off the device and apply low heat to the titanium back cover.",
+            language === 'KO' ? "흡착 손잡이와 픽을 사용해 후면 커버를 분리합니다(접착력이 개선되었습니다)." : "Use a suction handle and pick to separate the back cover (improved adhesive).",
+            language === 'KO' ? "무선 충전 코일을 고정하는 십자 나사 12개를 제거합니다." : "Remove the 12 Phillips screws securing the wireless charging coil.",
+            language === 'KO' ? "배터리 플렉스 케이블(주황색)을 분리합니다." : "Disconnect the battery flex cable (orange).",
+            language === 'KO' ? "당김 탭을 이용하면 지렛대 없이 배터리를 쉽게 분리할 수 있습니다." : "Use pull-tabs to easily remove the battery (no prying needed)."
         ]
     };
 
     // --- Blockchain History Mock ---
     const blockchainHistory = [
-        { hash: "0x8b...a123", block: 15205501, time: "2025-01-10 09:22:10", action: "Creation", actor: "Samsung Mfg" },
-        { hash: "0x4c...9d55", block: 15205523, time: "2025-01-12 14:15:00", action: "Transfer", actor: "Global Logistics" },
-        { hash: "0x2e...ff88", block: 15205601, time: "2025-01-15 10:40:33", action: "Retail Stock", actor: "BestBuy Warehouse" },
-        { hash: "0x1a...3b22", block: 15205882, time: "2025-01-20 16:05:22", action: "Activation", actor: "End User" }
+        { hash: "0x8b...a123", block: 15205501, time: "2025-01-10 09:22:10", action: language === 'KO' ? "생성" : "Creation", actor: "Samsung Mfg" },
+        { hash: "0x4c...9d55", block: 15205523, time: "2025-01-12 14:15:00", action: language === 'KO' ? "이전" : "Transfer", actor: "Global Logistics" },
+        { hash: "0x2e...ff88", block: 15205601, time: "2025-01-15 10:40:33", action: language === 'KO' ? "소매 입고" : "Retail Stock", actor: "BestBuy Warehouse" },
+        { hash: "0x1a...3b22", block: 15205882, time: "2025-01-20 16:05:22", action: language === 'KO' ? "개통" : "Activation", actor: language === 'KO' ? "최종 사용자" : "End User" }
     ];
 
     const latestBlockData = {
@@ -248,10 +248,10 @@ const DPPModule: React.FC = () => {
 
     // Value Chain Nodes
     const chainNodes = [
-        { id: 'raw', label: 'Raw Material', icon: Globe, color: 'text-slate-400', border: 'border-slate-300', bg: 'bg-slate-50', x: '10%' },
-        { id: 'mfg', label: 'Component Mfg', icon: Factory, color: 'text-blue-600', border: 'border-blue-500', bg: 'bg-blue-50', x: '35%' },
-        { id: 'asm', label: 'Assembly', icon: Smartphone, color: 'text-purple-600', border: 'border-purple-500', bg: 'bg-purple-50', x: '60%' },
-        { id: 'rec', label: 'Recycling', icon: Recycle, color: 'text-emerald-600', border: 'border-emerald-500', bg: 'bg-emerald-50', x: '85%' }
+        { id: 'raw', label: language === 'KO' ? '원자재' : 'Raw Material', icon: Globe, color: 'text-slate-400', border: 'border-slate-300', bg: 'bg-slate-50', x: '10%' },
+        { id: 'mfg', label: language === 'KO' ? '부품 제조' : 'Component Mfg', icon: Factory, color: 'text-blue-600', border: 'border-blue-500', bg: 'bg-blue-50', x: '35%' },
+        { id: 'asm', label: language === 'KO' ? '조립' : 'Assembly', icon: Smartphone, color: 'text-purple-600', border: 'border-purple-500', bg: 'bg-purple-50', x: '60%' },
+        { id: 'rec', label: language === 'KO' ? '재활용' : 'Recycling', icon: Recycle, color: 'text-emerald-600', border: 'border-emerald-500', bg: 'bg-emerald-50', x: '85%' }
     ];
 
     return (
@@ -269,7 +269,7 @@ const DPPModule: React.FC = () => {
                         }`}
                     >
                         <Car className="w-4 h-4" />
-                        Automotive
+                        {language === 'KO' ? '자동차' : 'Automotive'}
                     </button>
                     <button 
                         onClick={() => setActiveIndustry('ELECTRONICS')}
@@ -280,7 +280,7 @@ const DPPModule: React.FC = () => {
                         }`}
                     >
                         <Smartphone className="w-4 h-4" />
-                        Electronics
+                        {language === 'KO' ? '전자기기' : 'Electronics'}
                     </button>
                     <button 
                         onClick={() => setActiveIndustry('TEXTILE')}
@@ -291,7 +291,7 @@ const DPPModule: React.FC = () => {
                         }`}
                     >
                         <Shirt className="w-4 h-4" />
-                        Textile & Fashion
+                        {language === 'KO' ? '섬유·패션' : 'Textile & Fashion'}
                     </button>
                 </div>
             </div>
@@ -325,20 +325,20 @@ const DPPModule: React.FC = () => {
                         {/* Content */}
                         <div className="relative z-10 flex flex-col items-center text-center space-y-6">
                             <div className="space-y-2">
-                                <h2 className="text-3xl font-serif font-bold text-slate-900 tracking-wider uppercase">Certificate</h2>
-                                <p className="text-sm font-serif text-slate-500 italic">of Compliance</p>
+                                <h2 className="text-3xl font-serif font-bold text-slate-900 tracking-wider uppercase">{language === 'KO' ? '인증서' : 'Certificate'}</h2>
+                                <p className="text-sm font-serif text-slate-500 italic">{language === 'KO' ? '적합성 증명' : 'of Compliance'}</p>
                             </div>
 
                             <div className="w-full h-px bg-slate-300"></div>
 
                             <div className="space-y-1">
-                                <p className="text-xs text-slate-500 uppercase tracking-widest">This certifies that</p>
+                                <p className="text-xs text-slate-500 uppercase tracking-widest">{language === 'KO' ? '본 인증서는 아래 기업이' : 'This certifies that'}</p>
                                 <h3 className="text-2xl font-bold text-blue-900 font-serif">{certificateStep.company}</h3>
                                 <p className="text-sm text-slate-600">{certificateStep.location}</p>
                             </div>
 
                             <div className="space-y-2">
-                                <p className="text-xs text-slate-500 uppercase tracking-widest">Has successfully met the standards for</p>
+                                <p className="text-xs text-slate-500 uppercase tracking-widest">{language === 'KO' ? '다음 기준을 충족하였음을 증명합니다' : 'Has successfully met the standards for'}</p>
                                 <div className="bg-emerald-50 border border-emerald-200 px-6 py-3 rounded-lg">
                                     <h4 className="text-xl font-bold text-emerald-800 flex items-center justify-center gap-2">
                                         <ShieldCheck className="w-6 h-6" />
@@ -349,11 +349,11 @@ const DPPModule: React.FC = () => {
 
                             <div className="grid grid-cols-2 gap-8 w-full pt-4">
                                 <div className="text-left">
-                                    <p className="text-[10px] text-slate-400 uppercase">Facility ID</p>
+                                    <p className="text-[10px] text-slate-400 uppercase">{language === 'KO' ? '사업장 ID' : 'Facility ID'}</p>
                                     <p className="font-mono text-sm font-bold text-slate-700">{certificateStep.facilityId}</p>
                                 </div>
                                 <div className="text-right">
-                                    <p className="text-[10px] text-slate-400 uppercase">Issue Date</p>
+                                    <p className="text-[10px] text-slate-400 uppercase">{language === 'KO' ? '발급일' : 'Issue Date'}</p>
                                     <p className="font-mono text-sm font-bold text-slate-700">{certificateStep.date}</p>
                                 </div>
                             </div>
@@ -362,9 +362,9 @@ const DPPModule: React.FC = () => {
                             <div className="absolute bottom-4 right-8 transform rotate-[-12deg]" style={{ animation: 'stamp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s forwards', opacity: 0 }}>
                                 <div className="w-24 h-24 border-4 border-red-700 rounded-full flex items-center justify-center p-1">
                                     <div className="w-full h-full border-2 border-red-700 rounded-full flex flex-col items-center justify-center text-red-700 font-bold uppercase text-[10px] tracking-widest bg-red-700/5">
-                                        <span>Verified</span>
-                                        <span className="text-lg">Passed</span>
-                                        <span>Korea</span>
+                                        <span>{language === 'KO' ? '검증' : 'Verified'}</span>
+                                        <span className="text-lg">{language === 'KO' ? '합격' : 'Passed'}</span>
+                                        <span>{language === 'KO' ? '대한민국' : 'Korea'}</span>
                                     </div>
                                 </div>
                             </div>
@@ -373,7 +373,7 @@ const DPPModule: React.FC = () => {
                             <div className="pt-8 w-full flex justify-center">
                                 <div className="border-t border-slate-400 px-8 pt-2">
                                     <p className="font-serif text-2xl text-slate-800 -rotate-2 italic">John Doe</p>
-                                    <p className="text-[10px] text-slate-400 uppercase mt-1">Authorized Signature</p>
+                                    <p className="text-[10px] text-slate-400 uppercase mt-1">{language === 'KO' ? '인증 책임자 서명' : 'Authorized Signature'}</p>
                                 </div>
                             </div>
                         </div>
@@ -398,7 +398,7 @@ const DPPModule: React.FC = () => {
                                 textileTab === 'PASSPORT' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-600'
                             }`}
                         >
-                            <FileText className="w-4 h-4" /> Product Passport
+                            <FileText className="w-4 h-4" /> {language === 'KO' ? '제품 여권' : 'Product Passport'}
                         </button>
                         <button 
                             onClick={() => setTextileTab('CHAIN')}
@@ -406,7 +406,7 @@ const DPPModule: React.FC = () => {
                                 textileTab === 'CHAIN' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-600'
                             }`}
                         >
-                            <Map className="w-4 h-4" /> Connected Supply Chain
+                            <Map className="w-4 h-4" /> {language === 'KO' ? '연결된 공급망' : 'Connected Supply Chain'}
                         </button>
                     </div>
                 </div>
@@ -422,7 +422,7 @@ const DPPModule: React.FC = () => {
                                 autoTab === 'DASHBOARD' ? 'border-slate-900 text-slate-900' : 'border-transparent text-slate-400 hover:text-slate-600'
                             }`}
                         >
-                            <LayoutDashboard className="w-4 h-4" /> Dashboard & Stats
+                            <LayoutDashboard className="w-4 h-4" /> {language === 'KO' ? '대시보드 및 통계' : 'Dashboard & Stats'}
                         </button>
                         <button 
                             onClick={() => setAutoTab('CHAIN')}
@@ -430,7 +430,7 @@ const DPPModule: React.FC = () => {
                                 autoTab === 'CHAIN' ? 'border-slate-900 text-slate-900' : 'border-transparent text-slate-400 hover:text-slate-600'
                             }`}
                         >
-                            <Map className="w-4 h-4" /> Supply Chain Map
+                            <Map className="w-4 h-4" /> {language === 'KO' ? '공급망 지도' : 'Supply Chain Map'}
                         </button>
                     </div>
                 </div>
@@ -453,7 +453,7 @@ const DPPModule: React.FC = () => {
                                             DPP ID: {textileProduct.id}
                                         </div>
                                         <div className="absolute bottom-4 right-4 bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg flex items-center gap-1">
-                                            <Recycle className="w-3 h-3" /> {textileProduct.impact.circularity} Score
+                                            <Recycle className="w-3 h-3" /> {textileProduct.impact.circularity} {language === 'KO' ? '등급' : 'Score'}
                                         </div>
                                     </div>
                                     
@@ -462,7 +462,7 @@ const DPPModule: React.FC = () => {
                                         <div className="flex justify-between items-start mb-4">
                                             <div>
                                                 <h2 className="text-2xl font-bold text-slate-900 leading-tight">{textileProduct.name}</h2>
-                                                <p className="text-slate-500 text-sm mt-1">{textileProduct.brand} • Batch: {textileProduct.batch}</p>
+                                                <p className="text-slate-500 text-sm mt-1">{textileProduct.brand} • {language === 'KO' ? '배치' : 'Batch'}: {textileProduct.batch}</p>
                                             </div>
                                             <button className="p-2 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors">
                                                 <ExternalLink className="w-5 h-5 text-slate-600" />
@@ -474,7 +474,7 @@ const DPPModule: React.FC = () => {
 
                                         {/* Composition Chart */}
                                         <div className="mb-6">
-                                            <h4 className="text-xs font-bold text-slate-400 uppercase mb-3 tracking-wider">Material Composition</h4>
+                                            <h4 className="text-xs font-bold text-slate-400 uppercase mb-3 tracking-wider">{language === 'KO' ? '소재 구성' : 'Material Composition'}</h4>
                                             <div className="flex items-center gap-4">
                                                 <div className="w-24 h-24 relative">
                                                     <ResponsiveContainer width="100%" height="100%">
@@ -526,25 +526,25 @@ const DPPModule: React.FC = () => {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="bg-blue-50 p-5 rounded-2xl border border-blue-100 flex flex-col justify-between h-32">
                                         <div className="flex justify-between items-start">
-                                            <span className="text-blue-900 font-bold text-sm">Water Footprint</span>
+                                            <span className="text-blue-900 font-bold text-sm">{language === 'KO' ? '물 발자국' : 'Water Footprint'}</span>
                                             <Droplets className="w-5 h-5 text-blue-500" />
                                         </div>
                                         <div>
                                             <span className="text-3xl font-bold text-blue-700">{textileProduct.impact.water}</span>
                                             <div className="text-[10px] text-blue-600 bg-white/50 px-2 py-1 rounded inline-block mt-1">
-                                                Saved {textileProduct.impact.waterSavings} vs Avg
+                                                {language === 'KO' ? `평균 대비 ${textileProduct.impact.waterSavings} 절감` : `Saved ${textileProduct.impact.waterSavings} vs Avg`}
                                             </div>
                                         </div>
                                     </div>
                                     <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between h-32">
                                         <div className="flex justify-between items-start">
-                                            <span className="text-slate-900 font-bold text-sm">Carbon Footprint</span>
+                                            <span className="text-slate-900 font-bold text-sm">{language === 'KO' ? '탄소 발자국' : 'Carbon Footprint'}</span>
                                             <Wind className="w-5 h-5 text-slate-500" />
                                         </div>
                                         <div>
                                             <span className="text-3xl font-bold text-slate-700">{textileProduct.impact.co2}</span>
                                             <div className="text-[10px] text-slate-500 bg-white px-2 py-1 rounded inline-block mt-1 border border-slate-100">
-                                                Saved {textileProduct.impact.co2Savings}
+                                                {language === 'KO' ? `${textileProduct.impact.co2Savings} 절감` : `Saved ${textileProduct.impact.co2Savings}`}
                                             </div>
                                         </div>
                                     </div>
@@ -554,7 +554,7 @@ const DPPModule: React.FC = () => {
                                 <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-8">
                                     <h3 className="font-bold text-slate-900 mb-6 flex items-center gap-2">
                                         <Globe className="w-5 h-5 text-indigo-600" />
-                                        Product Journey
+                                        {language === 'KO' ? '제품 여정' : 'Product Journey'}
                                     </h3>
                                     <div className="relative pl-4 border-l-2 border-slate-100 space-y-8">
                                         {textileProduct.journey.map((step, index) => (
@@ -582,7 +582,7 @@ const DPPModule: React.FC = () => {
                                             onClick={() => setTextileTab('CHAIN')}
                                             className="text-xs font-bold text-slate-500 hover:text-indigo-600 flex items-center justify-center gap-1 transition-colors"
                                         >
-                                            View Full Map & Chain <ArrowRight className="w-3 h-3" />
+                                            {language === 'KO' ? '전체 지도 및 공급망 보기' : 'View Full Map & Chain'} <ArrowRight className="w-3 h-3" />
                                         </button>
                                     </div>
                                 </div>
@@ -593,9 +593,9 @@ const DPPModule: React.FC = () => {
                                         <Recycle className="w-6 h-6" />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-emerald-900 text-sm">End-of-Life Instructions</h4>
+                                        <h4 className="font-bold text-emerald-900 text-sm">{language === 'KO' ? '폐기 및 재활용 안내' : 'End-of-Life Instructions'}</h4>
                                         <p className="text-xs text-emerald-700 mt-1">
-                                            This product is designed for circularity. Scan the QR code to return it for recycling and get 15% off your next purchase.
+                                            {language === 'KO' ? '이 제품은 순환 사용을 고려해 설계되었습니다. QR 코드를 스캔해 재활용으로 반납하시면 다음 구매 시 15% 할인 혜택을 드립니다.' : 'This product is designed for circularity. Scan the QR code to return it for recycling and get 15% off your next purchase.'}
                                         </p>
                                     </div>
                                 </div>
@@ -612,7 +612,7 @@ const DPPModule: React.FC = () => {
                                 {/* 1. Background Image - Enhanced Visibility */}
                                 <img
                                     src="vendor-images/photo-1451187580459-43490279c0fa-w1200.jpg"
-                                    alt="World Map"
+                                    alt={language === 'KO' ? '세계 지도' : 'World Map'}
                                     className="absolute inset-0 w-full h-full object-cover opacity-70"
                                 />
 
@@ -626,7 +626,7 @@ const DPPModule: React.FC = () => {
 
                                 <div className="absolute top-4 left-4 z-10 bg-slate-800/80 backdrop-blur px-4 py-2 rounded-full border border-slate-600">
                                     <span className="text-white text-xs font-bold flex items-center gap-2">
-                                        <Globe className="w-4 h-4 text-emerald-400" /> Global Tracing
+                                        <Globe className="w-4 h-4 text-emerald-400" /> {language === 'KO' ? '글로벌 추적' : 'Global Tracing'}
                                     </span>
                                 </div>
 
@@ -697,7 +697,7 @@ const DPPModule: React.FC = () => {
                             <div>
                                 <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                                     <Building2 className="w-5 h-5 text-slate-500" />
-                                    Supplier Network
+                                    {language === 'KO' ? '공급업체 네트워크' : 'Supplier Network'}
                                 </h3>
                                 <div className="space-y-4">
                                     {textileProduct.journey.map((step) => (
@@ -726,22 +726,22 @@ const DPPModule: React.FC = () => {
                                             </div>
 
                                             <div className="md:w-1/3 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-6">
-                                                <span className="text-xs font-bold text-slate-400 uppercase block mb-1">Process Description</span>
+                                                <span className="text-xs font-bold text-slate-400 uppercase block mb-1">{language === 'KO' ? '공정 설명' : 'Process Description'}</span>
                                                 <p className="text-sm text-slate-700 leading-snug">{step.desc}</p>
                                                 <div className="flex gap-4 mt-3">
                                                     <div>
-                                                        <span className="block text-[10px] text-slate-400">Carbon</span>
+                                                        <span className="block text-[10px] text-slate-400">{language === 'KO' ? '탄소' : 'Carbon'}</span>
                                                         <span className="text-sm font-bold text-slate-800">{step.co2}</span>
                                                     </div>
                                                     <div>
-                                                        <span className="block text-[10px] text-slate-400">Water</span>
+                                                        <span className="block text-[10px] text-slate-400">{language === 'KO' ? '용수' : 'Water'}</span>
                                                         <span className="text-sm font-bold text-slate-800">{step.water}</span>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div className="md:w-1/3 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-6 flex flex-col justify-center items-start">
-                                                <span className="text-xs font-bold text-slate-400 uppercase block mb-2">Compliance & Audit</span>
+                                                <span className="text-xs font-bold text-slate-400 uppercase block mb-2">{language === 'KO' ? '컴플라이언스 및 감사' : 'Compliance & Audit'}</span>
                                                 <div className="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-lg text-xs font-bold border border-emerald-100">
                                                     <BadgeCheck className="w-4 h-4" />
                                                     {step.audit}
@@ -753,7 +753,7 @@ const DPPModule: React.FC = () => {
                                                     }}
                                                     className="text-[10px] text-blue-600 font-bold mt-2 hover:underline flex items-center gap-1 group"
                                                 >
-                                                    View Certificate <ExternalLink className="w-3 h-3 group-hover:scale-110 transition-transform" />
+                                                    {language === 'KO' ? '인증서 보기' : 'View Certificate'} <ExternalLink className="w-3 h-3 group-hover:scale-110 transition-transform" />
                                                 </button>
                                             </div>
                                         </div>
@@ -782,9 +782,9 @@ const DPPModule: React.FC = () => {
                         </div>
                         <div className="flex-1 relative z-10">
                             <div className="flex items-center gap-3 mb-2">
-                                <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Electronics</span>
+                                <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">{language === 'KO' ? '전자기기' : 'Electronics'}</span>
                                 <span className="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-1 rounded border border-emerald-200 flex items-center gap-1">
-                                    <CheckCircle2 className="w-3 h-3" /> Verified by DataSpace
+                                    <CheckCircle2 className="w-3 h-3" /> {language === 'KO' ? 'DataSpace 검증 완료' : 'Verified by DataSpace'}
                                 </span>
                             </div>
                             <h2 className="text-3xl font-extrabold text-slate-900 mb-2">{elecProduct.name}</h2>
@@ -795,19 +795,19 @@ const DPPModule: React.FC = () => {
                             <div className="grid grid-cols-3 gap-4">
                                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
                                     <div className="flex items-center gap-2 mb-1 text-slate-500 text-xs font-bold uppercase">
-                                        <Wrench className="w-3 h-3" /> Repairability
+                                        <Wrench className="w-3 h-3" /> {language === 'KO' ? '수리 용이성' : 'Repairability'}
                                     </div>
                                     <div className="text-2xl font-bold text-blue-600">{elecProduct.metrics.repairability}<span className="text-sm text-slate-400">/10</span></div>
                                 </div>
                                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
                                     <div className="flex items-center gap-2 mb-1 text-slate-500 text-xs font-bold uppercase">
-                                        <Recycle className="w-3 h-3" /> Recyclability
+                                        <Recycle className="w-3 h-3" /> {language === 'KO' ? '재활용성' : 'Recyclability'}
                                     </div>
                                     <div className="text-2xl font-bold text-emerald-600">{elecProduct.metrics.recyclability}<span className="text-sm text-slate-400">%</span></div>
                                 </div>
                                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
                                     <div className="flex items-center gap-2 mb-1 text-slate-500 text-xs font-bold uppercase">
-                                        <Wind className="w-3 h-3" /> Carbon Footprint
+                                        <Wind className="w-3 h-3" /> {language === 'KO' ? '탄소 발자국' : 'Carbon Footprint'}
                                     </div>
                                     <div className="text-2xl font-bold text-slate-800">{elecProduct.metrics.carbon}<span className="text-sm text-slate-400">kg</span></div>
                                 </div>
@@ -822,7 +822,7 @@ const DPPModule: React.FC = () => {
                         <div className="lg:col-span-1 space-y-4">
                             <h3 className="font-bold text-slate-900 flex items-center gap-2">
                                 <Layers className="w-5 h-5 text-blue-600" />
-                                Component Anatomy
+                                {language === 'KO' ? '부품 구성' : 'Component Anatomy'}
                             </h3>
                             <div className="space-y-3">
                                 {Object.entries(elecProduct.components).map(([key, data]) => {
@@ -852,16 +852,16 @@ const DPPModule: React.FC = () => {
                             
                             <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 mt-6">
                                 <h4 className="text-sm font-bold text-blue-800 mb-2 flex items-center gap-2">
-                                    <Hammer className="w-4 h-4" /> Repair Guide
+                                    <Hammer className="w-4 h-4" /> {language === 'KO' ? '수리 가이드' : 'Repair Guide'}
                                 </h4>
                                 <p className="text-xs text-blue-600 mb-3">
-                                    Official repair manuals and spare parts list available via Digital Product Passport.
+                                    {language === 'KO' ? '공식 수리 매뉴얼과 예비 부품 목록을 디지털 제품 여권에서 확인할 수 있습니다.' : 'Official repair manuals and spare parts list available via Digital Product Passport.'}
                                 </p>
                                 <button 
                                     onClick={() => setShowRepairModal(true)}
                                     className="w-full py-2 bg-blue-600 text-white text-xs font-bold rounded-lg hover:bg-blue-700 transition-colors"
                                 >
-                                    Access Repair Hub
+                                    {language === 'KO' ? '수리 허브 바로가기' : 'Access Repair Hub'}
                                 </button>
                             </div>
                         </div>
@@ -880,7 +880,7 @@ const DPPModule: React.FC = () => {
                                         </div>
                                     </div>
                                     <span className="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200 flex items-center gap-1">
-                                        <ShieldCheck className="w-3 h-3" /> Authenticated
+                                        <ShieldCheck className="w-3 h-3" /> {language === 'KO' ? '인증됨' : 'Authenticated'}
                                     </span>
                                 </div>
 
@@ -893,7 +893,7 @@ const DPPModule: React.FC = () => {
                                                     <Factory className="w-5 h-5 text-slate-400" />
                                                 </div>
                                                 <div>
-                                                    <span className="text-xs font-bold text-slate-400 uppercase block mb-1">Supplier</span>
+                                                    <span className="text-xs font-bold text-slate-400 uppercase block mb-1">{language === 'KO' ? '공급업체' : 'Supplier'}</span>
                                                     <span className="text-base font-bold text-slate-900 block">{elecProduct.components[elecComponent].supplier}</span>
                                                     <span className="text-xs text-slate-500 flex items-center gap-1 mt-1">
                                                         <MapPin className="w-3 h-3" /> {elecProduct.components[elecComponent].location}
@@ -908,9 +908,9 @@ const DPPModule: React.FC = () => {
                                                     <Leaf className="w-5 h-5 text-emerald-500" />
                                                 </div>
                                                 <div>
-                                                    <span className="text-xs font-bold text-slate-400 uppercase block mb-1">Environmental Impact</span>
+                                                    <span className="text-xs font-bold text-slate-400 uppercase block mb-1">{language === 'KO' ? '환경 영향' : 'Environmental Impact'}</span>
                                                     <span className="text-base font-bold text-slate-900 block">{elecProduct.components[elecComponent].pcf}</span>
-                                                    <span className="text-xs text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded mt-1 inline-block">ISO 14067 Verified</span>
+                                                    <span className="text-xs text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded mt-1 inline-block">ISO 14067 {language === 'KO' ? '검증' : 'Verified'}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -918,7 +918,7 @@ const DPPModule: React.FC = () => {
                                         {/* Material Composition */}
                                         <div className="flex-1 bg-slate-50 rounded-xl p-5 border border-slate-100">
                                             <h4 className="text-xs font-bold text-slate-500 uppercase mb-4 flex items-center gap-2">
-                                                <Database className="w-4 h-4" /> Material Composition & Sourcing
+                                                <Database className="w-4 h-4" /> {language === 'KO' ? '소재 구성 및 조달' : 'Material Composition & Sourcing'}
                                             </h4>
                                             <ul className="space-y-3">
                                                 {elecProduct.components[elecComponent].material.map((mat, i) => (
@@ -938,7 +938,7 @@ const DPPModule: React.FC = () => {
 
                                     {/* ENHANCED Value Chain Traceability (Animated) */}
                                     <div>
-                                        <h4 className="text-xs font-bold text-slate-500 uppercase mb-4">Value Chain Traceability</h4>
+                                        <h4 className="text-xs font-bold text-slate-500 uppercase mb-4">{language === 'KO' ? '밸류체인 추적성' : 'Value Chain Traceability'}</h4>
                                         <div className="relative h-24 overflow-hidden rounded-xl bg-slate-50 border border-slate-100 flex items-center">
                                             {/* Animated SVG Line */}
                                             <svg className="absolute inset-0 w-full h-full pointer-events-none">
@@ -960,7 +960,7 @@ const DPPModule: React.FC = () => {
                                                         
                                                         {/* Tooltip */}
                                                         <div className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-[10px] p-2 rounded shadow-lg w-24 text-center pointer-events-none z-20">
-                                                            Status: Verified<br/>Loc: {['Chile','Taiwan','Korea','Korea'][index]}
+                                                            {language === 'KO' ? '상태: 검증됨' : 'Status: Verified'}<br/>{language === 'KO' ? '위치' : 'Loc'}: {(language === 'KO' ? ['칠레','대만','한국','한국'] : ['Chile','Taiwan','Korea','Korea'])[index]}
                                                             <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800"></div>
                                                         </div>
                                                     </div>
@@ -978,7 +978,7 @@ const DPPModule: React.FC = () => {
                                         }}
                                         className="text-sm font-bold text-blue-600 hover:text-blue-800 flex items-center justify-end gap-1"
                                     >
-                                        Full Blockchain History <ArrowRight className="w-4 h-4" />
+                                        {language === 'KO' ? '전체 블록체인 이력' : 'Full Blockchain History'} <ArrowRight className="w-4 h-4" />
                                     </button>
                                 </div>
                             </div>
@@ -997,7 +997,7 @@ const DPPModule: React.FC = () => {
                                     <Wrench className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-lg text-slate-900">Official Repair Guide</h3>
+                                    <h3 className="font-bold text-lg text-slate-900">{language === 'KO' ? '공식 수리 가이드' : 'Official Repair Guide'}</h3>
                                     <p className="text-xs text-slate-500">{elecProduct.name} - {elecComponent}</p>
                                 </div>
                             </div>
@@ -1009,15 +1009,15 @@ const DPPModule: React.FC = () => {
                         <div className="p-6 flex-1 overflow-y-auto">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                                 <div className="p-4 bg-orange-50 rounded-xl border border-orange-100 text-center">
-                                    <span className="block text-xs font-bold text-orange-500 uppercase mb-1">Difficulty</span>
+                                    <span className="block text-xs font-bold text-orange-500 uppercase mb-1">{language === 'KO' ? '난이도' : 'Difficulty'}</span>
                                     <span className="text-lg font-bold text-orange-700">{repairData.difficulty}</span>
                                 </div>
                                 <div className="p-4 bg-blue-50 rounded-xl border border-blue-100 text-center">
-                                    <span className="block text-xs font-bold text-blue-500 uppercase mb-1">Est. Time</span>
+                                    <span className="block text-xs font-bold text-blue-500 uppercase mb-1">{language === 'KO' ? '예상 소요 시간' : 'Est. Time'}</span>
                                     <span className="text-lg font-bold text-blue-700">{repairData.time}</span>
                                 </div>
                                 <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100 text-center cursor-pointer hover:bg-emerald-100 transition-colors">
-                                    <span className="block text-xs font-bold text-emerald-500 uppercase mb-1">Manual</span>
+                                    <span className="block text-xs font-bold text-emerald-500 uppercase mb-1">{language === 'KO' ? '매뉴얼' : 'Manual'}</span>
                                     <span className="text-lg font-bold text-emerald-700 flex items-center justify-center gap-1">
                                         <Download className="w-4 h-4" /> PDF
                                     </span>
@@ -1027,7 +1027,7 @@ const DPPModule: React.FC = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div>
                                     <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                                        <PenTool className="w-4 h-4 text-slate-500" /> Required Tools
+                                        <PenTool className="w-4 h-4 text-slate-500" /> {language === 'KO' ? '필요 공구' : 'Required Tools'}
                                     </h4>
                                     <div className="flex flex-wrap gap-2 mb-6">
                                         {repairData.tools.map((tool, i) => (
@@ -1038,7 +1038,7 @@ const DPPModule: React.FC = () => {
                                     </div>
 
                                     <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                                        <Layers className="w-4 h-4 text-slate-500" /> Spare Parts
+                                        <Layers className="w-4 h-4 text-slate-500" /> {language === 'KO' ? '예비 부품' : 'Spare Parts'}
                                     </h4>
                                     <div className="space-y-2">
                                         {repairData.parts.map((part, i) => (
@@ -1054,7 +1054,7 @@ const DPPModule: React.FC = () => {
                                 </div>
 
                                 <div>
-                                    <h4 className="font-bold text-slate-900 mb-4">Repair Steps</h4>
+                                    <h4 className="font-bold text-slate-900 mb-4">{language === 'KO' ? '수리 절차' : 'Repair Steps'}</h4>
                                     <div className="space-y-4">
                                         {repairData.steps.map((step, i) => (
                                             <div key={i} className="flex gap-3">
@@ -1071,7 +1071,7 @@ const DPPModule: React.FC = () => {
                         
                         <div className="p-4 border-t border-slate-100 bg-slate-50 text-right">
                             <button onClick={() => setShowRepairModal(false)} className="px-6 py-2 bg-slate-900 text-white text-sm font-bold rounded-lg hover:bg-slate-800 transition-colors">
-                                Close Guide
+                                {language === 'KO' ? '가이드 닫기' : 'Close Guide'}
                             </button>
                         </div>
                     </div>
@@ -1088,7 +1088,7 @@ const DPPModule: React.FC = () => {
                                     <Database className="w-6 h-6 text-white" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-lg">Blockchain Ledger History</h3>
+                                    <h3 className="font-bold text-lg">{language === 'KO' ? '블록체인 원장 이력' : 'Blockchain Ledger History'}</h3>
                                     <p className="text-xs text-slate-400 font-mono">Asset ID: {elecProduct.components[elecComponent].passport}</p>
                                 </div>
                             </div>
@@ -1102,12 +1102,12 @@ const DPPModule: React.FC = () => {
                                 <table className="w-full text-left text-sm">
                                     <thead className="bg-white border-b border-slate-200 text-slate-500 font-medium">
                                         <tr>
-                                            <th className="px-6 py-4">Transaction Hash</th>
-                                            <th className="px-6 py-4">Block</th>
-                                            <th className="px-6 py-4">Timestamp</th>
-                                            <th className="px-6 py-4">Action</th>
-                                            <th className="px-6 py-4">Actor</th>
-                                            <th className="px-6 py-4 text-right">Status</th>
+                                            <th className="px-6 py-4">{language === 'KO' ? '트랜잭션 해시' : 'Transaction Hash'}</th>
+                                            <th className="px-6 py-4">{language === 'KO' ? '블록' : 'Block'}</th>
+                                            <th className="px-6 py-4">{language === 'KO' ? '타임스탬프' : 'Timestamp'}</th>
+                                            <th className="px-6 py-4">{language === 'KO' ? '작업' : 'Action'}</th>
+                                            <th className="px-6 py-4">{language === 'KO' ? '수행 주체' : 'Actor'}</th>
+                                            <th className="px-6 py-4 text-right">{language === 'KO' ? '상태' : 'Status'}</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-200 bg-white">
@@ -1122,7 +1122,7 @@ const DPPModule: React.FC = () => {
                                                 <td className="px-6 py-4 text-slate-600">{tx.actor}</td>
                                                 <td className="px-6 py-4 text-right">
                                                     <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full border border-emerald-200">
-                                                        Confirmed
+                                                        {language === 'KO' ? '확정됨' : 'Confirmed'}
                                                     </span>
                                                 </td>
                                             </tr>
@@ -1136,20 +1136,20 @@ const DPPModule: React.FC = () => {
                                 <div className="flex justify-between items-center mb-6">
                                     <h4 className="text-sm font-bold text-slate-800 flex items-center gap-2">
                                         <Blocks className="w-4 h-4 text-slate-500" />
-                                        Latest Block Visualization
+                                        {language === 'KO' ? '최신 블록 시각화' : 'Latest Block Visualization'}
                                     </h4>
                                     <div className="bg-white rounded-lg p-1 border border-slate-200 flex gap-1">
                                         <button 
                                             onClick={() => setBlockVisualMode('VISUAL')}
                                             className={`px-3 py-1 rounded text-[10px] font-bold transition-colors ${blockVisualMode === 'VISUAL' ? 'bg-blue-600 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
                                         >
-                                            Visual Card
+                                            {language === 'KO' ? '시각 카드' : 'Visual Card'}
                                         </button>
                                         <button 
                                             onClick={() => setBlockVisualMode('JSON')}
                                             className={`px-3 py-1 rounded text-[10px] font-bold transition-colors ${blockVisualMode === 'JSON' ? 'bg-blue-600 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
                                         >
-                                            Raw JSON
+                                            {language === 'KO' ? '원본 JSON' : 'Raw JSON'}
                                         </button>
                                     </div>
                                 </div>
@@ -1165,7 +1165,7 @@ const DPPModule: React.FC = () => {
                                                         #{latestBlockData.blockNumber.toString().slice(-2)}
                                                     </div>
                                                     <div>
-                                                        <span className="text-[10px] text-slate-400 uppercase font-bold block">Block Height</span>
+                                                        <span className="text-[10px] text-slate-400 uppercase font-bold block">{language === 'KO' ? '블록 높이' : 'Block Height'}</span>
                                                         <span className="font-mono font-bold text-slate-800">{latestBlockData.blockNumber}</span>
                                                     </div>
                                                 </div>
@@ -1173,7 +1173,7 @@ const DPPModule: React.FC = () => {
                                             </div>
                                             <div className="p-5 space-y-4">
                                                 <div>
-                                                    <span className="text-[10px] text-slate-400 uppercase font-bold block mb-1">State Root</span>
+                                                    <span className="text-[10px] text-slate-400 uppercase font-bold block mb-1">{language === 'KO' ? '스테이트 루트' : 'State Root'}</span>
                                                     <div className="flex items-center gap-2 bg-slate-50 p-2 rounded border border-slate-100">
                                                         <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></div>
                                                         <code className="text-xs text-purple-600 truncate flex-1">{latestBlockData.stateRoot}</code>
@@ -1182,17 +1182,17 @@ const DPPModule: React.FC = () => {
                                                 </div>
                                                 <div className="grid grid-cols-2 gap-4">
                                                     <div className="p-3 border border-slate-100 rounded-lg text-center bg-white shadow-sm">
-                                                        <span className="text-[10px] text-slate-400 uppercase font-bold block">Transactions</span>
+                                                        <span className="text-[10px] text-slate-400 uppercase font-bold block">{language === 'KO' ? '트랜잭션 수' : 'Transactions'}</span>
                                                         <span className="text-xl font-bold text-slate-800">1,245</span>
                                                     </div>
                                                     <div className="p-3 border border-slate-100 rounded-lg text-center bg-white shadow-sm">
-                                                        <span className="text-[10px] text-slate-400 uppercase font-bold block">Gas Used</span>
+                                                        <span className="text-[10px] text-slate-400 uppercase font-bold block">{language === 'KO' ? '사용 가스' : 'Gas Used'}</span>
                                                         <span className="text-xl font-bold text-slate-800">{latestBlockData.gasUsed}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="p-3 bg-slate-50 border-t border-slate-100 text-center text-xs text-slate-500 font-mono">
-                                                Validator: {latestBlockData.validator}
+                                                {language === 'KO' ? '검증자' : 'Validator'}: {latestBlockData.validator}
                                             </div>
                                         </div>
 
@@ -1204,7 +1204,7 @@ const DPPModule: React.FC = () => {
                                             </div>
                                             
                                             <div className="relative z-10 w-full">
-                                                <div className="text-[10px] text-emerald-400 font-mono mb-4 uppercase tracking-widest">Merkle Tree Verification</div>
+                                                <div className="text-[10px] text-emerald-400 font-mono mb-4 uppercase tracking-widest">{language === 'KO' ? '머클 트리 검증' : 'Merkle Tree Verification'}</div>
                                                 
                                                 {/* Tree Structure */}
                                                 <div className="flex flex-col items-center gap-4">
@@ -1335,7 +1335,7 @@ const DPPModule: React.FC = () => {
                                         </div>
                                         <div className="p-6 flex-1 overflow-y-auto space-y-6">
                                             <div>
-                                                <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">Facility Info</h4>
+                                                <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">{language === 'KO' ? '사업장 정보' : 'Facility Info'}</h4>
                                                 <div className="space-y-2 text-sm text-slate-700">
                                                     <div className="flex items-center gap-2">
                                                         <MapPin className="w-4 h-4 text-slate-400" />
@@ -1348,7 +1348,7 @@ const DPPModule: React.FC = () => {
                                             </div>
 
                                             <div>
-                                                <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">Sustainability (PCF)</h4>
+                                                <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">{language === 'KO' ? '지속가능성 (PCF)' : 'Sustainability (PCF)'}</h4>
                                                 <div className="flex items-center gap-3 p-3 bg-emerald-50 rounded-lg border border-emerald-100">
                                                     <div className="p-2 bg-white rounded-full text-emerald-600 shadow-sm">
                                                         <Leaf className="w-5 h-5" />
@@ -1361,7 +1361,7 @@ const DPPModule: React.FC = () => {
                                             </div>
 
                                             <div>
-                                                <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">Compliance Status</h4>
+                                                <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">{language === 'KO' ? '컴플라이언스 현황' : 'Compliance Status'}</h4>
                                                 <div className="flex gap-2">
                                                     <span className="px-2 py-1 bg-blue-50 text-blue-700 text-xs font-bold rounded border border-blue-100 flex items-center gap-1">
                                                         <ShieldCheck className="w-3 h-3" /> ISO 14001
@@ -1374,14 +1374,14 @@ const DPPModule: React.FC = () => {
                                         </div>
                                         <div className="p-4 border-t border-slate-100 bg-slate-50 text-center">
                                             <button className="text-xs font-bold text-blue-600 hover:underline flex items-center justify-center gap-1">
-                                                View Full Profile <ExternalLink className="w-3 h-3" />
+                                                {language === 'KO' ? '전체 프로필 보기' : 'View Full Profile'} <ExternalLink className="w-3 h-3" />
                                             </button>
                                         </div>
                                     </>
                                 ) : (
                                     <div className="flex-1 flex flex-col items-center justify-center text-slate-400 p-6 text-center">
                                         <Info className="w-12 h-12 mb-2 opacity-20" />
-                                        <p className="text-sm">Select a node to view details</p>
+                                        <p className="text-sm">{language === 'KO' ? '노드를 선택하면 상세 정보가 표시됩니다' : 'Select a node to view details'}</p>
                                     </div>
                                 )}
                             </div>
@@ -1396,8 +1396,8 @@ const DPPModule: React.FC = () => {
                                 {/* Me (Hanguk Mold) */}
                                 <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex justify-between items-center relative overflow-hidden">
                                     <div className="relative z-10">
-                                        <span className="inline-block px-2 py-0.5 bg-emerald-400 text-white text-[10px] font-bold rounded-full mb-2">Me</span>
-                                        <div className="text-xs text-slate-400 font-bold uppercase mb-1">Company</div>
+                                        <span className="inline-block px-2 py-0.5 bg-emerald-400 text-white text-[10px] font-bold rounded-full mb-2">{language === 'KO' ? '자사' : 'Me'}</span>
+                                        <div className="text-xs text-slate-400 font-bold uppercase mb-1">{language === 'KO' ? '기업' : 'Company'}</div>
                                         <h3 className="text-lg font-bold text-slate-900 mb-1">HANGUK MOLD</h3>
                                         <p className="text-xs text-slate-500">www.hkmold.com</p>
                                         <p className="text-xs text-slate-500">ID#34EF56A</p>
@@ -1412,7 +1412,7 @@ const DPPModule: React.FC = () => {
 
                                 {/* Data Transmission Arrow */}
                                 <div className="flex flex-col items-center justify-center text-emerald-500 gap-2">
-                                    <div className="px-4 py-1.5 bg-emerald-400 text-white text-xs font-bold rounded-full shadow-sm">Data transmission</div>
+                                    <div className="px-4 py-1.5 bg-emerald-400 text-white text-xs font-bold rounded-full shadow-sm">{language === 'KO' ? '데이터 전송' : 'Data transmission'}</div>
                                     <div className="flex items-center gap-1">
                                         <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
                                         <div className="h-0.5 w-16 bg-emerald-400"></div>
@@ -1423,8 +1423,8 @@ const DPPModule: React.FC = () => {
                                 {/* Sub Tier (Hyundai) */}
                                 <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex justify-between items-center relative overflow-hidden">
                                     <div className="relative z-10">
-                                        <span className="inline-block px-2 py-0.5 bg-slate-600 text-white text-[10px] font-bold rounded-full mb-2">Sub Tier</span>
-                                        <div className="text-xs text-slate-400 font-bold uppercase mb-1">Company</div>
+                                        <span className="inline-block px-2 py-0.5 bg-slate-600 text-white text-[10px] font-bold rounded-full mb-2">{language === 'KO' ? '하위 티어' : 'Sub Tier'}</span>
+                                        <div className="text-xs text-slate-400 font-bold uppercase mb-1">{language === 'KO' ? '기업' : 'Company'}</div>
                                         <h3 className="text-lg font-bold text-slate-900 mb-1">HYUNDAI</h3>
                                         <p className="text-xs text-slate-500">www.hyundai.com</p>
                                         <p className="text-xs text-slate-500">ID#75AC872</p>
@@ -1447,14 +1447,14 @@ const DPPModule: React.FC = () => {
                                 <div className="flex items-center justify-between mb-6">
                                     <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
                                         <Leaf className="w-6 h-6 text-emerald-500" />
-                                        Product Carbon Footprint (LCA)
+                                        {language === 'KO' ? '제품 탄소발자국 (LCA)' : 'Product Carbon Footprint (LCA)'}
                                     </h2>
                                     {selectedPcfId && (
                                         <button 
                                             onClick={() => setSelectedPcfId(null)}
                                             className="px-4 py-2 border border-slate-200 rounded-lg text-sm text-slate-600 font-bold hover:bg-slate-50 flex items-center gap-2"
                                         >
-                                            <ArrowLeft className="w-4 h-4" /> Back to List
+                                            <ArrowLeft className="w-4 h-4" /> {language === 'KO' ? '목록으로' : 'Back to List'}
                                         </button>
                                     )}
                                 </div>
@@ -1464,21 +1464,21 @@ const DPPModule: React.FC = () => {
                                     /* PCF PRODUCT LIST */
                                     <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden animate-fadeIn">
                                         <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                                            <h3 className="font-bold text-slate-900">Product List</h3>
+                                            <h3 className="font-bold text-slate-900">{language === 'KO' ? '제품 목록' : 'Product List'}</h3>
                                             <div className="relative">
-                                                <input type="text" placeholder="search" className="pl-8 pr-4 py-1.5 rounded border border-slate-200 text-sm focus:outline-none focus:border-blue-500" />
+                                                <input type="text" placeholder={language === 'KO' ? '검색' : 'search'} className="pl-8 pr-4 py-1.5 rounded border border-slate-200 text-sm focus:outline-none focus:border-blue-500" />
                                                 <Search className="w-4 h-4 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
                                             </div>
                                         </div>
                                         <table className="w-full text-left text-sm">
                                             <thead className="bg-white text-slate-500 font-medium border-b border-slate-100">
                                                 <tr>
-                                                    <th className="px-6 py-4">NO</th>
-                                                    <th className="px-6 py-4">Product</th>
-                                                    <th className="px-6 py-4">Product ID</th>
+                                                    <th className="px-6 py-4">{language === 'KO' ? '번호' : 'NO'}</th>
+                                                    <th className="px-6 py-4">{language === 'KO' ? '제품' : 'Product'}</th>
+                                                    <th className="px-6 py-4">{language === 'KO' ? '제품 ID' : 'Product ID'}</th>
                                                     <th className="px-6 py-4 text-right">CO2EQ [kg/prd]</th>
-                                                    <th className="px-6 py-4">Last update</th>
-                                                    <th className="px-6 py-4 text-center">Status</th>
+                                                    <th className="px-6 py-4">{language === 'KO' ? '최종 업데이트' : 'Last update'}</th>
+                                                    <th className="px-6 py-4 text-center">{language === 'KO' ? '상태' : 'Status'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-slate-50">
@@ -1490,8 +1490,8 @@ const DPPModule: React.FC = () => {
                                                         <td className="px-6 py-4 text-right font-bold text-slate-900">{p.co2PerUnit}</td>
                                                         <td className="px-6 py-4 text-slate-500">{p.lastUpdate}</td>
                                                         <td className="px-6 py-4 text-center">
-                                                            {p.status === 'YES' && <span className="inline-block px-3 py-1 bg-emerald-400 text-white text-xs font-bold rounded-full">YES</span>}
-                                                            {p.status === 'DONE' && <span className="inline-block px-3 py-1 bg-slate-200 text-slate-500 text-xs font-bold rounded-full">DONE</span>}
+                                                            {p.status === 'YES' && <span className="inline-block px-3 py-1 bg-emerald-400 text-white text-xs font-bold rounded-full">{language === 'KO' ? '예' : 'YES'}</span>}
+                                                            {p.status === 'DONE' && <span className="inline-block px-3 py-1 bg-slate-200 text-slate-500 text-xs font-bold rounded-full">{language === 'KO' ? '완료' : 'DONE'}</span>}
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -1503,7 +1503,7 @@ const DPPModule: React.FC = () => {
                                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-fadeIn">
                                         {/* Left: Product Info & Image */}
                                         <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center">
-                                            <span className="px-4 py-1.5 bg-slate-900 text-white text-xs font-bold rounded-full mb-6 uppercase tracking-wider">Selected Product</span>
+                                            <span className="px-4 py-1.5 bg-slate-900 text-white text-xs font-bold rounded-full mb-6 uppercase tracking-wider">{language === 'KO' ? '선택한 제품' : 'Selected Product'}</span>
                                             <h2 className="text-2xl font-bold text-slate-900 mb-8">{activeAutoProduct?.name}</h2>
                                             
                                             <div className="w-full max-w-sm mb-8 relative">
@@ -1512,7 +1512,7 @@ const DPPModule: React.FC = () => {
 
                                             <div className="w-full space-y-3 text-sm">
                                                 <div className="flex justify-between py-2 border-b border-slate-50">
-                                                    <span className="text-emerald-500 font-medium">Product ID</span>
+                                                    <span className="text-emerald-500 font-medium">{language === 'KO' ? '제품 ID' : 'Product ID'}</span>
                                                     <span className="font-bold text-slate-900">HKMOLD-{activeAutoProduct?.id}</span>
                                                 </div>
                                                 <div className="flex justify-between py-2 border-b border-slate-50">
@@ -1520,7 +1520,7 @@ const DPPModule: React.FC = () => {
                                                     <span className="font-bold text-slate-900">{activeAutoProduct?.partNumber}</span>
                                                 </div>
                                                 <div className="flex justify-between py-2 border-b border-slate-50">
-                                                    <span className="text-emerald-500 font-medium">Production time</span>
+                                                    <span className="text-emerald-500 font-medium">{language === 'KO' ? '생산 시점' : 'Production time'}</span>
                                                     <span className="font-bold text-slate-900">{activeAutoProduct?.productionTime}</span>
                                                 </div>
                                             </div>
@@ -1535,7 +1535,7 @@ const DPPModule: React.FC = () => {
                                                 <div className="bg-white p-2 rounded-lg w-full aspect-square flex items-center justify-center overflow-hidden">
                                                     <img 
                                                         src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://korea.io/dpp/product/${activeAutoProduct?.id}`}
-                                                        alt="DPP QR Code" 
+                                                        alt={language === 'KO' ? 'DPP QR 코드' : 'DPP QR Code'} 
                                                         className="w-full h-full object-contain"
                                                     />
                                                 </div>
@@ -1551,15 +1551,15 @@ const DPPModule: React.FC = () => {
                                             {/* Sankey Diagram Card */}
                                             <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
                                                 <div className="flex justify-center mb-4">
-                                                    <span className="px-4 py-1.5 bg-slate-900 text-white text-xs font-bold rounded-full uppercase tracking-wider">Product Carbon Footprint</span>
+                                                    <span className="px-4 py-1.5 bg-slate-900 text-white text-xs font-bold rounded-full uppercase tracking-wider">{language === 'KO' ? '제품 탄소발자국' : 'Product Carbon Footprint'}</span>
                                                 </div>
                                                 
                                                 <div className="relative h-64 w-full flex items-center justify-center mt-4">
                                                     {/* Vehicle (Source) */}
                                                     <div className="absolute left-0 top-1/2 -translate-y-1/2 text-center z-10">
-                                                        <img src={activeAutoProduct?.imageUrl} className="w-32 h-20 object-cover mb-2 rounded-lg shadow-sm bg-white" alt="Car" />
+                                                        <img src={activeAutoProduct?.imageUrl} className="w-32 h-20 object-cover mb-2 rounded-lg shadow-sm bg-white" alt={language === 'KO' ? '차량' : 'Car'} />
                                                         <div className="text-xs font-bold">{activeAutoProduct?.name.split(' ')[0]}</div>
-                                                        <div className="text-[10px] text-emerald-600 font-bold">Total CO2eq</div>
+                                                        <div className="text-[10px] text-emerald-600 font-bold">{language === 'KO' ? '총 CO2eq' : 'Total CO2eq'}</div>
                                                         <div className="text-xl font-bold text-slate-900">{activeAutoProduct?.totalCo2}</div>
                                                         <div className="text-[10px] text-slate-400">Ton</div>
                                                     </div>
@@ -1575,19 +1575,19 @@ const DPPModule: React.FC = () => {
 
                                                     {/* Breakdown Labels */}
                                                     <div className="absolute right-0 top-0 bottom-0 flex flex-col justify-between py-6 text-[10px] text-slate-600 font-medium text-right pr-4">
-                                                        <span>Powertrain</span>
-                                                        <span>Body</span>
+                                                        <span>{language === 'KO' ? '파워트레인' : 'Powertrain'}</span>
+                                                        <span>{language === 'KO' ? '차체' : 'Body'}</span>
                                                         <div className="relative pr-2">
                                                             <div className="text-xs font-bold text-slate-900">{activeAutoProduct?.name}</div>
                                                             <div className="text-emerald-500 font-bold">CO2eq {activeAutoProduct?.co2PerUnit}</div>
                                                             <div className="text-slate-400">kg/ea</div>
                                                             {/* Line pointing to part */}
                                                             <div className="absolute top-1/2 right-full w-16 h-px bg-slate-300 mr-2"></div>
-                                                            <img src={activeAutoProduct?.imageUrl} className="absolute top-full right-0 w-20 mt-1 border border-white shadow-sm rounded bg-white" alt="Part" />
+                                                            <img src={activeAutoProduct?.imageUrl} className="absolute top-full right-0 w-20 mt-1 border border-white shadow-sm rounded bg-white" alt={language === 'KO' ? '부품' : 'Part'} />
                                                         </div>
-                                                        <span>Chassis</span>
-                                                        <span>Electric</span>
-                                                        <span>Safety</span>
+                                                        <span>{language === 'KO' ? '섀시' : 'Chassis'}</span>
+                                                        <span>{language === 'KO' ? '전장' : 'Electric'}</span>
+                                                        <span>{language === 'KO' ? '안전' : 'Safety'}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1597,7 +1597,7 @@ const DPPModule: React.FC = () => {
                                                 {/* Upper Tier */}
                                                 <div className="relative">
                                                     <div className="absolute -left-[45px] top-1/2 -translate-y-1/2 flex items-center gap-2">
-                                                        <span className="text-xs font-bold text-slate-900">Upper tier</span>
+                                                        <span className="text-xs font-bold text-slate-900">{language === 'KO' ? '상위 티어' : 'Upper tier'}</span>
                                                         <div className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold">1</div>
                                                     </div>
                                                     <div className="bg-white p-4 rounded-xl shadow-md border border-slate-100 flex items-center justify-center h-20 w-64">
@@ -1614,7 +1614,7 @@ const DPPModule: React.FC = () => {
                                                 <div className="relative">
                                                     <div className="absolute -left-[14px] top-1/2 -translate-y-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[10px] border-b-slate-300"></div>
                                                     <div className="absolute -left-[120px] top-1/2 -translate-y-1/2 text-right">
-                                                        <span className="text-xs font-bold text-emerald-500 block">Manufacturer</span>
+                                                        <span className="text-xs font-bold text-emerald-500 block">{language === 'KO' ? '제조사' : 'Manufacturer'}</span>
                                                     </div>
                                                     <div className="bg-white p-4 rounded-xl shadow-lg border-2 border-slate-100 flex items-center justify-center h-24 w-64 transform scale-105">
                                                         <div className="flex items-center gap-2">
@@ -1628,7 +1628,7 @@ const DPPModule: React.FC = () => {
                                                 <div className="relative">
                                                     <div className="absolute -left-[14px] top-1/2 -translate-y-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[10px] border-b-slate-300"></div>
                                                     <div className="absolute -left-[45px] top-1/2 -translate-y-1/2 flex items-center gap-2">
-                                                        <span className="text-xs font-bold text-slate-900">Lower tier</span>
+                                                        <span className="text-xs font-bold text-slate-900">{language === 'KO' ? '하위 티어' : 'Lower tier'}</span>
                                                         <div className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold">1</div>
                                                     </div>
                                                     <div className="bg-white p-4 rounded-xl shadow-md border border-slate-100 flex items-center justify-center h-20 w-64">
@@ -1652,9 +1652,9 @@ const DPPModule: React.FC = () => {
                                 {/* Left: Data Transaction History */}
                                 <div className="space-y-4">
                                     <div className="flex items-center justify-between">
-                                        <h3 className="font-bold text-slate-900">Data Transaction History</h3>
+                                        <h3 className="font-bold text-slate-900">{language === 'KO' ? '데이터 거래 이력' : 'Data Transaction History'}</h3>
                                         <div className="relative w-48">
-                                            <input type="text" placeholder="search" className="w-full pl-8 pr-3 py-1.5 rounded border border-slate-200 text-xs focus:outline-none focus:border-blue-500" />
+                                            <input type="text" placeholder={language === 'KO' ? '검색' : 'search'} className="w-full pl-8 pr-3 py-1.5 rounded border border-slate-200 text-xs focus:outline-none focus:border-blue-500" />
                                             <Search className="w-3 h-3 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
                                         </div>
                                     </div>
@@ -1663,9 +1663,9 @@ const DPPModule: React.FC = () => {
                                         <table className="w-full text-left text-xs">
                                             <thead className="bg-slate-50 text-slate-500 font-medium">
                                                 <tr>
-                                                    <th className="px-4 py-3">NO</th>
-                                                    <th className="px-4 py-3">Process ID</th>
-                                                    <th className="px-4 py-3 text-right">Date</th>
+                                                    <th className="px-4 py-3">{language === 'KO' ? '번호' : 'NO'}</th>
+                                                    <th className="px-4 py-3">{language === 'KO' ? '프로세스 ID' : 'Process ID'}</th>
+                                                    <th className="px-4 py-3 text-right">{language === 'KO' ? '일자' : 'Date'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-slate-50">
@@ -1679,7 +1679,7 @@ const DPPModule: React.FC = () => {
                                             </tbody>
                                         </table>
                                         <div className="p-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                                            <span className="text-slate-500">Show <span className="border px-1 rounded">10</span> Entries 1-4 of 4</span>
+                                            <span className="text-slate-500">{language === 'KO' ? '표시 ' : 'Show '}<span className="border px-1 rounded">10</span>{language === 'KO' ? '개 · 전체 4건 중 1-4건' : ' Entries 1-4 of 4'}</span>
                                             <div className="flex gap-1">
                                                 <button className="w-6 h-6 flex items-center justify-center border rounded text-slate-400">&lt;</button>
                                                 <button className="w-6 h-6 flex items-center justify-center bg-emerald-400 text-white rounded font-bold">1</button>
@@ -1690,42 +1690,42 @@ const DPPModule: React.FC = () => {
 
                                     {/* Contract Info */}
                                     <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 mt-8">
-                                        <h3 className="font-bold text-slate-900 mb-6 border-b border-slate-100 pb-2">Contract Information</h3>
+                                        <h3 className="font-bold text-slate-900 mb-6 border-b border-slate-100 pb-2">{language === 'KO' ? '계약 정보' : 'Contract Information'}</h3>
                                         
                                         <div className="flex items-center gap-4 mb-6">
                                             <div className="w-12 h-12 rounded-full bg-emerald-400 flex items-center justify-center text-white">
                                                 <FileText className="w-6 h-6" />
                                             </div>
                                             <h4 className="font-bold text-slate-900 leading-tight">
-                                                Electronic Data Capture<br/>Contract
+                                                {language === 'KO' ? '전자 데이터 수집' : 'Electronic Data Capture'}<br/>{language === 'KO' ? '계약' : 'Contract'}
                                             </h4>
                                         </div>
 
                                         <div className="space-y-4 text-xs">
                                             <div className="grid grid-cols-3 gap-4 pb-4 border-b border-slate-50">
-                                                <span className="font-bold text-slate-900">Contract Signing Date</span>
+                                                <span className="font-bold text-slate-900">{language === 'KO' ? '계약 체결일' : 'Contract Signing Date'}</span>
                                                 <span className="col-span-2 text-slate-600">2021.11.05</span>
                                             </div>
                                             <div className="grid grid-cols-3 gap-4 pb-4 border-b border-slate-50">
-                                                <span className="font-bold text-slate-900">Contract End Date</span>
+                                                <span className="font-bold text-slate-900">{language === 'KO' ? '계약 종료일' : 'Contract End Date'}</span>
                                                 <span className="col-span-2 text-slate-600">2025.11.04</span>
                                             </div>
                                             <div className="grid grid-cols-3 gap-4 pb-4 border-b border-slate-50">
-                                                <span className="font-bold text-slate-900">Data Transaction Scope</span>
+                                                <span className="font-bold text-slate-900">{language === 'KO' ? '데이터 거래 범위' : 'Data Transaction Scope'}</span>
                                                 <div className="col-span-2 text-slate-600 space-y-1">
-                                                    <p>1. <span className="font-bold">CO2Eq</span>: CO2 footprint equivalent emitted per one product.</p>
-                                                    <p>2. <span className="font-bold">BOM</span>: Bill of Materials, listing the type and number of all parts included in one product.</p>
-                                                    <p>3. <span className="font-bold">Routing Data</span>: describing the processes and the resources needed to complete one product.</p>
+                                                    <p>1. <span className="font-bold">CO2Eq</span>: {language === 'KO' ? '제품 1개를 생산할 때 배출되는 탄소 배출량 등가값.' : 'CO2 footprint equivalent emitted per one product.'}</p>
+                                                    <p>2. <span className="font-bold">BOM</span>: {language === 'KO' ? '자재 명세서. 제품 1개에 포함된 모든 부품의 종류와 수량을 기재합니다.' : 'Bill of Materials, listing the type and number of all parts included in one product.'}</p>
+                                                    <p>3. <span className="font-bold">Routing Data</span>: {language === 'KO' ? '제품 1개를 완성하는 데 필요한 공정과 자원을 기술합니다.' : 'describing the processes and the resources needed to complete one product.'}</p>
                                                 </div>
                                             </div>
                                             <div className="grid grid-cols-3 gap-4 pb-4 border-b border-slate-50">
-                                                <span className="font-bold text-slate-900">Data Transaction Cost</span>
-                                                <span className="col-span-2 text-slate-600">100 USD / 100,000 Calls</span>
+                                                <span className="font-bold text-slate-900">{language === 'KO' ? '데이터 거래 비용' : 'Data Transaction Cost'}</span>
+                                                <span className="col-span-2 text-slate-600">100 USD / 100,000 {language === 'KO' ? '호출' : 'Calls'}</span>
                                             </div>
                                             <div className="grid grid-cols-3 gap-4">
-                                                <span className="font-bold text-slate-900">Payment Terms</span>
+                                                <span className="font-bold text-slate-900">{language === 'KO' ? '결제 조건' : 'Payment Terms'}</span>
                                                 <span className="col-span-2 text-slate-600">
-                                                    USD or equivalent tokens<br/>On end date of every month
+                                                    {language === 'KO' ? 'USD 또는 동등 가치의 토큰' : 'USD or equivalent tokens'}<br/>{language === 'KO' ? '매월 말일 결제' : 'On end date of every month'}
                                                 </span>
                                             </div>
                                         </div>
@@ -1735,7 +1735,7 @@ const DPPModule: React.FC = () => {
                                 {/* Right: Inspection & Product Details (Vertical Layout) */}
                                 <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200 flex flex-col items-center">
                                     <div className="flex justify-between w-full items-center mb-6">
-                                        <span className="px-4 py-1.5 bg-slate-900 text-white text-xs font-bold rounded-full uppercase tracking-wider">Product Quality</span>
+                                        <span className="px-4 py-1.5 bg-slate-900 text-white text-xs font-bold rounded-full uppercase tracking-wider">{language === 'KO' ? '제품 품질' : 'Product Quality'}</span>
                                         <button className="text-slate-400 hover:text-slate-600">
                                             <ExternalLink className="w-5 h-5" />
                                         </button>
@@ -1745,7 +1745,7 @@ const DPPModule: React.FC = () => {
                                     
                                     <div className="w-full space-y-3 text-sm mb-8 bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
                                         <div className="flex justify-between py-2 border-b border-slate-50">
-                                            <span className="text-emerald-500 font-medium">Product ID</span>
+                                            <span className="text-emerald-500 font-medium">{language === 'KO' ? '제품 ID' : 'Product ID'}</span>
                                             <span className="font-bold text-slate-900">HKMOLD-{activeAutoProduct?.id}</span>
                                         </div>
                                         <div className="flex justify-between py-2 border-b border-slate-50">
@@ -1753,12 +1753,12 @@ const DPPModule: React.FC = () => {
                                             <span className="font-bold text-slate-900">{activeAutoProduct?.partNumber}</span>
                                         </div>
                                         <div className="flex justify-between py-2">
-                                            <span className="text-emerald-500 font-medium">Production time</span>
+                                            <span className="text-emerald-500 font-medium">{language === 'KO' ? '생산 시점' : 'Production time'}</span>
                                             <span className="font-bold text-slate-900">{activeAutoProduct?.productionTime}</span>
                                         </div>
                                     </div>
 
-                                    <h3 className="text-lg font-medium text-slate-900 mb-4">Inspection.AI Result</h3>
+                                    <h3 className="text-lg font-medium text-slate-900 mb-4">Inspection.AI {language === 'KO' ? '결과' : 'Result'}</h3>
                                     
                                     <div className="w-full bg-black rounded-xl overflow-hidden shadow-lg mb-6 flex flex-col">
                                         {/* Top Half - Defects 1, 2, 3 */}
@@ -1778,7 +1778,7 @@ const DPPModule: React.FC = () => {
                                                 <span className="bg-white text-black font-bold text-[10px] w-4 h-4 flex items-center justify-center">3</span>
                                             </div>
                                             
-                                            <div className="absolute top-2 left-2 bg-black/60 text-white text-[9px] px-2 py-0.5 rounded backdrop-blur-sm">Front View</div>
+                                            <div className="absolute top-2 left-2 bg-black/60 text-white text-[9px] px-2 py-0.5 rounded backdrop-blur-sm">{language === 'KO' ? '전면 뷰' : 'Front View'}</div>
                                         </div>
 
                                         {/* Bottom Half - Defects 4, 5, 6 */}
@@ -1798,7 +1798,7 @@ const DPPModule: React.FC = () => {
                                                 <span className="bg-white text-black font-bold text-[10px] w-4 h-4 flex items-center justify-center">6</span>
                                             </div>
 
-                                            <div className="absolute top-2 left-2 bg-black/60 text-white text-[9px] px-2 py-0.5 rounded backdrop-blur-sm">Side/Rear View</div>
+                                            <div className="absolute top-2 left-2 bg-black/60 text-white text-[9px] px-2 py-0.5 rounded backdrop-blur-sm">{language === 'KO' ? '측면/후면 뷰' : 'Side/Rear View'}</div>
                                         </div>
 
                                         {/* Thumbnails Strip */}

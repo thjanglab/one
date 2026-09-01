@@ -38,7 +38,7 @@ const Tutorial: React.FC = () => {
       icon: <Network className="w-6 h-6 text-indigo-600" />,
       steps: [
         { 
-            title: '1. Trust & Identity (MIW/DAPS)', 
+            title: language === 'KO' ? '1. 신뢰 및 신원 인증 (MIW/DAPS)' : '1. Trust & Identity (MIW/DAPS)', 
             description: language === 'KO' 
                 ? '신뢰 구축 단계입니다. 모든 참여자(Connector)는 BPN(Business Partner Number)과 검증된 자격 증명(VC)을 사용하여 중앙 신원 공급자(MIW/DAPS)로부터 인증 토큰을 발급받아야 네트워크에 참여할 수 있습니다.' 
                 : 'Trust Establishment phase. All participants (Connectors) must authenticate with the central Identity Provider (MIW/DAPS) using BPN and Verifiable Credentials (VC) to join the network.',
@@ -46,7 +46,7 @@ const Tutorial: React.FC = () => {
             demoImage: 'vendor-images/photo-1639322537228-f710d846310a-w1200.jpg' 
         },
         { 
-            title: '2. Asset & Contract Definition', 
+            title: language === 'KO' ? '2. 자산 및 계약 정의' : '2. Asset & Contract Definition', 
             description: language === 'KO' 
                 ? '제공자(Provider)는 데이터 소스를 자산(Asset)으로 등록하고, "특정 기간 사용" 또는 "목적 제한"과 같은 ODRL 기반의 사용 정책(Policy)을 정의하여 계약 정의(Contract Definition)를 생성합니다.' 
                 : 'The Provider registers data sources as Assets and defines ODRL-based usage policies (e.g., time-bound, purpose-limited) to create a Contract Definition.',
@@ -54,7 +54,7 @@ const Tutorial: React.FC = () => {
             demoImage: 'vendor-images/photo-1618044733300-9472054094ee-w1200.jpg' 
         },
         { 
-            title: '3. Dataspace Protocol Negotiation', 
+            title: language === 'KO' ? '3. Dataspace Protocol 협상' : '3. Dataspace Protocol Negotiation', 
             description: language === 'KO' 
                 ? '소비자(Consumer)가 카탈로그에서 자산을 발견하고 협상을 요청합니다. Control Plane 간에 Dataspace Protocol(DSP)을 통해 정책 준수 여부를 확인하고, 최종적으로 계약 합의(Agreement)에 서명합니다.' 
                 : 'The Consumer discovers the asset and requests negotiation. Control Planes verify policy compliance via the Dataspace Protocol (DSP) and sign the Contract Agreement.',
@@ -62,7 +62,7 @@ const Tutorial: React.FC = () => {
             demoImage: 'vendor-images/photo-1521791136064-7986c2920216-w1200.jpg' 
         },
         { 
-            title: '4. Data Plane Transfer (EDR)', 
+            title: language === 'KO' ? '4. Data Plane 데이터 전송 (EDR)' : '4. Data Plane Transfer (EDR)', 
             description: language === 'KO' 
                 ? '계약이 체결되면 소비자는 EDR(Endpoint Data Reference) 토큰을 받습니다. 이 토큰을 사용하여 Provider Data Plane에 직접 요청하며, 데이터는 암호화된 채널을 통해 P2P로 전송됩니다.' 
                 : 'Upon agreement, the Consumer receives an EDR token. Using this token, they request data directly from the Provider Data Plane, transferred P2P via an encrypted channel.',
@@ -82,25 +82,25 @@ const Tutorial: React.FC = () => {
       icon: <Upload className="w-6 h-6 text-blue-600" />,
       steps: [
         { 
-            title: 'Connector Setup', 
+            title: language === 'KO' ? '커넥터 설정' : 'Connector Setup', 
             description: language === 'KO' ? 'EDC 커넥터를 로컬 서버에 설치하고 데이터 소스(DB/File)와 연결 설정을 마칩니다.' : 'Install the EDC connector on your local server and configure the connection to your data source (DB/File).',
             // Server Room / Infrastructure
             demoImage: 'vendor-images/photo-1629654297299-c8506221ca97-w1200.jpg' 
         },
         { 
-            title: 'Asset Definition', 
+            title: language === 'KO' ? '자산 정의' : 'Asset Definition', 
             description: language === 'KO' ? '마켓플레이스 > 자산 등록 메뉴에서 자산의 메타데이터(이름, 설명, 산업군, 태그)를 입력합니다.' : 'Enter asset metadata (name, description, industry, tags) in the Marketplace > Create Asset menu.',
             // Dashboard / Analytics UI
             demoImage: 'vendor-images/photo-1551288049-bebda4e38f71-w1200.jpg' 
         },
         { 
-            title: 'Policy Configuration', 
+            title: language === 'KO' ? '정책 설정' : 'Policy Configuration', 
             description: language === 'KO' ? 'ODRL 기반의 사용 정책을 정의합니다. (예: 기간 제한, 특정 기업만 접근 허용)' : 'Define ODRL-based usage policies (e.g., time restrictions, allowlist for specific companies).',
             // Security / Access Control Concept
             demoImage: 'vendor-images/photo-1526374965328-7f61d4dc18c5-w1200.jpg' 
         },
         { 
-            title: 'Contract Definition', 
+            title: language === 'KO' ? '계약 정의' : 'Contract Definition', 
             description: language === 'KO' ? '자산과 정책을 묶어 계약 정의(Contract Definition)를 생성하여 카탈로그에 발행합니다.' : 'Bundle the asset and policy to create a Contract Definition and publish it to the catalog.',
             // Document / Signing Concept
             demoImage: 'vendor-images/photo-1589829085413-56de8ae18c73-w1200.jpg'
@@ -116,25 +116,25 @@ const Tutorial: React.FC = () => {
       icon: <ShoppingCart className="w-6 h-6 text-emerald-600" />,
       steps: [
         { 
-            title: 'Search & Discover', 
+            title: language === 'KO' ? '검색 및 탐색' : 'Search & Discover', 
             description: language === 'KO' ? '마켓플레이스에서 필터와 검색 기능을 사용하여 원하는 자산을 찾습니다.' : 'Use filters and search in the Marketplace to find the desired asset.',
             // New Image: Searching / Laptop Interface
             demoImage: 'vendor-images/photo-1516321318423-f06f85e504b3-w1200.jpg' 
         },
         { 
-            title: 'Contract Negotiation', 
+            title: language === 'KO' ? '계약 협상' : 'Contract Negotiation', 
             description: language === 'KO' ? '자산 상세 페이지에서 "구매하기"를 클릭합니다. 시스템이 자동으로 정책 준수 여부를 확인하고 협상을 진행합니다.' : 'Click "Buy Now" on the asset detail page. The system automatically verifies policy compliance and negotiates.',
             // Business Process / Automation
             demoImage: 'vendor-images/photo-1600880292203-757bb62b4baf-w1200.jpg' 
         },
         { 
-            title: 'Transaction Sign', 
+            title: language === 'KO' ? '트랜잭션 서명' : 'Transaction Sign', 
             description: language === 'KO' ? '협상이 완료되면 블록체인 지갑을 통해 트랜잭션에 서명합니다.' : 'Once negotiation is complete, sign the transaction using your blockchain wallet.',
             // Blockchain / Crypto Concept
             demoImage: 'vendor-images/photo-1621416894569-0f39ed31d247-w1200.jpg'
         },
         { 
-            title: 'Data Transfer', 
+            title: language === 'KO' ? '데이터 전송' : 'Data Transfer', 
             description: language === 'KO' ? '계약이 활성화되면 EDC 커넥터를 통해 Consumer 측의 타겟 스토리지(S3, DB 등)로 데이터 전송이 시작됩니다.' : 'Once the contract is active, data transfer to the Consumer\'s target storage (S3, DB, etc.) begins via the EDC connector.',
             // Server / Data Center
             demoImage: 'vendor-images/photo-1550751827-4bd374c3f58b-w1200.jpg' 
@@ -150,25 +150,25 @@ const Tutorial: React.FC = () => {
       icon: <Database className="w-6 h-6 text-purple-600" />,
       steps: [
         { 
-            title: 'Prerequisites', 
+            title: language === 'KO' ? '사전 준비 사항' : 'Prerequisites', 
             description: language === 'KO' ? 'Java 17+, Docker, 그리고 공인 IP 또는 도메인이 필요합니다.' : 'Java 17+, Docker, and a public IP or domain are required.',
             // New Image: Containers / Infrastructure
             demoImage: 'vendor-images/photo-1605745341112-85968b19335b-w1200.jpg' 
         },
         { 
-            title: 'Identity Config', 
+            title: language === 'KO' ? '신원 인증 설정' : 'Identity Config', 
             description: language === 'KO' ? 'DAPS(Dynamic Attribute Provisioning Service) 서버에 클라이언트 인증서를 등록하여 토큰을 발급받습니다.' : 'Register your client certificate with the DAPS server to obtain a token.',
             // Security Key
             demoImage: 'vendor-images/photo-1614064641938-3bbee52942c7-w1200.jpg' 
         },
         { 
-            title: 'Config Modification', 
+            title: language === 'KO' ? '설정 파일 수정' : 'Config Modification', 
             description: language === 'KO' ? 'config.properties 파일에서 data-plane-selector 및 control-plane 엔드포인트를 수정합니다.' : 'Modify the data-plane-selector and control-plane endpoints in the config.properties file.',
             // Code Editor
             demoImage: 'vendor-images/photo-1542831371-29b0f74f9713-w1200.jpg' 
         },
         { 
-            title: 'Health Check', 
+            title: language === 'KO' ? '상태 점검' : 'Health Check', 
             description: language === 'KO' ? '서버 구동 후 /api/check 엔드포인트를 호출하여 상태가 Healthy인지 확인합니다.' : 'After starting the server, call the /api/check endpoint to verify status is Healthy.',
             // New Image: System Status / Dashboard
             demoImage: 'vendor-images/photo-1590494165264-1ebe3602eb80-w1200.jpg'
@@ -231,7 +231,7 @@ const Tutorial: React.FC = () => {
              }
         }
         
-        alert("Failed to generate video. Please try again.");
+        alert(language === 'KO' ? '영상 생성에 실패했습니다. 다시 시도해 주세요.' : 'Failed to generate video. Please try again.');
     } finally {
         setIsGenerating(null);
     }
@@ -334,17 +334,17 @@ const Tutorial: React.FC = () => {
                                 {isGenerating === `${selectedScenario.id}-${index}` ? (
                                     <>
                                         <Loader2 className="w-4 h-4 animate-spin" />
-                                        Generating AI Video...
+                                        {language === 'KO' ? 'AI 영상 생성 중...' : 'Generating AI Video...'}
                                     </>
                                 ) : videoCache[`${selectedScenario.id}-${index}`] ? (
                                     <>
                                         <PlayCircle className="w-4 h-4" />
-                                        Play AI Video
+                                        {language === 'KO' ? 'AI 영상 재생' : 'Play AI Video'}
                                     </>
                                 ) : (
                                     <>
                                         <Video className="w-4 h-4" />
-                                        Generate AI Video Demo
+                                        {language === 'KO' ? 'AI 영상 데모 생성' : 'Generate AI Video Demo'}
                                     </>
                                 )}
                               </button>

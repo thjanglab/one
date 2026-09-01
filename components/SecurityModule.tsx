@@ -47,9 +47,9 @@ const SecurityModule: React.FC = () => {
                 <div className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden relative group">
                     <div className="bg-red-50 p-4 border-b border-red-100 flex justify-between items-center">
                         <h3 className="font-bold text-red-800 flex items-center gap-2">
-                            <Server className="w-5 h-5" /> Legacy Platform
+                            <Server className="w-5 h-5" /> {language === 'KO' ? '기존 플랫폼' : 'Legacy Platform'}
                         </h3>
-                        <span className="text-xs font-bold bg-red-200 text-red-800 px-2 py-1 rounded">High Risk</span>
+                        <span className="text-xs font-bold bg-red-200 text-red-800 px-2 py-1 rounded">{language === 'KO' ? '고위험' : 'High Risk'}</span>
                     </div>
                     
                     <div className="p-8 h-80 relative bg-slate-50 overflow-hidden">
@@ -57,17 +57,17 @@ const SecurityModule: React.FC = () => {
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-10">
                             <div className="w-24 h-24 bg-white border-4 border-red-300 rounded-full flex flex-col items-center justify-center shadow-[0_0_40px_rgba(239,68,68,0.3)] z-10 relative">
                                 <Database className="w-8 h-8 text-red-500" />
-                                <span className="text-[10px] font-bold text-slate-500 mt-1">Central DB</span>
+                                <span className="text-[10px] font-bold text-slate-500 mt-1">{language === 'KO' ? '중앙 DB' : 'Central DB'}</span>
                                 
                                 {/* Hacker Icon Animation */}
                                 <div className="absolute -top-8 -right-8 animate-bounce delay-700">
                                     <div className="bg-slate-900 text-white text-[10px] px-2 py-1 rounded-full flex items-center gap-1 shadow-lg">
-                                        <Unlock className="w-3 h-3 text-red-400" /> Hacked!
+                                        <Unlock className="w-3 h-3 text-red-400" /> {language === 'KO' ? '해킹 발생!' : 'Hacked!'}
                                     </div>
                                 </div>
                             </div>
                             <div className="mt-4 text-xs font-bold text-red-600 bg-red-100 px-3 py-1 rounded-full animate-pulse">
-                                Data Ownership Loss
+                                {language === 'KO' ? '데이터 소유권 상실' : 'Data Ownership Loss'}
                             </div>
                         </div>
 
@@ -123,7 +123,7 @@ const SecurityModule: React.FC = () => {
                         <h3 className="font-bold flex items-center gap-2">
                             <Shield className="w-5 h-5" /> DataSpace
                         </h3>
-                        <span className="text-xs font-bold bg-white text-blue-600 px-2 py-1 rounded">Sovereign & Safe</span>
+                        <span className="text-xs font-bold bg-white text-blue-600 px-2 py-1 rounded">{language === 'KO' ? '주권 보장·안전' : 'Sovereign & Safe'}</span>
                     </div>
                     
                     <div className="p-8 h-80 relative bg-slate-900 overflow-hidden">
@@ -141,7 +141,7 @@ const SecurityModule: React.FC = () => {
                                 <div key={i} className="absolute w-16 h-16 bg-slate-800 border-2 border-blue-500 rounded-2xl flex flex-col items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.5)] z-20" style={{ left: `${x}%`, top: `${y}%`, transform: 'translate(-50%, -50%)' }}>
                                     <Database className="w-6 h-6 text-blue-400" />
                                     <div className="absolute -bottom-6 text-[10px] text-blue-300 font-bold bg-slate-900 px-2 py-0.5 rounded border border-slate-700">
-                                        Connector
+                                        {language === 'KO' ? '커넥터' : 'Connector'}
                                     </div>
                                 </div>
                             )
@@ -175,7 +175,7 @@ const SecurityModule: React.FC = () => {
                         {/* Lock Icon in Center */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
                             <Lock className="w-6 h-6 text-emerald-400 mb-1" />
-                            <span className="text-[9px] text-emerald-400 font-bold uppercase tracking-wider">End-to-End Encrypted</span>
+                            <span className="text-[9px] text-emerald-400 font-bold uppercase tracking-wider">{language === 'KO' ? '종단 간 암호화' : 'End-to-End Encrypted'}</span>
                         </div>
                     </div>
 
@@ -215,11 +215,11 @@ const SecurityModule: React.FC = () => {
                 <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
                     <div className="flex items-center gap-2">
                         <div className="w-4 h-4 bg-slate-700 border border-slate-500 rounded"></div>
-                        <span className="text-xs text-slate-400 font-bold uppercase">Control Plane (Metadata)</span>
+                        <span className="text-xs text-slate-400 font-bold uppercase">{language === 'KO' ? '컨트롤 플레인 (메타데이터)' : 'Control Plane (Metadata)'}</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-4 h-4 bg-blue-900/50 border border-blue-500 rounded"></div>
-                        <span className="text-xs text-blue-400 font-bold uppercase">Data Plane (Actual Data)</span>
+                        <span className="text-xs text-blue-400 font-bold uppercase">{language === 'KO' ? '데이터 플레인 (실제 데이터)' : 'Data Plane (Actual Data)'}</span>
                     </div>
                 </div>
 
@@ -227,9 +227,9 @@ const SecurityModule: React.FC = () => {
                 <div className="absolute top-0 left-0 w-full h-[40%] border-b border-slate-700/50 bg-slate-800/30 z-10 flex flex-col items-center justify-center">
                     <div className="w-32 h-32 border-2 border-dashed border-slate-600 rounded-full flex flex-col items-center justify-center bg-slate-900 shadow-2xl">
                         <EyeOff className="w-10 h-10 text-slate-400 mb-2" />
-                        <span className="text-xs font-bold text-slate-500 uppercase">Platform Operator</span>
+                        <span className="text-xs font-bold text-slate-500 uppercase">{language === 'KO' ? '플랫폼 운영기관' : 'Platform Operator'}</span>
                         <div className="mt-1 px-2 py-0.5 bg-red-900/50 text-red-400 text-[9px] rounded border border-red-900">
-                            Access Denied
+                            {language === 'KO' ? '접근 차단' : 'Access Denied'}
                         </div>
                     </div>
                     
@@ -241,7 +241,7 @@ const SecurityModule: React.FC = () => {
                     {/* Sits at the foot of the band, between the two dotted
                         curves, so it does not land on the operator circle. */}
                     <span className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[10px] font-medium tracking-wide text-slate-500 pointer-events-none">
-                        Metadata Only
+                        {language === 'KO' ? '메타데이터만 전달' : 'Metadata Only'}
                     </span>
                 </div>
 
@@ -253,7 +253,7 @@ const SecurityModule: React.FC = () => {
                         <div className="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(37,99,235,0.5)] border-2 border-white">
                             <Database className="w-8 h-8 text-white" />
                         </div>
-                        <span className="mt-4 text-white font-bold bg-blue-900/80 px-3 py-1 rounded-full">Provider (A)</span>
+                        <span className="mt-4 text-white font-bold bg-blue-900/80 px-3 py-1 rounded-full">{language === 'KO' ? '제공자 (A)' : 'Provider (A)'}</span>
                     </div>
 
                     {/* Encrypted Tunnel Visual */}
@@ -262,7 +262,7 @@ const SecurityModule: React.FC = () => {
                     <div className="flex-1 min-w-0 mx-4 lg:mx-8 h-24 bg-slate-800/50 rounded-xl border border-slate-700 relative overflow-hidden flex flex-col justify-center gap-2 py-2">
                         <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,#1e293b_10px,#1e293b_20px)] opacity-30"></div>
                         <div className="relative z-10 mx-auto max-w-full bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-[10px] lg:text-xs font-bold border border-emerald-500/50 flex items-center gap-1 whitespace-nowrap overflow-hidden">
-                            <Lock className="w-3 h-3 shrink-0" /> <span className="truncate">TLS 1.3 / mTLS Tunnel</span>
+                            <Lock className="w-3 h-3 shrink-0" /> <span className="truncate">{language === 'KO' ? 'TLS 1.3 / mTLS 터널' : 'TLS 1.3 / mTLS Tunnel'}</span>
                         </div>
 
                         {/* Animated Packets */}
@@ -287,7 +287,7 @@ const SecurityModule: React.FC = () => {
                         <div className="w-20 h-20 bg-emerald-600 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.5)] border-2 border-white">
                             <Server className="w-8 h-8 text-white" />
                         </div>
-                        <span className="mt-4 text-white font-bold bg-emerald-900/80 px-3 py-1 rounded-full">Consumer (B)</span>
+                        <span className="mt-4 text-white font-bold bg-emerald-900/80 px-3 py-1 rounded-full">{language === 'KO' ? '소비자 (B)' : 'Consumer (B)'}</span>
                     </div>
                 </div>
             </div>
@@ -396,11 +396,11 @@ const SecurityModule: React.FC = () => {
                 <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
                     <div className="flex items-center gap-2">
                         <div className="w-4 h-4 bg-slate-700 border border-slate-500 rounded"></div>
-                        <span className="text-xs text-slate-400 font-bold uppercase">Control Plane (Metadata)</span>
+                        <span className="text-xs text-slate-400 font-bold uppercase">{language === 'KO' ? '컨트롤 플레인 (메타데이터)' : 'Control Plane (Metadata)'}</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-4 h-4 bg-blue-900/50 border border-blue-500 rounded"></div>
-                        <span className="text-xs text-blue-400 font-bold uppercase">Data Plane (Content)</span>
+                        <span className="text-xs text-blue-400 font-bold uppercase">{language === 'KO' ? '데이터 플레인 (실제 내용)' : 'Data Plane (Content)'}</span>
                     </div>
                 </div>
 
@@ -410,10 +410,10 @@ const SecurityModule: React.FC = () => {
                     <div className="w-28 h-28 border-2 border-dashed border-slate-500 rounded-full flex flex-col items-center justify-center bg-slate-800 shadow-xl">
                         {/* Red Eye Icon for Operator Blindness */}
                         <EyeOff className="w-10 h-10 text-red-500 mb-2" />
-                        <span className="text-xs font-bold text-slate-400 uppercase">Operator</span>
+                        <span className="text-xs font-bold text-slate-400 uppercase">{language === 'KO' ? '운영기관' : 'Operator'}</span>
                     </div>
                     <div className="mt-2 bg-slate-900/80 px-3 py-1 rounded text-[10px] text-slate-400 font-mono border border-slate-700">
-                        Metadata Search Only
+                        {language === 'KO' ? '메타데이터 검색만 가능' : 'Metadata Search Only'}
                     </div>
                 </div>
 
@@ -427,7 +427,7 @@ const SecurityModule: React.FC = () => {
                     <div className="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg border-2 border-white">
                         <Database className="w-8 h-8 text-white" />
                     </div>
-                    <span className="mt-4 text-white font-bold bg-blue-900/80 px-3 py-1 rounded-full">Provider</span>
+                    <span className="mt-4 text-white font-bold bg-blue-900/80 px-3 py-1 rounded-full">{language === 'KO' ? '제공자' : 'Provider'}</span>
                 </div>
 
                 {/* Consumer (Bottom Right) - 75% Top, 80% Left */}
@@ -438,7 +438,7 @@ const SecurityModule: React.FC = () => {
                     <div className="w-20 h-20 bg-emerald-600 rounded-2xl flex items-center justify-center shadow-lg border-2 border-white">
                         <Server className="w-8 h-8 text-white" />
                     </div>
-                    <span className="mt-4 text-white font-bold bg-emerald-900/80 px-3 py-1 rounded-full">Consumer</span>
+                    <span className="mt-4 text-white font-bold bg-emerald-900/80 px-3 py-1 rounded-full">{language === 'KO' ? '소비자' : 'Consumer'}</span>
                 </div>
 
                 {/* P2P Tunnel (Bottom Center connecting Provider and Consumer) */}
@@ -453,7 +453,7 @@ const SecurityModule: React.FC = () => {
                     
                     <div className="flex items-center gap-2 z-10 bg-slate-900/80 px-4 py-1 rounded-full border border-blue-500/30">
                         <Lock className="w-4 h-4 text-emerald-400" />
-                        <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">Encrypted P2P</span>
+                        <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">{language === 'KO' ? '암호화된 P2P' : 'Encrypted P2P'}</span>
                     </div>
 
                     {/* Moving Data Packets */}
@@ -545,7 +545,7 @@ const SecurityModule: React.FC = () => {
                     {/* Center Core */}
                     <div className="w-24 h-24 bg-slate-900 rounded-full flex items-center justify-center text-white shadow-2xl z-20 relative border-4 border-slate-100 animate-pulse">
                         <Database className="w-10 h-10" />
-                        <div className="absolute -bottom-8 text-slate-900 font-bold text-sm">DATA</div>
+                        <div className="absolute -bottom-8 text-slate-900 font-bold text-sm">{language === 'KO' ? '데이터' : 'DATA'}</div>
                     </div>
                 </div>
 
@@ -562,7 +562,7 @@ const SecurityModule: React.FC = () => {
                                 <Fingerprint className="w-6 h-6" />
                             </div>
                             <div>
-                                <h4 className="font-bold text-slate-900 text-lg">Layer 1: Identity (신원)</h4>
+                                <h4 className="font-bold text-slate-900 text-lg">{language === 'KO' ? '1계층: 신원(Identity)' : 'Layer 1: Identity'}</h4>
                                 <p className="text-slate-600 text-sm mt-1">
                                     {language === 'KO' 
                                     ? '중앙 신원 확인소(DAPS)를 통해 검증된 참여자(DID/VC)만 네트워크에 접속할 수 있습니다. 익명 접속은 불가능합니다.' 
@@ -583,7 +583,7 @@ const SecurityModule: React.FC = () => {
                                 <Lock className="w-6 h-6" />
                             </div>
                             <div>
-                                <h4 className="font-bold text-slate-900 text-lg">Layer 2: Transport (전송)</h4>
+                                <h4 className="font-bold text-slate-900 text-lg">{language === 'KO' ? '2계층: 전송(Transport)' : 'Layer 2: Transport'}</h4>
                                 <p className="text-slate-600 text-sm mt-1">
                                     {language === 'KO' 
                                     ? '모든 데이터 전송은 TLS 1.3 및 mTLS(상호 인증) 터널을 통해 암호화됩니다. 중간자 공격(MITM)이 원천 차단됩니다.' 
@@ -604,7 +604,7 @@ const SecurityModule: React.FC = () => {
                                 <FileKey className="w-6 h-6" />
                             </div>
                             <div>
-                                <h4 className="font-bold text-slate-900 text-lg">Layer 3: Policy (정책)</h4>
+                                <h4 className="font-bold text-slate-900 text-lg">{language === 'KO' ? '3계층: 정책(Policy)' : 'Layer 3: Policy'}</h4>
                                 <p className="text-slate-600 text-sm mt-1">
                                     {language === 'KO' 
                                     ? '데이터에 ODRL 정책(사용 기간, 목적 제한)이 부착되어 전송됩니다. 커넥터가 정책 위반 시 접근을 강제 차단합니다.' 

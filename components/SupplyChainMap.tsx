@@ -54,81 +54,193 @@ interface SupplyLink {
 }
 
 // Mock Data for ESG Chart in Modal
-const mockEsgData = [
-  { month: 'Jan', value: 420 },
-  { month: 'Feb', value: 380 },
-  { month: 'Mar', value: 390 },
-  { month: 'Apr', value: 350 },
-  { month: 'May', value: 310 },
-  { month: 'Jun', value: 290 },
+// `month` is the recharts dataKey, so only the tick label value switches language.
+const getMockEsgData = (language: 'KO' | 'EN') => [
+  { month: language === 'KO' ? '1월' : 'Jan', value: 420 },
+  { month: language === 'KO' ? '2월' : 'Feb', value: 380 },
+  { month: language === 'KO' ? '3월' : 'Mar', value: 390 },
+  { month: language === 'KO' ? '4월' : 'Apr', value: 350 },
+  { month: language === 'KO' ? '5월' : 'May', value: 310 },
+  { month: language === 'KO' ? '6월' : 'Jun', value: 290 },
 ];
 
 const SupplyChainMap: React.FC = () => {
     const { t, language } = useLanguage();
     const [selectedChain, setSelectedChain] = useState<'HYUNDAI' | 'LG' | 'SAMSUNG'>('HYUNDAI');
-    const [selectedNode, setSelectedNode] = useState<SupplyNode | null>(null);
-    const [selectedExchange, setSelectedExchange] = useState<DataExchange | null>(null); // New State for Modal
+    // Hold ids, not the objects. The node and exchange records are rebuilt each
+    // render with the current language, so a stored object would keep showing the
+    // language it was opened in after a toggle.
+    const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+    const [selectedExchangeId, setSelectedExchangeId] = useState<string | null>(null);
     const [payloadViewMode, setPayloadViewMode] = useState<'visual' | 'raw'>('visual'); // View toggle
     const [showDataLayer, setShowDataLayer] = useState(false);
     const [showProfileModal, setShowProfileModal] = useState(false);
     const [exchangeFilter, setExchangeFilter] = useState<ExchangeLevel | 'All'>('All');
 
+    const isKo = language === 'KO';
+
+    // ---- Display-only label maps -------------------------------------------------
+    // The underlying values stay in English because they are used as keys, state
+    // values and comparison literals. Only the rendered output switches language.
+    const localize = (map: Record<string, string>, value: string) =>
+        isKo ? (map[value] ?? value) : value;
+
+    const industryLabels: Record<string, string> = {
+        'Automotive': '완성차',
+        'Auto Parts': '자동차 부품',
+        'Powertrain': '파워트레인',
+        'Electronics': '전자',
+        'Metal': '금속',
+        'Plastic': '플라스틱',
+        'Steel': '철강',
+        'Chemical': '화학',
+        'Consumer Elec': '가전',
+        'Display': '디스플레이',
+        'Components': '전자부품',
+        'Manufacturing': '제조',
+        'Semiconductor': '반도체',
+        'Raw Material': '원자재',
+        'Mining': '광업',
+        'Chemicals': '화학소재',
+        'Materials': '소재',
+        'Equipment': '장비',
+    };
+
+    // Korean HQ labels keep the "city, country" comma shape - the profile modal
+    // derives the country chip from hq.split(',')[1].
+    const hqLabels: Record<string, string> = {
+        'Seoul, Korea': '서울, 대한민국',
+        'Pyeongtaek, Korea': '평택, 대한민국',
+        'Changwon, Korea': '창원, 대한민국',
+        'Daegu, Korea': '대구, 대한민국',
+        'Gyeongju, Korea': '경주, 대한민국',
+        'Asan, Korea': '아산, 대한민국',
+        'Pohang, Korea': '포항, 대한민국',
+        'Incheon, Korea': '인천, 대한민국',
+        'Gumi, Korea': '구미, 대한민국',
+        'Suwon, Korea': '수원, 대한민국',
+        'Yongin, Korea': '용인, 대한민국',
+        'Seongnam, Korea': '성남, 대한민국',
+        'Shenzhen, China': '선전, 중국',
+        'Tokyo, Japan': '도쿄, 일본',
+        'Texas, USA': '텍사스, 미국',
+        'Inner Mongolia': '네이멍구',
+        'Singapore': '싱가포르',
+    };
+
+    const nodeDescriptionLabels: Record<string, string> = {
+        'Global OEM. Final assembly and distribution.': '글로벌 완성차 업체. 최종 조립 및 유통을 담당합니다.',
+        'Chassis, Cockpit, and Frontend modules.': '섀시, 콕핏, 프런트엔드 모듈을 공급합니다.',
+        'Brake, Steering, and Suspension systems.': '제동, 조향, 현가 시스템을 공급합니다.',
+        'Engine parts and constant velocity joints.': '엔진 부품과 등속조인트를 생산합니다.',
+        'Headlamps and chassis electronics.': '헤드램프와 차체 전장 부품을 생산합니다.',
+        'Metal stamping and forming.': '금속 프레스 및 성형 가공을 수행합니다.',
+        'Injection molding for interior parts.': '내장 부품용 사출 성형을 담당합니다.',
+        'Raw steel coils and sheets.': '철강 코일과 강판 등 원소재를 공급합니다.',
+        'Plastic granules and battery materials.': '플라스틱 원료와 배터리 소재를 공급합니다.',
+        'Home appliances and home entertainment.': '생활가전과 홈엔터테인먼트 제품을 생산합니다.',
+        'OLED/LCD Panels.': 'OLED 및 LCD 패널을 생산합니다.',
+        'Camera modules and motor components.': '카메라 모듈과 모터 부품을 생산합니다.',
+        'Mainboards and rigid-flex PCBs.': '메인보드와 경연성 PCB를 생산합니다.',
+        'Plastic and metal casings.': '플라스틱 및 금속 케이스를 생산합니다.',
+        'PMIC and logic chips.': 'PMIC와 로직 칩을 설계·생산합니다.',
+        'Silicon wafers.': '실리콘 웨이퍼를 공급합니다.',
+        'Rare earth minerals for magnets.': '자석용 희토류 광물을 채굴·공급합니다.',
+        'Global leader in consumer electronics and semiconductors.': '가전과 반도체를 아우르는 글로벌 선도 기업입니다.',
+        'OLED and QD-Display panels.': 'OLED 및 QD-Display 패널을 생산합니다.',
+        'MLCC, Camera modules, and substrates.': 'MLCC, 카메라 모듈, 기판을 생산합니다.',
+        'Photoresists and wet chemicals for semiconductor processes.': '반도체 공정용 포토레지스트와 습식 화학소재를 공급합니다.',
+        'High purity chemicals for etching and cleaning.': '식각·세정 공정용 고순도 화학소재를 공급합니다.',
+        'Semiconductor manufacturing equipment parts.': '반도체 제조 장비 부품을 공급합니다.',
+        'Hydrogen peroxide and precursor materials.': '과산화수소와 전구체 소재를 공급합니다.',
+        'Raw silicon ingots.': '실리콘 잉곳 원소재를 공급합니다.',
+        'Rare earth minerals and gases.': '희토류 광물과 특수가스를 공급합니다.',
+    };
+
+    // Role descriptors / placeholders stored in corpInfo (not personal names).
+    const corpValueLabels: Record<string, string> = {
+        'Local Operator': '현지 운영사',
+        'Trading Group': '무역 상사',
+        'Unknown': '비공개',
+    };
+
+    const nodeTypeLabels: Record<string, string> = {
+        'OEM': 'OEM',
+        'Tier1': '1차 협력사',
+        'Tier2': '2차 협력사',
+        'Tier3': '3차 협력사',
+        'Tier4': '4차 협력사',
+    };
+
+    const levelLabels: Record<string, string> = {
+        'All': '전체',
+        'Strategic': '전략',
+        'Operational': '운영',
+        'Technical': '기술',
+    };
+
+    const dsStatusLabel = (status: SupplyNode['dataSpaceStatus']) => {
+        if (status === 'Active') return isKo ? 'DS 연동' : 'DS Active';
+        if (status === 'Pending') return isKo ? '승인 대기' : 'Pending';
+        return isKo ? '미등록' : 'None';
+    };
+
     // Helper to generate mock exchanges
     const getMockExchanges = (type: NodeType): DataExchange[] => {
         const base: DataExchange[] = [
             { 
-                id: 'dx_1', name: 'Annual ESG Report', level: 'Strategic', status: 'Active', lastUpdate: '2024-01-15', frequency: 'Yearly',
-                protocol: 'HTTPS (REST)', format: 'PDF/JSON', description: 'Comprehensive environmental, social, and governance impact report required for compliance.',
+                id: 'dx_1', name: isKo ? '연간 ESG 보고서' : 'Annual ESG Report', level: 'Strategic', status: 'Active', lastUpdate: '2024-01-15', frequency: isKo ? '연 1회' : 'Yearly',
+                protocol: 'HTTPS (REST)', format: 'PDF/JSON', description: isKo ? '규제 대응을 위해 요구되는 환경·사회·지배구조 영향 종합 보고서입니다.' : 'Comprehensive environmental, social, and governance impact report required for compliance.',
                 sourceSystem: 'Sustainability Portal', targetSystem: 'Supplier Mgmt System', latency: 'N/A',
                 samplePayload: '{\n  "reportId": "ESG-2023-KR",\n  "scope1": 1250.5,\n  "scope2": 3400.2,\n  "compliance": "GRI 305"\n}'
             },
             { 
-                id: 'dx_2', name: 'Purchase Order (PO)', level: 'Operational', status: 'Active', lastUpdate: '20 min ago', frequency: 'Real-time',
-                protocol: 'EDC / HTTP', format: 'JSON (UBL)', description: 'Electronic purchase orders synchronized with ERP systems for automated procurement.',
+                id: 'dx_2', name: isKo ? '구매 발주서 (PO)' : 'Purchase Order (PO)', level: 'Operational', status: 'Active', lastUpdate: isKo ? '20분 전' : '20 min ago', frequency: isKo ? '실시간' : 'Real-time',
+                protocol: 'EDC / HTTP', format: 'JSON (UBL)', description: isKo ? '구매 자동화를 위해 ERP와 실시간으로 동기화되는 전자 발주 정보입니다.' : 'Electronic purchase orders synchronized with ERP systems for automated procurement.',
                 sourceSystem: 'SAP S/4HANA', targetSystem: 'Salesforce OMS', latency: '45ms',
                 samplePayload: '{\n  "poNumber": "PO-998812",\n  "items": [\n    { "sku": "PART-001", "qty": 500 },\n    { "sku": "PART-002", "qty": 120 }\n  ],\n  "deliveryDate": "2024-06-01"\n}'
             },
         ];
         if (type === 'OEM' || type === 'Tier1') {
             base.push({ 
-                id: 'dx_3', name: 'Demand Forecast 2025', level: 'Strategic', status: 'Active', lastUpdate: '2 days ago', frequency: 'Monthly',
-                protocol: 'SFTP / EDC', format: 'XML', description: 'Long-term demand forecasting data to support production planning.',
+                id: 'dx_3', name: isKo ? '2025 수요 예측' : 'Demand Forecast 2025', level: 'Strategic', status: 'Active', lastUpdate: isKo ? '2일 전' : '2 days ago', frequency: isKo ? '월 1회' : 'Monthly',
+                protocol: 'SFTP / EDC', format: 'XML', description: isKo ? '생산 계획 수립을 지원하는 중장기 수요 예측 데이터입니다.' : 'Long-term demand forecasting data to support production planning.',
                 sourceSystem: 'Demand Planner AI', targetSystem: 'ERP Master', latency: '120ms',
                 samplePayload: '<Forecast>\n  <Period>2025-Q1</Period>\n  <Volume>50000</Volume>\n  <Confidence>0.89</Confidence>\n</Forecast>'
             });
             base.push({ 
-                id: 'dx_4', name: 'Delivery Schedule (ASN)', level: 'Operational', status: 'Active', lastUpdate: '1 hr ago', frequency: 'Daily',
-                protocol: 'EDC / MQTT', format: 'JSON', description: 'Advanced Shipping Notice detailing shipment contents and ETA.',
+                id: 'dx_4', name: isKo ? '납품 일정 (ASN)' : 'Delivery Schedule (ASN)', level: 'Operational', status: 'Active', lastUpdate: isKo ? '1시간 전' : '1 hr ago', frequency: isKo ? '일 1회' : 'Daily',
+                protocol: 'EDC / MQTT', format: 'JSON', description: isKo ? '출하 내역과 도착 예정 시각을 담은 사전 출하 통보서입니다.' : 'Advanced Shipping Notice detailing shipment contents and ETA.',
                 sourceSystem: 'Logistics WMS', targetSystem: 'Inbound Dock Sys', latency: '60ms',
                 samplePayload: '{\n  "asnId": "ASN-7721",\n  "carrier": "CJ Logistics",\n  "eta": "2024-05-25T14:00:00Z"\n}'
             });
         }
         if (type === 'Tier2' || type === 'Tier3') {
             base.push({ 
-                id: 'dx_5', name: 'Quality Inspection Log', level: 'Technical', status: 'Active', lastUpdate: '5 sec ago', frequency: 'Stream',
-                protocol: 'MQTT / AMQP', format: 'JSON-LD', description: 'Real-time sensor readings and vision inspection results from the production line.',
+                id: 'dx_5', name: isKo ? '품질 검사 로그' : 'Quality Inspection Log', level: 'Technical', status: 'Active', lastUpdate: isKo ? '5초 전' : '5 sec ago', frequency: isKo ? '스트리밍' : 'Stream',
+                protocol: 'MQTT / AMQP', format: 'JSON-LD', description: isKo ? '생산 라인의 실시간 센서 측정값과 비전 검사 결과입니다.' : 'Real-time sensor readings and vision inspection results from the production line.',
                 sourceSystem: 'Smart Factory IoT', targetSystem: 'Quality Analytics', latency: '12ms',
                 samplePayload: '{\n  "deviceId": "CAM-03",\n  "timestamp": 1716304000,\n  "result": "OK",\n  "measurements": [0.012, 0.011]\n}'
             });
             base.push({ 
-                id: 'dx_6', name: 'Production Count', level: 'Operational', status: 'Active', lastUpdate: '10 min ago', frequency: 'Hourly',
-                protocol: 'HTTP', format: 'JSON', description: 'Hourly production output counters for KPI tracking.',
+                id: 'dx_6', name: isKo ? '생산 실적 집계' : 'Production Count', level: 'Operational', status: 'Active', lastUpdate: isKo ? '10분 전' : '10 min ago', frequency: isKo ? '시간별' : 'Hourly',
+                protocol: 'HTTP', format: 'JSON', description: isKo ? 'KPI 관리를 위한 시간 단위 생산 실적 집계 데이터입니다.' : 'Hourly production output counters for KPI tracking.',
                 sourceSystem: 'MES', targetSystem: 'Dashboard Aggregator', latency: '200ms',
                 samplePayload: '{\n  "shift": "A",\n  "line": "L2",\n  "count": 1450,\n  "rejects": 2\n}'
             });
         }
         if (type === 'Tier4') {
             base.push({ 
-                id: 'dx_7', name: 'Raw Material Cert', level: 'Technical', status: 'Active', lastUpdate: '1 day ago', frequency: 'Batch',
-                protocol: 'HTTPS', format: 'PDF (Base64)', description: 'Digital Mill Test Certificates (MTC) verifying raw material properties.',
+                id: 'dx_7', name: isKo ? '원자재 시험 성적서' : 'Raw Material Cert', level: 'Technical', status: 'Active', lastUpdate: isKo ? '1일 전' : '1 day ago', frequency: isKo ? '배치 전송' : 'Batch',
+                protocol: 'HTTPS', format: 'PDF (Base64)', description: isKo ? '원자재 물성을 검증하는 전자 밀시트(MTC)입니다.' : 'Digital Mill Test Certificates (MTC) verifying raw material properties.',
                 sourceSystem: 'Lab LIMS', targetSystem: 'Procurement Portal', latency: '800ms',
                 samplePayload: '{\n  "certId": "MTC-9921",\n  "material": "Steel-SS400",\n  "chemical": { "C": 0.18, "Si": 0.25 }\n}'
             });
         }
         if (type === 'Tier1' || type === 'Tier2') {
              base.push({ 
-                 id: 'dx_8', name: 'Digital Twin Telemetry', level: 'Technical', status: 'Paused', lastUpdate: '2 weeks ago', frequency: 'Stream',
-                 protocol: 'OPC-UA / EDC', format: 'Binary', description: 'High-fidelity telemetry data for synchronizing Digital Twin models.',
+                 id: 'dx_8', name: isKo ? '디지털 트윈 텔레메트리' : 'Digital Twin Telemetry', level: 'Technical', status: 'Paused', lastUpdate: isKo ? '2주 전' : '2 weeks ago', frequency: isKo ? '스트리밍' : 'Stream',
+                 protocol: 'OPC-UA / EDC', format: 'Binary', description: isKo ? '디지털 트윈 모델 동기화를 위한 고정밀 텔레메트리 데이터입니다.' : 'High-fidelity telemetry data for synchronizing Digital Twin models.',
                  sourceSystem: 'PLC Controller', targetSystem: 'DT Server', latency: '8ms',
                  samplePayload: '[Binary Stream Data...]'
              });
@@ -145,8 +257,8 @@ const SupplyChainMap: React.FC = () => {
                     <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-3 animate-pulse">
                         <Activity className="w-6 h-6 text-blue-600" />
                     </div>
-                    <h4 className="text-sm font-bold text-slate-700">Real-time Binary Stream</h4>
-                    <p className="text-xs text-slate-500 mt-1">High-frequency sensor data stream (OPC-UA)</p>
+                    <h4 className="text-sm font-bold text-slate-700">{isKo ? '실시간 바이너리 스트림' : 'Real-time Binary Stream'}</h4>
+                    <p className="text-xs text-slate-500 mt-1">{isKo ? '고주기 센서 데이터 스트림 (OPC-UA)' : 'High-frequency sensor data stream (OPC-UA)'}</p>
                 </div>
             );
         }
@@ -163,7 +275,7 @@ const SupplyChainMap: React.FC = () => {
                     <div className="space-y-2">
                         <div className="flex items-center gap-2 mb-2 pb-2 border-b border-slate-100">
                             <FileText className="w-4 h-4 text-orange-500" />
-                            <span className="text-xs font-bold text-slate-600 uppercase">{root.tagName} Document</span>
+                            <span className="text-xs font-bold text-slate-600 uppercase">{root.tagName}{isKo ? ' 문서' : ' Document'}</span>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                             {children.map((child, idx) => (
@@ -176,7 +288,7 @@ const SupplyChainMap: React.FC = () => {
                     </div>
                 );
             } catch (e) {
-                return <div className="text-xs text-slate-500">XML Data (Parse Error)</div>;
+                return <div className="text-xs text-slate-500">{isKo ? 'XML 데이터 (파싱 오류)' : 'XML Data (Parse Error)'}</div>;
             }
         }
 
@@ -237,7 +349,9 @@ const SupplyChainMap: React.FC = () => {
                                     </div>
                                 );
                             } else {
-                                displayValue = Array.isArray(value) ? `${value.length} Items` : 'Object Data';
+                                displayValue = Array.isArray(value)
+                                    ? (isKo ? `${value.length}개 항목` : `${value.length} Items`)
+                                    : (isKo ? '객체 데이터' : 'Object Data');
                             }
                         }
 
@@ -258,7 +372,7 @@ const SupplyChainMap: React.FC = () => {
                 </div>
             );
         } catch (e) {
-            return <div className="text-xs text-red-500">Unable to visualize payload format.</div>;
+            return <div className="text-xs text-red-500">{isKo ? '페이로드 형식을 시각화할 수 없습니다.' : 'Unable to visualize payload format.'}</div>;
         }
     };
 
@@ -472,6 +586,12 @@ const SupplyChainMap: React.FC = () => {
     const nodes = selectedChain === 'HYUNDAI' ? hyundaiNodes : selectedChain === 'LG' ? lgNodes : samsungNodes;
     const links = selectedChain === 'HYUNDAI' ? hyundaiLinks : selectedChain === 'LG' ? lgLinks : samsungLinks;
 
+    // Resolved fresh on every render, so both modals follow the language toggle.
+    const selectedNode = selectedNodeId ? nodes.find(n => n.id === selectedNodeId) ?? null : null;
+    const selectedExchange = selectedNode && selectedExchangeId
+        ? selectedNode.dataExchanges.find(ex => ex.id === selectedExchangeId) ?? null
+        : null;
+
     // Helper to get color by risk
     const getRiskColor = (risk: string) => {
         switch(risk) {
@@ -502,18 +622,18 @@ const SupplyChainMap: React.FC = () => {
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border ${getExchangeLevelColor(selectedExchange.level)}`}>
-                                        {selectedExchange.level}
+                                        {localize(levelLabels, selectedExchange.level)}
                                     </span>
                                     {selectedExchange.status === 'Active' && (
                                         <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div> Active
+                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div> {isKo ? '활성' : 'Active'}
                                         </span>
                                     )}
                                 </div>
                                 <h3 className="text-xl font-bold text-slate-900">{selectedExchange.name}</h3>
                                 <p className="text-sm text-slate-500 mt-1">{selectedExchange.description}</p>
                             </div>
-                            <button onClick={() => setSelectedExchange(null)} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
+                            <button onClick={() => setSelectedExchangeId(null)} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
@@ -524,14 +644,14 @@ const SupplyChainMap: React.FC = () => {
                             {/* Technical Specs */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                                    <span className="text-xs font-bold text-slate-400 uppercase block mb-1">Protocol / Format</span>
+                                    <span className="text-xs font-bold text-slate-400 uppercase block mb-1">{isKo ? '프로토콜 / 포맷' : 'Protocol / Format'}</span>
                                     <div className="flex items-center gap-2">
                                         <span className="text-sm font-bold text-slate-800">{selectedExchange.protocol}</span>
                                         <span className="text-xs text-slate-400">({selectedExchange.format})</span>
                                     </div>
                                 </div>
                                 <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                                    <span className="text-xs font-bold text-slate-400 uppercase block mb-1">Frequency / Latency</span>
+                                    <span className="text-xs font-bold text-slate-400 uppercase block mb-1">{isKo ? '주기 / 지연시간' : 'Frequency / Latency'}</span>
                                     <div className="flex items-center gap-2">
                                         <span className="text-sm font-bold text-slate-800">{selectedExchange.frequency}</span>
                                         <span className="text-xs text-emerald-600 font-medium">({selectedExchange.latency})</span>
@@ -545,7 +665,7 @@ const SupplyChainMap: React.FC = () => {
                                     <div className="w-10 h-10 bg-white border border-slate-300 rounded-lg flex items-center justify-center mx-auto mb-2 text-slate-600">
                                         <Database className="w-5 h-5" />
                                     </div>
-                                    <span className="text-[10px] font-bold text-slate-500 block">Source</span>
+                                    <span className="text-[10px] font-bold text-slate-500 block">{isKo ? '송신 측' : 'Source'}</span>
                                     <span className="text-xs font-bold text-slate-800">{selectedExchange.sourceSystem}</span>
                                 </div>
                                 
@@ -562,7 +682,7 @@ const SupplyChainMap: React.FC = () => {
                                     <div className="w-10 h-10 bg-white border border-slate-300 rounded-lg flex items-center justify-center mx-auto mb-2 text-slate-600">
                                         <Server className="w-5 h-5" />
                                     </div>
-                                    <span className="text-[10px] font-bold text-slate-500 block">Target</span>
+                                    <span className="text-[10px] font-bold text-slate-500 block">{isKo ? '수신 측' : 'Target'}</span>
                                     <span className="text-xs font-bold text-slate-800">{selectedExchange.targetSystem}</span>
                                 </div>
                             </div>
@@ -572,7 +692,7 @@ const SupplyChainMap: React.FC = () => {
                                 <div className="flex items-center justify-between mb-2">
                                     <h4 className="text-sm font-bold text-slate-800 flex items-center gap-2">
                                         <FileJson className="w-4 h-4 text-slate-500" />
-                                        Payload Inspector
+                                        {isKo ? '페이로드 인스펙터' : 'Payload Inspector'}
                                     </h4>
                                     <div className="bg-slate-100 p-0.5 rounded-lg flex gap-1">
                                         <button 
@@ -583,7 +703,7 @@ const SupplyChainMap: React.FC = () => {
                                                 : 'text-slate-500 hover:text-slate-700'
                                             }`}
                                         >
-                                            <Eye className="w-3 h-3" /> Visual
+                                            <Eye className="w-3 h-3" /> {isKo ? '시각화' : 'Visual'}
                                         </button>
                                         <button 
                                             onClick={() => setPayloadViewMode('raw')}
@@ -593,7 +713,7 @@ const SupplyChainMap: React.FC = () => {
                                                 : 'text-slate-500 hover:text-slate-700'
                                             }`}
                                         >
-                                            <Code className="w-3 h-3" /> Raw Code
+                                            <Code className="w-3 h-3" /> {isKo ? '원본 코드' : 'Raw Code'}
                                         </button>
                                     </div>
                                 </div>
@@ -616,26 +736,26 @@ const SupplyChainMap: React.FC = () => {
                             <div>
                                 <h4 className="text-sm font-bold text-slate-800 mb-2 flex items-center gap-2">
                                     <Clock className="w-4 h-4 text-slate-500" />
-                                    Recent Transfers
+                                    {isKo ? '최근 전송 이력' : 'Recent Transfers'}
                                 </h4>
                                 <div className="border border-slate-200 rounded-lg overflow-hidden">
                                     <table className="w-full text-xs text-left">
                                         <thead className="bg-slate-50 text-slate-500">
                                             <tr>
-                                                <th className="px-3 py-2 font-medium">Time</th>
-                                                <th className="px-3 py-2 font-medium">Status</th>
-                                                <th className="px-3 py-2 font-medium text-right">Size</th>
+                                                <th className="px-3 py-2 font-medium">{isKo ? '시각' : 'Time'}</th>
+                                                <th className="px-3 py-2 font-medium">{isKo ? '상태' : 'Status'}</th>
+                                                <th className="px-3 py-2 font-medium text-right">{isKo ? '크기' : 'Size'}</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-100">
                                             <tr>
                                                 <td className="px-3 py-2 text-slate-600">{selectedExchange.lastUpdate}</td>
-                                                <td className="px-3 py-2 text-emerald-600 font-bold">Success</td>
+                                                <td className="px-3 py-2 text-emerald-600 font-bold">{isKo ? '성공' : 'Success'}</td>
                                                 <td className="px-3 py-2 text-right text-slate-600">24KB</td>
                                             </tr>
                                             <tr>
-                                                <td className="px-3 py-2 text-slate-600">1 hour ago</td>
-                                                <td className="px-3 py-2 text-emerald-600 font-bold">Success</td>
+                                                <td className="px-3 py-2 text-slate-600">{isKo ? '1시간 전' : '1 hour ago'}</td>
+                                                <td className="px-3 py-2 text-emerald-600 font-bold">{isKo ? '성공' : 'Success'}</td>
                                                 <td className="px-3 py-2 text-right text-slate-600">22KB</td>
                                             </tr>
                                         </tbody>
@@ -648,10 +768,10 @@ const SupplyChainMap: React.FC = () => {
                         {/* Footer */}
                         <div className="p-4 border-t border-slate-100 bg-slate-50 text-right">
                             <button 
-                                onClick={() => setSelectedExchange(null)}
+                                onClick={() => setSelectedExchangeId(null)}
                                 className="px-4 py-2 bg-slate-900 text-white text-sm font-bold rounded-lg hover:bg-slate-800 transition-colors"
                             >
-                                Close Report
+                                {isKo ? '보고서 닫기' : 'Close Report'}
                             </button>
                         </div>
                     </div>
@@ -673,12 +793,12 @@ const SupplyChainMap: React.FC = () => {
                                         <h2 className="text-2xl font-bold">{selectedNode.label}</h2>
                                         {selectedNode.isCertified && (
                                             <div className="flex items-center gap-1 bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-xs font-bold border border-amber-200">
-                                                <BadgeCheck className="w-4 h-4" /> Certified
+                                                <BadgeCheck className="w-4 h-4" /> {isKo ? '인증 완료' : 'Certified'}
                                             </div>
                                         )}
                                     </div>
                                     <p className="text-slate-400 text-sm flex items-center gap-2">
-                                        <Globe className="w-3 h-3" /> {selectedNode.industry} • {selectedNode.corpInfo.hq.split(',')[1]}
+                                        <Globe className="w-3 h-3" /> {localize(industryLabels, selectedNode.industry)} • {localize(hqLabels, selectedNode.corpInfo.hq).split(',')[1]}
                                     </p>
                                     <div className="flex gap-2 mt-3">
                                         <span className="bg-slate-700 text-slate-300 text-[10px] px-2 py-1 rounded font-mono">BPN: BPN-L-{selectedNode.id.toUpperCase()}</span>
@@ -699,41 +819,41 @@ const SupplyChainMap: React.FC = () => {
                                 <div className="space-y-6">
                                     <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
                                         <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                                            <Building2 className="w-4 h-4 text-blue-600" /> Corporate Profile
+                                            <Building2 className="w-4 h-4 text-blue-600" /> {isKo ? '기업 개요' : 'Corporate Profile'}
                                         </h3>
                                         <div className="space-y-3 text-sm">
                                             <div className="flex justify-between border-b border-slate-100 pb-2">
-                                                <span className="text-slate-500">CEO</span>
-                                                <span className="font-medium text-slate-900">{selectedNode.corpInfo.ceo}</span>
+                                                <span className="text-slate-500">{isKo ? '대표이사' : 'CEO'}</span>
+                                                <span className="font-medium text-slate-900">{localize(corpValueLabels, selectedNode.corpInfo.ceo)}</span>
                                             </div>
                                             <div className="flex justify-between border-b border-slate-100 pb-2">
-                                                <span className="text-slate-500">Headquarters</span>
-                                                <span className="font-medium text-slate-900">{selectedNode.corpInfo.hq}</span>
+                                                <span className="text-slate-500">{isKo ? '본사' : 'Headquarters'}</span>
+                                                <span className="font-medium text-slate-900">{localize(hqLabels, selectedNode.corpInfo.hq)}</span>
                                             </div>
                                             <div className="flex justify-between border-b border-slate-100 pb-2">
-                                                <span className="text-slate-500">Founded</span>
+                                                <span className="text-slate-500">{isKo ? '설립연도' : 'Founded'}</span>
                                                 <span className="font-medium text-slate-900">{selectedNode.corpInfo.founded}</span>
                                             </div>
                                             <div className="flex justify-between border-b border-slate-100 pb-2">
-                                                <span className="text-slate-500">Employees</span>
-                                                <span className="font-medium text-slate-900">{selectedNode.corpInfo.employees}</span>
+                                                <span className="text-slate-500">{isKo ? '임직원 수' : 'Employees'}</span>
+                                                <span className="font-medium text-slate-900">{localize(corpValueLabels, selectedNode.corpInfo.employees)}</span>
                                             </div>
                                             <div className="flex justify-between">
-                                                <span className="text-slate-500">Revenue</span>
-                                                <span className="font-medium text-emerald-600 font-bold">{selectedNode.corpInfo.revenue}</span>
+                                                <span className="text-slate-500">{isKo ? '매출액' : 'Revenue'}</span>
+                                                <span className="font-medium text-emerald-600 font-bold">{localize(corpValueLabels, selectedNode.corpInfo.revenue)}</span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
                                         <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                                            <Database className="w-4 h-4 text-purple-600" /> Available Data Assets
+                                            <Database className="w-4 h-4 text-purple-600" /> {isKo ? '제공 가능 데이터 자산' : 'Available Data Assets'}
                                         </h3>
                                         <div className="space-y-2">
                                             {[
-                                                { name: 'Carbon Footprint Report (PCF)', type: 'Report', access: 'Restricted' },
-                                                { name: 'Quality Inspection Logs', type: 'IoT Series', access: 'Contract' },
-                                                { name: 'Material Safety Data Sheet', type: 'Document', access: 'Public' }
+                                                { name: 'Carbon Footprint Report (PCF)', nameKo: '탄소발자국 보고서 (PCF)', type: 'Report', typeKo: '보고서', access: 'Restricted', accessKo: '제한' },
+                                                { name: 'Quality Inspection Logs', nameKo: '품질 검사 로그', type: 'IoT Series', typeKo: 'IoT 시계열', access: 'Contract', accessKo: '계약 필요' },
+                                                { name: 'Material Safety Data Sheet', nameKo: '물질안전보건자료 (MSDS)', type: 'Document', typeKo: '문서', access: 'Public', accessKo: '공개' }
                                             ].map((asset, i) => (
                                                 <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-100 hover:border-purple-200 transition-colors cursor-pointer">
                                                     <div className="flex items-center gap-3">
@@ -741,11 +861,11 @@ const SupplyChainMap: React.FC = () => {
                                                             {asset.type.charAt(0)}
                                                         </div>
                                                         <div>
-                                                            <div className="text-xs font-bold text-slate-800">{asset.name}</div>
-                                                            <div className="text-[10px] text-slate-500">{asset.type}</div>
+                                                            <div className="text-xs font-bold text-slate-800">{isKo ? asset.nameKo : asset.name}</div>
+                                                            <div className="text-[10px] text-slate-500">{isKo ? asset.typeKo : asset.type}</div>
                                                         </div>
                                                     </div>
-                                                    <span className="text-[10px] font-bold px-2 py-1 rounded bg-white border border-slate-200 text-slate-600">{asset.access}</span>
+                                                    <span className="text-[10px] font-bold px-2 py-1 rounded bg-white border border-slate-200 text-slate-600">{isKo ? asset.accessKo : asset.access}</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -756,11 +876,11 @@ const SupplyChainMap: React.FC = () => {
                                 <div className="space-y-6">
                                     <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
                                         <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                                            <Leaf className="w-4 h-4 text-emerald-600" /> Sustainability Performance
+                                            <Leaf className="w-4 h-4 text-emerald-600" /> {isKo ? '지속가능성 성과' : 'Sustainability Performance'}
                                         </h3>
                                         <div className="h-40 w-full mb-4">
                                             <ResponsiveContainer width="100%" height="100%">
-                                                <AreaChart data={mockEsgData}>
+                                                <AreaChart data={getMockEsgData(language)}>
                                                     <defs>
                                                         <linearGradient id="colorEsg" x1="0" y1="0" x2="0" y2="1">
                                                             <stop offset="5%" stopColor="#10b981" stopOpacity={0.2}/>
@@ -776,25 +896,25 @@ const SupplyChainMap: React.FC = () => {
                                             </ResponsiveContainer>
                                         </div>
                                         <div className="flex justify-between items-center bg-emerald-50 p-3 rounded-lg border border-emerald-100">
-                                            <span className="text-xs text-emerald-800 font-medium">YTD Reduction</span>
+                                            <span className="text-xs text-emerald-800 font-medium">{isKo ? '연초 대비 감축률' : 'YTD Reduction'}</span>
                                             <span className="text-sm font-bold text-emerald-700">-12.5%</span>
                                         </div>
                                     </div>
 
                                     <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
                                         <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                                            <ShieldCheck className="w-4 h-4 text-blue-600" /> Trust & Compliance
+                                            <ShieldCheck className="w-4 h-4 text-blue-600" /> {isKo ? '신뢰 및 규제 준수' : 'Trust & Compliance'}
                                         </h3>
                                         <div className="grid grid-cols-2 gap-3">
                                             <div className="p-3 border border-slate-200 rounded-lg flex flex-col items-center text-center">
                                                 <ShieldCheck className="w-6 h-6 text-blue-500 mb-2" />
-                                                <span className="text-xs font-bold text-slate-700">Verifiable Credential</span>
-                                                <span className="text-[10px] text-slate-400">Issued by Clearing House</span>
+                                                <span className="text-xs font-bold text-slate-700">{isKo ? '검증 가능 자격증명 (VC)' : 'Verifiable Credential'}</span>
+                                                <span className="text-[10px] text-slate-400">{isKo ? 'Clearing House 발급' : 'Issued by Clearing House'}</span>
                                             </div>
                                             <div className="p-3 border border-slate-200 rounded-lg flex flex-col items-center text-center">
                                                 <Lock className="w-6 h-6 text-slate-500 mb-2" />
                                                 <span className="text-xs font-bold text-slate-700">ISO 27001</span>
-                                                <span className="text-[10px] text-slate-400">Security Standard</span>
+                                                <span className="text-[10px] text-slate-400">{isKo ? '정보보안 표준' : 'Security Standard'}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -805,10 +925,10 @@ const SupplyChainMap: React.FC = () => {
                         {/* Footer */}
                         <div className="p-6 border-t border-slate-200 bg-white flex justify-end gap-3 shrink-0">
                             <button onClick={() => setShowProfileModal(false)} className="px-5 py-2.5 text-slate-600 font-bold text-sm hover:bg-slate-100 rounded-xl transition-colors">
-                                Close
+                                {isKo ? '닫기' : 'Close'}
                             </button>
                             <button className="px-5 py-2.5 bg-blue-600 text-white font-bold text-sm rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200 flex items-center gap-2">
-                                <Network className="w-4 h-4" /> Request Connection
+                                <Network className="w-4 h-4" /> {isKo ? '연동 요청' : 'Request Connection'}
                             </button>
                         </div>
                     </div>
@@ -835,12 +955,12 @@ const SupplyChainMap: React.FC = () => {
                         }`}
                     >
                         {showDataLayer ? <Server className="w-4 h-4" /> : <Globe className="w-4 h-4" />}
-                        {showDataLayer ? 'Data Layer Active' : 'Show Data Layer'}
+                        {showDataLayer ? (isKo ? '데이터 레이어 활성' : 'Data Layer Active') : (isKo ? '데이터 레이어 보기' : 'Show Data Layer')}
                     </button>
 
                     <div className="flex bg-white rounded-lg p-1 border border-slate-200 shadow-sm">
                         <button
-                            onClick={() => { setSelectedChain('HYUNDAI'); setSelectedNode(null); }}
+                            onClick={() => { setSelectedChain('HYUNDAI'); setSelectedNodeId(null); }}
                             className={`px-4 py-2 rounded-md text-sm font-bold flex items-center gap-2 transition-all ${
                                 selectedChain === 'HYUNDAI' 
                                 ? 'bg-[#002c5f] text-white shadow' 
@@ -851,7 +971,7 @@ const SupplyChainMap: React.FC = () => {
                             Hyundai
                         </button>
                         <button
-                            onClick={() => { setSelectedChain('LG'); setSelectedNode(null); }}
+                            onClick={() => { setSelectedChain('LG'); setSelectedNodeId(null); }}
                             className={`px-4 py-2 rounded-md text-sm font-bold flex items-center gap-2 transition-all ${
                                 selectedChain === 'LG' 
                                 ? 'bg-[#a50034] text-white shadow' 
@@ -862,7 +982,7 @@ const SupplyChainMap: React.FC = () => {
                             LG
                         </button>
                         <button
-                            onClick={() => { setSelectedChain('SAMSUNG'); setSelectedNode(null); }}
+                            onClick={() => { setSelectedChain('SAMSUNG'); setSelectedNodeId(null); }}
                             className={`px-4 py-2 rounded-md text-sm font-bold flex items-center gap-2 transition-all ${
                                 selectedChain === 'SAMSUNG' 
                                 ? 'bg-[#1428A0] text-white shadow' 
@@ -888,16 +1008,16 @@ const SupplyChainMap: React.FC = () => {
                         <h4 className="font-bold mb-2 text-slate-400">{t('scm_legend')}</h4>
                         <div className="space-y-1.5">
                             <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-blue-500"></div> {t('scm_oem')}</div>
-                            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-emerald-500"></div> Tier 1</div>
-                            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-purple-500"></div> Tier 2</div>
-                            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-orange-500"></div> Tier 3</div>
-                            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-slate-500"></div> Tier 4 (Raw)</div>
+                            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-emerald-500"></div> {isKo ? '1차 협력사' : 'Tier 1'}</div>
+                            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-purple-500"></div> {isKo ? '2차 협력사' : 'Tier 2'}</div>
+                            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-orange-500"></div> {isKo ? '3차 협력사' : 'Tier 3'}</div>
+                            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-slate-500"></div> {isKo ? '4차 협력사 (원자재)' : 'Tier 4 (Raw)'}</div>
                             {showDataLayer && (
                                 <>
                                     <div className="h-px bg-slate-600 my-1"></div>
-                                    <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-[#f59e0b]"></div> Trust Link (Identity)</div>
-                                    <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-[#60a5fa]"></div> P2P Data Flow</div>
-                                    <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full border border-blue-400"></div> DAPS (Trust Anchor)</div>
+                                    <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-[#f59e0b]"></div> {isKo ? '신뢰 연결 (신원 검증)' : 'Trust Link (Identity)'}</div>
+                                    <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-[#60a5fa]"></div> {isKo ? 'P2P 데이터 흐름' : 'P2P Data Flow'}</div>
+                                    <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full border border-blue-400"></div> {isKo ? 'DAPS (신뢰 앵커)' : 'DAPS (Trust Anchor)'}</div>
                                 </>
                             )}
                         </div>
@@ -919,7 +1039,7 @@ const SupplyChainMap: React.FC = () => {
                                         <ShieldCheck size={24} />
                                     </div>
                                 </foreignObject>
-                                <text x={450} y={310} textAnchor="middle" fill="#60a5fa" fontSize="10" fontWeight="bold">DAPS Trust Anchor</text>
+                                <text x={450} y={310} textAnchor="middle" fill="#60a5fa" fontSize="10" fontWeight="bold">{isKo ? 'DAPS 신뢰 앵커' : 'DAPS Trust Anchor'}</text>
                                 
                                 {/* Dashed Trust Links (Identity - Yellow/Gold) */}
                                 {nodes.map((node) => (
@@ -979,7 +1099,7 @@ const SupplyChainMap: React.FC = () => {
                             return (
                                 <g 
                                     key={node.id} 
-                                    onClick={() => setSelectedNode(node)}
+                                    onClick={() => setSelectedNodeId(node.id)}
                                     className="cursor-pointer hover:opacity-80 transition-opacity"
                                 >
                                     <circle 
@@ -994,7 +1114,7 @@ const SupplyChainMap: React.FC = () => {
                                     <foreignObject x={node.x - 60} y={node.y + 30} width="120" height="70">
                                         <div className="text-center flex flex-col items-center">
                                             <span className="text-[10px] text-white font-bold block truncate drop-shadow-md bg-slate-900/50 rounded px-2 py-0.5 mb-0.5 max-w-full">{node.label}</span>
-                                            <span className="text-[9px] text-slate-300 block mb-1">{node.type}</span>
+                                            <span className="text-[9px] text-slate-300 block mb-1">{localize(nodeTypeLabels, node.type)}</span>
                                             
                                             {/* Status Tag */}
                                             <span className={`text-[8px] px-1.5 py-0.5 rounded-full font-bold border backdrop-blur-sm shadow-sm ${
@@ -1002,7 +1122,7 @@ const SupplyChainMap: React.FC = () => {
                                                 node.dataSpaceStatus === 'Pending' ? 'bg-amber-500/80 text-white border-amber-400' :
                                                 'bg-slate-600/80 text-slate-300 border-slate-500'
                                             }`}>
-                                                {node.dataSpaceStatus === 'Active' ? 'DS Active' : node.dataSpaceStatus}
+                                                {dsStatusLabel(node.dataSpaceStatus)}
                                             </span>
                                         </div>
                                     </foreignObject>
@@ -1055,18 +1175,18 @@ const SupplyChainMap: React.FC = () => {
                             <div className="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-start">
                                 <div>
                                     <span className={`text-[10px] font-bold px-2 py-1 rounded-full text-white mb-2 inline-block ${selectedNode.type === 'OEM' ? 'bg-blue-600' : 'bg-slate-500'}`}>
-                                        {selectedNode.type}
+                                        {localize(nodeTypeLabels, selectedNode.type)}
                                     </span>
                                     <h3 className="text-xl font-bold text-slate-900">{selectedNode.label}</h3>
-                                    <p className="text-xs text-slate-500">{selectedNode.industry}</p>
+                                    <p className="text-xs text-slate-500">{localize(industryLabels, selectedNode.industry)}</p>
                                 </div>
-                                <button onClick={() => setSelectedNode(null)} className="text-slate-400 hover:text-slate-600">
+                                <button onClick={() => setSelectedNodeId(null)} className="text-slate-400 hover:text-slate-600">
                                     <X className="w-5 h-5" />
                                 </button>
                             </div>
                             <div className="p-6 space-y-6 flex-1 overflow-y-auto">
                                 <p className="text-sm text-slate-600 leading-relaxed">
-                                    {selectedNode.description}
+                                    {localize(nodeDescriptionLabels, selectedNode.description)}
                                 </p>
 
                                 {/* Identity & Trust Badges */}
@@ -1077,11 +1197,11 @@ const SupplyChainMap: React.FC = () => {
                                         : 'bg-slate-100 text-slate-500 border-slate-200'
                                     }`}>
                                         <Network className="w-3 h-3" />
-                                        {selectedNode.dataSpaceStatus === 'Active' ? 'DataSpace Member' : 'Not Registered'}
+                                        {selectedNode.dataSpaceStatus === 'Active' ? (isKo ? '데이터스페이스 참여사' : 'DataSpace Member') : (isKo ? '미등록' : 'Not Registered')}
                                     </span>
                                     {selectedNode.isCertified && (
                                         <span className="text-[10px] font-bold px-2 py-1 rounded bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
-                                            <BadgeCheck className="w-3 h-3" /> Certified
+                                            <BadgeCheck className="w-3 h-3" /> {isKo ? '인증 완료' : 'Certified'}
                                         </span>
                                     )}
                                 </div>
@@ -1089,21 +1209,21 @@ const SupplyChainMap: React.FC = () => {
                                 {/* Corporate Intelligence Card */}
                                 <div className="bg-slate-50 rounded-xl p-4 border border-slate-200">
                                     <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 flex items-center gap-1">
-                                        <Building2 className="w-3 h-3" /> Corporate Intelligence
+                                        <Building2 className="w-3 h-3" /> {isKo ? '기업 정보' : 'Corporate Intelligence'}
                                     </h4>
                                     <div className="space-y-3">
                                         <div className="flex items-start gap-3">
                                             <User className="w-4 h-4 text-slate-400 mt-0.5" />
                                             <div>
-                                                <span className="text-[10px] text-slate-500 block">CEO</span>
-                                                <span className="text-xs font-bold text-slate-800">{selectedNode.corpInfo.ceo}</span>
+                                                <span className="text-[10px] text-slate-500 block">{isKo ? '대표이사' : 'CEO'}</span>
+                                                <span className="text-xs font-bold text-slate-800">{localize(corpValueLabels, selectedNode.corpInfo.ceo)}</span>
                                             </div>
                                         </div>
                                         <div className="flex items-start gap-3">
                                             <MapPin className="w-4 h-4 text-slate-400 mt-0.5" />
                                             <div>
-                                                <span className="text-[10px] text-slate-500 block">Headquarters</span>
-                                                <span className="text-xs font-bold text-slate-800">{selectedNode.corpInfo.hq}</span>
+                                                <span className="text-[10px] text-slate-500 block">{isKo ? '본사' : 'Headquarters'}</span>
+                                                <span className="text-xs font-bold text-slate-800">{localize(hqLabels, selectedNode.corpInfo.hq)}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1113,7 +1233,7 @@ const SupplyChainMap: React.FC = () => {
                                 <div>
                                     <div className="flex justify-between items-center mb-3">
                                         <h4 className="text-xs font-bold text-slate-900 uppercase flex items-center gap-1">
-                                            <Wifi className="w-3 h-3" /> Data Exchange Monitor
+                                            <Wifi className="w-3 h-3" /> {isKo ? '데이터 교환 모니터' : 'Data Exchange Monitor'}
                                         </h4>
                                     </div>
                                     
@@ -1129,7 +1249,7 @@ const SupplyChainMap: React.FC = () => {
                                                     : 'text-slate-500 hover:text-slate-700'
                                                 }`}
                                             >
-                                                {level === 'All' ? 'All' : level.substring(0, 4)}
+                                                {isKo ? levelLabels[level] : (level === 'All' ? 'All' : level.substring(0, 4))}
                                             </button>
                                         ))}
                                     </div>
@@ -1141,7 +1261,7 @@ const SupplyChainMap: React.FC = () => {
                                             <div 
                                                 key={ex.id} 
                                                 className="flex items-center justify-between p-3 bg-white border border-slate-100 rounded-lg hover:border-blue-200 transition-colors shadow-sm cursor-pointer group"
-                                                onClick={() => setSelectedExchange(ex)}
+                                                onClick={() => setSelectedExchangeId(ex.id)}
                                             >
                                                 <div className="flex items-center gap-3">
                                                     <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
@@ -1166,7 +1286,7 @@ const SupplyChainMap: React.FC = () => {
                                         ))}
                                         {selectedNode.dataExchanges.filter(ex => exchangeFilter === 'All' || ex.level === exchangeFilter).length === 0 && (
                                             <div className="text-center py-4 text-xs text-slate-400 bg-slate-50 rounded border border-dashed border-slate-200">
-                                                No exchanges found for this level.
+                                                {isKo ? '해당 레벨에 등록된 데이터 교환이 없습니다.' : 'No exchanges found for this level.'}
                                             </div>
                                         )}
                                     </div>
@@ -1189,7 +1309,7 @@ const SupplyChainMap: React.FC = () => {
                                     onClick={() => setShowProfileModal(true)}
                                     className="w-full py-2 bg-slate-900 text-white rounded-lg text-sm font-bold hover:bg-slate-800 flex items-center justify-center gap-2"
                                 >
-                                    View Full Profile <ChevronRight className="w-4 h-4" />
+                                    {isKo ? '전체 프로필 보기' : 'View Full Profile'} <ChevronRight className="w-4 h-4" />
                                 </button>
                             </div>
                         </>

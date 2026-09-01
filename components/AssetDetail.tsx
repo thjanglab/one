@@ -4,13 +4,14 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { MOCK_ASSETS, CURRENT_USER } from '../constants';
 import { ShieldCheck, Server, FileText, CheckCircle2, ArrowRight, Lock, History } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { getIndustryLabel, getAssetTypeLabel, assetTitle, assetDescription } from '../labels';
 import { useAssets } from '../contexts/AssetContext';
 import PaymentModal from './PaymentModal';
 
 const AssetDetail: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { isOwned } = useAssets();
   const asset = MOCK_ASSETS.find(a => a.id === id);
   
@@ -19,8 +20,12 @@ const AssetDetail: React.FC = () => {
   // If already owned, show "Access" state
   const owned = asset ? isOwned(asset.id) : false;
 
+  const techSpecs = language === 'KO'
+    ? ['형식: JSON/Parquet', '프로토콜: IDS/EDC', '갱신 주기: 실시간', '라이선스: 상업적 이용']
+    : ['Format: JSON/Parquet', 'Protocol: IDS/EDC', 'Update Frequency: Real-time', 'License: Commercial Use'];
+
   if (!asset) {
-    return <div className="p-8">Asset not found</div>;
+    return <div className="p-8">{language === 'KO' ? '자산을 찾을 수 없습니다' : 'Asset not found'}</div>;
   }
 
   return (
@@ -40,22 +45,22 @@ const AssetDetail: React.FC = () => {
       {/* Header Section */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="h-64 bg-slate-100 relative">
-            <img src={asset.imageUrl} alt={asset.title} className="w-full h-full object-cover" />
+            <img src={asset.imageUrl} alt={assetTitle(asset, language)} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent"></div>
             <div className="absolute bottom-6 left-6 text-white">
                 <div className="flex items-center gap-2 mb-2">
-                    <span className="px-2 py-1 bg-white/20 backdrop-blur rounded text-xs font-semibold">{asset.industry}</span>
+                    <span className="px-2 py-1 bg-white/20 backdrop-blur rounded text-xs font-semibold">{getIndustryLabel(asset.industry, language)}</span>
                     <span className="px-2 py-1 bg-blue-600/80 backdrop-blur rounded text-xs font-semibold flex items-center gap-1">
-                        {asset.type.replace('_', ' ')}
+                        {getAssetTypeLabel(asset.type, language)}
                     </span>
                     {asset.certified && (
                         <span className="px-2.5 py-1 bg-amber-500/90 backdrop-blur rounded text-xs font-bold flex items-center gap-1 text-white shadow-sm border border-amber-400/30">
                             <ShieldCheck className="w-3.5 h-3.5 fill-amber-600 stroke-white" />
-                            Certified
+                            {language === 'KO' ? '인증됨' : 'Certified'}
                         </span>
                     )}
                 </div>
-                <h1 className="text-3xl font-bold">{asset.title}</h1>
+                <h1 className="text-3xl font-bold">{assetTitle(asset, language)}</h1>
             </div>
         </div>
 
@@ -63,7 +68,7 @@ const AssetDetail: React.FC = () => {
             <div className="flex-1 space-y-6">
                 <div>
                     <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-2">{t('ad_desc')}</h3>
-                    <p className="text-slate-600 leading-relaxed">{asset.description}</p>
+                    <p className="text-slate-600 leading-relaxed">{assetDescription(asset, language)}</p>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
@@ -72,7 +77,7 @@ const AssetDetail: React.FC = () => {
                             <Server className="w-4 h-4" />
                             <span className="text-xs font-medium uppercase">{t('ad_data_vol')}</span>
                         </div>
-                        <p className="font-semibold text-slate-900">{asset.dataPoints?.toLocaleString() || 'N/A'} {t('ad_entries')}</p>
+                        <p className="font-semibold text-slate-900">{asset.dataPoints !== undefined ? `${asset.dataPoints.toLocaleString()} ${t('ad_entries')}` : (language === 'KO' ? '정보 없음' : 'N/A')}</p>
                      </div>
                      <div className="p-4 bg-slate-50 rounded-lg border border-slate-100">
                         <div className="flex items-center gap-2 text-slate-500 mb-1">
@@ -89,7 +94,7 @@ const AssetDetail: React.FC = () => {
                 <div>
                      <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3">{t('ad_tech_spec')}</h3>
                      <div className="space-y-2">
-                        {['Format: JSON/Parquet', 'Protocol: IDS/EDC', 'Update Frequency: Real-time', 'License: Commercial Use'].map((spec, i) => (
+                        {techSpecs.map((spec, i) => (
                             <div key={i} className="flex items-center gap-3 text-sm text-slate-600">
                                 <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                                 {spec}
@@ -123,7 +128,7 @@ const AssetDetail: React.FC = () => {
                                 <div className="mx-auto w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center mb-2">
                                     <CheckCircle2 className="w-6 h-6 text-emerald-600" />
                                 </div>
-                                <h4 className="font-bold text-emerald-800 text-sm">Active Subscription</h4>
+                                <h4 className="font-bold text-emerald-800 text-sm">{language === 'KO' ? '구독 중' : 'Active Subscription'}</h4>
                                 <button 
                                     onClick={() => navigate('/dashboard')}
                                     className="mt-3 w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-semibold transition-colors flex items-center justify-center gap-2"

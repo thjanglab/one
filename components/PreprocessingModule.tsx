@@ -194,7 +194,7 @@ const PreprocessingModule: React.FC = () => {
                                     <FileCheck className="w-6 h-6 text-emerald-600" />
                                     <div>
                                         <h3 className="font-bold text-slate-900">{selectedFile}</h3>
-                                        <p className="text-xs text-slate-500">12.5 MB • 24,500 Rows • 15 Columns</p>
+                                        <p className="text-xs text-slate-500">{language === 'KO' ? '12.5 MB • 24,500행 • 15열' : '12.5 MB • 24,500 Rows • 15 Columns'}</p>
                                     </div>
                                 </div>
                                 <button onClick={reset} className="text-xs text-red-500 hover:underline">{t('pp_btn_remove')}</button>
@@ -203,7 +203,7 @@ const PreprocessingModule: React.FC = () => {
                             <div className="p-8">
                                 <h3 className="font-bold text-lg text-slate-900 mb-6 flex items-center gap-2">
                                     <Workflow className="w-5 h-5 text-slate-500" />
-                                    Pipeline Visualizer
+                                    {language === 'KO' ? '파이프라인 시각화' : 'Pipeline Visualizer'}
                                 </h3>
 
                                 {/* Flowchart Canvas */}
@@ -214,7 +214,7 @@ const PreprocessingModule: React.FC = () => {
                                             <div className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-white shadow-md border-4 border-slate-100">
                                                 <Database className="w-6 h-6" />
                                             </div>
-                                            <span className="text-xs font-bold text-slate-600 uppercase">Input</span>
+                                            <span className="text-xs font-bold text-slate-600 uppercase">{language === 'KO' ? '입력' : 'Input'}</span>
                                         </div>
 
                                         {/* Dynamic Nodes */}
@@ -255,14 +255,14 @@ const PreprocessingModule: React.FC = () => {
                                             <div className={`w-14 h-14 rounded-full flex items-center justify-center text-white shadow-md border-4 border-slate-100 ${userType === 'SME' ? 'bg-blue-600' : 'bg-purple-600'}`}>
                                                 <FileCheck className="w-6 h-6" />
                                             </div>
-                                            <span className="text-xs font-bold text-slate-600 uppercase">Output</span>
+                                            <span className="text-xs font-bold text-slate-600 uppercase">{language === 'KO' ? '출력' : 'Output'}</span>
                                         </div>
                                     </div>
                                 </div>
                                 
                                 {/* Tool Palette (Available Operations) */}
                                 <div className="mb-8">
-                                    <h4 className="text-xs font-bold text-slate-500 uppercase mb-3">Available Operations</h4>
+                                    <h4 className="text-xs font-bold text-slate-500 uppercase mb-3">{language === 'KO' ? '사용 가능한 작업' : 'Available Operations'}</h4>
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                         {availableTools.map((tool) => {
                                             const isActive = flowSteps.includes(tool.id);
@@ -281,7 +281,7 @@ const PreprocessingModule: React.FC = () => {
                                                     </div>
                                                     <div className="text-left">
                                                         <span className="block text-xs font-bold">{tool.label}</span>
-                                                        <span className="text-[10px] opacity-80">{isActive ? 'Active' : 'Add to flow'}</span>
+                                                        <span className="text-[10px] opacity-80">{isActive ? (language === 'KO' ? '적용됨' : 'Active') : (language === 'KO' ? '흐름에 추가' : 'Add to flow')}</span>
                                                     </div>
                                                     {isActive && <CheckCircle2 className="w-4 h-4 ml-auto" />}
                                                 </button>
@@ -295,28 +295,28 @@ const PreprocessingModule: React.FC = () => {
                                     <div className="p-4 border border-slate-200 rounded-xl bg-slate-50 mb-8 animate-fadeIn">
                                         <h4 className="text-xs font-bold text-slate-500 uppercase mb-4 flex items-center gap-2">
                                             <Sliders className="w-4 h-4" />
-                                            Node Configuration
+                                            {language === 'KO' ? '노드 상세 설정' : 'Node Configuration'}
                                         </h4>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             {flowSteps.includes('Imputation') && (
                                                 <div>
-                                                    <label className="text-xs font-semibold text-slate-600 block mb-1">Imputation Strategy</label>
+                                                    <label className="text-xs font-semibold text-slate-600 block mb-1">{language === 'KO' ? '결측치 보간 방식' : 'Imputation Strategy'}</label>
                                                     <select 
                                                         className="w-full p-2 text-sm border border-slate-300 rounded bg-white focus:border-purple-500 outline-none"
                                                         value={config.imputationMethod}
                                                         onChange={(e) => setConfig({...config, imputationMethod: e.target.value})}
                                                     >
-                                                        <option value="mean">Mean Substitution</option>
-                                                        <option value="median">Median Substitution</option>
-                                                        <option value="knn">K-Nearest Neighbors (KNN)</option>
-                                                        <option value="linear">Linear Interpolation</option>
+                                                        <option value="mean">{language === 'KO' ? '평균값 대체' : 'Mean Substitution'}</option>
+                                                        <option value="median">{language === 'KO' ? '중앙값 대체' : 'Median Substitution'}</option>
+                                                        <option value="knn">{language === 'KO' ? 'K-최근접 이웃 (KNN)' : 'K-Nearest Neighbors (KNN)'}</option>
+                                                        <option value="linear">{language === 'KO' ? '선형 보간' : 'Linear Interpolation'}</option>
                                                     </select>
                                                 </div>
                                             )}
                                             {flowSteps.includes('Outlier Removal') && (
                                                 <div>
                                                     <div className="flex justify-between text-xs text-slate-600 mb-1">
-                                                        <span className="font-semibold">Z-Score Threshold</span>
+                                                        <span className="font-semibold">{language === 'KO' ? 'Z-Score 임계값' : 'Z-Score Threshold'}</span>
                                                         <span className="font-bold text-purple-600">{config.outlierThreshold}</span>
                                                     </div>
                                                     <input 
@@ -368,13 +368,13 @@ const PreprocessingModule: React.FC = () => {
                                             <DollarSign className="w-6 h-6" />
                                         </div>
                                         <div>
-                                            <h3 className="text-emerald-900 font-bold text-lg">Estimated Savings</h3>
-                                            <p className="text-emerald-700 text-sm">Manual cleaning time saved: ~12 hours</p>
+                                            <h3 className="text-emerald-900 font-bold text-lg">{language === 'KO' ? '예상 절감 효과' : 'Estimated Savings'}</h3>
+                                            <p className="text-emerald-700 text-sm">{language === 'KO' ? '수작업 정제 시간 약 12시간 절약' : 'Manual cleaning time saved: ~12 hours'}</p>
                                         </div>
                                     </div>
                                     <div className="text-right">
                                         <p className="text-3xl font-bold text-emerald-600">$850</p>
-                                        <p className="text-xs text-emerald-500 font-bold uppercase">This Session</p>
+                                        <p className="text-xs text-emerald-500 font-bold uppercase">{language === 'KO' ? '이번 작업 기준' : 'This Session'}</p>
                                     </div>
                                 </div>
                             )}
@@ -393,8 +393,8 @@ const PreprocessingModule: React.FC = () => {
                                             <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} />
                                             <Tooltip contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 10px rgba(0,0,0,0.05)'}} />
                                             <Legend />
-                                            <Line type="monotone" dataKey="value" stroke="#cbd5e1" strokeWidth={2} dot={{r: 4}} name="Original Data" />
-                                            <Line type="monotone" dataKey="processed" stroke={userType === 'SME' ? '#3b82f6' : '#9333ea'} strokeWidth={3} dot={false} name="Processed Data" />
+                                            <Line type="monotone" dataKey="value" stroke="#cbd5e1" strokeWidth={2} dot={{r: 4}} name={language === 'KO' ? '원본 데이터' : 'Original Data'} />
+                                            <Line type="monotone" dataKey="processed" stroke={userType === 'SME' ? '#3b82f6' : '#9333ea'} strokeWidth={3} dot={false} name={language === 'KO' ? '처리 후 데이터' : 'Processed Data'} />
                                         </LineChart>
                                     </ResponsiveContainer>
                                 </div>
@@ -404,7 +404,7 @@ const PreprocessingModule: React.FC = () => {
                             <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                                 <h3 className="font-bold text-lg text-slate-900 mb-4 flex items-center gap-2">
                                     <PieChart className={`w-5 h-5 ${userType === 'SME' ? 'text-blue-600' : 'text-purple-600'}`} />
-                                    Multidimensional Quality Analysis
+                                    {language === 'KO' ? '다차원 품질 분석' : 'Multidimensional Quality Analysis'}
                                 </h3>
                                 <div className="h-80 w-full">
                                     <ResponsiveContainer width="100%" height="100%">
@@ -413,14 +413,14 @@ const PreprocessingModule: React.FC = () => {
                                             <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 11, fontWeight: 'bold' }} />
                                             <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
                                             <Radar 
-                                                name="Before" 
+                                                name={language === 'KO' ? '처리 전' : 'Before'} 
                                                 dataKey="A" 
                                                 stroke="#94a3b8" 
                                                 fill="#cbd5e1" 
                                                 fillOpacity={0.3} 
                                             />
                                             <Radar 
-                                                name="After" 
+                                                name={language === 'KO' ? '처리 후' : 'After'} 
                                                 dataKey="B" 
                                                 stroke={userType === 'SME' ? '#3b82f6' : '#9333ea'} 
                                                 fill={userType === 'SME' ? '#3b82f6' : '#a855f7'} 
@@ -432,7 +432,7 @@ const PreprocessingModule: React.FC = () => {
                                     </ResponsiveContainer>
                                 </div>
                                 <div className="text-center text-xs text-slate-500 mt-2">
-                                    Quality Improvement in 5 Key Dimensions
+                                    {language === 'KO' ? '5개 핵심 항목의 품질 개선 결과' : 'Quality Improvement in 5 Key Dimensions'}
                                 </div>
                             </div>
 
@@ -445,10 +445,10 @@ const PreprocessingModule: React.FC = () => {
                                     <table className="w-full text-sm text-left">
                                         <thead className="bg-white text-slate-500 font-medium border-b border-slate-100">
                                             <tr>
-                                                <th className="px-6 py-3">Timestamp</th>
-                                                <th className="px-6 py-3">Sensor_A (Raw)</th>
-                                                <th className={`px-6 py-3 ${userType === 'SME' ? 'text-blue-600' : 'text-purple-600'}`}>Sensor_A (Clean)</th>
-                                                <th className="px-6 py-3">Flag</th>
+                                                <th className="px-6 py-3">{language === 'KO' ? '타임스탬프' : 'Timestamp'}</th>
+                                                <th className="px-6 py-3">{language === 'KO' ? 'Sensor_A (원본)' : 'Sensor_A (Raw)'}</th>
+                                                <th className={`px-6 py-3 ${userType === 'SME' ? 'text-blue-600' : 'text-purple-600'}`}>{language === 'KO' ? 'Sensor_A (정제)' : 'Sensor_A (Clean)'}</th>
+                                                <th className="px-6 py-3">{language === 'KO' ? '상태' : 'Flag'}</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-50">
@@ -459,9 +459,9 @@ const PreprocessingModule: React.FC = () => {
                                                     <td className={`px-6 py-3 font-bold ${userType === 'SME' ? 'text-blue-700 bg-blue-50/50' : 'text-purple-700 bg-purple-50/50'}`}>{row.processed.toFixed(4)}</td>
                                                     <td className="px-6 py-3">
                                                         {Math.abs(row.value - row.processed) > 1 ? (
-                                                            <span className="px-2 py-0.5 rounded text-[10px] bg-red-100 text-red-600 font-bold">Outlier Fixed</span>
+                                                            <span className="px-2 py-0.5 rounded text-[10px] bg-red-100 text-red-600 font-bold">{language === 'KO' ? '이상치 보정' : 'Outlier Fixed'}</span>
                                                         ) : (
-                                                            <span className="px-2 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-600 font-bold">OK</span>
+                                                            <span className="px-2 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-600 font-bold">{language === 'KO' ? '정상' : 'OK'}</span>
                                                         )}
                                                     </td>
                                                 </tr>
@@ -480,17 +480,17 @@ const PreprocessingModule: React.FC = () => {
                         <h3 className="font-bold text-lg mb-4">{t('pp_stats_title')}</h3>
                         <div className="space-y-4">
                             <div className="flex justify-between items-center">
-                                <span className="text-slate-400 text-sm">Total Rows</span>
+                                <span className="text-slate-400 text-sm">{language === 'KO' ? '전체 행 수' : 'Total Rows'}</span>
                                 <span className="font-mono font-bold">24,500</span>
                             </div>
                             <div className="flex justify-between items-center">
-                                <span className="text-slate-400 text-sm">Missing Values</span>
+                                <span className="text-slate-400 text-sm">{language === 'KO' ? '결측치' : 'Missing Values'}</span>
                                 <span className={`font-mono font-bold ${step === 3 ? 'text-emerald-400' : 'text-orange-400'}`}>
                                     {step === 3 ? '0' : '1,240'}
                                 </span>
                             </div>
                             <div className="flex justify-between items-center">
-                                <span className="text-slate-400 text-sm">Outliers Detected</span>
+                                <span className="text-slate-400 text-sm">{language === 'KO' ? '탐지된 이상치' : 'Outliers Detected'}</span>
                                 <span className={`font-mono font-bold ${step === 3 ? 'text-emerald-400' : 'text-red-400'}`}>
                                     {step === 3 ? '0' : '856'}
                                 </span>
@@ -499,7 +499,7 @@ const PreprocessingModule: React.FC = () => {
                             
                             {/* Detailed List for Enterprise */}
                             <div className="flex justify-between items-center">
-                                <span className="text-slate-400 text-sm">Quality Score</span>
+                                <span className="text-slate-400 text-sm">{language === 'KO' ? '품질 점수' : 'Quality Score'}</span>
                                 <span className={`font-bold text-xl ${userType === 'SME' ? 'text-blue-400' : 'text-purple-400'}`}>{step === 3 ? '98.5' : '72.4'}</span>
                             </div>
                         </div>
@@ -513,10 +513,10 @@ const PreprocessingModule: React.FC = () => {
                                     <div className="bg-blue-50 border border-blue-100 p-4 rounded-xl">
                                         <h4 className="text-sm font-bold text-blue-900 mb-2 flex items-center gap-2">
                                             <Cloud className="w-4 h-4" />
-                                            Serverless Export
+                                            {language === 'KO' ? '서버리스 내보내기' : 'Serverless Export'}
                                         </h4>
                                         <p className="text-xs text-blue-600 mb-3">
-                                            No server? No problem. Deploy directly to cloud or generate a hosted API.
+                                            {language === 'KO' ? '서버가 없어도 괜찮습니다. 클라우드로 바로 배포하거나 호스팅 API를 생성해 보세요.' : 'No server? No problem. Deploy directly to cloud or generate a hosted API.'}
                                         </p>
                                         <div className="grid grid-cols-2 gap-2">
                                             <button className="flex flex-col items-center justify-center p-3 bg-white border border-blue-200 rounded-lg hover:border-blue-400 transition-colors shadow-sm">
@@ -547,16 +547,16 @@ const PreprocessingModule: React.FC = () => {
                                             {isGeneratingApi ? (
                                                 <div className="flex items-center gap-2 text-xs text-slate-500">
                                                     <RefreshCw className="w-3 h-3 animate-spin" />
-                                                    Provisioning Serverless Endpoint...
+                                                    {language === 'KO' ? '서버리스 엔드포인트를 생성하는 중...' : 'Provisioning Serverless Endpoint...'}
                                                 </div>
                                             ) : (
                                                 <>
                                                     <div className="flex justify-between items-center mb-2">
                                                         <span className="text-xs font-bold text-slate-900 flex items-center gap-1">
                                                             <Globe className="w-3 h-3 text-emerald-500" />
-                                                            Hosted API Ready
+                                                            {language === 'KO' ? '호스팅 API 준비 완료' : 'Hosted API Ready'}
                                                         </span>
-                                                        <span className="text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Active</span>
+                                                        <span className="text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">{language === 'KO' ? '활성' : 'Active'}</span>
                                                     </div>
                                                     <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded p-2 mb-2">
                                                         <code className="text-[10px] text-slate-600 truncate flex-1">{hostedUrl}</code>
@@ -564,7 +564,7 @@ const PreprocessingModule: React.FC = () => {
                                                     </div>
                                                     <div className="flex items-center gap-1 text-[10px] text-slate-400">
                                                         <Key className="w-3 h-3" />
-                                                        <span>API Key: sk_live_...9f2</span>
+                                                        <span>{language === 'KO' ? 'API 키: sk_live_...9f2' : 'API Key: sk_live_...9f2'}</span>
                                                     </div>
                                                 </>
                                             )}
@@ -596,12 +596,12 @@ const PreprocessingModule: React.FC = () => {
                     <div className={`${userType === 'SME' ? 'bg-blue-50 border-blue-100' : 'bg-purple-50 border-purple-100'} p-5 rounded-xl border`}>
                         <h4 className={`font-bold text-sm mb-2 flex items-center gap-2 ${userType === 'SME' ? 'text-blue-900' : 'text-purple-900'}`}>
                             <Wand2 className="w-4 h-4" />
-                            Auto-ML Suggestion
+                            {language === 'KO' ? 'Auto-ML 추천' : 'Auto-ML Suggestion'}
                         </h4>
                         <p className={`text-xs leading-relaxed ${userType === 'SME' ? 'text-blue-700' : 'text-purple-700'}`}>
                             {userType === 'SME' 
-                                ? 'Simple cleanup is sufficient for this dataset. Click "Download" to use it in Excel.' 
-                                : 'Distribution analysis suggests enabling KNN Imputation (k=5) for optimal model accuracy.'}
+                                ? (language === 'KO' ? '이 데이터셋은 간단한 정제만으로도 충분합니다. "다운로드"를 눌러 Excel에서 바로 활용해 보세요.' : 'Simple cleanup is sufficient for this dataset. Click "Download" to use it in Excel.') 
+                                : (language === 'KO' ? '분포 분석 결과, 모델 정확도를 높이려면 KNN 보간(k=5) 적용을 권장합니다.' : 'Distribution analysis suggests enabling KNN Imputation (k=5) for optimal model accuracy.')}
                         </p>
                     </div>
                 </div>

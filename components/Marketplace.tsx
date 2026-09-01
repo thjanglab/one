@@ -4,25 +4,32 @@ import AssetCard from './AssetCard';
 import { Search, Filter, SlidersHorizontal, BarChart, Layers, Zap, Activity, ScanEye } from 'lucide-react';
 import { AssetType, Industry, AICategory } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
+import { getIndustryLabel, getAssetTypeLabel, assetTitle, assetDescription } from '../labels';
 
-const CORE_AI_FILTERS = [
-  { id: AICategory.SUPPLY_CHAIN, label: 'Supply Chain (SCM)', icon: <BarChart className="w-4 h-4" />, color: 'text-purple-600 bg-purple-50 border-purple-200' },
-  { id: AICategory.DIGITAL_TWIN, label: 'Digital Twin', icon: <Layers className="w-4 h-4" />, color: 'text-indigo-600 bg-indigo-50 border-indigo-200' },
-  { id: AICategory.PREDICTIVE_MAINT, label: 'Auto & Maintenance', icon: <Activity className="w-4 h-4" />, color: 'text-orange-600 bg-orange-50 border-orange-200' },
-  { id: AICategory.QUALITY_INSPECTION, label: 'Quality (QA)', icon: <ScanEye className="w-4 h-4" />, color: 'text-rose-600 bg-rose-50 border-rose-200' },
-  { id: AICategory.ENERGY_OPTIMIZATION, label: 'Energy & Carbon', icon: <Zap className="w-4 h-4" />, color: 'text-teal-600 bg-teal-50 border-teal-200' },
+const getCoreAiFilters = (language: string) => [
+  { id: AICategory.SUPPLY_CHAIN, label: language === 'KO' ? '공급망 (SCM)' : 'Supply Chain (SCM)', icon: <BarChart className="w-4 h-4" />, color: 'text-purple-600 bg-purple-50 border-purple-200' },
+  { id: AICategory.DIGITAL_TWIN, label: language === 'KO' ? '디지털 트윈' : 'Digital Twin', icon: <Layers className="w-4 h-4" />, color: 'text-indigo-600 bg-indigo-50 border-indigo-200' },
+  { id: AICategory.PREDICTIVE_MAINT, label: language === 'KO' ? '설비 예지보전' : 'Auto & Maintenance', icon: <Activity className="w-4 h-4" />, color: 'text-orange-600 bg-orange-50 border-orange-200' },
+  { id: AICategory.QUALITY_INSPECTION, label: language === 'KO' ? '품질검사 (QA)' : 'Quality (QA)', icon: <ScanEye className="w-4 h-4" />, color: 'text-rose-600 bg-rose-50 border-rose-200' },
+  { id: AICategory.ENERGY_OPTIMIZATION, label: language === 'KO' ? '에너지·탄소' : 'Energy & Carbon', icon: <Zap className="w-4 h-4" />, color: 'text-teal-600 bg-teal-50 border-teal-200' },
 ];
+
 
 const Marketplace: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedIndustry, setSelectedIndustry] = useState<string>('All');
   const [selectedType, setSelectedType] = useState<string>('All');
   const [selectedAiCategory, setSelectedAiCategory] = useState<string | null>(null);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+
+  const coreAiFilters = getCoreAiFilters(language);
 
   const filteredAssets = MOCK_ASSETS.filter(asset => {
-    const matchesSearch = asset.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          asset.description.toLowerCase().includes(searchTerm.toLowerCase());
+    // Match both languages: a Korean user types Korean, but the English copy is
+    // still the record's primary text.
+    const haystack = [asset.title, asset.titleKo, asset.description, asset.descriptionKo]
+      .filter(Boolean).join(' ').toLowerCase();
+    const matchesSearch = haystack.includes(searchTerm.toLowerCase());
     const matchesIndustry = selectedIndustry === 'All' || asset.industry === selectedIndustry;
     const matchesType = selectedType === 'All' || asset.type === selectedType;
     const matchesAi = selectedAiCategory ? asset.aiCategory === selectedAiCategory : true;
@@ -52,7 +59,7 @@ const Marketplace: React.FC = () => {
       <div className="space-y-3">
         <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wide">{t('mp_core_ai')}</h3>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-          {CORE_AI_FILTERS.map((cat) => (
+          {coreAiFilters.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setSelectedAiCategory(selectedAiCategory === cat.id ? null : cat.id)}
@@ -92,7 +99,7 @@ const Marketplace: React.FC = () => {
             >
                 <option value="All">{t('mp_all_ind')}</option>
                 {Object.values(Industry).map(ind => (
-                    <option key={ind} value={ind}>{ind}</option>
+                    <option key={ind} value={ind}>{getIndustryLabel(ind, language)}</option>
                 ))}
             </select>
 
@@ -103,7 +110,7 @@ const Marketplace: React.FC = () => {
             >
                 <option value="All">{t('mp_all_types')}</option>
                 {Object.values(AssetType).map(type => (
-                    <option key={type} value={type}>{type.replace('_', ' ')}</option>
+                    <option key={type} value={type}>{getAssetTypeLabel(type, language)}</option>
                 ))}
             </select>
         </div>

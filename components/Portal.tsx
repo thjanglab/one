@@ -17,7 +17,7 @@ const Portal: React.FC = () => {
     { id: 'PART', label: language === 'KO' ? '부품 (Parts)' : 'Parts', icon: <Cog className="w-4 h-4" /> },
     { id: 'DATASET', label: language === 'KO' ? '데이터 (Data)' : 'Data', icon: <Database className="w-4 h-4" /> },
     { id: 'AI_MODEL', label: language === 'KO' ? 'AI 서비스' : 'AI Service', icon: <Cpu className="w-4 h-4" /> },
-    { id: 'APP', label: language === 'KO' ? 'App' : 'App', icon: <LayoutGrid className="w-4 h-4" /> },
+    { id: 'APP', label: language === 'KO' ? '앱 (App)' : 'App', icon: <LayoutGrid className="w-4 h-4" /> },
   ];
 
   // Specific Apps Shortcuts - Icons Styled like the Framework cards
@@ -74,7 +74,7 @@ const Portal: React.FC = () => {
                         className="flex-1 px-4 py-2 outline-none text-slate-700 placeholder-slate-400 bg-transparent"
                     />
                     <button className="bg-slate-900 text-white px-6 py-2 rounded-full font-medium text-sm hover:bg-slate-800 transition-colors">
-                        Search
+                        {language === 'KO' ? '검색' : 'Search'}
                     </button>
                 </div>
              </div>
@@ -141,9 +141,9 @@ const Portal: React.FC = () => {
                                  </span>
                              </div>
                              <h3 className="font-bold text-slate-900 mb-1">{company.name}</h3>
-                             <p className="text-xs text-slate-500 line-clamp-1">{company.description}</p>
+                             <p className="text-xs text-slate-500 line-clamp-1">{language === 'KO' ? (company.descriptionKo || company.description) : company.description}</p>
                              <div className="mt-3 pt-3 border-t border-slate-100">
-                                 <span className="text-xs font-medium text-slate-400">{company.productsCount} items</span>
+                                 <span className="text-xs font-medium text-slate-400">{language === 'KO' ? `품목 ${company.productsCount}개` : `${company.productsCount} items`}</span>
                              </div>
                         </div>
                     ))}
@@ -167,7 +167,7 @@ const Portal: React.FC = () => {
                 </div>
             ) : (
                 <div className="text-center py-20 bg-white rounded-xl border border-dashed border-slate-300">
-                    <p className="text-slate-500">No items found in this category.</p>
+                    <p className="text-slate-500">{language === 'KO' ? '해당 카테고리에 등록된 항목이 없습니다.' : 'No items found in this category.'}</p>
                 </div>
             )}
          </div>

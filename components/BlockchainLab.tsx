@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MOCK_ASSETS, CURRENT_USER } from '../constants';
 import { Block, BlockchainTx, Asset } from '../types';
+import { assetTitle } from '../labels';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Box, ShieldCheck, Database, Terminal, Cpu, Play, CheckCircle2, Lock, Link as LinkIcon, RefreshCw, Layers, AlertCircle, XCircle, Settings2, UserCheck, ThumbsUp, ThumbsDown, AlertTriangle, Wallet, X, FileText, Share2, Printer, Check, ArrowRight, Info, BookOpen, Key, Timer, Fuel, Hash, Coins, Activity } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
@@ -37,63 +38,103 @@ interface ReportData {
     failureStage?: 'POLICY' | 'WALLET' | 'CONSENSUS'; // For Infographic
 }
 
-// Educational Content for Lecture Notes (Korean)
-const BLOCKCHAIN_EDU = {
+// Educational Content for Lecture Notes.
+// Declared outside the component, so it takes `language` instead of reading the hook.
+const getBlockchainEdu = (language: string) => ({
     0: {
-        title: "블록체인 & 스마트 컨트랙트",
-        concept: "분산 원장 기술 (DLT)",
-        analogy: "누구나 읽을 수 있지만, 아무도 지울 수 없는 공유된 디지털 공책입니다.",
-        lecture: `데이터스페이스에서 블록체인은 '신뢰 계층(Trust Layer)' 역할을 합니다.
+        title: language === 'KO' ? "블록체인 & 스마트 컨트랙트" : "Blockchain & Smart Contracts",
+        concept: language === 'KO' ? "분산 원장 기술 (DLT)" : "Distributed Ledger Technology (DLT)",
+        analogy: language === 'KO'
+            ? "누구나 읽을 수 있지만, 아무도 지울 수 없는 공유된 디지털 공책입니다."
+            : "A shared digital notebook that anyone can read, but no one can erase.",
+        lecture: language === 'KO'
+            ? `데이터스페이스에서 블록체인은 '신뢰 계층(Trust Layer)' 역할을 합니다.
 중앙 은행이나 중개자 없이 네트워크 노드들에 의해 모든 거래(스마트 컨트랙트)가 검증됩니다.
 주요 특징:
 1. 투명성: 모두가 동일한 기록을 봅니다.
 2. 불변성: 한 번 기록된 데이터는 변경할 수 없습니다.
-3. 자동화: 조건이 충족되면 스마트 컨트랙트가 자동으로 실행됩니다.`,
+3. 자동화: 조건이 충족되면 스마트 컨트랙트가 자동으로 실행됩니다.`
+            : `In a dataspace, the blockchain acts as the 'Trust Layer'.
+Every trade (smart contract) is verified by the network nodes themselves, with no central bank or intermediary in the middle.
+Key characteristics:
+1. Transparency: everyone sees the very same record.
+2. Immutability: once written, data can no longer be altered.
+3. Automation: a smart contract executes on its own the moment its conditions are met.`,
         techStack: "Hyperledger Besu / Ethereum (EVM)"
     },
     1: {
-        title: "1단계: 스마트 컨트랙트 정책 검사",
-        concept: "ODRL 정책 시행",
-        analogy: "입장하기 전에 표를 검사하는 자동 개찰구와 같습니다.",
-        lecture: `결제가 이루어지기 전에 스마트 컨트랙트는 ODRL(Open Digital Rights Language)로 정의된 '사용 정책'을 확인합니다.
+        title: language === 'KO' ? "1단계: 스마트 컨트랙트 정책 검사" : "Step 1: Smart Contract Policy Check",
+        concept: language === 'KO' ? "ODRL 정책 시행" : "ODRL Policy Enforcement",
+        analogy: language === 'KO'
+            ? "입장하기 전에 표를 검사하는 자동 개찰구와 같습니다."
+            : "Like an automated turnstile that checks your ticket before letting you through.",
+        lecture: language === 'KO'
+            ? `결제가 이루어지기 전에 스마트 컨트랙트는 ODRL(Open Digital Rights Language)로 정의된 '사용 정책'을 확인합니다.
 다음을 검증합니다:
 - 구매자는 누구인가? (신원)
 - 어디에 있는가? (지역)
 - 목적은 무엇인가? (사용 제약)
-조건이 맞지 않으면 트랜잭션은 즉시 취소(Revert)되어 가스비를 절약합니다.`,
+조건이 맞지 않으면 트랜잭션은 즉시 취소(Revert)되어 가스비를 절약합니다.`
+            : `Before any payment is made, the smart contract checks the 'usage policy' expressed in ODRL (Open Digital Rights Language).
+It verifies:
+- Who is the buyer? (Identity)
+- Where are they located? (Region)
+- What is it for? (Usage constraints)
+If the conditions are not met, the transaction reverts immediately, saving the gas fee.`,
         techStack: "Solidity, ODRL Interpreter"
     },
     2: {
-        title: "2단계: 전자 서명 & 잔액 확인",
-        concept: "공개키 암호화",
-        analogy: "나만 가지고 있는 도장으로 수표에 서명하여 본인임을 증명하는 것과 같습니다.",
-        lecture: `사용자는 개인키(Private Key)를 사용하여 트랜잭션 페이로드에 서명합니다.
+        title: language === 'KO' ? "2단계: 전자 서명 & 잔액 확인" : "Step 2: Digital Signature & Balance Check",
+        concept: language === 'KO' ? "공개키 암호화" : "Public Key Cryptography",
+        analogy: language === 'KO'
+            ? "나만 가지고 있는 도장으로 수표에 서명하여 본인임을 증명하는 것과 같습니다."
+            : "Like signing a cheque with a seal only you own, proving the signature is really yours.",
+        lecture: language === 'KO'
+            ? `사용자는 개인키(Private Key)를 사용하여 트랜잭션 페이로드에 서명합니다.
 네트워크는 사용자의 공개키(Public Key)로 서명을 검증하여 '부인 방지(Non-repudiation, 보낸 사실을 부인할 수 없음)'를 보장합니다.
-동시에 원장은 지갑에 충분한 잔액(토큰 + 가스비)이 있는지 확인합니다.`,
+동시에 원장은 지갑에 충분한 잔액(토큰 + 가스비)이 있는지 확인합니다.`
+            : `The user signs the transaction payload with their private key.
+The network verifies that signature against the user's public key, which guarantees non-repudiation - the sender cannot later deny having sent it.
+At the same time, the ledger checks that the wallet holds enough balance (tokens + gas fee).`,
         techStack: "ECDSA (Elliptic Curve), ERC-20 Tokens"
     },
     3: {
-        title: "3단계: 합의 & 마이닝",
-        concept: "IBFT 2.0 (권위 증명)",
-        analogy: "공식 기록을 승인하기 위해 투표하는 신뢰할 수 있는 판사 위원회와 같습니다.",
-        lecture: `산업용 블록체인에서는 작업 증명(채굴) 대신 권위 증명(PoA)을 주로 사용합니다.
+        title: language === 'KO' ? "3단계: 합의 & 마이닝" : "Step 3: Consensus & Mining",
+        concept: language === 'KO' ? "IBFT 2.0 (권위 증명)" : "IBFT 2.0 (Proof of Authority)",
+        analogy: language === 'KO'
+            ? "공식 기록을 승인하기 위해 투표하는 신뢰할 수 있는 판사 위원회와 같습니다."
+            : "Like a panel of trusted judges voting to approve the official record.",
+        lecture: language === 'KO'
+            ? `산업용 블록체인에서는 작업 증명(채굴) 대신 권위 증명(PoA)을 주로 사용합니다.
 선출된 '검증자 노드(Validator Node)'가 유효한 트랜잭션을 수집하여 '블록'으로 만들고 전파합니다.
-다른 노드들이 이를 검증하고, 66% 이상이 동의하면 블록체인에 추가되어 빠른 확정성을 보장합니다.`,
+다른 노드들이 이를 검증하고, 66% 이상이 동의하면 블록체인에 추가되어 빠른 확정성을 보장합니다.`
+            : `Industrial blockchains generally use Proof of Authority (PoA) rather than Proof of Work (mining).
+An elected validator node gathers the valid transactions, packs them into a block, and gossips it out.
+The other nodes verify it, and once more than 66% agree the block is appended to the chain - which is what gives this network its fast finality.`,
         techStack: "Consensus Algorithms, P2P Gossip Protocol"
     },
     4: {
-        title: "4단계: 확정 & 상태 업데이트",
-        concept: "상태 전이 (State Transition)",
-        analogy: "마스터 장부에 지워지지 않는 잉크로 최종 거래를 기록하는 것입니다.",
-        lecture: `블록은 암호화 방식으로 이전 블록과 연결(부모 해시)되어 체인을 형성합니다.
+        title: language === 'KO' ? "4단계: 확정 & 상태 업데이트" : "Step 4: Finality & State Update",
+        concept: language === 'KO' ? "상태 전이 (State Transition)" : "State Transition",
+        analogy: language === 'KO'
+            ? "마스터 장부에 지워지지 않는 잉크로 최종 거래를 기록하는 것입니다."
+            : "Writing the settled trade into the master ledger in ink that cannot be erased.",
+        lecture: language === 'KO'
+            ? `블록은 암호화 방식으로 이전 블록과 연결(부모 해시)되어 체인을 형성합니다.
 '전역 상태(Global State)'가 업데이트됩니다:
 - 구매자의 잔액 감소
 - 판매자의 잔액 증가
 - 자산 소유권/접근 권한 이전
-이 기록은 이제 영구적이며 위변조가 불가능합니다.`,
+이 기록은 이제 영구적이며 위변조가 불가능합니다.`
+            : `Each block is cryptographically linked to the one before it (the parent hash), and that is what forms the chain.
+The global state is then updated:
+- The buyer's balance goes down
+- The seller's balance goes up
+- Ownership of, and access rights to, the asset move across
+This record is now permanent and tamper-evident.`,
         techStack: "Merkle Patricia Trie, LevelDB"
     }
-};
+});
 
 // Categorical hues for the block report. Validated for the dark modal surface:
 // inside the dark lightness band, chroma floor met, adjacent-pair CVD separation
@@ -102,7 +143,7 @@ const GAS_COLORS = ['#3b82f6', '#059669', '#8b5cf6', '#d97706'];
 
 // Everything here is derived from the block itself, so a report is stable
 // across re-renders rather than reshuffling on each open.
-const buildBlockReport = (block: Block, chain: Block[]) => {
+const buildBlockReport = (block: Block, chain: Block[], language: string) => {
     const position = chain.findIndex((b) => b.index === block.index);
     const prev = position > 0 ? chain[position - 1] : null;
 
@@ -115,11 +156,13 @@ const buildBlockReport = (block: Block, chain: Block[]) => {
 
     // Gas is simulated, like the rest of this lab, but composed from the block
     // so the numbers add up and stay put.
+    // `key` stays English - it is the React key and the slice identity.
+    // `name` is the label a person reads, so it follows the language.
     const gas = [
-        { name: 'Base fee', value: 21000 },
-        { name: 'Execution', value: txCount * 14200 },
-        { name: 'Storage', value: txCount * 6800 },
-        { name: 'Signature', value: txCount * 3000 },
+        { key: 'base', name: language === 'KO' ? '기본 수수료' : 'Base fee', value: 21000 },
+        { key: 'execution', name: language === 'KO' ? '실행' : 'Execution', value: txCount * 14200 },
+        { key: 'storage', name: language === 'KO' ? '저장' : 'Storage', value: txCount * 6800 },
+        { key: 'signature', name: language === 'KO' ? '서명' : 'Signature', value: txCount * 3000 },
     ].filter((slice) => slice.value > 0);
     const gasTotal = gas.reduce((sum, slice) => sum + slice.value, 0);
 
@@ -397,13 +440,17 @@ const BlockchainLab: React.FC = () => {
         navigate('/dashboard');
     };
 
+    // Lecture content for the current step, resolved in the active language.
+    const blockchainEdu = getBlockchainEdu(language);
+    const currentEdu = blockchainEdu[currentStep as keyof typeof blockchainEdu];
+
     // --- INFOGRAPHIC COMPONENT ---
     const TxInfographic: React.FC<{ status: 'SUCCESS' | 'FAILURE', failureStage?: string }> = ({ status, failureStage }) => {
         const steps = [
-            { id: 'POLICY', label: 'Policy Check', icon: ShieldCheck },
-            { id: 'WALLET', label: 'Wallet Sign', icon: Wallet },
-            { id: 'CONSENSUS', label: 'Consensus', icon: Database },
-            { id: 'BLOCK', label: 'On-Chain', icon: Box },
+            { id: 'POLICY', label: language === 'KO' ? '정책 검사' : 'Policy Check', icon: ShieldCheck },
+            { id: 'WALLET', label: language === 'KO' ? '지갑 서명' : 'Wallet Sign', icon: Wallet },
+            { id: 'CONSENSUS', label: language === 'KO' ? '합의' : 'Consensus', icon: Database },
+            { id: 'BLOCK', label: language === 'KO' ? '온체인' : 'On-Chain', icon: Box },
         ];
 
         let failedIndex = -1;
@@ -470,7 +517,7 @@ const BlockchainLab: React.FC = () => {
 
             {/* --- LEDGER BLOCK REPORT --- */}
             {selectedBlock && (() => {
-                const r = buildBlockReport(selectedBlock, blocks);
+                const r = buildBlockReport(selectedBlock, blocks, language);
                 const isGenesis = selectedBlock.index === 0;
                 return (
                     <div
@@ -492,17 +539,17 @@ const BlockchainLab: React.FC = () => {
                                             <Box className="w-7 h-7 text-white" />
                                         </div>
                                         <div>
-                                            <h3 className="text-2xl font-bold">Block #{selectedBlock.index}</h3>
+                                            <h3 className="text-2xl font-bold">{language === 'KO' ? '블록' : 'Block'} #{selectedBlock.index}</h3>
                                             <p className="text-white/70 text-xs font-mono mt-1 break-all">{selectedBlock.hash}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-3 shrink-0">
                                         <span className="hidden sm:flex items-center gap-1.5 bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold px-3 py-1.5 rounded-full">
-                                            <CheckCircle2 className="w-3.5 h-3.5" /> Confirmed
+                                            <CheckCircle2 className="w-3.5 h-3.5" /> {language === 'KO' ? '확정됨' : 'Confirmed'}
                                         </span>
                                         <button
                                             onClick={() => setSelectedBlock(null)}
-                                            aria-label="Close the block report"
+                                            aria-label={language === 'KO' ? '블록 리포트 닫기' : 'Close the block report'}
                                             className="text-white/70 hover:text-white hover:bg-white/20 rounded-full p-1.5 transition-colors"
                                         >
                                             <X className="w-5 h-5" />
@@ -515,12 +562,12 @@ const BlockchainLab: React.FC = () => {
                                 {/* Headline figures */}
                                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                                     {[
-                                        { icon: FileText, label: 'Transactions', value: String(r.txCount), tone: 'text-blue-400' },
-                                        { icon: Coins, label: 'Value settled', value: `${r.totalValue.toLocaleString()} KRW`, tone: 'text-emerald-400' },
-                                        { icon: Timer, label: 'Block time', value: r.blockTimeMs === null ? '—' : `${(r.blockTimeMs / 1000).toFixed(2)}s`, tone: 'text-violet-400' },
-                                        { icon: Layers, label: 'Confirmations', value: String(r.confirmations), tone: 'text-amber-400' },
+                                        { id: 'txCount', icon: FileText, label: language === 'KO' ? '트랜잭션' : 'Transactions', value: String(r.txCount), tone: 'text-blue-400' },
+                                        { id: 'value', icon: Coins, label: language === 'KO' ? '정산 금액' : 'Value settled', value: `${r.totalValue.toLocaleString()} KRW`, tone: 'text-emerald-400' },
+                                        { id: 'blockTime', icon: Timer, label: language === 'KO' ? '블록 생성 시간' : 'Block time', value: r.blockTimeMs === null ? '—' : `${(r.blockTimeMs / 1000).toFixed(2)}s`, tone: 'text-violet-400' },
+                                        { id: 'confirmations', icon: Layers, label: language === 'KO' ? '컨펌 수' : 'Confirmations', value: String(r.confirmations), tone: 'text-amber-400' },
                                     ].map((tile) => (
-                                        <div key={tile.label} className="bg-slate-800/60 border border-slate-700 rounded-xl p-4">
+                                        <div key={tile.id} className="bg-slate-800/60 border border-slate-700 rounded-xl p-4">
                                             <tile.icon className={`w-4 h-4 mb-2 ${tile.tone}`} />
                                             <p className="text-xl font-bold tabular-nums leading-none">{tile.value}</p>
                                             <p className="text-[11px] text-slate-400 mt-1.5">{tile.label}</p>
@@ -531,28 +578,32 @@ const BlockchainLab: React.FC = () => {
                                 {/* Position in the chain */}
                                 <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-5">
                                     <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
-                                        <LinkIcon className="w-3.5 h-3.5" /> Chain linkage
+                                        <LinkIcon className="w-3.5 h-3.5" /> {language === 'KO' ? '체인 연결' : 'Chain linkage'}
                                     </h4>
                                     <div className="flex items-center gap-3 overflow-x-auto">
                                         <div className="flex-1 min-w-[150px] bg-slate-900/70 border border-slate-700 rounded-lg p-3">
-                                            <p className="text-[10px] uppercase text-slate-500 mb-1">Parent block</p>
-                                            <p className="text-sm font-bold">{r.prev ? `#${r.prev.index}` : 'None (genesis)'}</p>
+                                            <p className="text-[10px] uppercase text-slate-500 mb-1">{language === 'KO' ? '이전 블록' : 'Parent block'}</p>
+                                            <p className="text-sm font-bold">{r.prev ? `#${r.prev.index}` : (language === 'KO' ? '없음 (제네시스)' : 'None (genesis)')}</p>
                                             <p className="text-[10px] font-mono text-slate-400 truncate mt-1">{selectedBlock.prevHash}</p>
                                         </div>
                                         <ArrowRight className="w-5 h-5 text-slate-600 shrink-0" />
                                         <div className="flex-1 min-w-[150px] bg-blue-950/60 border border-blue-500/50 rounded-lg p-3">
-                                            <p className="text-[10px] uppercase text-blue-300 mb-1">This block</p>
+                                            <p className="text-[10px] uppercase text-blue-300 mb-1">{language === 'KO' ? '현재 블록' : 'This block'}</p>
                                             <p className="text-sm font-bold">#{selectedBlock.index}</p>
                                             <p className="text-[10px] font-mono text-blue-200/80 truncate mt-1">{selectedBlock.hash}</p>
                                         </div>
                                         <ArrowRight className="w-5 h-5 text-slate-600 shrink-0" />
                                         <div className="flex-1 min-w-[150px] bg-slate-900/70 border border-slate-700 rounded-lg p-3">
-                                            <p className="text-[10px] uppercase text-slate-500 mb-1">Child block</p>
+                                            <p className="text-[10px] uppercase text-slate-500 mb-1">{language === 'KO' ? '다음 블록' : 'Child block'}</p>
                                             <p className="text-sm font-bold">
-                                                {r.confirmations > 0 ? `#${selectedBlock.index + 1}` : 'Chain head'}
+                                                {r.confirmations > 0
+                                                    ? `#${selectedBlock.index + 1}`
+                                                    : (language === 'KO' ? '체인 최상단' : 'Chain head')}
                                             </p>
                                             <p className="text-[10px] text-slate-400 mt-1">
-                                                {r.confirmations > 0 ? `${r.confirmations} block(s) on top` : 'Newest block'}
+                                                {r.confirmations > 0
+                                                    ? (language === 'KO' ? `위에 ${r.confirmations}개 블록이 쌓임` : `${r.confirmations} block(s) on top`)
+                                                    : (language === 'KO' ? '가장 최근 블록' : 'Newest block')}
                                             </p>
                                         </div>
                                     </div>
@@ -562,14 +613,14 @@ const BlockchainLab: React.FC = () => {
                                     {/* Gas composition - parts of one whole, so one bar, not four */}
                                     <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-5">
                                         <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-2">
-                                            <Fuel className="w-3.5 h-3.5" /> Gas composition
+                                            <Fuel className="w-3.5 h-3.5" /> {language === 'KO' ? '가스 구성' : 'Gas composition'}
                                         </h4>
                                         <p className="text-2xl font-bold tabular-nums mb-4">{r.gasTotal.toLocaleString()} <span className="text-sm font-medium text-slate-400">Gwei</span></p>
 
                                         <div className="flex h-3 rounded-full overflow-hidden gap-[2px] mb-4">
                                             {r.gas.map((slice, i) => (
                                                 <div
-                                                    key={slice.name}
+                                                    key={slice.key}
                                                     title={`${slice.name}: ${slice.value.toLocaleString()} Gwei`}
                                                     style={{ width: `${(slice.value / r.gasTotal) * 100}%`, backgroundColor: GAS_COLORS[i] }}
                                                 />
@@ -579,7 +630,7 @@ const BlockchainLab: React.FC = () => {
                                         {/* Every segment is also named and numbered, so identity never rests on hue alone */}
                                         <ul className="space-y-2">
                                             {r.gas.map((slice, i) => (
-                                                <li key={slice.name} className="flex items-center gap-2 text-xs">
+                                                <li key={slice.key} className="flex items-center gap-2 text-xs">
                                                     <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ backgroundColor: GAS_COLORS[i] }} />
                                                     <span className="text-slate-300">{slice.name}</span>
                                                     <span className="flex-1 border-b border-dotted border-slate-700" />
@@ -595,14 +646,18 @@ const BlockchainLab: React.FC = () => {
                                     {/* Block time against the rest of the chain */}
                                     <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-5">
                                         <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-2">
-                                            <Activity className="w-3.5 h-3.5" /> Block time across the chain
+                                            <Activity className="w-3.5 h-3.5" /> {language === 'KO' ? '체인 전체 블록 생성 시간' : 'Block time across the chain'}
                                         </h4>
                                         <p className="text-[11px] text-slate-500 mb-4">
-                                            Seconds since the parent block. This block is highlighted.
+                                            {language === 'KO'
+                                                ? '이전 블록 이후 경과한 시간(초)입니다. 현재 블록이 강조되어 있습니다.'
+                                                : 'Seconds since the parent block. This block is highlighted.'}
                                         </p>
                                         {r.timeline.length === 0 ? (
                                             <p className="text-xs text-slate-500 py-10 text-center">
-                                                Mine a block to compare block times.
+                                                {language === 'KO'
+                                                    ? '블록을 채굴하면 블록 생성 시간을 비교할 수 있습니다.'
+                                                    : 'Mine a block to compare block times.'}
                                             </p>
                                         ) : (
                                             <div className="h-[168px] -ml-2">
@@ -614,7 +669,7 @@ const BlockchainLab: React.FC = () => {
                                                             cursor={{ fill: '#ffffff0d' }}
                                                             contentStyle={{ background: '#0f172a', border: '1px solid #334155', borderRadius: 8, fontSize: 12 }}
                                                             labelStyle={{ color: '#e2e8f0' }}
-                                                            formatter={(v: number) => [`${v.toFixed(2)}s`, 'Block time']}
+                                                            formatter={(v: number) => [`${v.toFixed(2)}s`, language === 'KO' ? '블록 생성 시간' : 'Block time']}
                                                         />
                                                         <Bar dataKey="seconds" radius={[4, 4, 0, 0]} maxBarSize={38}>
                                                             {r.timeline.map((point) => (
@@ -634,24 +689,28 @@ const BlockchainLab: React.FC = () => {
                                 {/* Transactions */}
                                 <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-5">
                                     <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
-                                        <FileText className="w-3.5 h-3.5" /> Transactions ({r.txCount})
+                                        <FileText className="w-3.5 h-3.5" /> {language === 'KO' ? '트랜잭션' : 'Transactions'} ({r.txCount})
                                     </h4>
                                     {r.txCount === 0 ? (
                                         <p className="text-xs text-slate-500">
                                             {isGenesis
-                                                ? 'The genesis block anchors the chain and carries no transactions.'
-                                                : 'This block carries no transactions.'}
+                                                ? (language === 'KO'
+                                                    ? '제네시스 블록은 체인의 기준점 역할만 하며, 트랜잭션을 담고 있지 않습니다.'
+                                                    : 'The genesis block anchors the chain and carries no transactions.')
+                                                : (language === 'KO'
+                                                    ? '이 블록에는 트랜잭션이 없습니다.'
+                                                    : 'This block carries no transactions.')}
                                         </p>
                                     ) : (
                                         <div className="overflow-x-auto">
                                             <table className="w-full text-xs">
                                                 <thead>
                                                     <tr className="text-left text-slate-500 border-b border-slate-700">
-                                                        <th className="pb-2 font-medium">Tx</th>
-                                                        <th className="pb-2 font-medium">From</th>
-                                                        <th className="pb-2 font-medium">To</th>
-                                                        <th className="pb-2 font-medium text-right">Amount</th>
-                                                        <th className="pb-2 font-medium text-right">Status</th>
+                                                        <th className="pb-2 font-medium">{language === 'KO' ? '트랜잭션' : 'Tx'}</th>
+                                                        <th className="pb-2 font-medium">{language === 'KO' ? '발신' : 'From'}</th>
+                                                        <th className="pb-2 font-medium">{language === 'KO' ? '수신' : 'To'}</th>
+                                                        <th className="pb-2 font-medium text-right">{language === 'KO' ? '금액' : 'Amount'}</th>
+                                                        <th className="pb-2 font-medium text-right">{language === 'KO' ? '상태' : 'Status'}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-slate-800">
@@ -677,26 +736,28 @@ const BlockchainLab: React.FC = () => {
                                 {/* Integrity */}
                                 <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-5">
                                     <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
-                                        <Hash className="w-3.5 h-3.5" /> Integrity
+                                        <Hash className="w-3.5 h-3.5" /> {language === 'KO' ? '무결성' : 'Integrity'}
                                     </h4>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
                                         <div className="bg-slate-900/70 border border-slate-700 rounded-lg p-3">
-                                            <p className="text-[10px] uppercase text-slate-500 mb-1">Validator</p>
+                                            <p className="text-[10px] uppercase text-slate-500 mb-1">{language === 'KO' ? '검증자' : 'Validator'}</p>
                                             <p className="text-sm font-mono text-slate-200 break-all">{selectedBlock.validator}</p>
                                         </div>
                                         <div className="bg-slate-900/70 border border-slate-700 rounded-lg p-3">
-                                            <p className="text-[10px] uppercase text-slate-500 mb-1">Nonce</p>
+                                            <p className="text-[10px] uppercase text-slate-500 mb-1">{language === 'KO' ? '논스' : 'Nonce'}</p>
                                             <p className="text-sm font-mono text-slate-200 tabular-nums">{selectedBlock.nonce}</p>
                                         </div>
                                         <div className="bg-slate-900/70 border border-slate-700 rounded-lg p-3">
-                                            <p className="text-[10px] uppercase text-slate-500 mb-1">Sealed at</p>
+                                            <p className="text-[10px] uppercase text-slate-500 mb-1">{language === 'KO' ? '봉인 시각' : 'Sealed at'}</p>
                                             <p className="text-sm font-mono text-slate-200">{new Date(selectedBlock.timestamp).toLocaleString()}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-3">
                                         <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
                                         <p className="text-xs text-emerald-200">
-                                            Hash matches the parent link, so nothing before this block can change without breaking the chain.
+                                            {language === 'KO'
+                                                ? '해시가 이전 블록의 연결 값과 일치합니다. 따라서 체인을 깨뜨리지 않고서는 이 블록 이전의 어떤 기록도 바꿀 수 없습니다.'
+                                                : 'Hash matches the parent link, so nothing before this block can change without breaking the chain.'}
                                         </p>
                                     </div>
                                 </div>
@@ -730,10 +791,16 @@ const BlockchainLab: React.FC = () => {
                                     {reportData.status === 'SUCCESS' ? <CheckCircle2 className="w-8 h-8 text-white" /> : <XCircle className="w-8 h-8 text-white" />}
                                 </div>
                                 <h3 className="text-2xl font-bold">
-                                    {reportData.status === 'SUCCESS' ? 'Transaction Confirmed' : 'Transaction Failed'}
+                                    {reportData.status === 'SUCCESS'
+                                        ? (language === 'KO' ? '트랜잭션 확정 완료' : 'Transaction Confirmed')
+                                        : (language === 'KO' ? '트랜잭션 실패' : 'Transaction Failed')}
                                 </h3>
                                 <p className="text-white/80 text-xs mt-1 font-mono">
-                                    {reportData.status === 'SUCCESS' ? `Block #${reportData.blockIndex} • Confirmed` : 'Reverted by EVM'}
+                                    {reportData.status === 'SUCCESS'
+                                        ? (language === 'KO'
+                                            ? `블록 #${reportData.blockIndex} • 확정됨`
+                                            : `Block #${reportData.blockIndex} • Confirmed`)
+                                        : (language === 'KO' ? 'EVM에 의해 되돌려짐' : 'Reverted by EVM')}
                                 </p>
                             </div>
                             
@@ -765,11 +832,11 @@ const BlockchainLab: React.FC = () => {
                                         <div className="absolute top-0 right-0 p-2 opacity-10"><Box className="w-12 h-12 text-white" /></div>
                                         <div className="grid grid-cols-2 gap-4 relative z-10">
                                             <div>
-                                                <span className="text-[10px] text-slate-400 uppercase font-bold block mb-1">Block Hash</span>
+                                                <span className="text-[10px] text-slate-400 uppercase font-bold block mb-1">{language === 'KO' ? '블록 해시' : 'Block Hash'}</span>
                                                 <span className="font-mono text-[10px] text-emerald-400 break-all leading-tight block">{reportData.blockHash}</span>
                                             </div>
                                             <div className="text-right">
-                                                <span className="text-[10px] text-slate-400 uppercase font-bold block mb-1">Gas Used</span>
+                                                <span className="text-[10px] text-slate-400 uppercase font-bold block mb-1">{language === 'KO' ? '사용 가스' : 'Gas Used'}</span>
                                                 <span className="font-mono text-sm text-yellow-400 font-bold">{reportData.gasUsed}</span>
                                             </div>
                                         </div>
@@ -778,15 +845,15 @@ const BlockchainLab: React.FC = () => {
                                     {/* Receipt Details */}
                                     <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-2 text-sm">
                                         <div className="flex justify-between">
-                                            <span className="text-slate-500">Amount Paid</span>
+                                            <span className="text-slate-500">{language === 'KO' ? '결제 금액' : 'Amount Paid'}</span>
                                             <span className="font-bold text-slate-900">{reportData.asset.price.toLocaleString()} {reportData.asset.currency}</span>
                                         </div>
                                         <div className="flex justify-between">
-                                            <span className="text-slate-500">Tx Hash</span>
+                                            <span className="text-slate-500">{language === 'KO' ? '트랜잭션 해시' : 'Tx Hash'}</span>
                                             <span className="font-mono text-xs text-blue-600 truncate max-w-[150px]">{reportData.txId}</span>
                                         </div>
                                         <div className="flex justify-between">
-                                            <span className="text-slate-500">Timestamp</span>
+                                            <span className="text-slate-500">{language === 'KO' ? '처리 시각' : 'Timestamp'}</span>
                                             <span className="text-slate-700 text-xs">{new Date(reportData.timestamp).toLocaleString()}</span>
                                         </div>
                                     </div>
@@ -794,11 +861,11 @@ const BlockchainLab: React.FC = () => {
                             ) : (
                                 <div className="bg-red-50 rounded-xl p-4 border border-red-100 space-y-3 text-sm">
                                     <div className="flex justify-between items-start">
-                                        <span className="text-red-700 font-medium">Error Code</span>
+                                        <span className="text-red-700 font-medium">{language === 'KO' ? '오류 코드' : 'Error Code'}</span>
                                         <span className="font-mono font-bold text-red-900">EVM_REVERT_0x52</span>
                                     </div>
                                     <div className="bg-white p-3 rounded border border-red-100">
-                                        <span className="text-xs text-slate-400 block uppercase font-bold mb-1">Reason</span>
+                                        <span className="text-xs text-slate-400 block uppercase font-bold mb-1">{language === 'KO' ? '실패 사유' : 'Reason'}</span>
                                         <p className="text-red-600 font-medium leading-snug">{reportData.failureReason}</p>
                                     </div>
                                     <div className="flex items-center gap-2 text-xs text-red-700 mt-2">
@@ -816,10 +883,10 @@ const BlockchainLab: React.FC = () => {
                                 {reportData.status === 'SUCCESS' ? (
                                     <>
                                         <button className="flex-1 py-3 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 text-sm shadow-sm">
-                                            <Share2 className="w-4 h-4" /> Share
+                                            <Share2 className="w-4 h-4" /> {language === 'KO' ? '공유' : 'Share'}
                                         </button>
                                         <button className="flex-1 py-3 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 text-sm shadow-sm">
-                                            <Printer className="w-4 h-4" /> Receipt
+                                            <Printer className="w-4 h-4" /> {language === 'KO' ? '영수증' : 'Receipt'}
                                         </button>
                                     </>
                                 ) : (
@@ -827,7 +894,7 @@ const BlockchainLab: React.FC = () => {
                                         onClick={handleGoToRecharge}
                                         className="w-full py-3 bg-white border-2 border-red-100 text-red-600 font-bold rounded-xl hover:bg-red-50 transition-colors flex items-center justify-center gap-2"
                                     >
-                                        <Wallet className="w-4 h-4" /> Check Wallet Balance
+                                        <Wallet className="w-4 h-4" /> {language === 'KO' ? '지갑 잔액 확인' : 'Check Wallet Balance'}
                                     </button>
                                 )}
                             </div>
@@ -857,8 +924,8 @@ const BlockchainLab: React.FC = () => {
                                 </div>
                                 <h3 className="text-lg font-bold text-slate-900 mb-2">{t('bl_manual_review_req')}</h3>
                                 <p className="text-sm text-slate-500 mb-6">
-                                    Asset: <span className="font-semibold text-slate-700">{pendingData?.asset.title}</span><br/>
-                                    Amount: <span className="font-semibold text-slate-700">{pendingData?.asset.price.toLocaleString()} {pendingData?.asset.currency}</span>
+                                    {language === 'KO' ? '자산' : 'Asset'}: <span className="font-semibold text-slate-700">{pendingData?.asset.title}</span><br/>
+                                    {language === 'KO' ? '금액' : 'Amount'}: <span className="font-semibold text-slate-700">{pendingData?.asset.price.toLocaleString()} {pendingData?.asset.currency}</span>
                                 </p>
                                 <div className="flex flex-col gap-3 w-full">
                                     <div className="flex gap-3 w-full">
@@ -894,7 +961,7 @@ const BlockchainLab: React.FC = () => {
                                 {t('bl_tx_simulator')}
                             </h2>
                             <span className="text-xs font-mono bg-slate-100 px-2 py-1 rounded text-slate-600">
-                                Balance: ${walletBalance.toLocaleString()}
+                                {language === 'KO' ? '잔액' : 'Balance'}: ${walletBalance.toLocaleString()}
                             </span>
                         </div>
                         
@@ -911,7 +978,7 @@ const BlockchainLab: React.FC = () => {
                                 >
                                     {MOCK_ASSETS.map(asset => (
                                         <option key={asset.id} value={asset.id}>
-                                            {asset.title} ({asset.price} {asset.currency})
+                                            {assetTitle(asset, language)} ({asset.price} {asset.currency})
                                         </option>
                                     ))}
                                 </select>
@@ -1013,10 +1080,10 @@ const BlockchainLab: React.FC = () => {
                             <div className="absolute left-[19px] top-2 bottom-2 w-0.5 bg-slate-100"></div>
                             
                             {[
-                                { step: 1, label: 'Smart Contract Policy Check', icon: ShieldCheck },
-                                { step: 2, label: 'Wallet Balance & Signature', icon: Lock },
-                                { step: 3, label: 'Mining & Validation', icon: Pick },
-                                { step: 4, label: 'Committed to Ledger', icon: Database },
+                                { step: 1, label: language === 'KO' ? '스마트 컨트랙트 정책 검사' : 'Smart Contract Policy Check', icon: ShieldCheck },
+                                { step: 2, label: language === 'KO' ? '지갑 잔액 & 서명' : 'Wallet Balance & Signature', icon: Lock },
+                                { step: 3, label: language === 'KO' ? '채굴 & 검증' : 'Mining & Validation', icon: Pick },
+                                { step: 4, label: language === 'KO' ? '원장에 기록 완료' : 'Committed to Ledger', icon: Database },
                             ].map((item) => {
                                 // Logic for step visuals
                                 let statusClass = 'bg-white border-slate-200 text-slate-300';
@@ -1069,32 +1136,34 @@ const BlockchainLab: React.FC = () => {
                                     <button
                                         type="button"
                                         onClick={() => setSelectedBlock(block)}
-                                        aria-label={`Open the detail report for block #${block.index}`}
+                                        aria-label={language === 'KO'
+                                            ? `블록 #${block.index} 상세 리포트 열기`
+                                            : `Open the detail report for block #${block.index}`}
                                         className="bg-slate-800 rounded-lg p-4 border border-slate-700 w-64 flex-shrink-0 text-left hover:border-blue-500 hover:bg-slate-800/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 transition-colors group relative cursor-pointer">
                                         
                                         {/* Tooltip */}
                                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-60 bg-slate-950/95 backdrop-blur border border-slate-600 text-white text-xs p-3 rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-30 translate-y-2 group-hover:translate-y-0">
                                             <div className="flex justify-between items-center mb-2 pb-2 border-b border-slate-800">
                                                 <span className="font-bold text-emerald-400 flex items-center gap-1">
-                                                    <Box className="w-3 h-3" /> Block Info
+                                                    <Box className="w-3 h-3" /> {language === 'KO' ? '블록 정보' : 'Block Info'}
                                                 </span>
                                                 <span className="text-[10px] text-slate-500">{new Date(block.timestamp).toLocaleTimeString()}</span>
                                             </div>
                                             <div className="space-y-2">
                                                 <div className="flex justify-between items-center bg-slate-900/50 p-1.5 rounded">
-                                                    <span className="text-slate-400">Transactions</span>
+                                                    <span className="text-slate-400">{language === 'KO' ? '트랜잭션' : 'Transactions'}</span>
                                                     <span className="font-mono font-bold text-blue-300">{block.transactions.length}</span>
                                                 </div>
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-slate-400">Validator</span>
+                                                    <span className="text-slate-400">{language === 'KO' ? '검증자' : 'Validator'}</span>
                                                     <span className="font-mono text-[10px] text-slate-300 bg-slate-800 px-1 rounded">{block.validator}</span>
                                                 </div>
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-slate-400">Gas Used</span>
+                                                    <span className="text-slate-400">{language === 'KO' ? '사용 가스' : 'Gas Used'}</span>
                                                     <span className="font-mono text-[10px] text-slate-300">21,000 Gwei</span>
                                                 </div>
                                                 <div className="pt-1">
-                                                    <span className="text-[10px] text-slate-500 block mb-0.5">Timestamp</span>
+                                                    <span className="text-[10px] text-slate-500 block mb-0.5">{language === 'KO' ? '생성 시각' : 'Timestamp'}</span>
                                                     <span className="font-mono text-[10px] text-slate-300 block">{block.timestamp}</span>
                                                 </div>
                                             </div>
@@ -1110,7 +1179,7 @@ const BlockchainLab: React.FC = () => {
                                                 <Box className="w-5 h-5 text-white" />
                                             </div>
                                             <p className="text-xs text-slate-400 font-mono mb-1">
-                                                Nonce: <span className="text-blue-300">{block.nonce}</span>
+                                                {language === 'KO' ? '논스' : 'Nonce'}: <span className="text-blue-300">{block.nonce}</span>
                                             </p>
                                             <p className="text-xs text-slate-500 truncate" title={block.timestamp}>
                                                 {block.timestamp.split('T')[1].replace('Z','')}
@@ -1119,23 +1188,23 @@ const BlockchainLab: React.FC = () => {
                                         
                                         <div className="space-y-2 border-t border-slate-700 pt-2">
                                             <div>
-                                                <p className="text-[10px] text-slate-500 uppercase">Prev Hash</p>
+                                                <p className="text-[10px] text-slate-500 uppercase">{language === 'KO' ? '이전 해시' : 'Prev Hash'}</p>
                                                 <p className="text-[10px] font-mono text-slate-400 truncate">
                                                     {block.prevHash.substring(0, 10)}...
                                                 </p>
                                             </div>
                                             <div>
-                                                <p className="text-[10px] text-slate-500 uppercase">Current Hash</p>
+                                                <p className="text-[10px] text-slate-500 uppercase">{language === 'KO' ? '현재 해시' : 'Current Hash'}</p>
                                                 <p className="text-[10px] font-mono text-emerald-400 truncate">
                                                     {block.hash.substring(0, 10)}...
                                                 </p>
                                             </div>
                                             <div className="bg-slate-900/50 p-2 rounded border border-slate-700/50 flex items-center justify-between gap-2">
                                                 <p className="text-[10px] text-slate-400">
-                                                    Tx Count: <span className="text-white">{block.transactions.length}</span>
+                                                    {language === 'KO' ? '트랜잭션 수' : 'Tx Count'}: <span className="text-white">{block.transactions.length}</span>
                                                 </p>
                                                 <span className="text-[10px] font-bold text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                                                    Report <ArrowRight className="w-3 h-3" />
+                                                    {language === 'KO' ? '리포트' : 'Report'} <ArrowRight className="w-3 h-3" />
                                                 </span>
                                             </div>
                                         </div>
@@ -1159,13 +1228,13 @@ const BlockchainLab: React.FC = () => {
                                 onClick={() => setActiveTab('CONSOLE')}
                                 className={`px-4 py-2 text-xs font-bold flex items-center gap-2 transition-colors ${activeTab === 'CONSOLE' ? 'text-emerald-400 bg-slate-800 border-b-2 border-emerald-400' : 'text-slate-500 hover:text-slate-300'}`}
                             >
-                                <Terminal className="w-3 h-3" /> Node-03 Console
+                                <Terminal className="w-3 h-3" /> {language === 'KO' ? 'Node-03 콘솔' : 'Node-03 Console'}
                             </button>
                             <button 
                                 onClick={() => setActiveTab('LECTURE')}
                                 className={`px-4 py-2 text-xs font-bold flex items-center gap-2 transition-colors ${activeTab === 'LECTURE' ? 'text-blue-400 bg-slate-800 border-b-2 border-blue-400' : 'text-slate-500 hover:text-slate-300'}`}
                             >
-                                <BookOpen className="w-3 h-3" /> Lecture Notes
+                                <BookOpen className="w-3 h-3" /> {language === 'KO' ? '강의 노트' : 'Lecture Notes'}
                             </button>
                         </div>
 
@@ -1196,41 +1265,41 @@ const BlockchainLab: React.FC = () => {
                             </div>
                         ) : (
                             <div className="p-6 overflow-y-auto flex-1 bg-slate-900">
-                                {currentStep > 0 && BLOCKCHAIN_EDU[currentStep as keyof typeof BLOCKCHAIN_EDU] ? (
+                                {currentStep > 0 && currentEdu ? (
                                     <div className="space-y-6 animate-fadeIn">
                                         <div>
                                             <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
                                                 <Info className="w-5 h-5 text-blue-400" />
-                                                {BLOCKCHAIN_EDU[currentStep as keyof typeof BLOCKCHAIN_EDU].title}
+                                                {currentEdu.title}
                                             </h3>
                                             <div className="inline-block px-3 py-1 bg-blue-900/50 text-blue-300 text-xs font-bold rounded-full border border-blue-800">
-                                                Concept: {BLOCKCHAIN_EDU[currentStep as keyof typeof BLOCKCHAIN_EDU].concept}
+                                                {language === 'KO' ? '핵심 개념' : 'Concept'}: {currentEdu.concept}
                                             </div>
                                         </div>
 
                                         <div className="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                                            <h4 className="text-xs font-bold text-slate-400 uppercase mb-2">Analogy</h4>
+                                            <h4 className="text-xs font-bold text-slate-400 uppercase mb-2">{language === 'KO' ? '비유로 이해하기' : 'Analogy'}</h4>
                                             <p className="text-slate-200 text-sm leading-relaxed border-l-2 border-yellow-500 pl-3">
-                                                {BLOCKCHAIN_EDU[currentStep as keyof typeof BLOCKCHAIN_EDU].analogy}
+                                                {currentEdu.analogy}
                                             </p>
                                         </div>
 
                                         <div>
-                                            <h4 className="text-xs font-bold text-slate-400 uppercase mb-2">Deep Dive</h4>
+                                            <h4 className="text-xs font-bold text-slate-400 uppercase mb-2">{language === 'KO' ? '자세히 알아보기' : 'Deep Dive'}</h4>
                                             <p className="text-slate-300 text-sm leading-loose whitespace-pre-line">
-                                                {BLOCKCHAIN_EDU[currentStep as keyof typeof BLOCKCHAIN_EDU].lecture}
+                                                {currentEdu.lecture}
                                             </p>
                                         </div>
 
                                         <div className="pt-4 border-t border-slate-800">
-                                            <span className="text-xs text-slate-500 font-mono">Tech Stack: </span>
-                                            <span className="text-xs text-emerald-400 font-mono">{BLOCKCHAIN_EDU[currentStep as keyof typeof BLOCKCHAIN_EDU].techStack}</span>
+                                            <span className="text-xs text-slate-500 font-mono">{language === 'KO' ? '기술 스택' : 'Tech Stack'}: </span>
+                                            <span className="text-xs text-emerald-400 font-mono">{currentEdu.techStack}</span>
                                         </div>
                                     </div>
                                 ) : (
                                     <div className="flex flex-col items-center justify-center h-full text-slate-500">
                                         <BookOpen className="w-12 h-12 mb-4 opacity-30" />
-                                        <p>Start the simulation to view educational content.</p>
+                                        <p>{language === 'KO' ? '시뮬레이션을 시작하면 학습 내용이 표시됩니다.' : 'Start the simulation to view educational content.'}</p>
                                     </div>
                                 )}
                             </div>

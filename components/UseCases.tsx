@@ -52,13 +52,13 @@ const UseCases: React.FC = () => {
   
   const HyundaiDiagram = () => (
     <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
-        <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">Battery Passport Data Flow</h4>
+        <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">{language === 'KO' ? '배터리 패스포트 데이터 흐름' : 'Battery Passport Data Flow'}</h4>
         <div className="flex items-center justify-between text-[10px] md:text-xs">
             <div className="flex flex-col items-center gap-2">
                 <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center border border-slate-300">
                     <Factory className="w-5 h-5 text-slate-600" />
                 </div>
-                <span className="font-semibold text-center">Supplier<br/>(Mining/Cell)</span>
+                <span className="font-semibold text-center">{language === 'KO' ? <>공급사<br/>(광물/셀)</> : <>Supplier<br/>(Mining/Cell)</>}</span>
             </div>
             
             <div className="flex-1 px-2 flex flex-col items-center">
@@ -66,7 +66,7 @@ const UseCases: React.FC = () => {
                     <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-emerald-500 rounded-full animate-ping"></div>
                     <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-emerald-500 rounded-full"></div>
                 </div>
-                <span className="text-[10px] text-emerald-600 font-bold mt-1 bg-emerald-50 px-2 py-0.5 rounded-full">PCF Data (EDC)</span>
+                <span className="text-[10px] text-emerald-600 font-bold mt-1 bg-emerald-50 px-2 py-0.5 rounded-full">{language === 'KO' ? 'PCF 데이터 (EDC)' : 'PCF Data (EDC)'}</span>
             </div>
 
             <div className="flex flex-col items-center gap-2">
@@ -80,14 +80,14 @@ const UseCases: React.FC = () => {
                 <div className="w-full h-0.5 bg-slate-300 relative">
                      <ArrowRight className="w-3 h-3 text-slate-400 absolute right-0 -top-1.5" />
                 </div>
-                <span className="text-[10px] text-slate-400 mt-1">Pass ID</span>
+                <span className="text-[10px] text-slate-400 mt-1">{language === 'KO' ? '패스포트 ID' : 'Pass ID'}</span>
             </div>
 
             <div className="flex flex-col items-center gap-2">
                 <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center border border-green-200">
                     <Recycle className="w-5 h-5 text-green-600" />
                 </div>
-                <span className="font-semibold text-center">EU<br/>Regulator</span>
+                <span className="font-semibold text-center">{language === 'KO' ? <>EU<br/>규제기관</> : <>EU<br/>Regulator</>}</span>
             </div>
         </div>
     </div>
@@ -95,22 +95,22 @@ const UseCases: React.FC = () => {
 
   const SamsungDiagram = () => (
       <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
-          <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">Compute-to-Data Architecture</h4>
+          <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">{language === 'KO' ? 'Compute-to-Data 아키텍처' : 'Compute-to-Data Architecture'}</h4>
           <div className="relative border-2 border-dashed border-blue-200 rounded-lg p-4 bg-blue-50/50">
-              <span className="absolute top-0 right-0 bg-blue-100 text-blue-600 text-[10px] font-bold px-2 py-1 rounded-bl-lg">Samsung Fab (Secure Zone)</span>
+              <span className="absolute top-0 right-0 bg-blue-100 text-blue-600 text-[10px] font-bold px-2 py-1 rounded-bl-lg">{language === 'KO' ? 'Samsung 팹 (보안 구역)' : 'Samsung Fab (Secure Zone)'}</span>
               <div className="flex items-center justify-around">
                   <div className="flex flex-col items-center gap-2 z-10">
                       <div className="w-10 h-10 bg-white border border-slate-200 rounded-lg flex items-center justify-center shadow-sm">
                           <Database className="w-5 h-5 text-slate-600" />
                       </div>
-                      <span className="text-[10px] font-bold">Raw Data</span>
+                      <span className="text-[10px] font-bold">{language === 'KO' ? '원본 데이터' : 'Raw Data'}</span>
                   </div>
                   
                   <div className="flex flex-col items-center justify-center gap-1">
                       <div className="w-12 h-12 bg-white rounded-full border-2 border-emerald-400 flex items-center justify-center shadow-md z-10">
                           <Cpu className="w-6 h-6 text-emerald-600" />
                       </div>
-                      <span className="text-[10px] font-bold text-emerald-700 bg-white px-1">AI Training</span>
+                      <span className="text-[10px] font-bold text-emerald-700 bg-white px-1">{language === 'KO' ? 'AI 학습' : 'AI Training'}</span>
                   </div>
 
                   <div className="h-0.5 w-full bg-slate-300 absolute top-1/2 left-0 z-0"></div>
@@ -119,12 +119,12 @@ const UseCases: React.FC = () => {
           <div className="flex justify-between mt-4 text-[10px]">
               <div className="text-center w-1/3">
                   <div className="mx-auto w-0.5 h-4 bg-slate-300"></div>
-                  <span className="text-slate-400">Data never leaves</span>
+                  <span className="text-slate-400">{language === 'KO' ? '데이터는 외부로 나가지 않음' : 'Data never leaves'}</span>
               </div>
               <div className="text-center w-1/3">
                   <div className="mx-auto w-0.5 h-4 bg-emerald-400"></div>
-                  <span className="font-bold text-slate-900">Equipment Maker</span>
-                  <p className="text-slate-400">(Sends Algorithm)</p>
+                  <span className="font-bold text-slate-900">{language === 'KO' ? '장비 제조사' : 'Equipment Maker'}</span>
+                  <p className="text-slate-400">{language === 'KO' ? '(알고리즘 전송)' : '(Sends Algorithm)'}</p>
               </div>
           </div>
       </div>
@@ -132,16 +132,16 @@ const UseCases: React.FC = () => {
 
   const LGDiagram = () => (
     <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
-        <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">Cross-Domain Data Convergence</h4>
+        <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">{language === 'KO' ? '이종 산업 데이터 융합' : 'Cross-Domain Data Convergence'}</h4>
         <div className="flex items-center justify-center gap-4">
             <div className="flex flex-col gap-2">
                 <div className="p-2 bg-slate-50 rounded border border-slate-200 flex items-center gap-2">
                     <Sun className="w-4 h-4 text-orange-500" />
-                    <span className="text-[10px] font-bold">Weather Data</span>
+                    <span className="text-[10px] font-bold">{language === 'KO' ? '기상 데이터' : 'Weather Data'}</span>
                 </div>
                 <div className="p-2 bg-slate-50 rounded border border-slate-200 flex items-center gap-2">
                     <Activity className="w-4 h-4 text-blue-500" />
-                    <span className="text-[10px] font-bold">Energy Grid</span>
+                    <span className="text-[10px] font-bold">{language === 'KO' ? '전력 그리드' : 'Energy Grid'}</span>
                 </div>
             </div>
             
@@ -153,29 +153,29 @@ const UseCases: React.FC = () => {
             <div className="flex flex-col gap-2">
                 <div className="p-2 bg-slate-50 rounded border border-slate-200 flex items-center gap-2">
                     <Zap className="w-4 h-4 text-yellow-500" />
-                    <span className="text-[10px] font-bold">Smart Home</span>
+                    <span className="text-[10px] font-bold">{language === 'KO' ? '스마트홈' : 'Smart Home'}</span>
                 </div>
                 <div className="p-2 bg-slate-50 rounded border border-slate-200 flex items-center gap-2">
                     <Building2 className="w-4 h-4 text-slate-500" />
-                    <span className="text-[10px] font-bold">Construction</span>
+                    <span className="text-[10px] font-bold">{language === 'KO' ? '건설' : 'Construction'}</span>
                 </div>
             </div>
         </div>
         <div className="text-center mt-3">
-             <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-full">Global Data Aggregation (GDPR Compliant)</span>
+             <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-full">{language === 'KO' ? '글로벌 데이터 통합 (GDPR 준수)' : 'Global Data Aggregation (GDPR Compliant)'}</span>
         </div>
     </div>
   );
 
   const PoscoDiagram = () => (
       <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
-          <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">Digital Mill Sheet Verification</h4>
+          <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">{language === 'KO' ? '디지털 밀시트 검증' : 'Digital Mill Sheet Verification'}</h4>
           <div className="flex items-center justify-between gap-2">
               <div className="text-center">
                   <div className="w-10 h-10 bg-slate-100 rounded flex items-center justify-center border border-slate-200 mx-auto">
                       <div className="w-6 h-6 rounded-full border-4 border-slate-400"></div>
                   </div>
-                  <span className="text-[10px] font-bold block mt-1">Steel Coil</span>
+                  <span className="text-[10px] font-bold block mt-1">{language === 'KO' ? '철강 코일' : 'Steel Coil'}</span>
               </div>
               
               <ArrowRight className="w-4 h-4 text-slate-300" />
@@ -187,7 +187,7 @@ const UseCases: React.FC = () => {
                   <div className="absolute -top-1 -right-1">
                       <ShieldCheck className="w-4 h-4 text-emerald-500 fill-white" />
                   </div>
-                  <span className="text-[10px] font-bold block mt-1">Digital Cert</span>
+                  <span className="text-[10px] font-bold block mt-1">{language === 'KO' ? '디지털 인증서' : 'Digital Cert'}</span>
               </div>
 
               <ArrowRight className="w-4 h-4 text-slate-300" />
@@ -196,7 +196,7 @@ const UseCases: React.FC = () => {
                   <div className="w-10 h-10 bg-slate-800 rounded flex items-center justify-center border border-slate-600 mx-auto">
                       <LinkIcon className="w-5 h-5 text-emerald-400" />
                   </div>
-                  <span className="text-[10px] font-bold block mt-1">Blockchain</span>
+                  <span className="text-[10px] font-bold block mt-1">{language === 'KO' ? '블록체인' : 'Blockchain'}</span>
               </div>
           </div>
       </div>
@@ -204,7 +204,7 @@ const UseCases: React.FC = () => {
 
   const HMMDiagram = () => (
       <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
-          <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">Smart Logistics Synchronization</h4>
+          <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">{language === 'KO' ? '스마트 물류 동기화' : 'Smart Logistics Synchronization'}</h4>
           <div className="relative pt-2 pb-4">
               <div className="absolute top-1/2 left-0 w-full h-1 bg-slate-100 rounded-full"></div>
               <div className="absolute top-1/2 left-0 w-2/3 h-1 bg-gradient-to-r from-blue-400 to-emerald-400 rounded-full"></div>
@@ -214,24 +214,24 @@ const UseCases: React.FC = () => {
                       <div className="w-8 h-8 bg-white border-2 border-blue-400 rounded-full flex items-center justify-center">
                           <Ship className="w-4 h-4 text-blue-600" />
                       </div>
-                      <span className="text-[10px] font-bold mt-1">Sea</span>
+                      <span className="text-[10px] font-bold mt-1">{language === 'KO' ? '해상' : 'Sea'}</span>
                   </div>
                   <div className="flex flex-col items-center">
                       <div className="w-8 h-8 bg-white border-2 border-emerald-400 rounded-full flex items-center justify-center">
                           <Anchor className="w-4 h-4 text-emerald-600" />
                       </div>
-                      <span className="text-[10px] font-bold mt-1">Port</span>
+                      <span className="text-[10px] font-bold mt-1">{language === 'KO' ? '항만' : 'Port'}</span>
                   </div>
                   <div className="flex flex-col items-center">
                       <div className="w-8 h-8 bg-white border-2 border-slate-200 rounded-full flex items-center justify-center">
                           <Truck className="w-4 h-4 text-slate-400" />
                       </div>
-                      <span className="text-[10px] font-bold mt-1">Land</span>
+                      <span className="text-[10px] font-bold mt-1">{language === 'KO' ? '육상' : 'Land'}</span>
                   </div>
               </div>
               
               <div className="absolute top-0 left-1/3 bg-blue-600 text-white text-[9px] px-2 py-0.5 rounded-full -mt-2">
-                  ETA Sync
+                  {language === 'KO' ? 'ETA 동기화' : 'ETA Sync'}
               </div>
           </div>
       </div>
@@ -239,14 +239,14 @@ const UseCases: React.FC = () => {
 
   const LGChemDiagram = () => (
     <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
-        <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">Federated Learning Network</h4>
+        <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">{language === 'KO' ? '연합학습 네트워크' : 'Federated Learning Network'}</h4>
         <div className="flex justify-center items-center relative h-24">
             {/* Center Model */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
                 <div className="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
                     <Share2 className="w-6 h-6 text-white" />
                 </div>
-                <div className="text-[9px] font-bold text-center mt-1 bg-indigo-50 text-indigo-700 px-1 rounded">Global Model</div>
+                <div className="text-[9px] font-bold text-center mt-1 bg-indigo-50 text-indigo-700 px-1 rounded">{language === 'KO' ? '글로벌 모델' : 'Global Model'}</div>
             </div>
 
             {/* Nodes */}
@@ -269,14 +269,14 @@ const UseCases: React.FC = () => {
             </div>
         </div>
         <div className="text-center mt-2">
-             <span className="text-[9px] text-slate-400">Only Model Weights Transferred (No Data Leak)</span>
+             <span className="text-[9px] text-slate-400">{language === 'KO' ? '모델 가중치만 전송 (데이터 유출 없음)' : 'Only Model Weights Transferred (No Data Leak)'}</span>
         </div>
     </div>
   );
 
   const HanwhaDiagram = () => (
       <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
-          <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">Virtual Power Plant (VPP)</h4>
+          <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">{language === 'KO' ? '가상 발전소 (VPP)' : 'Virtual Power Plant (VPP)'}</h4>
           {/* Added 'relative' class to fix layout error */}
           <div className="relative flex items-end justify-center gap-1 h-20 mb-2 border-b border-slate-200 pb-1">
               {[20, 35, 50, 45, 60, 80, 70, 50, 40].map((h, i) => (
@@ -286,10 +286,10 @@ const UseCases: React.FC = () => {
           </div>
           <div className="flex justify-between text-[10px] text-slate-500">
               <div className="flex items-center gap-1">
-                  <Sun className="w-3 h-3 text-orange-500" /> Solar Farms
+                  <Sun className="w-3 h-3 text-orange-500" /> {language === 'KO' ? '태양광 발전소' : 'Solar Farms'}
               </div>
               <div className="flex items-center gap-1">
-                   <Activity className="w-3 h-3 text-blue-500" /> Grid Stable
+                   <Activity className="w-3 h-3 text-blue-500" /> {language === 'KO' ? '전력망 안정' : 'Grid Stable'}
               </div>
           </div>
       </div>
@@ -297,11 +297,11 @@ const UseCases: React.FC = () => {
 
   const DoosanDiagram = () => (
       <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
-          <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">Remote Robot Diagnostics</h4>
+          <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">{language === 'KO' ? '로봇 원격 진단' : 'Remote Robot Diagnostics'}</h4>
           <div className="flex items-center justify-between">
               <div className="text-center">
                   <Bot className="w-8 h-8 text-blue-900 mx-auto" />
-                  <span className="text-[10px] font-bold block mt-1">Robot</span>
+                  <span className="text-[10px] font-bold block mt-1">{language === 'KO' ? '로봇' : 'Robot'}</span>
               </div>
               
               <div className="flex-1 px-2">
@@ -311,19 +311,19 @@ const UseCases: React.FC = () => {
                       <div className="w-1 h-1 bg-red-500 rounded-full animate-bounce delay-150"></div>
                   </div>
                   <div className="h-0.5 bg-slate-200 w-full"></div>
-                  <span className="text-[9px] text-slate-400 block text-center mt-1">IoT Logs</span>
+                  <span className="text-[9px] text-slate-400 block text-center mt-1">{language === 'KO' ? 'IoT 로그' : 'IoT Logs'}</span>
               </div>
 
               <div className="text-center">
                   <div className="w-8 h-8 bg-blue-50 rounded-full flex items-center justify-center mx-auto border border-blue-100">
                       <Server className="w-4 h-4 text-blue-600" />
                   </div>
-                  <span className="text-[10px] font-bold block mt-1">Cloud</span>
+                  <span className="text-[10px] font-bold block mt-1">{language === 'KO' ? '클라우드' : 'Cloud'}</span>
               </div>
           </div>
           <div className="mt-3 bg-red-50 p-2 rounded border border-red-100 text-center">
               <span className="text-[10px] font-bold text-red-600 flex items-center justify-center gap-1">
-                  <Zap className="w-3 h-3" /> Warning: Motor Heat
+                  <Zap className="w-3 h-3" /> {language === 'KO' ? '경고: 모터 과열' : 'Warning: Motor Heat'}
               </span>
           </div>
       </div>
@@ -331,7 +331,7 @@ const UseCases: React.FC = () => {
 
   const CJDiagram = () => (
       <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
-          <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">AI Route Optimization</h4>
+          <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">{language === 'KO' ? 'AI 배송 경로 최적화' : 'AI Route Optimization'}</h4>
           <div className="relative h-24 bg-slate-50 rounded-lg border border-slate-100 overflow-hidden">
               {/* Map simulation */}
               <svg className="w-full h-full absolute inset-0 opacity-20" viewBox="0 0 100 50">
@@ -340,15 +340,15 @@ const UseCases: React.FC = () => {
               </svg>
               
               <div className="absolute top-2 left-2 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-[8px] z-10 shadow-md">
-                  Hub
+                  {language === 'KO' ? '허브' : 'Hub'}
               </div>
               <div className="absolute bottom-2 right-2 w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[8px] z-10 shadow-md">
-                  Home
+                  {language === 'KO' ? '가정' : 'Home'}
               </div>
 
               {/* Optimized Path */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 py-1 rounded shadow text-[9px] font-bold text-blue-600 border border-blue-100 z-20">
-                  Optimized
+                  {language === 'KO' ? '최적 경로' : 'Optimized'}
               </div>
               <div className="absolute top-[20%] left-[40%] w-2 h-2 bg-slate-400 rounded-full opacity-50"></div>
               <div className="absolute bottom-[30%] left-[60%] w-2 h-2 bg-slate-400 rounded-full opacity-50"></div>
@@ -358,14 +358,14 @@ const UseCases: React.FC = () => {
 
   const HDDiagram = () => (
       <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
-          <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">Smart Yard Digital Twin</h4>
+          <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 text-center">{language === 'KO' ? '스마트 야드 디지털 트윈' : 'Smart Yard Digital Twin'}</h4>
           <div className="grid grid-cols-4 gap-1 h-20">
               <div className="col-span-2 bg-slate-100 rounded border border-slate-200 flex items-center justify-center text-[9px] text-slate-400">
-                  Dock A
+                  {language === 'KO' ? 'A 도크' : 'Dock A'}
               </div>
               <div className="bg-blue-50 rounded border border-blue-200 flex flex-col items-center justify-center text-[9px]">
                   <Anchor className="w-3 h-3 text-blue-600 mb-1" />
-                  <span className="font-bold text-blue-700">Ship 1</span>
+                  <span className="font-bold text-blue-700">{language === 'KO' ? '선박 1' : 'Ship 1'}</span>
               </div>
               <div className="bg-slate-100 rounded border border-slate-200"></div>
               
@@ -374,7 +374,7 @@ const UseCases: React.FC = () => {
                   <span className="font-bold text-emerald-700">IoT</span>
               </div>
               <div className="col-span-3 bg-slate-100 rounded border border-slate-200 flex items-center justify-center text-[9px] text-slate-400">
-                  Material Storage Area
+                  {language === 'KO' ? '자재 야적장' : 'Material Storage Area'}
               </div>
           </div>
       </div>
@@ -938,6 +938,21 @@ const UseCases: React.FC = () => {
 
   const categories = ['All', ...Array.from(new Set(Object.values(cases).map(c => c.category)))];
 
+  // Display-only labels for the industry filter chips.
+  // The underlying `categories` values stay English because they are compared against `selectedCategory`.
+  const categoryLabelsKo: Record<string, string> = {
+      'All': '전체',
+      'Automotive': '자동차',
+      'Electronics': '전자',
+      'Materials': '소재',
+      'Logistics': '물류',
+      'Chemical': '화학',
+      'Energy': '에너지',
+      'Robotics': '로보틱스',
+      'Shipbuilding': '조선'
+  };
+  const getCategoryLabel = (cat: string) => (language === 'KO' ? (categoryLabelsKo[cat] || cat) : cat);
+
   const steps = [
       { id: 1, icon: <MessageSquare className="w-6 h-6" />, titleKey: 'uc_step_1_title', descKey: 'uc_step_1_desc', color: 'bg-blue-500' },
       { id: 2, icon: <UserPlus className="w-6 h-6" />, titleKey: 'uc_step_2_title', descKey: 'uc_step_2_desc', color: 'bg-indigo-500' },
@@ -1025,7 +1040,7 @@ const UseCases: React.FC = () => {
                   <div className="flex gap-8 items-center z-10">
                       <div className="w-16 h-16 bg-slate-800 border-2 border-blue-500 rounded-lg flex flex-col items-center justify-center text-blue-400">
                           <Database className="w-6 h-6 mb-1" />
-                          <span className="text-[9px] font-bold">Provider</span>
+                          <span className="text-[9px] font-bold">{language === 'KO' ? '제공자' : 'Provider'}</span>
                       </div>
                       <div className="flex flex-col items-center gap-1">
                           <div className="w-24 h-1 bg-slate-700 relative overflow-hidden rounded-full">
@@ -1035,7 +1050,7 @@ const UseCases: React.FC = () => {
                       </div>
                       <div className="w-16 h-16 bg-slate-800 border-2 border-emerald-500 rounded-lg flex flex-col items-center justify-center text-emerald-400">
                           <Server className="w-6 h-6 mb-1" />
-                          <span className="text-[9px] font-bold">Consumer</span>
+                          <span className="text-[9px] font-bold">{language === 'KO' ? '수요자' : 'Consumer'}</span>
                       </div>
                   </div>
               </div>
@@ -1068,7 +1083,7 @@ const UseCases: React.FC = () => {
                       </div>
                   </div>
                   <div className="absolute top-4 right-4 bg-indigo-900/80 text-indigo-200 text-[10px] px-2 py-1 rounded">
-                      Model Update
+                      {language === 'KO' ? '모델 업데이트' : 'Model Update'}
                   </div>
               </div>
           );
@@ -1174,7 +1189,7 @@ const UseCases: React.FC = () => {
                                       <div className="w-12 h-12 bg-white border-2 border-slate-300 rounded-full flex items-center justify-center text-slate-400">
                                           <FileX className="w-5 h-5" />
                                       </div>
-                                      <span className="text-[10px] font-bold text-slate-500 uppercase">Legacy / Manual</span>
+                                      <span className="text-[10px] font-bold text-slate-500 uppercase">{language === 'KO' ? '기존 / 수동' : 'Legacy / Manual'}</span>
                                   </div>
 
                                   {/* Arrow Animation */}
@@ -1190,7 +1205,7 @@ const UseCases: React.FC = () => {
                                       <div className="w-12 h-12 bg-white border-2 border-emerald-500 rounded-full flex items-center justify-center text-emerald-600 shadow-lg shadow-emerald-100">
                                           <Zap className="w-5 h-5" />
                                       </div>
-                                      <span className="text-[10px] font-bold text-emerald-600 uppercase">Automated / Real-time</span>
+                                      <span className="text-[10px] font-bold text-emerald-600 uppercase">{language === 'KO' ? '자동화 / 실시간' : 'Automated / Real-time'}</span>
                                   </div>
                               </div>
                           </div>
@@ -1214,7 +1229,7 @@ const UseCases: React.FC = () => {
                                                   return (
                                                       <div className="bg-slate-800 text-white text-xs p-2 rounded shadow-lg">
                                                           <p className="font-bold">{payload[0].payload.name}</p>
-                                                          <p>Value Index: {payload[0].value}</p>
+                                                          <p>{language === 'KO' ? '지표 값' : 'Value Index'}: {payload[0].value}</p>
                                                       </div>
                                                   );
                                               }
@@ -1232,11 +1247,11 @@ const UseCases: React.FC = () => {
                           <div className="flex justify-between px-8 mt-2">
                               <div className="text-center">
                                   <span className="block text-2xl font-bold text-red-500">{selectedPainPoint.before}</span>
-                                  <span className="text-[10px] text-slate-400 uppercase font-bold">Before</span>
+                                  <span className="text-[10px] text-slate-400 uppercase font-bold">{language === 'KO' ? '적용 전' : 'Before'}</span>
                               </div>
                               <div className="text-center">
                                   <span className="block text-2xl font-bold text-emerald-500">{selectedPainPoint.after}</span>
-                                  <span className="text-[10px] text-slate-400 uppercase font-bold">After</span>
+                                  <span className="text-[10px] text-slate-400 uppercase font-bold">{language === 'KO' ? '적용 후' : 'After'}</span>
                               </div>
                           </div>
                       </div>
@@ -1269,7 +1284,7 @@ const UseCases: React.FC = () => {
                           <p className="text-sm text-slate-400 mb-6">{selectedTechItem.desc}</p>
                           
                           <div className="space-y-4">
-                              <h4 className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">Technical Standards</h4>
+                              <h4 className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">{language === 'KO' ? '기술 표준' : 'Technical Standards'}</h4>
                               {getTechInfo(selectedTechItem.title, selectedTechItem.desc).specs.map((spec, i) => (
                                   <div key={i} className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/10">
                                       <Settings className="w-4 h-4 text-emerald-400" />
@@ -1315,7 +1330,7 @@ const UseCases: React.FC = () => {
                                   <div className="flex-1 h-2 bg-blue-200 rounded-full overflow-hidden">
                                       <div className="h-full bg-blue-600 w-[85%]"></div>
                                   </div>
-                                  <span className="text-xs font-bold text-blue-700">High Impact</span>
+                                  <span className="text-xs font-bold text-blue-700">{language === 'KO' ? '높은 효과' : 'High Impact'}</span>
                               </div>
                           </div>
                       </div>
@@ -1335,7 +1350,7 @@ const UseCases: React.FC = () => {
                               <Microscope className="w-6 h-6 text-white" />
                           </div>
                           <div>
-                              <h2 className="text-xl font-bold">{activeCase.name} - Digital Transformation Report</h2>
+                              <h2 className="text-xl font-bold">{activeCase.name}{language === 'KO' ? ' 디지털 전환 리포트' : ' - Digital Transformation Report'}</h2>
                               <p className="text-xs text-slate-400 uppercase tracking-wider">{activeCase.industry}</p>
                           </div>
                       </div>
@@ -1359,7 +1374,7 @@ const UseCases: React.FC = () => {
                           <div className="grid grid-cols-1 md:grid-cols-7 gap-4 items-center">
                               {/* Before State */}
                               <div className="md:col-span-3 bg-slate-50 p-6 rounded-2xl border border-slate-200 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-                                  <h4 className="text-center text-sm font-bold text-slate-500 uppercase mb-6">Legacy / Siloed</h4>
+                                  <h4 className="text-center text-sm font-bold text-slate-500 uppercase mb-6">{language === 'KO' ? '기존 / 사일로' : 'Legacy / Siloed'}</h4>
                                   <div className="flex justify-center gap-8 relative">
                                       <div className="flex flex-col items-center gap-2">
                                           <div className="w-12 h-12 bg-white border-2 border-slate-300 rounded-lg flex items-center justify-center text-slate-400">
@@ -1371,14 +1386,14 @@ const UseCases: React.FC = () => {
                                           <div className="w-12 h-12 bg-white border-2 border-slate-300 rounded-lg flex items-center justify-center text-slate-400">
                                               <Mail className="w-6 h-6" />
                                           </div>
-                                          <span className="text-xs font-bold text-slate-500">Email</span>
+                                          <span className="text-xs font-bold text-slate-500">{language === 'KO' ? '이메일' : 'Email'}</span>
                                       </div>
                                       {/* Disconnected Line */}
                                       <div className="absolute top-1/2 left-0 w-full h-px bg-slate-300 -z-10 border-t-2 border-dashed"></div>
                                       <XCircle className="w-6 h-6 text-red-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full" />
                                   </div>
                                   <p className="text-center text-xs text-slate-500 mt-4 px-4">
-                                      Manual data entry, delayed synchronization, high risk of errors.
+                                      {language === 'KO' ? '수기 입력, 뒤늦은 동기화, 높은 오류 위험.' : 'Manual data entry, delayed synchronization, high risk of errors.'}
                                   </p>
                               </div>
 
@@ -1392,14 +1407,14 @@ const UseCases: React.FC = () => {
                               {/* After State */}
                               <div className="md:col-span-3 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-200 relative overflow-hidden">
                                   <div className="absolute top-0 right-0 w-32 h-32 bg-blue-400 rounded-full filter blur-3xl opacity-10"></div>
-                                  <h4 className="text-center text-sm font-bold text-blue-700 uppercase mb-6">DataSpace Connected</h4>
+                                  <h4 className="text-center text-sm font-bold text-blue-700 uppercase mb-6">{language === 'KO' ? 'DataSpace 연결' : 'DataSpace Connected'}</h4>
                                   <div className="flex justify-center gap-4 relative z-10">
                                       {/* Nodes */}
                                       <div className="flex flex-col items-center gap-2">
                                           <div className="w-12 h-12 bg-white border-2 border-blue-500 rounded-full flex items-center justify-center text-blue-600 shadow-md">
                                               <Database className="w-6 h-6" />
                                           </div>
-                                          <span className="text-xs font-bold text-blue-700">EDC Node</span>
+                                          <span className="text-xs font-bold text-blue-700">{language === 'KO' ? 'EDC 노드' : 'EDC Node'}</span>
                                       </div>
                                       
                                       {/* Animated Stream */}
@@ -1416,11 +1431,11 @@ const UseCases: React.FC = () => {
                                           <div className="w-12 h-12 bg-white border-2 border-emerald-500 rounded-full flex items-center justify-center text-emerald-600 shadow-md">
                                               <Activity className="w-6 h-6" />
                                           </div>
-                                          <span className="text-xs font-bold text-emerald-700">Real-time AI</span>
+                                          <span className="text-xs font-bold text-emerald-700">{language === 'KO' ? '실시간 AI' : 'Real-time AI'}</span>
                                       </div>
                                   </div>
                                   <p className="text-center text-xs text-blue-600 mt-4 px-4 font-medium">
-                                      Automated, secure P2P streaming with sovereignty protection.
+                                      {language === 'KO' ? '데이터 주권을 지키면서 자동화된 안전한 P2P 스트리밍.' : 'Automated, secure P2P streaming with sovereignty protection.'}
                                   </p>
                               </div>
                           </div>
@@ -1445,8 +1460,8 @@ const UseCases: React.FC = () => {
                                           <PolarGrid stroke="#e2e8f0" />
                                           <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 12, fontWeight: 'bold' }} />
                                           <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                                          <Radar name="Before (Legacy)" dataKey="A" stroke="#94a3b8" fill="#cbd5e1" fillOpacity={0.4} />
-                                          <Radar name="After (DataSpace)" dataKey="B" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.5} />
+                                          <Radar name={language === 'KO' ? '도입 전 (기존)' : 'Before (Legacy)'} dataKey="A" stroke="#94a3b8" fill="#cbd5e1" fillOpacity={0.4} />
+                                          <Radar name={language === 'KO' ? '도입 후 (DataSpace)' : 'After (DataSpace)'} dataKey="B" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.5} />
                                           <Legend />
                                           <Tooltip contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 10px rgba(0,0,0,0.1)'}} />
                                       </RadarChart>
@@ -1515,7 +1530,7 @@ const UseCases: React.FC = () => {
                         : 'bg-white border border-slate-200 text-slate-500 hover:bg-slate-50'
                     }`}
                   >
-                      {cat}
+                      {getCategoryLabel(cat)}
                   </button>
               ))}
           </div>
@@ -1561,9 +1576,9 @@ const UseCases: React.FC = () => {
              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
              <div className="absolute bottom-0 left-0 w-full p-8 md:p-12 text-white">
                 <div className="flex items-center gap-3 mb-3">
-                    <span className="bg-blue-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Success Story</span>
+                    <span className="bg-blue-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">{language === 'KO' ? '성공 사례' : 'Success Story'}</span>
                     <span className="bg-white/20 backdrop-blur px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1">
-                        <LinkIcon className="w-3 h-3" /> DataSpace Connected
+                        <LinkIcon className="w-3 h-3" /> {language === 'KO' ? 'DataSpace 연결' : 'DataSpace Connected'}
                     </span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-2">{activeCase.content.title}</h2>

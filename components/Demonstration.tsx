@@ -359,6 +359,32 @@ const Demonstration: React.FC = () => {
                step.actionEN.includes('Optimization');
     };
 
+    // Display-only role labels. NOTE: the `role` field itself must stay in English
+    // (it is compared against 'AI' in isAiStep above) - only the rendered label is mapped.
+    const roleLabelsKO: Record<string, string> = {
+        'Retailer': '유통사',
+        'Logistics': '물류사',
+        'AI': 'AI',
+        'Supplier': '공급사',
+        'Device': '설비',
+        'Edge': '엣지',
+        'Controller': '제어기',
+        'Sensor': '센서',
+        'System': '시스템',
+        'Admin': '관리자',
+        'IoT': 'IoT',
+        'EMS': 'EMS',
+        'Report': '리포트',
+        'R&D': '연구개발',
+        'Designer': '설계사',
+        'Factory': '공장',
+        'Miner': '광산사',
+        'OEM': 'OEM',
+        'Recycler': '재활용사'
+    };
+
+    const getRoleLabel = (role: string) => (language === 'KO' ? (roleLabelsKO[role] || role) : role);
+
     // --- Helper for Final Report Data ---
     const getScenarioImpact = (id: string) => {
         switch(id) {
@@ -398,7 +424,12 @@ const Demonstration: React.FC = () => {
                 labelBefore: language === 'KO' ? '이메일/문서' : 'Email/Docs',
                 labelAfter: language === 'KO' ? '데이터스페이스' : 'DataSpace'
             };
-            default: return { metric: 'Efficiency', before: 50, after: 90, unit: '%' };
+            default: return {
+                metric: language === 'KO' ? '운영 효율' : 'Efficiency',
+                before: 50, after: 90, unit: '%',
+                labelBefore: language === 'KO' ? '기존 방식' : 'Legacy',
+                labelAfter: language === 'KO' ? 'AI 적용' : 'AI Applied'
+            };
         }
     };
 
@@ -496,9 +527,9 @@ const Demonstration: React.FC = () => {
                                     <div className="grid grid-cols-3 gap-2 relative z-10">
                                          {/* Input */}
                                          <div className="bg-slate-800 rounded p-2 text-center border border-slate-600 flex flex-col items-center justify-center min-h-[80px]">
-                                             <span className="text-[10px] text-slate-400 block uppercase mb-1">Input</span>
+                                             <span className="text-[10px] text-slate-400 block uppercase mb-1">{language === 'KO' ? '입력' : 'Input'}</span>
                                              <Database className="w-6 h-6 text-slate-300 mx-auto mb-1" />
-                                             <span className="text-[9px] text-white leading-tight">Sensor/Log Data</span>
+                                             <span className="text-[9px] text-white leading-tight">{language === 'KO' ? '센서 / 로그 데이터' : 'Sensor/Log Data'}</span>
                                          </div>
                                          {/* Process */}
                                          <div className="flex flex-col items-center justify-center">
@@ -507,22 +538,22 @@ const Demonstration: React.FC = () => {
                                                      <Brain className="w-4 h-4 text-purple-400 animate-pulse" />
                                                  </div>
                                              </div>
-                                             <span className="text-[10px] text-purple-300 mt-3 font-mono">Inference...</span>
+                                             <span className="text-[10px] text-purple-300 mt-3 font-mono">{language === 'KO' ? '추론 중...' : 'Inference...'}</span>
                                          </div>
                                          {/* Output */}
                                          <div className="bg-slate-800 rounded p-2 text-center border border-emerald-500/50 shadow-[0_0_10px_rgba(16,185,129,0.1)] flex flex-col items-center justify-center min-h-[80px]">
-                                             <span className="text-[10px] text-emerald-400 block uppercase mb-1">Result</span>
+                                             <span className="text-[10px] text-emerald-400 block uppercase mb-1">{language === 'KO' ? '결과' : 'Result'}</span>
                                              <div className="text-lg font-bold text-white leading-none mb-1">
                                                 {modalData.dataSnippet.confidence || modalData.dataSnippet.optimization_score || '98%'}
                                              </div>
-                                             <span className="text-[9px] text-slate-400 leading-tight">Confidence Score</span>
+                                             <span className="text-[9px] text-slate-400 leading-tight">{language === 'KO' ? '신뢰도 점수' : 'Confidence Score'}</span>
                                          </div>
                                     </div>
                                     {/* Explainability Text (Mock) */}
                                     <div className="mt-4 text-[10px] text-slate-300 border-t border-slate-700 pt-3 flex items-start gap-1">
                                         <Network className="w-3 h-3 text-blue-400 mt-0.5" />
                                         <span>
-                                            <span className="text-blue-400 font-bold">XAI (Explainable AI):</span> 
+                                            <span className="text-blue-400 font-bold">{language === 'KO' ? 'XAI (설명 가능한 AI):' : 'XAI (Explainable AI):'}</span>
                                             {language === 'KO' ? ' 주요 영향 인자 - 진동 패턴(45%), 온도 상승(30%), 압력(25%)' : ' Key Factors: Vibration Pattern (45%), Temp Rise (30%), Pressure (25%)'}
                                         </span>
                                     </div>
@@ -532,18 +563,18 @@ const Demonstration: React.FC = () => {
                             {/* Visual Indicator */}
                             <div className="flex items-center justify-between bg-slate-50 p-4 rounded-xl border border-slate-100">
                                 <div className="text-center">
-                                    <span className="block text-xs text-slate-400 uppercase font-bold mb-1">Actor</span>
+                                    <span className="block text-xs text-slate-400 uppercase font-bold mb-1">{language === 'KO' ? '수행 주체' : 'Actor'}</span>
                                     <span className="font-bold text-slate-800 text-sm">{modalData.actor}</span>
                                 </div>
                                 <ArrowRight className="w-5 h-5 text-slate-300" />
                                 <div className="text-center">
-                                    <span className="block text-xs text-slate-400 uppercase font-bold mb-1">Status</span>
-                                    <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">Success</span>
+                                    <span className="block text-xs text-slate-400 uppercase font-bold mb-1">{language === 'KO' ? '처리 상태' : 'Status'}</span>
+                                    <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">{language === 'KO' ? '성공' : 'Success'}</span>
                                 </div>
                                 <ArrowRight className="w-5 h-5 text-slate-300" />
                                 <div className="text-center">
-                                    <span className="block text-xs text-slate-400 uppercase font-bold mb-1">Blockchain</span>
-                                    <span className="font-mono text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">Anchored</span>
+                                    <span className="block text-xs text-slate-400 uppercase font-bold mb-1">{language === 'KO' ? '블록체인' : 'Blockchain'}</span>
+                                    <span className="font-mono text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">{language === 'KO' ? '기록 완료' : 'Anchored'}</span>
                                 </div>
                             </div>
 
@@ -551,7 +582,7 @@ const Demonstration: React.FC = () => {
                             <div className="space-y-2">
                                 <h4 className="text-sm font-bold text-slate-700 flex items-center gap-2">
                                     <FileJson className="w-4 h-4 text-slate-500" />
-                                    Data Payload (Verified)
+                                    {language === 'KO' ? '데이터 페이로드 (검증 완료)' : 'Data Payload (Verified)'}
                                 </h4>
                                 <div className="max-h-60 overflow-y-auto pr-1">
                                     {renderFriendlyPayload(modalData.dataSnippet)}
@@ -562,8 +593,8 @@ const Demonstration: React.FC = () => {
                             <div className="flex items-center gap-3 p-3 bg-emerald-50 border border-emerald-100 rounded-lg">
                                 <ShieldCheck className="w-8 h-8 text-emerald-600" />
                                 <div>
-                                    <div className="text-sm font-bold text-emerald-900">Verifiable Credential Verified</div>
-                                    <div className="text-xs text-emerald-700">Digital Signature from DAPS is valid.</div>
+                                    <div className="text-sm font-bold text-emerald-900">{language === 'KO' ? 'Verifiable Credential 검증 완료' : 'Verifiable Credential Verified'}</div>
+                                    <div className="text-xs text-emerald-700">{language === 'KO' ? 'DAPS가 발급한 전자서명이 유효합니다.' : 'Digital Signature from DAPS is valid.'}</div>
                                 </div>
                             </div>
 
@@ -625,8 +656,8 @@ const Demonstration: React.FC = () => {
                                                         <Database className="w-5 h-5" />
                                                     </div>
                                                     <div>
-                                                        <span className="text-xs font-bold text-slate-600 block">Raw Data</span>
-                                                        <span className="text-[10px] text-slate-400">IoT / Sensor / Logs</span>
+                                                        <span className="text-xs font-bold text-slate-600 block">{language === 'KO' ? '원천 데이터' : 'Raw Data'}</span>
+                                                        <span className="text-[10px] text-slate-400">{language === 'KO' ? 'IoT / 센서 / 로그' : 'IoT / Sensor / Logs'}</span>
                                                     </div>
                                                 </div>
 
@@ -637,8 +668,8 @@ const Demonstration: React.FC = () => {
                                                         <div className="flex items-center gap-2">
                                                             <Brain className="w-5 h-5 animate-pulse" />
                                                             <div>
-                                                                <span className="text-xs font-bold block">AI Engine</span>
-                                                                <span className="text-[9px] opacity-80 block">Inference & Optimization</span>
+                                                                <span className="text-xs font-bold block">{language === 'KO' ? 'AI 엔진' : 'AI Engine'}</span>
+                                                                <span className="text-[9px] opacity-80 block">{language === 'KO' ? '추론 및 최적화' : 'Inference & Optimization'}</span>
                                                             </div>
                                                         </div>
                                                         <ArrowRight className="w-4 h-4" />
@@ -651,8 +682,8 @@ const Demonstration: React.FC = () => {
                                                         <TrendingUp className="w-5 h-5" />
                                                     </div>
                                                     <div>
-                                                        <span className="text-xs font-bold text-emerald-700 block">Value Created</span>
-                                                        <span className="text-[10px] text-slate-500">Optimization Result</span>
+                                                        <span className="text-xs font-bold text-emerald-700 block">{language === 'KO' ? '창출된 가치' : 'Value Created'}</span>
+                                                        <span className="text-[10px] text-slate-500">{language === 'KO' ? '최적화 결과' : 'Optimization Result'}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -676,10 +707,10 @@ const Demonstration: React.FC = () => {
                                                     <XAxis type="number" hide />
                                                     <YAxis dataKey="metric" type="category" width={80} tick={{fontSize: 11, fontWeight: 'bold'}} />
                                                     <Tooltip cursor={{fill: 'transparent'}} contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 10px rgba(0,0,0,0.1)'}} />
-                                                    <Bar dataKey="before" name="Legacy" fill="#94a3b8" radius={[0, 4, 4, 0]}>
+                                                    <Bar dataKey="before" name={language === 'KO' ? '기존 방식' : 'Legacy'} fill="#94a3b8" radius={[0, 4, 4, 0]}>
                                                         <Cell fill="#cbd5e1" />
                                                     </Bar>
-                                                    <Bar dataKey="after" name="AI Applied" fill="#8b5cf6" radius={[0, 4, 4, 0]}>
+                                                    <Bar dataKey="after" name={language === 'KO' ? 'AI 적용' : 'AI Applied'} fill="#8b5cf6" radius={[0, 4, 4, 0]}>
                                                         <Cell fill="url(#colorGradient)" />
                                                     </Bar>
                                                     <defs>
@@ -718,10 +749,10 @@ const Demonstration: React.FC = () => {
                                         <div className="p-2 bg-blue-100 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-colors">
                                             <Activity className="w-5 h-5" />
                                         </div>
-                                        <span className="text-sm font-bold text-slate-600">Efficiency</span>
+                                        <span className="text-sm font-bold text-slate-600">{language === 'KO' ? '운영 효율' : 'Efficiency'}</span>
                                     </div>
                                     <div className="text-3xl font-bold text-slate-900 mb-1">94<span className="text-sm text-slate-400">%</span></div>
-                                    <div className="text-xs text-emerald-600 font-medium">+12% vs Traditional</div>
+                                    <div className="text-xs text-emerald-600 font-medium">{language === 'KO' ? '기존 방식 대비 +12%' : '+12% vs Traditional'}</div>
                                 </div>
 
                                 <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 hover:border-purple-300 transition-colors group">
@@ -729,10 +760,10 @@ const Demonstration: React.FC = () => {
                                         <div className="p-2 bg-purple-100 text-purple-600 rounded-lg group-hover:bg-purple-600 group-hover:text-white transition-colors">
                                             <Fingerprint className="w-5 h-5" />
                                         </div>
-                                        <span className="text-sm font-bold text-slate-600">Trust Score</span>
+                                        <span className="text-sm font-bold text-slate-600">{language === 'KO' ? '신뢰도 점수' : 'Trust Score'}</span>
                                     </div>
                                     <div className="text-3xl font-bold text-slate-900 mb-1">100<span className="text-sm text-slate-400">/100</span></div>
-                                    <div className="text-xs text-slate-500 font-medium">All signatures valid</div>
+                                    <div className="text-xs text-slate-500 font-medium">{language === 'KO' ? '모든 전자서명 유효' : 'All signatures valid'}</div>
                                 </div>
 
                                 <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 hover:border-emerald-300 transition-colors group">
@@ -740,10 +771,10 @@ const Demonstration: React.FC = () => {
                                         <div className="p-2 bg-emerald-100 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition-colors">
                                             <Leaf className="w-5 h-5" />
                                         </div>
-                                        <span className="text-sm font-bold text-slate-600">Cost/Carbon</span>
+                                        <span className="text-sm font-bold text-slate-600">{language === 'KO' ? '비용 / 탄소' : 'Cost/Carbon'}</span>
                                     </div>
                                     <div className="text-3xl font-bold text-slate-900 mb-1">-30<span className="text-sm text-slate-400">%</span></div>
-                                    <div className="text-xs text-emerald-600 font-medium">Paperless Savings</div>
+                                    <div className="text-xs text-emerald-600 font-medium">{language === 'KO' ? '종이 문서 제거 절감 효과' : 'Paperless Savings'}</div>
                                 </div>
                             </div>
 
@@ -792,7 +823,7 @@ const Demonstration: React.FC = () => {
                         onClick={resetDemo}
                         className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
                     >
-                        Reset
+                        {language === 'KO' ? '초기화' : 'Reset'}
                     </button>
                 </div>
             </div>
@@ -848,17 +879,19 @@ const Demonstration: React.FC = () => {
                                 {isAnimating ? (
                                     <>
                                         <RefreshCw className="w-4 h-4 animate-spin" />
-                                        Processing...
+                                        {language === 'KO' ? '처리 중...' : 'Processing...'}
                                     </>
                                 ) : currentStep >= activeScenario.steps.length ? (
                                     <>
                                         <CheckCircle2 className="w-4 h-4" />
-                                        Completed
+                                        {language === 'KO' ? '완료됨' : 'Completed'}
                                     </>
                                 ) : (
                                     <>
                                         <Play className="w-4 h-4 fill-current" />
-                                        {currentStep === 0 ? 'Start Demonstration' : 'Execute Next Step'}
+                                        {currentStep === 0
+                                            ? (language === 'KO' ? '실증 시작하기' : 'Start Demonstration')
+                                            : (language === 'KO' ? '다음 단계 실행' : 'Execute Next Step')}
                                     </>
                                 )}
                             </button>
@@ -949,7 +982,7 @@ const Demonstration: React.FC = () => {
                                         {done && (
                                             <div className="absolute -top-12 animate-bounce">
                                                 <div className="bg-emerald-500 text-white text-[10px] px-2 py-1 rounded-full font-bold flex items-center gap-1 shadow-lg shadow-emerald-500/30">
-                                                    <CheckCircle2 className="w-3 h-3" /> Verified
+                                                    <CheckCircle2 className="w-3 h-3" /> {language === 'KO' ? '검증 완료' : 'Verified'}
                                                 </div>
                                             </div>
                                         )}
@@ -972,7 +1005,7 @@ const Demonstration: React.FC = () => {
 
                                         {/* Labels */}
                                         <div className="text-center mt-4 bg-slate-900/80 px-3 py-1 rounded-lg backdrop-blur border border-slate-700">
-                                            <span className={`text-xs font-bold block ${active || done ? 'text-white' : 'text-slate-400'}`}>{step.role}</span>
+                                            <span className={`text-xs font-bold block ${active || done ? 'text-white' : 'text-slate-400'}`}>{getRoleLabel(step.role)}</span>
                                             <span className="text-[10px] text-slate-400 max-w-[80px] truncate block mx-auto">{step.actor}</span>
                                         </div>
                                     </div>
@@ -988,7 +1021,7 @@ const Demonstration: React.FC = () => {
                             <div className="px-4 py-3 border-b border-slate-100 flex justify-between items-center bg-slate-50 rounded-t-2xl">
                                 <div className="flex items-center gap-2">
                                     <FileJson className="w-4 h-4 text-slate-500" />
-                                    <span className="text-sm font-bold text-slate-700">Data Payload (AAS)</span>
+                                    <span className="text-sm font-bold text-slate-700">{language === 'KO' ? '데이터 페이로드 (AAS)' : 'Data Payload (AAS)'}</span>
                                 </div>
                                 <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-mono">JSON-LD</span>
                             </div>
@@ -998,7 +1031,7 @@ const Demonstration: React.FC = () => {
                                 ) : (
                                     <div className="h-full flex flex-col items-center justify-center text-slate-400 opacity-60">
                                         <Search className="w-8 h-8 mb-2" />
-                                        <p>Waiting for process start...</p>
+                                        <p>{language === 'KO' ? '프로세스 시작을 기다리는 중입니다...' : 'Waiting for process start...'}</p>
                                     </div>
                                 )}
                             </div>
@@ -1009,7 +1042,7 @@ const Demonstration: React.FC = () => {
                             <div className="px-4 py-3 border-b border-slate-800 flex justify-between items-center bg-slate-950 rounded-t-2xl">
                                 <div className="flex items-center gap-2">
                                     <Server className="w-4 h-4 text-emerald-500" />
-                                    <span className="text-sm font-bold text-slate-300">EDC Connector Logs</span>
+                                    <span className="text-sm font-bold text-slate-300">{language === 'KO' ? 'EDC 커넥터 로그' : 'EDC Connector Logs'}</span>
                                 </div>
                                 <div className="flex gap-1.5">
                                     <div className="w-2 h-2 rounded-full bg-red-500"></div>

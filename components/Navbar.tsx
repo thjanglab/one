@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
           </Link>
 
           {/* Sustainability Section */}
-          <div className="pt-2 pb-1 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">Sustainability</div>
+          <div className="pt-2 pb-1 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">{language === 'KO' ? '지속가능성' : 'Sustainability'}</div>
           <Link to="/pcf" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${isActive('/pcf')}`}>
             <Leaf className="w-5 h-5 text-emerald-500" />
             {t('nav_pcf')}
@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
           </Link>
           
           {/* SCM Innovation Section */}
-          <div className="pt-2 pb-1 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">Intelligent SCM</div>
+          <div className="pt-2 pb-1 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">{language === 'KO' ? '지능형 SCM' : 'Intelligent SCM'}</div>
           <Link to="/intelligent-scm" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${isActive('/intelligent-scm')}`}>
             <Bot className="w-5 h-5 text-purple-600" />
             {language === 'KO' ? '지능형 SCM' : 'Intelligent SCM'}
@@ -85,7 +85,7 @@ const Navbar: React.FC = () => {
           </Link>
 
           {/* Modules Section */}
-          <div className="pt-2 pb-1 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">Modules</div>
+          <div className="pt-2 pb-1 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">{language === 'KO' ? '모듈' : 'Modules'}</div>
           <Link to="/framework" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${isActive('/framework')}`}>
             <Cpu className="w-5 h-5" />
             {t('nav_framework')}
@@ -112,7 +112,7 @@ const Navbar: React.FC = () => {
           </Link>
 
           <div className="pt-4 mt-4 border-t border-slate-100">
-              <p className="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Support</p>
+              <p className="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{language === 'KO' ? '지원' : 'Support'}</p>
               {/* Security Link Added Here */}
               <Link to="/security" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${isActive('/security')}`}>
                 <Shield className="w-5 h-5" />
@@ -159,7 +159,7 @@ const Navbar: React.FC = () => {
               className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-colors shadow-sm shadow-blue-200"
           >
               <Share2 className="w-4 h-4" />
-              <span>Share Project</span>
+              <span>{language === 'KO' ? '프로젝트 공유' : 'Share Project'}</span>
           </button>
 
           <button 
@@ -206,8 +206,8 @@ const Navbar: React.FC = () => {
                   <Share2 className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">Share Project</h3>
-                  <p className="text-xs text-slate-500">Create a secure link for external viewing</p>
+                  <h3 className="text-xl font-bold text-slate-900">{language === 'KO' ? '프로젝트 공유' : 'Share Project'}</h3>
+                  <p className="text-xs text-slate-500">{language === 'KO' ? '외부 열람용 보안 링크를 생성합니다' : 'Create a secure link for external viewing'}</p>
                 </div>
               </div>
 
@@ -215,7 +215,7 @@ const Navbar: React.FC = () => {
                 {/* Short URL Box */}
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-center justify-between gap-3">
                   <div className="flex-1 truncate">
-                    <span className="text-[10px] text-slate-400 uppercase font-bold block mb-1">Short Link</span>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block mb-1">{language === 'KO' ? '단축 링크' : 'Short Link'}</span>
                     <span className="font-mono text-sm text-blue-600 font-bold block truncate">{shortUrl}</span>
                   </div>
                   <button 
@@ -237,8 +237,8 @@ const Navbar: React.FC = () => {
                       <Lock className="w-4 h-4" />
                     </div>
                     <div className="flex-1">
-                      <span className="text-sm font-bold text-slate-700 block">View Only</span>
-                      <span className="text-[10px] text-slate-400 block">Editing disabled. Code hidden.</span>
+                      <span className="text-sm font-bold text-slate-700 block">{language === 'KO' ? '읽기 전용' : 'View Only'}</span>
+                      <span className="text-[10px] text-slate-400 block">{language === 'KO' ? '편집은 불가능하며 코드는 공개되지 않습니다.' : 'Editing disabled. Code hidden.'}</span>
                     </div>
                     <Check className="w-4 h-4 text-blue-500" />
                   </div>
@@ -247,15 +247,15 @@ const Navbar: React.FC = () => {
                       <Monitor className="w-4 h-4" />
                     </div>
                     <div className="flex-1">
-                      <span className="text-sm font-bold text-slate-700 block">Full Screen Mode</span>
-                      <span className="text-[10px] text-slate-400 block">Navbars and panels are hidden.</span>
+                      <span className="text-sm font-bold text-slate-700 block">{language === 'KO' ? '전체 화면 모드' : 'Full Screen Mode'}</span>
+                      <span className="text-[10px] text-slate-400 block">{language === 'KO' ? '내비게이션과 패널이 숨겨집니다.' : 'Navbars and panels are hidden.'}</span>
                     </div>
                     <Check className="w-4 h-4 text-blue-500" />
                   </div>
                 </div>
 
                 <div className="pt-2 text-center">
-                  <p className="text-[10px] text-slate-400">Link expires in 7 days.</p>
+                  <p className="text-[10px] text-slate-400">{language === 'KO' ? '링크는 7일 후 만료됩니다.' : 'Link expires in 7 days.'}</p>
                 </div>
               </div>
             </div>
@@ -265,7 +265,7 @@ const Navbar: React.FC = () => {
                 onClick={() => setShowShareModal(false)}
                 className="px-6 py-2 bg-slate-900 text-white rounded-lg text-sm font-bold hover:bg-slate-800 transition-colors"
               >
-                Done
+                {language === 'KO' ? '완료' : 'Done'}
               </button>
             </div>
           </div>
@@ -340,8 +340,8 @@ export const MobileHeader: React.FC = () => {
                   <Share2 className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">Share Project</h3>
-                  <p className="text-xs text-slate-500">Secure link generated</p>
+                  <h3 className="text-xl font-bold text-slate-900">{language === 'KO' ? '프로젝트 공유' : 'Share Project'}</h3>
+                  <p className="text-xs text-slate-500">{language === 'KO' ? '보안 링크가 생성되었습니다' : 'Secure link generated'}</p>
                 </div>
               </div>
 
@@ -362,16 +362,16 @@ export const MobileHeader: React.FC = () => {
               </div>
               
               <div className="flex items-center gap-2 text-xs text-slate-500 mb-4">
-                 <Check className="w-3 h-3 text-blue-500" /> View Only
+                 <Check className="w-3 h-3 text-blue-500" /> {language === 'KO' ? '읽기 전용' : 'View Only'}
                  <span className="mx-1">•</span>
-                 <Check className="w-3 h-3 text-blue-500" /> Full Screen
+                 <Check className="w-3 h-3 text-blue-500" /> {language === 'KO' ? '전체 화면' : 'Full Screen'}
               </div>
 
               <button 
                 onClick={() => setShowShareModal(false)}
                 className="w-full py-3 bg-slate-900 text-white rounded-lg text-sm font-bold hover:bg-slate-800 transition-colors"
               >
-                Close
+                {language === 'KO' ? '닫기' : 'Close'}
               </button>
             </div>
           </div>

@@ -67,15 +67,15 @@ const Connector: React.FC = () => {
               <div className="space-y-6">
                   <div className="grid grid-cols-3 gap-4">
                       <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
-                          <p className="text-xs text-slate-500 uppercase font-bold">Total Inbound</p>
+                          <p className="text-xs text-slate-500 uppercase font-bold">{language === 'KO' ? '총 수신량' : 'Total Inbound'}</p>
                           <p className="text-2xl font-bold text-blue-600">210 TB</p>
                       </div>
                       <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
-                          <p className="text-xs text-slate-500 uppercase font-bold">Total Outbound</p>
+                          <p className="text-xs text-slate-500 uppercase font-bold">{language === 'KO' ? '총 송신량' : 'Total Outbound'}</p>
                           <p className="text-2xl font-bold text-emerald-600">240 TB</p>
                       </div>
                       <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
-                          <p className="text-xs text-slate-500 uppercase font-bold">Peak Throughput</p>
+                          <p className="text-xs text-slate-500 uppercase font-bold">{language === 'KO' ? '최대 처리량' : 'Peak Throughput'}</p>
                           <p className="text-2xl font-bold text-purple-600">1.2 GB/s</p>
                       </div>
                   </div>
@@ -86,12 +86,12 @@ const Connector: React.FC = () => {
                               <XAxis dataKey="name" />
                               <Tooltip />
                               <Legend />
-                              <Bar dataKey="rx" fill="#3b82f6" name="Inbound" />
-                              <Bar dataKey="tx" fill="#10b981" name="Outbound" />
+                              <Bar dataKey="rx" fill="#3b82f6" name={language === 'KO' ? '수신' : 'Inbound'} />
+                              <Bar dataKey="tx" fill="#10b981" name={language === 'KO' ? '송신' : 'Outbound'} />
                           </BarChart>
                       </ResponsiveContainer>
                   </div>
-                  <p className="text-xs text-slate-500 text-center">Historical data aggregated from all EDC connectors in the last 30 days.</p>
+                  <p className="text-xs text-slate-500 text-center">{language === 'KO' ? '최근 30일간 모든 EDC 커넥터에서 집계한 이력 데이터입니다.' : 'Historical data aggregated from all EDC connectors in the last 30 days.'}</p>
               </div>
           );
       }
@@ -101,8 +101,8 @@ const Connector: React.FC = () => {
               <div className="space-y-4">
                   <div className="bg-blue-50 border border-blue-100 p-4 rounded-xl flex justify-between items-center">
                       <div>
-                          <h4 className="font-bold text-blue-900">Active Agreements</h4>
-                          <p className="text-xs text-blue-700">12 Contracts currently streaming data</p>
+                          <h4 className="font-bold text-blue-900">{language === 'KO' ? '활성 계약' : 'Active Agreements'}</h4>
+                          <p className="text-xs text-blue-700">{language === 'KO' ? '현재 12건의 계약을 통해 데이터가 전송되고 있습니다' : '12 Contracts currently streaming data'}</p>
                       </div>
                       <FileCheck className="w-8 h-8 text-blue-500" />
                   </div>
@@ -110,30 +110,30 @@ const Connector: React.FC = () => {
                       <table className="w-full text-sm text-left">
                           <thead className="bg-slate-50 text-slate-500 font-medium">
                               <tr>
-                                  <th className="px-4 py-2">Contract ID</th>
-                                  <th className="px-4 py-2">Partner</th>
-                                  <th className="px-4 py-2">Policy</th>
-                                  <th className="px-4 py-2">Status</th>
+                                  <th className="px-4 py-2">{language === 'KO' ? '계약 ID' : 'Contract ID'}</th>
+                                  <th className="px-4 py-2">{language === 'KO' ? '파트너' : 'Partner'}</th>
+                                  <th className="px-4 py-2">{language === 'KO' ? '정책' : 'Policy'}</th>
+                                  <th className="px-4 py-2">{language === 'KO' ? '상태' : 'Status'}</th>
                               </tr>
                           </thead>
                           <tbody className="divide-y divide-slate-100">
                               <tr>
                                   <td className="px-4 py-2 font-mono text-xs">agr:8821...</td>
                                   <td className="px-4 py-2">Hyundai Motor</td>
-                                  <td className="px-4 py-2">Usage: 30 days</td>
-                                  <td className="px-4 py-2 text-emerald-600 font-bold">Active</td>
+                                  <td className="px-4 py-2">{language === 'KO' ? '사용 기간: 30일' : 'Usage: 30 days'}</td>
+                                  <td className="px-4 py-2 text-emerald-600 font-bold">{language === 'KO' ? '활성' : 'Active'}</td>
                               </tr>
                               <tr>
                                   <td className="px-4 py-2 font-mono text-xs">agr:9912...</td>
                                   <td className="px-4 py-2">LG Energy Sol</td>
-                                  <td className="px-4 py-2">Purpose: AI</td>
-                                  <td className="px-4 py-2 text-emerald-600 font-bold">Active</td>
+                                  <td className="px-4 py-2">{language === 'KO' ? '사용 목적: AI' : 'Purpose: AI'}</td>
+                                  <td className="px-4 py-2 text-emerald-600 font-bold">{language === 'KO' ? '활성' : 'Active'}</td>
                               </tr>
                               <tr>
                                   <td className="px-4 py-2 font-mono text-xs">agr:1102...</td>
                                   <td className="px-4 py-2">Samsung Elec</td>
-                                  <td className="px-4 py-2">Region: KR</td>
-                                  <td className="px-4 py-2 text-amber-600 font-bold">Expiring</td>
+                                  <td className="px-4 py-2">{language === 'KO' ? '지역: KR' : 'Region: KR'}</td>
+                                  <td className="px-4 py-2 text-amber-600 font-bold">{language === 'KO' ? '만료 예정' : 'Expiring'}</td>
                               </tr>
                           </tbody>
                       </table>
@@ -146,7 +146,7 @@ const Connector: React.FC = () => {
           return (
               <div className="space-y-4">
                   <div className="flex justify-between items-center bg-slate-50 p-3 rounded-lg border border-slate-200">
-                      <span className="text-sm font-bold text-slate-700">Total Events (24h)</span>
+                      <span className="text-sm font-bold text-slate-700">{language === 'KO' ? '총 이벤트 (24시간)' : 'Total Events (24h)'}</span>
                       <span className="text-sm font-mono font-bold">14,205</span>
                   </div>
                   <div className="h-96 overflow-y-auto border border-slate-200 rounded-xl bg-slate-900 p-4 font-mono text-xs text-slate-300">
@@ -179,8 +179,8 @@ const Connector: React.FC = () => {
                           {activeDetail === 'VOLUME' && <Database className="w-5 h-5 text-blue-600" />}
                           {activeDetail === 'CONTRACTS' && <FileCheck className="w-5 h-5 text-purple-600" />}
                           {activeDetail === 'LOGS' && <Activity className="w-5 h-5 text-slate-600" />}
-                          {activeDetail === 'VOLUME' ? 'Data Throughput Analytics' : 
-                           activeDetail === 'CONTRACTS' ? 'Active Contract Agreements' : 'Connector Event Logs'}
+                          {activeDetail === 'VOLUME' ? (language === 'KO' ? '데이터 처리량 분석' : 'Data Throughput Analytics') : 
+                           activeDetail === 'CONTRACTS' ? (language === 'KO' ? '활성 계약 현황' : 'Active Contract Agreements') : (language === 'KO' ? '커넥터 이벤트 로그' : 'Connector Event Logs')}
                       </h3>
                       <button onClick={() => setActiveDetail(null)} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
                           <X className="w-5 h-5" />
@@ -191,7 +191,7 @@ const Connector: React.FC = () => {
                   </div>
                   <div className="p-4 border-t border-slate-100 bg-slate-50 text-right">
                       <button onClick={() => setActiveDetail(null)} className="px-6 py-2 bg-slate-900 text-white rounded-lg font-bold hover:bg-slate-800 transition-colors">
-                          Close Report
+                          {language === 'KO' ? '리포트 닫기' : 'Close Report'}
                       </button>
                   </div>
               </div>
@@ -208,7 +208,7 @@ const Connector: React.FC = () => {
              <div>
                  <h2 className="text-xl font-bold">{language === 'KO' ? 'EDC 커넥터 활성' : 'EDC Connector Active'}</h2>
                  <p className="text-slate-400 text-sm">
-                    Host: <span className="font-mono text-slate-300">edc-provider-kr-001</span> • v0.5.2
+                    {language === 'KO' ? '호스트:' : 'Host:'} <span className="font-mono text-slate-300">edc-provider-kr-001</span> • v0.5.2
                  </p>
              </div>
         </div>
@@ -219,7 +219,7 @@ const Connector: React.FC = () => {
              </div>
              <div className="h-10 w-px bg-slate-700"></div>
              <div>
-                 <p className="text-xs text-slate-400 uppercase tracking-wide">DSP Protocol</p>
+                 <p className="text-xs text-slate-400 uppercase tracking-wide">DSP {language === 'KO' ? '프로토콜' : 'Protocol'}</p>
                  <p className="text-xl font-mono font-bold text-blue-400">v2.1</p>
              </div>
         </div>
@@ -236,7 +236,7 @@ const Connector: React.FC = () => {
                       <Database className="w-5 h-5 text-blue-600" />
                   </div>
                   <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">
-                      Total
+                      {language === 'KO' ? '전체' : 'Total'}
                   </span>
               </div>
               <h3 className="text-2xl font-bold text-slate-900">450 TB</h3>
@@ -252,7 +252,7 @@ const Connector: React.FC = () => {
                       <FileCheck className="w-5 h-5 text-purple-600" />
                   </div>
                   <span className="text-xs font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded">
-                      Active
+                      {language === 'KO' ? '활성' : 'Active'}
                   </span>
               </div>
               <h3 className="text-2xl font-bold text-slate-900">12</h3>
@@ -279,7 +279,7 @@ const Connector: React.FC = () => {
                   </div>
               </div>
               <h3 className="text-2xl font-bold text-slate-900">12ms</h3>
-              <p className="text-xs text-slate-500 font-medium uppercase mt-1">Avg. Latency</p>
+              <p className="text-xs text-slate-500 font-medium uppercase mt-1">{language === 'KO' ? '평균 응답 지연' : 'Avg. Latency'}</p>
           </div>
       </div>
 
@@ -290,9 +290,9 @@ const Connector: React.FC = () => {
                  <div>
                     <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
                         {t('db_data_transfer')}
-                        <span className="text-[10px] bg-red-100 text-red-600 px-2 py-0.5 rounded font-bold uppercase animate-pulse">Live</span>
+                        <span className="text-[10px] bg-red-100 text-red-600 px-2 py-0.5 rounded font-bold uppercase animate-pulse">{language === 'KO' ? '실시간' : 'Live'}</span>
                     </h3>
-                    <p className="text-sm text-slate-500">Real-time Inbound (RX) / Outbound (TX)</p>
+                    <p className="text-sm text-slate-500">{language === 'KO' ? '실시간 수신(RX) / 송신(TX)' : 'Real-time Inbound (RX) / Outbound (TX)'}</p>
                  </div>
                  <div className="flex gap-2">
                      <span className="flex items-center gap-1 text-xs font-medium text-slate-500">
@@ -324,8 +324,8 @@ const Connector: React.FC = () => {
                             itemStyle={{fontSize: '12px', fontWeight: 'bold'}}
                             labelStyle={{fontSize: '11px', color: '#64748b', marginBottom: '8px'}}
                         />
-                        <Area type="monotone" dataKey="rx" stackId="1" stroke="#3b82f6" strokeWidth={2} fill="url(#colorRx)" name="Inbound (MB)" animationDuration={500} />
-                        <Area type="monotone" dataKey="tx" stackId="1" stroke="#10b981" strokeWidth={2} fill="url(#colorTx)" name="Outbound (MB)" animationDuration={500} />
+                        <Area type="monotone" dataKey="rx" stackId="1" stroke="#3b82f6" strokeWidth={2} fill="url(#colorRx)" name={language === 'KO' ? '수신 (MB)' : 'Inbound (MB)'} animationDuration={500} />
+                        <Area type="monotone" dataKey="tx" stackId="1" stroke="#10b981" strokeWidth={2} fill="url(#colorTx)" name={language === 'KO' ? '송신 (MB)' : 'Outbound (MB)'} animationDuration={500} />
                     </AreaChart>
                 </ResponsiveContainer>
              </div>
@@ -342,7 +342,7 @@ const Connector: React.FC = () => {
                         </div>
                         <div className="flex-1 min-w-0">
                             <div className="flex justify-between items-center mb-0.5">
-                                <span className="text-xs font-bold text-slate-700">Asset #{log.id.toString().substr(-4)}</span>
+                                <span className="text-xs font-bold text-slate-700">{language === 'KO' ? '자산 #' : 'Asset #'}{log.id.toString().substr(-4)}</span>
                                 <span className="text-[10px] text-slate-400">{log.time}</span>
                             </div>
                             <p className="text-xs text-slate-500 truncate">
@@ -356,7 +356,7 @@ const Connector: React.FC = () => {
                 onClick={() => setActiveDetail('LOGS')}
                 className="w-full mt-4 py-2 text-xs font-bold text-slate-500 bg-slate-50 rounded-lg hover:bg-slate-100 hover:text-slate-700 transition-colors"
             >
-                View All Logs
+                {language === 'KO' ? '전체 로그 보기' : 'View All Logs'}
             </button>
         </div>
       </div>

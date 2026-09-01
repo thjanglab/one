@@ -75,7 +75,7 @@ const ClearingHouse: React.FC = () => {
             setSimResult({
                 status: 'FAIL',
                 scenario: 'FAIL_REGISTRY',
-                reason: 'Entity not found in Commercial Register.',
+                reason: language === 'KO' ? '상업등기부에서 해당 법인을 찾을 수 없습니다.' : 'Entity not found in Commercial Register.',
                 data: { step: 'Registry Check', code: 'REG_404' }
             });
             return;
@@ -97,7 +97,7 @@ const ClearingHouse: React.FC = () => {
             setSimResult({
                 status: 'FAIL',
                 scenario: 'FAIL_COMPLIANCE',
-                reason: 'Sanctions list match detected (OFAC).',
+                reason: language === 'KO' ? '제재 대상 목록(OFAC)과 일치하는 항목이 확인되었습니다.' : 'Sanctions list match detected (OFAC).',
                 data: { step: 'Compliance Check', code: 'COMP_RISK_HIGH' }
             });
             return;
@@ -199,8 +199,10 @@ const ClearingHouse: React.FC = () => {
             company: selectedVerification.company,
             bpn: selectedVerification.bpn,
             riskScore: 85,
-            reason: 'Compliance Violation (Sanctions)',
-            evidence: ['OFAC Specially Designated Nationals List Match', 'Invalid Tax Registration Number']
+            reason: language === 'KO' ? '컴플라이언스 위반 (제재 대상)' : 'Compliance Violation (Sanctions)',
+            evidence: language === 'KO'
+                ? ['OFAC 특별지정제재대상(SDN) 목록 일치', '유효하지 않은 사업자등록번호']
+                : ['OFAC Specially Designated Nationals List Match', 'Invalid Tax Registration Number']
         });
         setSelectedVerification(null);
         setShowRejectReport(true);
@@ -208,8 +210,8 @@ const ClearingHouse: React.FC = () => {
 
     // --- Mock Data ---
     const pendingVerifications = [
-        { id: 'v1', company: 'Future EVs Ltd.', bpn: 'BPN-L-88291', country: 'DE', status: 'PENDING', date: '2024-05-22', docs: ['Business License', 'Tax Cert'] },
-        { id: 'v2', company: 'Green Battery Co.', bpn: 'BPN-L-11029', country: 'KR', status: 'PENDING', date: '2024-05-23', docs: ['Business License', 'ISO 14001'] },
+        { id: 'v1', company: 'Future EVs Ltd.', bpn: 'BPN-L-88291', country: 'DE', status: 'PENDING', date: '2024-05-22', docs: language === 'KO' ? ['사업자등록증', '납세증명서'] : ['Business License', 'Tax Cert'] },
+        { id: 'v2', company: 'Green Battery Co.', bpn: 'BPN-L-11029', country: 'KR', status: 'PENDING', date: '2024-05-23', docs: language === 'KO' ? ['사업자등록증', 'ISO 14001'] : ['Business License', 'ISO 14001'] },
     ];
 
     const verifiedCompanies = [
@@ -220,26 +222,26 @@ const ClearingHouse: React.FC = () => {
     ];
 
     const settlements = [
-        { id: 'st_1029', from: 'Hyundai Motor', to: 'LG Energy Solution', amount: 45000, asset: 'Battery Cycle Data', status: 'CLEARED', date: '2024-05-20 14:30' },
-        { id: 'st_1030', from: 'Doosan Robotics', to: 'Samsung Electronics', amount: 12500, asset: 'Fab Automation Log', status: 'CLEARED', date: '2024-05-21 09:15' },
-        { id: 'st_1031', from: 'POSCO', to: 'Hyundai Motor', amount: 8900, asset: 'Steel Quality Cert', status: 'PENDING', date: '2024-05-22 11:00' },
-        { id: 'st_1032', from: 'HMM', to: 'CJ Logistics', amount: 3200, asset: 'Port ETA Feed', status: 'CLEARED', date: '2024-05-22 13:45' },
+        { id: 'st_1029', from: 'Hyundai Motor', to: 'LG Energy Solution', amount: 45000, asset: language === 'KO' ? '배터리 충방전 데이터' : 'Battery Cycle Data', status: 'CLEARED', date: '2024-05-20 14:30' },
+        { id: 'st_1030', from: 'Doosan Robotics', to: 'Samsung Electronics', amount: 12500, asset: language === 'KO' ? '팹 자동화 로그' : 'Fab Automation Log', status: 'CLEARED', date: '2024-05-21 09:15' },
+        { id: 'st_1031', from: 'POSCO', to: 'Hyundai Motor', amount: 8900, asset: language === 'KO' ? '철강 품질 인증서' : 'Steel Quality Cert', status: 'PENDING', date: '2024-05-22 11:00' },
+        { id: 'st_1032', from: 'HMM', to: 'CJ Logistics', amount: 3200, asset: language === 'KO' ? '항만 도착예정시간 피드' : 'Port ETA Feed', status: 'CLEARED', date: '2024-05-22 13:45' },
     ];
 
     // Chart Data
     const countryStats = [
-        { name: 'Korea', value: 65, color: '#3b82f6' },
-        { name: 'Germany', value: 20, color: '#ec4899' },
-        { name: 'USA', value: 10, color: '#f59e0b' },
-        { name: 'Japan', value: 5, color: '#10b981' },
+        { name: language === 'KO' ? '한국' : 'Korea', value: 65, color: '#3b82f6' },
+        { name: language === 'KO' ? '독일' : 'Germany', value: 20, color: '#ec4899' },
+        { name: language === 'KO' ? '미국' : 'USA', value: 10, color: '#f59e0b' },
+        { name: language === 'KO' ? '일본' : 'Japan', value: 5, color: '#10b981' },
     ];
 
     const financialTrend = [
-        { name: 'Jan', amount: 3200 },
-        { name: 'Feb', amount: 4100 },
-        { name: 'Mar', amount: 3800 },
-        { name: 'Apr', amount: 5200 },
-        { name: 'May', amount: 4200 }, // Current
+        { name: language === 'KO' ? '1월' : 'Jan', amount: 3200 },
+        { name: language === 'KO' ? '2월' : 'Feb', amount: 4100 },
+        { name: language === 'KO' ? '3월' : 'Mar', amount: 3800 },
+        { name: language === 'KO' ? '4월' : 'Apr', amount: 5200 },
+        { name: language === 'KO' ? '5월' : 'May', amount: 4200 }, // Current
     ];
 
     return (
@@ -258,8 +260,10 @@ const ClearingHouse: React.FC = () => {
                                     {simResult.status === 'PASS' ? <BadgeCheck className="w-8 h-8 text-white" /> : <ShieldAlert className="w-8 h-8 text-white" />}
                                 </div>
                                 <div>
-                                    <h2 className="text-2xl font-bold tracking-tight">{simResult.status === 'PASS' ? 'Identity Verified Successfully' : 'Verification Rejected'}</h2>
-                                    <p className="text-xs text-white/80 opacity-90 font-mono mt-1">ID: {simResult.data?.did || 'N/A'} • {new Date().toLocaleString()}</p>
+                                    <h2 className="text-2xl font-bold tracking-tight">{simResult.status === 'PASS'
+                                        ? (language === 'KO' ? '신원 검증 완료' : 'Identity Verified Successfully')
+                                        : (language === 'KO' ? '검증 거부' : 'Verification Rejected')}</h2>
+                                    <p className="text-xs text-white/80 opacity-90 font-mono mt-1">{language === 'KO' ? '식별자' : 'ID'}: {simResult.data?.did || 'N/A'} • {new Date().toLocaleString()}</p>
                                 </div>
                             </div>
                             <button onClick={() => setShowSimReport(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors"><X className="w-6 h-6 text-white" /></button>
@@ -268,7 +272,7 @@ const ClearingHouse: React.FC = () => {
                         <div className="p-8 space-y-8 overflow-y-auto bg-slate-50 flex-1">
                             {/* 1. Process Pipeline Visualization */}
                             <div className="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
-                                <h4 className="text-sm font-bold text-slate-500 uppercase mb-8 text-center tracking-widest">Verification Pipeline Status</h4>
+                                <h4 className="text-sm font-bold text-slate-500 uppercase mb-8 text-center tracking-widest">{language === 'KO' ? '검증 파이프라인 진행 상태' : 'Verification Pipeline Status'}</h4>
                                 <div className="relative">
                                     {/* Connecting Line */}
                                     <div className="absolute left-[10%] right-[10%] top-6 h-1 bg-slate-100 rounded-full overflow-hidden">
@@ -279,7 +283,10 @@ const ClearingHouse: React.FC = () => {
                                     </div>
                                     
                                     <div className="flex justify-between relative z-10">
-                                        {['Registry Check', 'Compliance Scan', 'VC Issuance', 'Anchor'].map((step, i) => {
+                                        {(language === 'KO'
+                                            ? ['등기부 조회', '컴플라이언스 검사', 'VC 발급', '블록체인 앵커링']
+                                            : ['Registry Check', 'Compliance Scan', 'VC Issuance', 'Anchor']
+                                        ).map((step, i) => {
                                             let status = 'pending';
                                             if (simResult.status === 'PASS') status = 'success';
                                             else {
@@ -323,19 +330,19 @@ const ClearingHouse: React.FC = () => {
                                     <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                                         <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
                                             <Building className="w-5 h-5 text-blue-500" />
-                                            Entity Verification Data
+                                            {language === 'KO' ? '법인 검증 정보' : 'Entity Verification Data'}
                                         </h4>
                                         <div className="space-y-3 text-sm">
                                             <div className="flex justify-between">
-                                                <span className="text-slate-500">Legal Name</span>
+                                                <span className="text-slate-500">{language === 'KO' ? '법인명' : 'Legal Name'}</span>
                                                 <span className="font-bold text-slate-900">{mockRequest.companyName}</span>
                                             </div>
                                             <div className="flex justify-between">
-                                                <span className="text-slate-500">Registration No.</span>
+                                                <span className="text-slate-500">{language === 'KO' ? '등록번호' : 'Registration No.'}</span>
                                                 <span className="font-mono text-slate-700 bg-slate-100 px-2 py-0.5 rounded">{mockRequest.regNumber}</span>
                                             </div>
                                             <div className="flex justify-between">
-                                                <span className="text-slate-500">Jurisdiction</span>
+                                                <span className="text-slate-500">{language === 'KO' ? '관할 국가' : 'Jurisdiction'}</span>
                                                 <span className="text-slate-700">{mockRequest.country}</span>
                                             </div>
                                             <div className="flex justify-between items-center">
@@ -349,7 +356,7 @@ const ClearingHouse: React.FC = () => {
                                     <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                                         <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
                                             <ShieldCheck className="w-5 h-5 text-purple-500" />
-                                            Compliance Scan Results
+                                            {language === 'KO' ? '컴플라이언스 검사 결과' : 'Compliance Scan Results'}
                                         </h4>
                                         {simResult.status === 'PASS' ? (
                                             <div className="grid grid-cols-2 gap-3">
@@ -364,7 +371,7 @@ const ClearingHouse: React.FC = () => {
                                             <div className="bg-red-50 p-4 rounded-lg border border-red-100">
                                                 <div className="flex items-center gap-2 mb-2">
                                                     <AlertTriangle className="w-5 h-5 text-red-600" />
-                                                    <span className="font-bold text-red-800">Risk Detected</span>
+                                                    <span className="font-bold text-red-800">{language === 'KO' ? '위험 감지' : 'Risk Detected'}</span>
                                                 </div>
                                                 <p className="text-xs text-red-700">{simResult.reason}</p>
                                                 <div className="mt-3 text-xs font-mono bg-white p-2 rounded border border-red-200 text-red-600">
@@ -390,7 +397,7 @@ const ClearingHouse: React.FC = () => {
                                                             <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold">IX</div>
                                                             <div>
                                                                 <h5 className="font-bold text-slate-900 text-lg">Verifiable Credential</h5>
-                                                                <p className="text-[10px] text-slate-500 uppercase tracking-wider">Membership Token</p>
+                                                                <p className="text-[10px] text-slate-500 uppercase tracking-wider">{language === 'KO' ? '멤버십 토큰' : 'Membership Token'}</p>
                                                             </div>
                                                         </div>
                                                         <Stamp className="w-8 h-8 text-emerald-500 opacity-80" />
@@ -398,7 +405,7 @@ const ClearingHouse: React.FC = () => {
 
                                                     <div className="space-y-3 relative z-10">
                                                         <div>
-                                                            <span className="text-[10px] text-slate-400 uppercase font-bold block">Holder (Subject)</span>
+                                                            <span className="text-[10px] text-slate-400 uppercase font-bold block">{language === 'KO' ? '보유자 (주체)' : 'Holder (Subject)'}</span>
                                                             <span className="text-sm font-bold text-slate-800">{mockRequest.companyName}</span>
                                                         </div>
                                                         <div>
@@ -407,11 +414,11 @@ const ClearingHouse: React.FC = () => {
                                                         </div>
                                                         <div className="flex justify-between pt-2">
                                                             <div>
-                                                                <span className="text-[10px] text-slate-400 uppercase font-bold block">Issued</span>
+                                                                <span className="text-[10px] text-slate-400 uppercase font-bold block">{language === 'KO' ? '발급일' : 'Issued'}</span>
                                                                 <span className="text-xs text-slate-700">{simResult.data.issueDate}</span>
                                                             </div>
                                                             <div className="text-right">
-                                                                <span className="text-[10px] text-slate-400 uppercase font-bold block">Expires</span>
+                                                                <span className="text-[10px] text-slate-400 uppercase font-bold block">{language === 'KO' ? '만료일' : 'Expires'}</span>
                                                                 <span className="text-xs text-slate-700">{simResult.data.expiryDate}</span>
                                                             </div>
                                                         </div>
@@ -422,11 +429,11 @@ const ClearingHouse: React.FC = () => {
                                             {/* Blockchain Proof */}
                                             <div className="bg-slate-900 rounded-xl p-5 text-white shadow-lg">
                                                 <h4 className="text-xs font-bold text-slate-400 uppercase mb-3 flex items-center gap-2">
-                                                    <LinkIcon className="w-4 h-4" /> Blockchain Anchor
+                                                    <LinkIcon className="w-4 h-4" /> {language === 'KO' ? '블록체인 앵커' : 'Blockchain Anchor'}
                                                 </h4>
                                                 <div className="flex items-center justify-between mb-2">
                                                     <span className="text-sm font-bold text-emerald-400">Block #14,206,102</span>
-                                                    <span className="text-xs text-slate-500">Confirmed</span>
+                                                    <span className="text-xs text-slate-500">{language === 'KO' ? '확정됨' : 'Confirmed'}</span>
                                                 </div>
                                                 <div className="bg-black/30 p-2 rounded border border-slate-700 font-mono text-[10px] text-slate-300 break-all">
                                                     Tx: {simResult.data.txHash || '0x7f2ca...9a21'}
@@ -443,17 +450,18 @@ const ClearingHouse: React.FC = () => {
                                             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
                                                 <XCircle className="w-8 h-8 text-red-600" />
                                             </div>
-                                            <h4 className="text-lg font-bold text-slate-900 mb-2">Verification Halted</h4>
+                                            <h4 className="text-lg font-bold text-slate-900 mb-2">{language === 'KO' ? '검증 중단' : 'Verification Halted'}</h4>
                                             <p className="text-sm text-slate-500 mb-6">
-                                                The process was automatically stopped by the Clearing House Policy Engine.
-                                                Please review the error details and try again.
+                                                {language === 'KO'
+                                                    ? '클리어링 하우스 정책 엔진이 검증 절차를 자동으로 중단했습니다. 오류 상세 내용을 확인한 뒤 다시 시도해 주세요.'
+                                                    : 'The process was automatically stopped by the Clearing House Policy Engine. Please review the error details and try again.'}
                                             </p>
                                             <div className="w-full bg-white p-4 rounded-lg border border-slate-200 text-left">
-                                                <h5 className="text-xs font-bold text-slate-700 mb-2">Troubleshooting:</h5>
+                                                <h5 className="text-xs font-bold text-slate-700 mb-2">{language === 'KO' ? '문제 해결 방법:' : 'Troubleshooting:'}</h5>
                                                 <ul className="text-xs text-slate-500 list-disc list-inside space-y-1">
-                                                    <li>Check the company registration number format.</li>
-                                                    <li>Ensure the entity is not on any active sanctions list.</li>
-                                                    <li>Verify the BPN validity.</li>
+                                                    <li>{language === 'KO' ? '법인 등록번호 형식을 확인하세요.' : 'Check the company registration number format.'}</li>
+                                                    <li>{language === 'KO' ? '해당 법인이 유효한 제재 목록에 포함되어 있지 않은지 확인하세요.' : 'Ensure the entity is not on any active sanctions list.'}</li>
+                                                    <li>{language === 'KO' ? 'BPN 유효성을 확인하세요.' : 'Verify the BPN validity.'}</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -466,11 +474,11 @@ const ClearingHouse: React.FC = () => {
                         <div className="p-6 border-t border-slate-200 bg-slate-50 flex justify-end gap-3 shrink-0">
                             {simResult.status === 'PASS' && (
                                 <button className="px-6 py-3 border border-slate-300 rounded-xl font-bold text-slate-600 hover:bg-white transition-colors flex items-center gap-2">
-                                    <Download className="w-4 h-4" /> Save Certificate
+                                    <Download className="w-4 h-4" /> {language === 'KO' ? '증명서 저장' : 'Save Certificate'}
                                 </button>
                             )}
                             <button onClick={() => setShowSimReport(false)} className="px-8 py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-colors shadow-lg">
-                                Close Report
+                                {language === 'KO' ? '리포트 닫기' : 'Close Report'}
                             </button>
                         </div>
                     </div>
@@ -486,30 +494,34 @@ const ClearingHouse: React.FC = () => {
                             {batchProgress < 100 ? <RefreshCw className="w-8 h-8 text-blue-600 animate-spin" /> : <CheckCircle2 className="w-8 h-8 text-emerald-600" />}
                         </div>
                         <h3 className="text-xl font-bold text-slate-900 mb-2">
-                            {batchProgress < 100 ? 'Processing Settlement Batch...' : 'Batch Completed'}
+                            {batchProgress < 100
+                                ? (language === 'KO' ? '정산 배치 처리 중...' : 'Processing Settlement Batch...')
+                                : (language === 'KO' ? '배치 처리 완료' : 'Batch Completed')}
                         </h3>
                         <p className="text-sm text-slate-500 mb-6">
-                            {batchProgress < 100 ? 'Aggregating transaction logs and calculating net positions.' : 'All pending transactions have been cleared successfully.'}
+                            {batchProgress < 100
+                                ? (language === 'KO' ? '거래 로그를 집계하여 순포지션을 계산하고 있습니다.' : 'Aggregating transaction logs and calculating net positions.')
+                                : (language === 'KO' ? '대기 중이던 모든 거래가 정상적으로 청산되었습니다.' : 'All pending transactions have been cleared successfully.')}
                         </p>
                         
                         <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden mb-2">
                             <div className="h-full bg-blue-600 transition-all duration-200" style={{ width: `${batchProgress}%` }}></div>
                         </div>
                         <div className="flex justify-between text-xs text-slate-400 mb-6">
-                            <span>Validating...</span>
+                            <span>{language === 'KO' ? '검증 중...' : 'Validating...'}</span>
                             <span>{batchProgress}%</span>
                         </div>
 
                         {batchProgress < 100 ? (
                             <button disabled className="w-full py-3 rounded-xl font-bold bg-slate-200 text-slate-400 cursor-not-allowed">
-                                Processing...
+                                {language === 'KO' ? '처리 중...' : 'Processing...'}
                             </button>
                         ) : (
                             <button 
                                 onClick={handleViewSettlementReport}
                                 className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200 flex items-center justify-center gap-2"
                             >
-                                <FileText className="w-4 h-4" /> View Settlement Report
+                                <FileText className="w-4 h-4" /> {language === 'KO' ? '정산 리포트 보기' : 'View Settlement Report'}
                             </button>
                         )}
                     </div>
@@ -526,8 +538,8 @@ const ClearingHouse: React.FC = () => {
                                     <Scale className="w-6 h-6 text-white" />
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold">Monthly Settlement Report</h2>
-                                    <p className="text-xs text-slate-400">Batch ID: #BATCH-2024-05-24 • {new Date().toLocaleDateString()}</p>
+                                    <h2 className="text-xl font-bold">{language === 'KO' ? '월간 정산 리포트' : 'Monthly Settlement Report'}</h2>
+                                    <p className="text-xs text-slate-400">{language === 'KO' ? '배치 ID' : 'Batch ID'}: #BATCH-2024-05-24 • {new Date().toLocaleDateString()}</p>
                                 </div>
                             </div>
                             <button onClick={() => setShowSettlementReport(false)} className="p-2 hover:bg-slate-800 rounded-full transition-colors">
@@ -539,19 +551,19 @@ const ClearingHouse: React.FC = () => {
                             {/* Summary Cards */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div className="bg-blue-50 p-5 rounded-xl border border-blue-100">
-                                    <p className="text-xs font-bold text-blue-500 uppercase mb-1">Total Volume</p>
+                                    <p className="text-xs font-bold text-blue-500 uppercase mb-1">{language === 'KO' ? '총 거래액' : 'Total Volume'}</p>
                                     <h3 className="text-3xl font-bold text-blue-900">$4,250,000</h3>
-                                    <p className="text-xs text-blue-400 mt-2">+12% vs last batch</p>
+                                    <p className="text-xs text-blue-400 mt-2">{language === 'KO' ? '직전 배치 대비 +12%' : '+12% vs last batch'}</p>
                                 </div>
                                 <div className="bg-emerald-50 p-5 rounded-xl border border-emerald-100">
-                                    <p className="text-xs font-bold text-emerald-500 uppercase mb-1">Cleared Transactions</p>
+                                    <p className="text-xs font-bold text-emerald-500 uppercase mb-1">{language === 'KO' ? '청산 완료 거래' : 'Cleared Transactions'}</p>
                                     <h3 className="text-3xl font-bold text-emerald-900">12,450</h3>
-                                    <p className="text-xs text-emerald-400 mt-2">100% Success Rate</p>
+                                    <p className="text-xs text-emerald-400 mt-2">{language === 'KO' ? '성공률 100%' : '100% Success Rate'}</p>
                                 </div>
                                 <div className="bg-purple-50 p-5 rounded-xl border border-purple-100">
-                                    <p className="text-xs font-bold text-purple-500 uppercase mb-1">Netting Efficiency</p>
+                                    <p className="text-xs font-bold text-purple-500 uppercase mb-1">{language === 'KO' ? '네팅 효율' : 'Netting Efficiency'}</p>
                                     <h3 className="text-3xl font-bold text-purple-900">35%</h3>
-                                    <p className="text-xs text-purple-400 mt-2">Reduction in transfers</p>
+                                    <p className="text-xs text-purple-400 mt-2">{language === 'KO' ? '이체 건수 감소' : 'Reduction in transfers'}</p>
                                 </div>
                             </div>
 
@@ -559,7 +571,7 @@ const ClearingHouse: React.FC = () => {
                             <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
                                 <h4 className="text-sm font-bold text-slate-800 mb-6 flex items-center gap-2">
                                     <RefreshCw className="w-4 h-4 text-blue-500" />
-                                    Multilateral Netting Visualization
+                                    {language === 'KO' ? '다자간 네팅 시각화' : 'Multilateral Netting Visualization'}
                                 </h4>
                                 <div className="relative h-64 w-full bg-slate-50 rounded-lg overflow-hidden flex items-center justify-center">
                                     {/* Animated SVG Visualization */}
@@ -572,7 +584,7 @@ const ClearingHouse: React.FC = () => {
                                         
                                         {/* Center: Clearing House */}
                                         <circle cx="400" cy="150" r="40" fill="#1e293b" />
-                                        <text x="400" y="155" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">CLEARING</text>
+                                        <text x="400" y="155" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">{language === 'KO' ? '클리어링' : 'CLEARING'}</text>
                                         
                                         {/* Left Side (Debtors) */}
                                         <g>
@@ -611,16 +623,16 @@ const ClearingHouse: React.FC = () => {
 
                             {/* Net Positions Table */}
                             <div>
-                                <h4 className="text-sm font-bold text-slate-800 mb-4">Net Positions</h4>
+                                <h4 className="text-sm font-bold text-slate-800 mb-4">{language === 'KO' ? '순포지션 현황' : 'Net Positions'}</h4>
                                 <div className="border border-slate-200 rounded-xl overflow-hidden">
                                     <table className="w-full text-sm text-left">
                                         <thead className="bg-slate-50 text-slate-500 font-medium">
                                             <tr>
-                                                <th className="px-6 py-3">Participant</th>
-                                                <th className="px-6 py-3 text-right">Gross Payables</th>
-                                                <th className="px-6 py-3 text-right">Gross Receivables</th>
-                                                <th className="px-6 py-3 text-right">Net Position</th>
-                                                <th className="px-6 py-3 text-center">Status</th>
+                                                <th className="px-6 py-3">{language === 'KO' ? '참여 기업' : 'Participant'}</th>
+                                                <th className="px-6 py-3 text-right">{language === 'KO' ? '총 지급액' : 'Gross Payables'}</th>
+                                                <th className="px-6 py-3 text-right">{language === 'KO' ? '총 수취액' : 'Gross Receivables'}</th>
+                                                <th className="px-6 py-3 text-right">{language === 'KO' ? '순포지션' : 'Net Position'}</th>
+                                                <th className="px-6 py-3 text-center">{language === 'KO' ? '상태' : 'Status'}</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-100">
@@ -638,7 +650,7 @@ const ClearingHouse: React.FC = () => {
                                                         {row.net > 0 ? '+' : ''}${row.net.toLocaleString()}
                                                     </td>
                                                     <td className="px-6 py-4 text-center">
-                                                        <span className="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-1 rounded">Settled</span>
+                                                        <span className="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-1 rounded">{language === 'KO' ? '정산 완료' : 'Settled'}</span>
                                                     </td>
                                                 </tr>
                                             ))}
@@ -650,10 +662,10 @@ const ClearingHouse: React.FC = () => {
 
                         <div className="p-6 border-t border-slate-200 bg-slate-50 flex justify-end gap-3">
                             <button className="px-6 py-2 border border-slate-300 rounded-lg text-slate-600 font-bold hover:bg-white flex items-center gap-2">
-                                <Download className="w-4 h-4" /> Export CSV
+                                <Download className="w-4 h-4" /> {language === 'KO' ? 'CSV 내보내기' : 'Export CSV'}
                             </button>
                             <button onClick={() => setShowSettlementReport(false)} className="px-6 py-2 bg-slate-900 text-white rounded-lg font-bold hover:bg-slate-800">
-                                Close
+                                {language === 'KO' ? '닫기' : 'Close'}
                             </button>
                         </div>
                     </div>
@@ -668,8 +680,8 @@ const ClearingHouse: React.FC = () => {
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-amber-100 rounded-lg text-amber-700"><ShieldAlert className="w-6 h-6" /></div>
                                 <div>
-                                    <h3 className="font-bold text-lg text-amber-900">KYB Review</h3>
-                                    <p className="text-xs text-amber-700">Request ID: {selectedVerification.id.toUpperCase()}</p>
+                                    <h3 className="font-bold text-lg text-amber-900">{language === 'KO' ? 'KYB 심사' : 'KYB Review'}</h3>
+                                    <p className="text-xs text-amber-700">{language === 'KO' ? '요청 ID' : 'Request ID'}: {selectedVerification.id.toUpperCase()}</p>
                                 </div>
                             </div>
                             <button onClick={() => setSelectedVerification(null)}><X className="w-5 h-5 text-amber-800/50 hover:text-amber-800" /></button>
@@ -686,14 +698,14 @@ const ClearingHouse: React.FC = () => {
                             </div>
                             
                             <div>
-                                <h5 className="text-xs font-bold text-slate-500 uppercase mb-3">Submitted Documents</h5>
+                                <h5 className="text-xs font-bold text-slate-500 uppercase mb-3">{language === 'KO' ? '제출 서류' : 'Submitted Documents'}</h5>
                                 <div className="space-y-2">
                                     {selectedVerification.docs.map((doc: string, i: number) => (
                                         <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200">
                                             <span className="text-sm font-medium text-slate-700 flex items-center gap-2">
                                                 <FileText className="w-4 h-4 text-blue-500" /> {doc}
                                             </span>
-                                            <button className="text-xs text-blue-600 font-bold hover:underline">View</button>
+                                            <button className="text-xs text-blue-600 font-bold hover:underline">{language === 'KO' ? '보기' : 'View'}</button>
                                         </div>
                                     ))}
                                 </div>
@@ -704,7 +716,7 @@ const ClearingHouse: React.FC = () => {
                                     onClick={handleRejectRequest}
                                     className="flex-1 py-3 border border-red-200 text-red-600 rounded-xl font-bold hover:bg-red-50 transition-colors"
                                 >
-                                    Reject
+                                    {language === 'KO' ? '거부' : 'Reject'}
                                 </button>
                                 <button 
                                     onClick={handleIssueVC}
@@ -712,7 +724,9 @@ const ClearingHouse: React.FC = () => {
                                     className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
                                 >
                                     {isIssuingVC ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Award className="w-4 h-4" />}
-                                    {isIssuingVC ? "Issuing..." : "Approve & Issue VC"}
+                                    {isIssuingVC
+                                        ? (language === 'KO' ? '발급 중...' : 'Issuing...')
+                                        : (language === 'KO' ? '승인 및 VC 발급' : 'Approve & Issue VC')}
                                 </button>
                             </div>
                         </div>
@@ -730,8 +744,8 @@ const ClearingHouse: React.FC = () => {
                                     <Award className="w-6 h-6 text-yellow-400" />
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold">Credential Issued</h2>
-                                    <p className="text-xs text-blue-200 font-mono">ID: {issuedVCData.id}</p>
+                                    <h2 className="text-xl font-bold">{language === 'KO' ? '자격증명 발급 완료' : 'Credential Issued'}</h2>
+                                    <p className="text-xs text-blue-200 font-mono">{language === 'KO' ? '식별자' : 'ID'}: {issuedVCData.id}</p>
                                 </div>
                             </div>
                             <button onClick={() => setShowVCReport(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
@@ -776,20 +790,20 @@ const ClearingHouse: React.FC = () => {
                                 <div className="space-y-6 relative z-10">
                                     <div className="grid grid-cols-2 gap-8">
                                         <div>
-                                            <span className="text-xs text-slate-400 uppercase font-bold block mb-1">Issuer (DID)</span>
+                                            <span className="text-xs text-slate-400 uppercase font-bold block mb-1">{language === 'KO' ? '발급자 (DID)' : 'Issuer (DID)'}</span>
                                             <span className="text-sm font-mono text-slate-800 break-all">{issuedVCData.issuer}</span>
                                         </div>
                                         <div>
-                                            <span className="text-xs text-slate-400 uppercase font-bold block mb-1">Issuance Date</span>
+                                            <span className="text-xs text-slate-400 uppercase font-bold block mb-1">{language === 'KO' ? '발급 일시' : 'Issuance Date'}</span>
                                             <span className="text-sm font-mono text-slate-800">{new Date(issuedVCData.issuanceDate).toLocaleString()}</span>
                                         </div>
                                     </div>
 
                                     <div>
-                                        <span className="text-xs text-slate-400 uppercase font-bold block mb-2">Subject Claim</span>
+                                        <span className="text-xs text-slate-400 uppercase font-bold block mb-2">{language === 'KO' ? '주체 클레임' : 'Subject Claim'}</span>
                                         <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
                                             <div className="flex justify-between items-center mb-2">
-                                                <span className="text-sm font-bold text-slate-700">Company Name</span>
+                                                <span className="text-sm font-bold text-slate-700">{language === 'KO' ? '기업명' : 'Company Name'}</span>
                                                 <span className="text-lg font-bold text-blue-900">{issuedVCData.subject}</span>
                                             </div>
                                             <div className="flex justify-between items-center">
@@ -800,7 +814,7 @@ const ClearingHouse: React.FC = () => {
                                     </div>
 
                                     <div>
-                                        <span className="text-xs text-slate-400 uppercase font-bold block mb-2">Digital Proof (JWS)</span>
+                                        <span className="text-xs text-slate-400 uppercase font-bold block mb-2">{language === 'KO' ? '전자 서명 (JWS)' : 'Digital Proof (JWS)'}</span>
                                         <div className="bg-slate-900 text-emerald-400 font-mono text-[10px] p-3 rounded-lg break-all">
                                             {issuedVCData.proof.jws}
                                         </div>
@@ -811,9 +825,9 @@ const ClearingHouse: React.FC = () => {
                                 <div className="absolute bottom-8 right-8 z-20" style={{ animation: 'stampIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s forwards', opacity: 0 }}>
                                     <div className="w-32 h-32 border-4 border-blue-800 rounded-full flex items-center justify-center p-1 opacity-90">
                                         <div className="w-full h-full border-2 border-blue-800 rounded-full flex flex-col items-center justify-center text-blue-800 font-bold uppercase text-xs tracking-widest bg-blue-800/5">
-                                            <span>Clearing</span>
-                                            <span className="text-xl my-1">VERIFIED</span>
-                                            <span>House</span>
+                                            <span>{language === 'KO' ? '클리어링' : 'Clearing'}</span>
+                                            <span className="text-xl my-1">{language === 'KO' ? '검증완료' : 'VERIFIED'}</span>
+                                            <span>{language === 'KO' ? '하우스' : 'House'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -826,8 +840,8 @@ const ClearingHouse: React.FC = () => {
                                         <LinkIcon className="w-5 h-5 text-emerald-600" />
                                     </div>
                                     <div>
-                                        <h4 className="text-sm font-bold text-slate-900">Blockchain Anchor</h4>
-                                        <p className="text-xs text-emerald-600 font-medium">Block #14,552,001 • Confirmed</p>
+                                        <h4 className="text-sm font-bold text-slate-900">{language === 'KO' ? '블록체인 앵커' : 'Blockchain Anchor'}</h4>
+                                        <p className="text-xs text-emerald-600 font-medium">Block #14,552,001 • {language === 'KO' ? '확정됨' : 'Confirmed'}</p>
                                     </div>
                                 </div>
                                 <span className="font-mono text-xs text-slate-400 bg-slate-50 px-2 py-1 rounded">0x8f2a...c91e</span>
@@ -837,10 +851,10 @@ const ClearingHouse: React.FC = () => {
 
                         <div className="p-6 border-t border-slate-200 bg-white flex justify-end gap-3">
                             <button className="px-6 py-2 border border-slate-300 rounded-lg text-slate-600 font-bold hover:bg-slate-50 flex items-center gap-2">
-                                <Download className="w-4 h-4" /> Download JSON-LD
+                                <Download className="w-4 h-4" /> {language === 'KO' ? 'JSON-LD 다운로드' : 'Download JSON-LD'}
                             </button>
                             <button onClick={() => setShowVCReport(false)} className="px-6 py-2 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700">
-                                Done
+                                {language === 'KO' ? '완료' : 'Done'}
                             </button>
                         </div>
                     </div>
@@ -855,8 +869,8 @@ const ClearingHouse: React.FC = () => {
                             <div className="flex items-center gap-3">
                                 <Siren className="w-8 h-8 text-white" />
                                 <div>
-                                    <h2 className="text-xl font-bold">Verification Rejected</h2>
-                                    <p className="text-xs text-red-100 opacity-90">ID: {rejectData.bpn}</p>
+                                    <h2 className="text-xl font-bold">{language === 'KO' ? '검증 거부' : 'Verification Rejected'}</h2>
+                                    <p className="text-xs text-red-100 opacity-90">{language === 'KO' ? '식별자' : 'ID'}: {rejectData.bpn}</p>
                                 </div>
                             </div>
                             <button onClick={() => setShowRejectReport(false)} className="p-2 hover:bg-red-700 rounded-full transition-colors">
@@ -868,36 +882,36 @@ const ClearingHouse: React.FC = () => {
                             {/* Rejection Stamp Visual */}
                             <div className="relative border-4 border-double border-slate-200 bg-slate-50 p-6 rounded-xl overflow-hidden">
                                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-4 border-red-600/30 text-red-600/30 font-black text-6xl rotate-[-20deg] px-8 py-2 rounded-xl pointer-events-none uppercase tracking-widest z-0">
-                                    Rejected
+                                    {language === 'KO' ? '거부됨' : 'Rejected'}
                                 </div>
                                 <div className="relative z-10 text-center space-y-2">
                                     <h3 className="text-2xl font-bold text-slate-900">{rejectData.company}</h3>
-                                    <p className="text-sm text-slate-500">Business Partner Number: {rejectData.bpn}</p>
+                                    <p className="text-sm text-slate-500">{language === 'KO' ? '비즈니스 파트너 번호' : 'Business Partner Number'}: {rejectData.bpn}</p>
                                 </div>
                             </div>
 
                             {/* Reason & Risk */}
                             <div className="grid grid-cols-2 gap-6">
                                 <div className="p-4 bg-red-50 rounded-xl border border-red-100">
-                                    <h4 className="text-xs font-bold text-red-700 uppercase mb-2">Primary Reason</h4>
+                                    <h4 className="text-xs font-bold text-red-700 uppercase mb-2">{language === 'KO' ? '주요 사유' : 'Primary Reason'}</h4>
                                     <p className="text-lg font-bold text-red-900">{rejectData.reason}</p>
                                 </div>
                                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
-                                    <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">Risk Score</h4>
+                                    <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">{language === 'KO' ? '위험 점수' : 'Risk Score'}</h4>
                                     <div className="flex items-center gap-2">
                                         <div className="flex-1 h-3 bg-slate-200 rounded-full overflow-hidden">
                                             <div className="h-full bg-red-500 w-[85%]"></div>
                                         </div>
                                         <span className="text-lg font-bold text-red-600">{rejectData.riskScore}/100</span>
                                     </div>
-                                    <p className="text-xs text-red-500 mt-1">High Risk Detected</p>
+                                    <p className="text-xs text-red-500 mt-1">{language === 'KO' ? '높은 위험 수준 감지' : 'High Risk Detected'}</p>
                                 </div>
                             </div>
 
                             {/* Evidence List */}
                             <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
                                 <h4 className="text-xs font-bold text-slate-500 uppercase mb-3 flex items-center gap-2">
-                                    <FileWarning className="w-4 h-4" /> Evidence & Findings
+                                    <FileWarning className="w-4 h-4" /> {language === 'KO' ? '증빙 및 조사 결과' : 'Evidence & Findings'}
                                 </h4>
                                 <ul className="space-y-2">
                                     {rejectData.evidence.map((item: string, idx: number) => (
@@ -912,10 +926,10 @@ const ClearingHouse: React.FC = () => {
 
                         <div className="p-6 bg-slate-50 border-t border-slate-200 flex justify-end gap-3">
                             <button className="px-6 py-2 border border-slate-300 bg-white rounded-lg text-slate-600 font-bold hover:bg-slate-50">
-                                Export Report
+                                {language === 'KO' ? '리포트 내보내기' : 'Export Report'}
                             </button>
                             <button onClick={() => setShowRejectReport(false)} className="px-6 py-2 bg-slate-900 text-white rounded-lg font-bold hover:bg-slate-800">
-                                Close
+                                {language === 'KO' ? '닫기' : 'Close'}
                             </button>
                         </div>
                     </div>
@@ -933,35 +947,35 @@ const ClearingHouse: React.FC = () => {
                             <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-500 border border-slate-200 shadow-sm">
                                 <Receipt className="w-8 h-8" />
                             </div>
-                            <h3 className="text-xl font-bold text-slate-900 mb-1">Transaction Receipt</h3>
+                            <h3 className="text-xl font-bold text-slate-900 mb-1">{language === 'KO' ? '거래 영수증' : 'Transaction Receipt'}</h3>
                             <p className="text-xs text-slate-500 font-mono mb-6">{selectedTransaction.id}</p>
 
                             <div className="bg-slate-50 rounded-xl border border-slate-200 p-4 space-y-3 text-sm mb-6">
                                 <div className="flex justify-between">
-                                    <span className="text-slate-500">Asset</span>
+                                    <span className="text-slate-500">{language === 'KO' ? '자산' : 'Asset'}</span>
                                     <span className="font-bold text-slate-800">{selectedTransaction.asset}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-slate-500">From</span>
+                                    <span className="text-slate-500">{language === 'KO' ? '송신 기업' : 'From'}</span>
                                     <span className="font-medium text-slate-800">{selectedTransaction.from}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-slate-500">To</span>
+                                    <span className="text-slate-500">{language === 'KO' ? '수신 기업' : 'To'}</span>
                                     <span className="font-medium text-slate-800">{selectedTransaction.to}</span>
                                 </div>
                                 <div className="flex justify-between border-t border-slate-200 pt-2 mt-2">
-                                    <span className="text-slate-500 font-bold">Total Amount</span>
+                                    <span className="text-slate-500 font-bold">{language === 'KO' ? '총 금액' : 'Total Amount'}</span>
                                     <span className="font-bold text-emerald-600 text-lg">${selectedTransaction.amount.toLocaleString()}</span>
                                 </div>
                             </div>
 
                             <div className="text-xs text-slate-400 mb-6">
-                                Timestamp: {selectedTransaction.date}<br/>
-                                Status: <span className="font-bold text-slate-600">{selectedTransaction.status}</span>
+                                {language === 'KO' ? '처리 시각' : 'Timestamp'}: {selectedTransaction.date}<br/>
+                                {language === 'KO' ? '상태' : 'Status'}: <span className="font-bold text-slate-600">{selectedTransaction.status}</span>
                             </div>
 
                             <button onClick={() => setSelectedTransaction(null)} className="w-full py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-colors">
-                                Close Receipt
+                                {language === 'KO' ? '영수증 닫기' : 'Close Receipt'}
                             </button>
                         </div>
                     </div>
@@ -985,7 +999,7 @@ const ClearingHouse: React.FC = () => {
                                     <p className="text-slate-500 text-sm">{selectedCompany.tier} • {selectedCompany.country}</p>
                                 </div>
                                 <div className="text-right">
-                                    <span className="block text-xs text-slate-400 font-bold uppercase">Trust Score</span>
+                                    <span className="block text-xs text-slate-400 font-bold uppercase">{language === 'KO' ? '신뢰 점수' : 'Trust Score'}</span>
                                     <span className="text-2xl font-bold text-emerald-600">{selectedCompany.trust}</span>
                                 </div>
                             </div>
@@ -996,7 +1010,7 @@ const ClearingHouse: React.FC = () => {
                                     <span className="text-xs font-mono font-bold text-slate-800">{selectedCompany.bpn}</span>
                                 </div>
                                 <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-100">
-                                    <span className="text-sm font-medium text-slate-600 flex items-center gap-2"><Award className="w-4 h-4 text-purple-500" /> Certified</span>
+                                    <span className="text-sm font-medium text-slate-600 flex items-center gap-2"><Award className="w-4 h-4 text-purple-500" /> {language === 'KO' ? '인증일' : 'Certified'}</span>
                                     <span className="text-xs font-bold text-slate-800">{selectedCompany.date}</span>
                                 </div>
                             </div>
@@ -1114,7 +1128,7 @@ const ClearingHouse: React.FC = () => {
                                         <div className="relative">
                                             <input 
                                                 type="text" 
-                                                placeholder="Search BPN..." 
+                                                placeholder={language === 'KO' ? 'BPN 검색...' : 'Search BPN...'} 
                                                 className="pl-8 pr-3 py-1.5 rounded border border-slate-200 text-sm focus:outline-none focus:border-blue-500"
                                                 value={searchTerm}
                                                 onChange={e => setSearchTerm(e.target.value)}
@@ -1126,11 +1140,11 @@ const ClearingHouse: React.FC = () => {
                                         <table className="w-full text-sm text-left">
                                             <thead className="bg-slate-50 text-slate-500 font-medium border-b border-slate-200">
                                                 <tr>
-                                                    <th className="px-4 py-3">Company</th>
+                                                    <th className="px-4 py-3">{language === 'KO' ? '기업명' : 'Company'}</th>
                                                     <th className="px-4 py-3">BPN</th>
-                                                    <th className="px-4 py-3">Country</th>
-                                                    <th className="px-4 py-3">Status</th>
-                                                    <th className="px-4 py-3 text-right">Action</th>
+                                                    <th className="px-4 py-3">{language === 'KO' ? '국가' : 'Country'}</th>
+                                                    <th className="px-4 py-3">{language === 'KO' ? '상태' : 'Status'}</th>
+                                                    <th className="px-4 py-3 text-right">{language === 'KO' ? '작업' : 'Action'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-slate-100">
@@ -1148,11 +1162,11 @@ const ClearingHouse: React.FC = () => {
                                                         <td className="px-4 py-3 text-slate-500">{item.country}</td>
                                                         <td className="px-4 py-3">
                                                             <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-800">
-                                                                Verified
+                                                                {language === 'KO' ? '검증 완료' : 'Verified'}
                                                             </span>
                                                         </td>
                                                         <td className="px-4 py-3 text-right">
-                                                            <span className="text-xs font-bold text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">View Profile</span>
+                                                            <span className="text-xs font-bold text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">{language === 'KO' ? '프로필 보기' : 'View Profile'}</span>
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -1167,7 +1181,7 @@ const ClearingHouse: React.FC = () => {
                                 <div className="bg-white border border-slate-200 rounded-xl p-6 h-full shadow-sm">
                                     <h3 className="font-bold text-slate-900 mb-6 flex items-center gap-2">
                                         <PieIcon className="w-5 h-5 text-blue-600" />
-                                        Participant Demographics
+                                        {language === 'KO' ? '참여 기업 분포' : 'Participant Demographics'}
                                     </h3>
                                     <div className="h-64 w-full">
                                         <ResponsiveContainer width="100%" height="100%">
@@ -1189,7 +1203,7 @@ const ClearingHouse: React.FC = () => {
                                         </ResponsiveContainer>
                                     </div>
                                     <div className="mt-4 p-4 bg-slate-50 rounded-lg text-xs text-slate-600 text-center">
-                                        Total of 156 Verified Companies<br/>Across 12 Countries
+                                        {language === 'KO' ? '총 156개 검증 기업' : 'Total of 156 Verified Companies'}<br/>{language === 'KO' ? '12개국 참여' : 'Across 12 Countries'}
                                     </div>
                                 </div>
                             </div>
@@ -1204,14 +1218,14 @@ const ClearingHouse: React.FC = () => {
                             <div className="lg:col-span-2 space-y-6">
                                 <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 flex justify-between items-center shadow-sm">
                                     <div>
-                                        <h3 className="font-bold text-blue-900 mb-1">Clearing Period: May 2024</h3>
-                                        <p className="text-xs text-blue-600">Next settlement cycle runs in 5 days.</p>
+                                        <h3 className="font-bold text-blue-900 mb-1">{language === 'KO' ? '청산 기간: 2024년 5월' : 'Clearing Period: May 2024'}</h3>
+                                        <p className="text-xs text-blue-600">{language === 'KO' ? '다음 정산 주기까지 5일 남았습니다.' : 'Next settlement cycle runs in 5 days.'}</p>
                                     </div>
                                     <button 
                                         onClick={runBatchProcessing}
                                         className="px-6 py-2.5 bg-blue-600 text-white font-bold rounded-lg shadow-md hover:bg-blue-700 text-sm flex items-center gap-2 transition-transform hover:scale-105"
                                     >
-                                        <RefreshCw className="w-4 h-4" /> Run Clearing Batch
+                                        <RefreshCw className="w-4 h-4" /> {language === 'KO' ? '청산 배치 실행' : 'Run Clearing Batch'}
                                     </button>
                                 </div>
 
@@ -1219,12 +1233,12 @@ const ClearingHouse: React.FC = () => {
                                     <table className="w-full text-sm text-left">
                                         <thead className="bg-slate-50 text-slate-500 font-medium border-b border-slate-200">
                                             <tr>
-                                                <th className="px-4 py-3">Tx ID</th>
-                                                <th className="px-4 py-3">From</th>
-                                                <th className="px-4 py-3">To</th>
-                                                <th className="px-4 py-3">Asset</th>
-                                                <th className="px-4 py-3 text-right">Amount</th>
-                                                <th className="px-4 py-3 text-center">Status</th>
+                                                <th className="px-4 py-3">{language === 'KO' ? '거래 ID' : 'Tx ID'}</th>
+                                                <th className="px-4 py-3">{language === 'KO' ? '송신 기업' : 'From'}</th>
+                                                <th className="px-4 py-3">{language === 'KO' ? '수신 기업' : 'To'}</th>
+                                                <th className="px-4 py-3">{language === 'KO' ? '자산' : 'Asset'}</th>
+                                                <th className="px-4 py-3 text-right">{language === 'KO' ? '금액' : 'Amount'}</th>
+                                                <th className="px-4 py-3 text-center">{language === 'KO' ? '상태' : 'Status'}</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-100">
@@ -1244,11 +1258,11 @@ const ClearingHouse: React.FC = () => {
                                                     <td className="px-4 py-3 text-center">
                                                         {tx.status === 'CLEARED' ? (
                                                             <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-800">
-                                                                Cleared
+                                                                {language === 'KO' ? '청산 완료' : 'Cleared'}
                                                             </span>
                                                         ) : (
                                                             <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-800">
-                                                                Pending
+                                                                {language === 'KO' ? '대기 중' : 'Pending'}
                                                             </span>
                                                         )}
                                                     </td>
@@ -1257,7 +1271,7 @@ const ClearingHouse: React.FC = () => {
                                         </tbody>
                                     </table>
                                     <div className="p-3 bg-slate-50 border-t border-slate-200 text-center text-xs text-slate-500">
-                                        Click rows to view invoice details
+                                        {language === 'KO' ? '행을 클릭하면 거래 명세를 확인할 수 있습니다' : 'Click rows to view invoice details'}
                                     </div>
                                 </div>
                             </div>
@@ -1266,7 +1280,7 @@ const ClearingHouse: React.FC = () => {
                             <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
                                 <h3 className="font-bold text-slate-900 mb-6 flex items-center gap-2">
                                     <BarChart3 className="w-5 h-5 text-blue-600" />
-                                    Monthly Settlement Volume
+                                    {language === 'KO' ? '월별 정산 규모' : 'Monthly Settlement Volume'}
                                 </h3>
                                 <div className="h-64 w-full">
                                     <ResponsiveContainer width="100%" height="100%">
@@ -1280,7 +1294,7 @@ const ClearingHouse: React.FC = () => {
                                     </ResponsiveContainer>
                                 </div>
                                 <div className="mt-4 p-3 bg-emerald-50 rounded-lg text-xs text-emerald-800 border border-emerald-100">
-                                    <strong>Trend:</strong> +12% increase in transaction volume compared to last month.
+                                    <strong>{language === 'KO' ? '추이' : 'Trend'}:</strong> {language === 'KO' ? '전월 대비 거래액이 12% 증가했습니다.' : '+12% increase in transaction volume compared to last month.'}
                                 </div>
                             </div>
                         </div>
@@ -1303,7 +1317,7 @@ const ClearingHouse: React.FC = () => {
                                     <div className="space-y-4">
                                         {/* Scenario Selector */}
                                         <div className="bg-white p-3 rounded-lg border border-slate-200">
-                                            <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Simulation Scenario</label>
+                                            <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{language === 'KO' ? '시뮬레이션 시나리오' : 'Simulation Scenario'}</label>
                                             <div className="flex flex-col gap-2">
                                                 <label className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-50 rounded transition-colors">
                                                     <input 
@@ -1353,7 +1367,7 @@ const ClearingHouse: React.FC = () => {
                                         </div>
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Reg Number</label>
+                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{language === 'KO' ? '등록번호' : 'Reg Number'}</label>
                                                 <input 
                                                     type="text" 
                                                     value={mockRequest.regNumber}
@@ -1363,7 +1377,7 @@ const ClearingHouse: React.FC = () => {
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Country</label>
+                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{language === 'KO' ? '국가' : 'Country'}</label>
                                                 <input 
                                                     type="text" 
                                                     value={mockRequest.country}
@@ -1382,7 +1396,7 @@ const ClearingHouse: React.FC = () => {
                                                 className="flex-1 py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg shadow-md transition-all flex items-center justify-center gap-2 transform hover:scale-[1.02]"
                                             >
                                                 <FileText className="w-4 h-4 fill-current" />
-                                                View Report
+                                                {language === 'KO' ? '리포트 보기' : 'View Report'}
                                             </button>
                                         ) : (
                                             <button 
@@ -1391,7 +1405,7 @@ const ClearingHouse: React.FC = () => {
                                                 className="flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 text-white font-bold rounded-lg shadow-md transition-all flex items-center justify-center gap-2 transform hover:scale-[1.02]"
                                             >
                                                 <Play className="w-4 h-4 fill-current" />
-                                                {simState === 'RUNNING' ? 'Running...' : t('ch_sim_start')}
+                                                {simState === 'RUNNING' ? (language === 'KO' ? '실행 중...' : 'Running...') : t('ch_sim_start')}
                                             </button>
                                         )}
                                         <button 
@@ -1409,7 +1423,7 @@ const ClearingHouse: React.FC = () => {
                             <div className="space-y-6">
                                 {/* Visual Stepper */}
                                 <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                                    <h3 className="text-sm font-bold text-slate-500 uppercase mb-4 tracking-wider">Process Visualizer</h3>
+                                    <h3 className="text-sm font-bold text-slate-500 uppercase mb-4 tracking-wider">{language === 'KO' ? '프로세스 시각화' : 'Process Visualizer'}</h3>
                                     <div className="relative space-y-6">
                                         <div className="absolute left-[19px] top-2 bottom-2 w-0.5 bg-slate-100"></div>
                                         
@@ -1438,7 +1452,7 @@ const ClearingHouse: React.FC = () => {
                                                             {item.label}
                                                         </span>
                                                         {isActive && simState === 'RUNNING' && (
-                                                            <span className="text-xs text-blue-500 animate-pulse">Processing...</span>
+                                                            <span className="text-xs text-blue-500 animate-pulse">{language === 'KO' ? '처리 중...' : 'Processing...'}</span>
                                                         )}
                                                     </div>
                                                 </div>
@@ -1462,7 +1476,7 @@ const ClearingHouse: React.FC = () => {
                                     <div className="flex-1 p-4 overflow-y-auto space-y-1.5 text-slate-300 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
                                         <div className="text-slate-500 mb-2">{'>'} Clearing House Node Initialized...</div>
                                         {simLogs.length === 0 && simState === 'IDLE' && (
-                                            <div className="text-slate-600 italic">Waiting for simulation start...</div>
+                                            <div className="text-slate-600 italic">{language === 'KO' ? '시뮬레이션 시작을 기다리는 중...' : 'Waiting for simulation start...'}</div>
                                         )}
                                         {simLogs.map((log, idx) => (
                                             <div key={idx} className="flex gap-2 animate-fadeIn">

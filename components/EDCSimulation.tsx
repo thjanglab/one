@@ -34,7 +34,7 @@ const EDCSimulation: React.FC = () => {
             name: "Battery Module NCM811",
             id: "BATT-MOD-2024-X99",
             manufacturer: "LG Energy Solution",
-            location: "Ochang Plant #2, KR",
+            location: language === 'KO' ? "오창 2공장, 대한민국" : "Ochang Plant #2, KR",
             image: "vendor-images/photo-1620288627223-53302f4e8c74-w300.jpg"
         },
         structure: [
@@ -59,48 +59,82 @@ const EDCSimulation: React.FC = () => {
     // --- Educational Content (University Level) ---
     const EDU_CONTENT = {
         1: {
-            title: "Step 1: Identity & Trust (신원 및 신뢰)",
-            concept: "디지털 신분증 검사",
-            analogy: "공항 검색대에서 여권(VC)과 탑승권(Token)을 검사하는 것과 동일합니다.",
-            lecture: `데이터스페이스에서는 '제로 트러스트(Zero Trust)' 원칙을 따릅니다.
+            title: language === 'KO' ? "1단계: 신원 및 신뢰 (Identity & Trust)" : "Step 1: Identity & Trust",
+            concept: language === 'KO' ? "디지털 신분증 검사" : "Digital ID Verification",
+            analogy: language === 'KO'
+                ? "공항 검색대에서 여권(VC)과 탑승권(Token)을 검사하는 것과 동일합니다."
+                : "It works just like an airport checkpoint inspecting your passport (VC) and your boarding pass (Token).",
+            lecture: language === 'KO'
+                ? `데이터스페이스에서는 '제로 트러스트(Zero Trust)' 원칙을 따릅니다.
 서버 간 통신이 시작되기 전, 중앙 신뢰 기관(DAPS)이 발급한 **검증 가능한 자격증명(Verifiable Credential, VC)**을 확인합니다.
-이 단계에서 생성되는 JWT(JSON Web Token)는 위변조가 불가능하며, 이후 모든 요청의 '입장권' 역할을 합니다.`,
-            techStack: "X.509 인증서, DAPS, OAuth2.0, DID (Decentralized Identity)",
-            reportTitle: "Identity Verification Complete",
-            reportSummary: "Consumer(현대차)의 디지털 신원이 DAPS를 통해 성공적으로 검증되었습니다. 보안 토큰(Dynamic Attribute Token)이 발급되어 세션에 바인딩되었습니다."
+이 단계에서 생성되는 JWT(JSON Web Token)는 위변조가 불가능하며, 이후 모든 요청의 '입장권' 역할을 합니다.`
+                : `A dataspace operates on a strict 'Zero Trust' principle.
+Before any server-to-server communication begins, the **Verifiable Credential (VC)** issued by the central trust anchor (DAPS) is validated.
+The JWT (JSON Web Token) minted at this stage cannot be forged, and acts as the 'entry pass' for every request that follows.`,
+            techStack: language === 'KO'
+                ? "X.509 인증서, DAPS, OAuth2.0, DID (Decentralized Identity)"
+                : "X.509 Certificate, DAPS, OAuth2.0, DID (Decentralized Identity)",
+            reportTitle: language === 'KO' ? "신원 검증 완료" : "Identity Verification Complete",
+            reportSummary: language === 'KO'
+                ? "Consumer(현대차)의 디지털 신원이 DAPS를 통해 성공적으로 검증되었습니다. 보안 토큰(Dynamic Attribute Token)이 발급되어 세션에 바인딩되었습니다."
+                : "The Consumer (Hyundai Motor) digital identity was successfully verified through DAPS. A security token (Dynamic Attribute Token) has been issued and bound to this session."
         },
         2: {
-            title: "Step 2: Catalog Discovery (자산 탐색)",
-            concept: "분산형 메타데이터 검색",
-            analogy: "도서관의 통합 검색 시스템에서 책의 위치와 대출 가능 여부를 확인하는 과정입니다.",
-            lecture: `데이터 자체는 이동하지 않고, 데이터의 '설명서'인 **메타데이터(Metadata)**만 조회합니다.
+            title: language === 'KO' ? "2단계: 카탈로그 탐색 (Catalog Discovery)" : "Step 2: Catalog Discovery",
+            concept: language === 'KO' ? "분산형 메타데이터 검색" : "Federated Metadata Search",
+            analogy: language === 'KO'
+                ? "도서관의 통합 검색 시스템에서 책의 위치와 대출 가능 여부를 확인하는 과정입니다."
+                : "It is like checking a library's integrated search system for where a book sits and whether it can be borrowed.",
+            lecture: language === 'KO'
+                ? `데이터 자체는 이동하지 않고, 데이터의 '설명서'인 **메타데이터(Metadata)**만 조회합니다.
 DCAT(Data Catalog Vocabulary) 표준을 사용하여, 이기종 시스템 간에도 자산의 이름, 타입, 정책 등을 이해할 수 있습니다.
-실제 데이터는 여전히 Provider의 보안 영역(Firewall) 내부에 안전하게 보관되어 있습니다.`,
+실제 데이터는 여전히 Provider의 보안 영역(Firewall) 내부에 안전하게 보관되어 있습니다.`
+                : `The data itself never moves - only the **metadata**, the 'instruction manual' of the data, is queried.
+The DCAT (Data Catalog Vocabulary) standard lets heterogeneous systems interpret an asset's name, type and policy alike.
+The actual data still sits safely inside the Provider's protected zone, behind the firewall.`,
             techStack: "DCAT, Federated Catalog, Crawler",
-            reportTitle: "Asset Discovery Successful",
-            reportSummary: "'NCM811 배터리 탄소발자국(PCF)' 자산이 카탈로그에서 발견되었습니다. 해당 자산은 '계약 협상 필수' 정책이 적용되어 있습니다."
+            reportTitle: language === 'KO' ? "자산 탐색 성공" : "Asset Discovery Successful",
+            reportSummary: language === 'KO'
+                ? "'NCM811 배터리 탄소발자국(PCF)' 자산이 카탈로그에서 발견되었습니다. 해당 자산은 '계약 협상 필수' 정책이 적용되어 있습니다."
+                : "The 'NCM811 Battery Carbon Footprint (PCF)' asset was found in the catalog. A 'contract negotiation required' policy is attached to it."
         },
         3: {
-            title: "Step 3: Contract Negotiation (계약 협상)",
-            concept: "정책 기반의 자동 계약 체결",
-            analogy: "변호사 없이 프로그램 코드가 자동으로 계약서에 도장을 찍는 것과 같습니다.",
-            lecture: `ODRL(Open Digital Rights Language)을 사용하여 사용 권한을 기계적으로 협상합니다.
+            title: language === 'KO' ? "3단계: 계약 협상 (Contract Negotiation)" : "Step 3: Contract Negotiation",
+            concept: language === 'KO' ? "정책 기반의 자동 계약 체결" : "Policy-Driven Automated Contracting",
+            analogy: language === 'KO'
+                ? "변호사 없이 프로그램 코드가 자동으로 계약서에 도장을 찍는 것과 같습니다."
+                : "It is as if program code stamped the contract by itself, with no lawyer in the room.",
+            lecture: language === 'KO'
+                ? `ODRL(Open Digital Rights Language)을 사용하여 사용 권한을 기계적으로 협상합니다.
 Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안(Offer)하면, Provider의 정책 엔진이 이를 검토하고 승인(Agreement)합니다.
-이 과정은 사람의 개입 없이 **Control Plane** 간에 수 밀리초(ms) 내에 이루어집니다.`,
+이 과정은 사람의 개입 없이 **Control Plane** 간에 수 밀리초(ms) 내에 이루어집니다.`
+                : `Usage rights are negotiated machine-to-machine with ODRL (Open Digital Rights Language).
+When the Consumer offers "use for 30 days, solely for EU regulatory compliance", the Provider's policy engine reviews it and issues an Agreement.
+The whole exchange happens between the two **Control Planes** in a few milliseconds, with no human in the loop.`,
             techStack: "ODRL, Policy Engine, Contract Definition",
-            reportTitle: "Contract Signed & Archived",
-            reportSummary: "데이터 사용 계약(Agreement ID: agr:8821)이 체결되었습니다. 정책 조건(Purpose: EU_Regulation)이 충족되어 전송 권한이 부여되었습니다."
+            reportTitle: language === 'KO' ? "계약 체결 및 보관 완료" : "Contract Signed & Archived",
+            reportSummary: language === 'KO'
+                ? "데이터 사용 계약(Agreement ID: agr:8821)이 체결되었습니다. 정책 조건(Purpose: EU_Regulation)이 충족되어 전송 권한이 부여되었습니다."
+                : "The data usage agreement (Agreement ID: agr:8821) has been concluded. The policy condition (Purpose: EU_Regulation) was satisfied, so transfer rights were granted."
         },
         4: {
-            title: "Step 4: Data Transfer (데이터 전송)",
-            concept: "P2P 암호화 스트리밍",
-            analogy: "OTT 서비스에서 영화를 스트리밍하는 것처럼, 데이터가 끊김 없이 전송됩니다.",
-            lecture: `계약이 체결되면 **EDR(Endpoint Data Reference)** 토큰이 발급됩니다.
+            title: language === 'KO' ? "4단계: 데이터 전송 (Data Transfer)" : "Step 4: Data Transfer",
+            concept: language === 'KO' ? "P2P 암호화 스트리밍" : "P2P Encrypted Streaming",
+            analogy: language === 'KO'
+                ? "OTT 서비스에서 영화를 스트리밍하는 것처럼, 데이터가 끊김 없이 전송됩니다."
+                : "Data streams through without interruption, much like watching a movie on an OTT service.",
+            lecture: language === 'KO'
+                ? `계약이 체결되면 **EDR(Endpoint Data Reference)** 토큰이 발급됩니다.
 이 토큰은 일회용 비밀번호와 같아서, Data Plane을 열 수 있는 유일한 열쇠입니다.
-데이터는 중앙 서버를 거치지 않고(Peer-to-Peer), AES-256 알고리즘으로 암호화되어 전송되므로 중간 탈취가 불가능합니다.`,
+데이터는 중앙 서버를 거치지 않고(Peer-to-Peer), AES-256 알고리즘으로 암호화되어 전송되므로 중간 탈취가 불가능합니다.`
+                : `Once the contract is signed, an **EDR (Endpoint Data Reference)** token is issued.
+Like a one-time password, it is the only key that can open the Data Plane.
+The data travels peer-to-peer without passing through any central server, encrypted with AES-256, so it cannot be intercepted in transit.`,
             techStack: "EDR Token, AES-256, HTTP/S, MQTT",
-            reportTitle: "Secure Transfer Completed",
-            reportSummary: "암호화된 데이터 스트림이 Consumer의 저장소(Azure Blob)로 전송 완료되었습니다. 데이터 무결성이 검증되었으며 연결이 종료됩니다."
+            reportTitle: language === 'KO' ? "보안 전송 완료" : "Secure Transfer Completed",
+            reportSummary: language === 'KO'
+                ? "암호화된 데이터 스트림이 Consumer의 저장소(Azure Blob)로 전송 완료되었습니다. 데이터 무결성이 검증되었으며 연결이 종료됩니다."
+                : "The encrypted data stream has been delivered to the Consumer's storage (Azure Blob). Data integrity was verified and the connection is now closed."
         }
     };
 
@@ -252,7 +286,7 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                     <FileJson className="w-6 h-6 text-white" />
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold">Data Asset Transfer Report</h2>
+                                    <h2 className="text-xl font-bold">{language === 'KO' ? '데이터 자산 전송 리포트' : 'Data Asset Transfer Report'}</h2>
                                     <p className="text-xs text-slate-400 font-mono">TX: {REPORT_DATA.meta.transactionId} • {REPORT_DATA.meta.timestamp}</p>
                                 </div>
                             </div>
@@ -268,7 +302,7 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                 <div className="md:col-span-1">
                                     <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center h-full flex flex-col items-center">
                                         <div className="w-full h-40 bg-white rounded-xl mb-4 overflow-hidden flex items-center justify-center border border-slate-100 p-2">
-                                            <img src={REPORT_DATA.product.image} alt="Product" className="max-h-full object-contain" />
+                                            <img src={REPORT_DATA.product.image} alt={language === 'KO' ? '제품 이미지' : 'Product'} className="max-h-full object-contain" />
                                         </div>
                                         <h3 className="font-bold text-lg text-slate-900">{REPORT_DATA.product.name}</h3>
                                         <p className="text-sm text-slate-500 mb-4">{REPORT_DATA.product.manufacturer}</p>
@@ -278,7 +312,7 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                                 <span className="font-mono text-slate-700">{REPORT_DATA.product.id}</span>
                                             </div>
                                             <div className="flex justify-between">
-                                                <span className="text-slate-400">Loc:</span>
+                                                <span className="text-slate-400">{language === 'KO' ? '위치:' : 'Loc:'}</span>
                                                 <span className="text-slate-700">{REPORT_DATA.product.location}</span>
                                             </div>
                                         </div>
@@ -287,15 +321,15 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                 <div className="md:col-span-2 space-y-6">
                                     <div className="grid grid-cols-3 gap-4">
                                         <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
-                                            <span className="text-xs font-bold text-blue-500 uppercase block mb-1">Total Records</span>
+                                            <span className="text-xs font-bold text-blue-500 uppercase block mb-1">{language === 'KO' ? '총 레코드 수' : 'Total Records'}</span>
                                             <span className="text-2xl font-bold text-blue-900">{REPORT_DATA.stats.totalRecords.toLocaleString()}</span>
                                         </div>
                                         <div className="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
-                                            <span className="text-xs font-bold text-emerald-500 uppercase block mb-1">Data Size</span>
+                                            <span className="text-xs font-bold text-emerald-500 uppercase block mb-1">{language === 'KO' ? '데이터 용량' : 'Data Size'}</span>
                                             <span className="text-2xl font-bold text-emerald-900">{REPORT_DATA.stats.dataSize}</span>
                                         </div>
                                         <div className="bg-purple-50 p-4 rounded-xl border border-purple-100">
-                                            <span className="text-xs font-bold text-purple-500 uppercase block mb-1">Schema</span>
+                                            <span className="text-xs font-bold text-purple-500 uppercase block mb-1">{language === 'KO' ? '스키마' : 'Schema'}</span>
                                             <span className="text-lg font-bold text-purple-900 truncate">{REPORT_DATA.stats.schemaVersion}</span>
                                         </div>
                                     </div>
@@ -304,14 +338,14 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                     <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
                                         <h4 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
                                             <Layout className="w-4 h-4 text-slate-500" />
-                                            Data Structure (Schema Tree)
+                                            {language === 'KO' ? '데이터 구조 (스키마 트리)' : 'Data Structure (Schema Tree)'}
                                         </h4>
                                         <div className="flex items-center justify-center p-4 bg-slate-50 rounded-lg overflow-x-auto">
                                             <div className="flex gap-8 items-start">
                                                 {/* Root */}
                                                 <div className="flex flex-col items-center relative">
                                                     <div className="w-20 h-12 bg-slate-800 text-white rounded-lg flex items-center justify-center text-xs font-bold shadow-md z-10">
-                                                        Asset Root
+                                                        {language === 'KO' ? '자산 루트' : 'Asset Root'}
                                                     </div>
                                                     <div className="h-8 w-px bg-slate-300"></div>
                                                     {/* Connector Line Horizontal */}
@@ -326,13 +360,13 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                                             <div className="w-24 h-10 bg-white border border-slate-300 text-slate-600 rounded flex items-center justify-center text-[10px] font-bold shadow-sm">
                                                                 Metadata
                                                             </div>
-                                                            <span className="text-[9px] text-slate-400 mt-1">Header Info</span>
+                                                            <span className="text-[9px] text-slate-400 mt-1">{language === 'KO' ? '헤더 정보' : 'Header Info'}</span>
                                                         </div>
                                                         <div className="flex flex-col items-center">
                                                             <div className="w-24 h-10 bg-white border-2 border-blue-200 text-blue-700 rounded flex items-center justify-center text-[10px] font-bold shadow-sm">
                                                                 Payload
                                                             </div>
-                                                            <span className="text-[9px] text-slate-400 mt-1">Primary Data</span>
+                                                            <span className="text-[9px] text-slate-400 mt-1">{language === 'KO' ? '주요 데이터' : 'Primary Data'}</span>
                                                             <div className="h-4 w-px bg-blue-200 mt-1"></div>
                                                             <div className="w-20 h-8 bg-blue-50 border border-blue-100 rounded flex items-center justify-center text-[9px] text-blue-600 mt-1">
                                                                 Measurements
@@ -342,7 +376,7 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                                             <div className="w-24 h-10 bg-white border border-slate-300 text-slate-600 rounded flex items-center justify-center text-[10px] font-bold shadow-sm">
                                                                 Signature
                                                             </div>
-                                                            <span className="text-[9px] text-slate-400 mt-1">Integrity Check</span>
+                                                            <span className="text-[9px] text-slate-400 mt-1">{language === 'KO' ? '무결성 검증' : 'Integrity Check'}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -357,10 +391,10 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                 <div className="p-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
                                     <h4 className="text-sm font-bold text-slate-800 flex items-center gap-2">
                                         <Database className="w-4 h-4 text-slate-500" />
-                                        Sample Data Preview (First 5 Rows)
+                                        {language === 'KO' ? '샘플 데이터 미리보기 (상위 5행)' : 'Sample Data Preview (First 5 Rows)'}
                                     </h4>
                                     <span className="text-xs font-mono text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-100">
-                                        Integrity Verified
+                                        {language === 'KO' ? '무결성 검증됨' : 'Integrity Verified'}
                                     </span>
                                 </div>
                                 <div className="overflow-x-auto">
@@ -368,11 +402,11 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                         <thead className="bg-white text-slate-500 font-medium border-b border-slate-100">
                                             <tr>
                                                 <th className="px-6 py-3">ID</th>
-                                                <th className="px-6 py-3">Timestamp</th>
-                                                <th className="px-6 py-3">Temp (°C)</th>
-                                                <th className="px-6 py-3">Voltage (V)</th>
+                                                <th className="px-6 py-3">{language === 'KO' ? '타임스탬프' : 'Timestamp'}</th>
+                                                <th className="px-6 py-3">{language === 'KO' ? '온도 (°C)' : 'Temp (°C)'}</th>
+                                                <th className="px-6 py-3">{language === 'KO' ? '전압 (V)' : 'Voltage (V)'}</th>
                                                 <th className="px-6 py-3">PCF (kg)</th>
-                                                <th className="px-6 py-3">Status</th>
+                                                <th className="px-6 py-3">{language === 'KO' ? '상태' : 'Status'}</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-50">
@@ -387,7 +421,7 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                                         <span className={`px-2 py-1 rounded-full text-[10px] font-bold ${
                                                             row.status === 'Normal' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
                                                         }`}>
-                                                            {row.status}
+                                                            {language === 'KO' ? (row.status === 'Normal' ? '정상' : '경고') : row.status}
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -399,16 +433,16 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
 
                             <div className="flex gap-4 justify-end">
                                 <button className="px-6 py-3 border border-slate-200 text-slate-600 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-50 transition-colors">
-                                    <Printer className="w-4 h-4" /> Print PDF
+                                    <Printer className="w-4 h-4" /> {language === 'KO' ? 'PDF 인쇄' : 'Print PDF'}
                                 </button>
                                 <button className="px-6 py-3 border border-slate-200 text-slate-600 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-50 transition-colors">
-                                    <Share2 className="w-4 h-4" /> Share
+                                    <Share2 className="w-4 h-4" /> {language === 'KO' ? '공유' : 'Share'}
                                 </button>
                                 <button 
                                     onClick={reset}
                                     className="px-6 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 shadow-lg shadow-blue-200 transition-colors flex items-center gap-2"
                                 >
-                                    Finish & Close
+                                    {language === 'KO' ? '완료 후 닫기' : 'Finish & Close'}
                                 </button>
                             </div>
                         </div>
@@ -427,12 +461,12 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                             </div>
                             <div>
                                 <h3 className="font-bold text-lg">{currentEduContent.reportTitle}</h3>
-                                <p className="text-xs text-slate-400">Step {step} of 4 Completed</p>
+                                <p className="text-xs text-slate-400">{language === 'KO' ? `${step}단계 / 전체 4단계 완료` : `Step ${step} of 4 Completed`}</p>
                             </div>
                         </div>
                         <div className="p-6">
                             <div className="mb-6">
-                                <h4 className="text-sm font-bold text-slate-500 uppercase mb-2">Operation Summary</h4>
+                                <h4 className="text-sm font-bold text-slate-500 uppercase mb-2">{language === 'KO' ? '작업 요약' : 'Operation Summary'}</h4>
                                 <p className="text-slate-700 leading-relaxed text-sm bg-slate-50 p-4 rounded-xl border border-slate-100">
                                     {currentEduContent.reportSummary}
                                 </p>
@@ -443,12 +477,12 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                 <div className="mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
                                     <h4 className="text-sm font-bold text-slate-500 uppercase mb-3 flex items-center gap-2">
                                         <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                                        Data Integrity Check (Source vs Dest)
+                                        {language === 'KO' ? '데이터 무결성 검사 (원본 vs 수신본)' : 'Data Integrity Check (Source vs Dest)'}
                                     </h4>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-1">
                                             <span className="text-xs font-bold text-slate-500 flex items-center gap-1">
-                                                <Database className="w-3 h-3" /> Provider (Original)
+                                                <Database className="w-3 h-3" /> {language === 'KO' ? 'Provider (원본)' : 'Provider (Original)'}
                                             </span>
                                             <pre className="text-[10px] bg-slate-800 text-slate-300 p-3 rounded border border-slate-700 overflow-x-auto h-28 scrollbar-thin">
                                                 {SAMPLES.transfer_src}
@@ -456,7 +490,7 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                         </div>
                                         <div className="space-y-1">
                                             <span className="text-xs font-bold text-slate-500 flex items-center gap-1">
-                                                <Unlock className="w-3 h-3" /> Consumer (Received)
+                                                <Unlock className="w-3 h-3" /> {language === 'KO' ? 'Consumer (수신본)' : 'Consumer (Received)'}
                                             </span>
                                             <pre className="text-[10px] bg-slate-800 text-emerald-300 p-3 rounded border border-slate-700 overflow-x-auto h-28 scrollbar-thin">
                                                 {SAMPLES.transfer_dec}
@@ -465,13 +499,13 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                     </div>
                                     <div className="mt-3 flex items-center justify-center gap-2 text-xs font-bold text-emerald-600 bg-emerald-50 py-2 rounded border border-emerald-100">
                                         <CheckCircle className="w-4 h-4" />
-                                        Integrity Verified: Match Verified 100%
+                                        {language === 'KO' ? '무결성 검증 완료: 100% 일치' : 'Integrity Verified: Match Verified 100%'}
                                     </div>
                                 </div>
                             )}
 
                             <div className="mb-6">
-                                <h4 className="text-sm font-bold text-slate-500 uppercase mb-2">Technical Artifacts</h4>
+                                <h4 className="text-sm font-bold text-slate-500 uppercase mb-2">{language === 'KO' ? '기술 산출물' : 'Technical Artifacts'}</h4>
                                 <div className="flex gap-2">
                                     {step === 1 && <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">JWT Token</span>}
                                     {step === 2 && <span className="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">DCAT Catalog</span>}
@@ -488,14 +522,14 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                         className="flex-1 py-3 bg-white border-2 border-blue-600 text-blue-600 rounded-xl font-bold hover:bg-blue-50 transition-all flex items-center justify-center gap-2 shadow-sm"
                                     >
                                         <FileText className="w-4 h-4" />
-                                        View Data Report
+                                        {language === 'KO' ? '데이터 리포트 보기' : 'View Data Report'}
                                     </button>
                                 )}
                                 <button 
                                     onClick={handleNextStep}
                                     className={`py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-200 ${step === 4 ? 'flex-1' : 'w-full'}`}
                                 >
-                                    {step === 4 ? 'Finish' : 'Next Step'}
+                                    {language === 'KO' ? (step === 4 ? '완료' : '다음 단계') : (step === 4 ? 'Finish' : 'Next Step')}
                                     <ArrowRight className="w-4 h-4" />
                                 </button>
                             </div>
@@ -710,12 +744,12 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none">
                     {step === 2 && (
                         <div className="bg-blue-600/90 text-white px-4 py-2 rounded-full font-bold shadow-lg animate-bounce flex items-center gap-2">
-                            <Search className="w-4 h-4" /> Discovery
+                            <Search className="w-4 h-4" /> {language === 'KO' ? '자산 탐색 중' : 'Discovery'}
                         </div>
                     )}
                     {step === 3 && (
                         <div className="bg-yellow-500/90 text-white px-4 py-2 rounded-full font-bold shadow-lg flex items-center gap-2 animate-pulse">
-                            <FileText className="w-4 h-4" /> Negotiating...
+                            <FileText className="w-4 h-4" /> {language === 'KO' ? '계약 협상 중...' : 'Negotiating...'}
                         </div>
                     )}
                     {step === 4 && (
@@ -731,10 +765,10 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
             <div className="flex flex-col md:flex-row gap-4 justify-center items-center bg-white p-6 rounded-2xl shadow-lg border border-slate-200">
                 <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
                     {[
-                        { id: 1, label: '1. Identity', icon: Key },
-                        { id: 2, label: '2. Discovery', icon: Search },
-                        { id: 3, label: '3. Negotiation', icon: FileText },
-                        { id: 4, label: '4. Transfer', icon: Zap },
+                        { id: 1, label: language === 'KO' ? '1. 신원 인증' : '1. Identity', icon: Key },
+                        { id: 2, label: language === 'KO' ? '2. 자산 탐색' : '2. Discovery', icon: Search },
+                        { id: 3, label: language === 'KO' ? '3. 계약 협상' : '3. Negotiation', icon: FileText },
+                        { id: 4, label: language === 'KO' ? '4. 데이터 전송' : '4. Transfer', icon: Zap },
                     ].map((btn) => (
                         <button
                             key={btn.id}
@@ -756,7 +790,7 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                     onClick={reset}
                     className="px-4 py-2 text-slate-400 hover:text-slate-600 font-medium text-sm flex items-center gap-1"
                 >
-                    <RefreshCw className="w-4 h-4" /> Reset
+                    <RefreshCw className="w-4 h-4" /> {language === 'KO' ? '초기화' : 'Reset'}
                 </button>
             </div>
 
@@ -768,13 +802,13 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                         onClick={() => setActiveTab('PAYLOAD')}
                         className={`px-6 py-3 text-sm font-bold flex items-center gap-2 transition-colors ${activeTab === 'PAYLOAD' ? 'text-emerald-400 border-b-2 border-emerald-400 bg-slate-900' : 'text-slate-500 hover:text-slate-300'}`}
                     >
-                        <Terminal className="w-4 h-4" /> Raw Payload (JSON)
+                        <Terminal className="w-4 h-4" /> {language === 'KO' ? '원본 페이로드 (JSON)' : 'Raw Payload (JSON)'}
                     </button>
                     <button 
                         onClick={() => setActiveTab('LECTURE')}
                         className={`px-6 py-3 text-sm font-bold flex items-center gap-2 transition-colors ${activeTab === 'LECTURE' ? 'text-blue-400 border-b-2 border-blue-400 bg-slate-900' : 'text-slate-500 hover:text-slate-300'}`}
                     >
-                        <BookOpen className="w-4 h-4" /> Lecture Notes
+                        <BookOpen className="w-4 h-4" /> {language === 'KO' ? '강의 노트' : 'Lecture Notes'}
                     </button>
                 </div>
 
@@ -784,7 +818,7 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                             {step === 0 && (
                                 <div className="flex flex-col items-center justify-center h-full text-slate-600">
                                     <Binary className="w-8 h-8 mb-2 opacity-50" />
-                                    <p>Waiting for simulation start...</p>
+                                    <p>{language === 'KO' ? '시뮬레이션 시작을 기다리는 중...' : 'Waiting for simulation start...'}</p>
                                 </div>
                             )}
                             {step > 0 && (
@@ -792,14 +826,14 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                     <div className="bg-slate-800/50 p-3 rounded border border-slate-700">
                                         <h4 className="text-blue-400 font-bold mb-1 flex items-center gap-2">
                                             <MessageSquare className="w-3 h-3" /> 
-                                            Protocol Status
+                                            {language === 'KO' ? '프로토콜 상태' : 'Protocol Status'}
                                         </h4>
                                         <p className="text-slate-400 leading-relaxed">
                                             {nodeStatus.consumer} -&gt; {nodeStatus.provider} via {protocolMsg}
                                         </p>
                                     </div>
                                     <div>
-                                        <h4 className="text-emerald-500 font-bold mb-1">Payload Preview</h4>
+                                        <h4 className="text-emerald-500 font-bold mb-1">{language === 'KO' ? '페이로드 미리보기' : 'Payload Preview'}</h4>
                                         <pre className="whitespace-pre-wrap text-slate-300 leading-relaxed bg-black/30 p-3 rounded border border-slate-800">
                                             {inspectorData}
                                             <span className="animate-pulse">_</span>
@@ -814,7 +848,7 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                             {step === 0 ? (
                                 <div className="flex flex-col items-center justify-center h-full text-slate-500">
                                     <BookOpen className="w-12 h-12 mb-4 opacity-30" />
-                                    <p>Select a step to view detailed explanations.</p>
+                                    <p>{language === 'KO' ? '단계를 선택하면 상세 설명이 표시됩니다.' : 'Select a step to view detailed explanations.'}</p>
                                 </div>
                             ) : currentEduContent ? (
                                 <div className="space-y-6 animate-fadeIn">
@@ -824,26 +858,26 @@ Consumer가 "30일 동안, EU 규제 대응 목적으로만 쓰겠다"고 제안
                                             {currentEduContent.title}
                                         </h3>
                                         <div className="inline-block px-3 py-1 bg-blue-900/50 text-blue-300 text-xs font-bold rounded-full border border-blue-800">
-                                            Core Concept: {currentEduContent.concept}
+                                            {language === 'KO' ? '핵심 개념: ' : 'Core Concept: '}{currentEduContent.concept}
                                         </div>
                                     </div>
 
                                     <div className="bg-slate-800 p-5 rounded-xl border border-slate-700">
-                                        <h4 className="text-sm font-bold text-slate-400 uppercase mb-2">Analogy (비유)</h4>
+                                        <h4 className="text-sm font-bold text-slate-400 uppercase mb-2">{language === 'KO' ? '비유' : 'Analogy'}</h4>
                                         <p className="text-slate-200 leading-relaxed border-l-2 border-yellow-500 pl-3">
                                             {currentEduContent.analogy}
                                         </p>
                                     </div>
 
                                     <div>
-                                        <h4 className="text-sm font-bold text-slate-400 uppercase mb-2">Technical Deep Dive</h4>
+                                        <h4 className="text-sm font-bold text-slate-400 uppercase mb-2">{language === 'KO' ? '기술 심화 설명' : 'Technical Deep Dive'}</h4>
                                         <p className="text-slate-300 leading-loose whitespace-pre-line text-sm">
                                             {currentEduContent.lecture}
                                         </p>
                                     </div>
 
                                     <div className="pt-4 border-t border-slate-800">
-                                        <span className="text-xs text-slate-500 font-mono">Tech Stack: </span>
+                                        <span className="text-xs text-slate-500 font-mono">{language === 'KO' ? '기술 스택: ' : 'Tech Stack: '}</span>
                                         <span className="text-xs text-emerald-400 font-mono">{currentEduContent.techStack}</span>
                                     </div>
                                 </div>

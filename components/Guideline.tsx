@@ -39,10 +39,10 @@ const Guideline: React.FC = () => {
         {/* Intro */}
         <div className="text-center space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-sm font-bold uppercase tracking-wider">
-                Security & Sovereignty
+                {language === 'KO' ? '보안과 데이터 주권' : 'Security & Sovereignty'}
             </div>
             <h2 className="text-4xl font-extrabold text-slate-900">
-                Why is DataSpace Secure?
+                {language === 'KO' ? '데이터스페이스는 왜 안전한가?' : 'Why is DataSpace Secure?'}
             </h2>
             <p className="text-slate-500 max-w-2xl mx-auto text-lg">
                 {language === 'KO' 
@@ -56,13 +56,13 @@ const Guideline: React.FC = () => {
             <div className="space-y-8">
                 <h3 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
                     <ShieldCheck className="w-8 h-8 text-emerald-500" />
-                    2.1. Multi-Layered Security
+                    {language === 'KO' ? '2.1. 다층 방어 보안' : '2.1. Multi-Layered Security'}
                 </h3>
                 <div className="space-y-4">
                     {[
-                        { title: 'Identity (신원)', desc: 'DID & VC based mutual authentication (No anonymous access).', icon: Fingerprint, color: 'text-blue-500' },
-                        { title: 'Transmission (전송)', desc: 'P2P Encrypted Tunnel (TLS 1.3/mTLS). No man-in-the-middle.', icon: Lock, color: 'text-emerald-500' },
-                        { title: 'Control (제어)', desc: 'Usage Policies (ODRL) attached to data even after transfer.', icon: Scale, color: 'text-purple-500' },
+                        { title: language === 'KO' ? '신원 (Identity)' : 'Identity', desc: language === 'KO' ? 'DID와 VC 기반의 상호 인증. 익명 접근은 허용되지 않습니다.' : 'DID & VC based mutual authentication (No anonymous access).', icon: Fingerprint, color: 'text-blue-500' },
+                        { title: language === 'KO' ? '전송 (Transmission)' : 'Transmission', desc: language === 'KO' ? 'P2P 암호화 터널(TLS 1.3/mTLS)로 중간자 공격을 차단합니다.' : 'P2P Encrypted Tunnel (TLS 1.3/mTLS). No man-in-the-middle.', icon: Lock, color: 'text-emerald-500' },
+                        { title: language === 'KO' ? '제어 (Control)' : 'Control', desc: language === 'KO' ? '전송 이후에도 사용 정책(ODRL)이 데이터에 함께 따라붙습니다.' : 'Usage Policies (ODRL) attached to data even after transfer.', icon: Scale, color: 'text-purple-500' },
                     ].map((item, i) => (
                         <div key={i} className="flex gap-4 p-4 bg-white rounded-xl border border-slate-200 shadow-sm hover:border-slate-300 transition-colors">
                             <div className={`p-3 rounded-full bg-slate-50 h-fit ${item.color}`}>
@@ -85,21 +85,21 @@ const Guideline: React.FC = () => {
                 <div className="relative w-64 h-64 flex items-center justify-center">
                     {/* Layer 1 */}
                     <div className="absolute inset-0 border-4 border-blue-500/30 rounded-full animate-[spin_10s_linear_infinite]"></div>
-                    <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-slate-900 text-blue-400 text-xs font-bold px-2">Identity Layer</div>
+                    <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-slate-900 text-blue-400 text-xs font-bold px-2">{language === 'KO' ? '신원 계층' : 'Identity Layer'}</div>
                     
                     {/* Layer 2 */}
                     <div className="absolute inset-4 border-4 border-emerald-500/40 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
-                    <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-slate-900 text-emerald-400 text-xs font-bold px-2">Encryption Layer</div>
+                    <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-slate-900 text-emerald-400 text-xs font-bold px-2">{language === 'KO' ? '암호화 계층' : 'Encryption Layer'}</div>
 
                     {/* Layer 3 */}
                     <div className="absolute inset-10 border-4 border-purple-500/50 rounded-full animate-[spin_8s_linear_infinite]"></div>
-                    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-purple-400 text-xs font-bold px-2">Policy Layer</div>
+                    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-purple-400 text-xs font-bold px-2">{language === 'KO' ? '정책 계층' : 'Policy Layer'}</div>
 
                     {/* Core */}
                     <div className="absolute inset-20 bg-gradient-to-br from-white to-slate-300 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.3)] z-10">
                         <Database className="w-8 h-8 text-slate-900" />
                     </div>
-                    <div className="absolute -bottom-8 text-center w-full text-white font-bold">Your Data</div>
+                    <div className="absolute -bottom-8 text-center w-full text-white font-bold">{language === 'KO' ? '내 데이터' : 'Your Data'}</div>
                 </div>
             </div>
         </div>
@@ -109,7 +109,7 @@ const Guideline: React.FC = () => {
             <div className="max-w-3xl mx-auto text-center mb-12">
                 <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center justify-center gap-3">
                     <Eye className="w-8 h-8 text-slate-400" />
-                    2.2. Can the Operator see my data?
+                    {language === 'KO' ? '2.2. 운영 기관이 내 데이터를 볼 수 있나요?' : '2.2. Can the Operator see my data?'}
                 </h3>
                 <p className="text-lg text-slate-600 font-medium">
                     {language === 'KO' 
@@ -128,7 +128,7 @@ const Guideline: React.FC = () => {
                 {/* Scenario A: Legacy */}
                 <div className="bg-white p-6 rounded-2xl border border-red-100 shadow-sm opacity-60 grayscale hover:grayscale-0 transition-all">
                     <h4 className="text-center font-bold text-red-500 mb-6 flex items-center justify-center gap-2">
-                        <XCircle className="w-5 h-5" /> Legacy (Centralized)
+                        <XCircle className="w-5 h-5" /> {language === 'KO' ? '기존 방식 (중앙 집중식)' : 'Legacy (Centralized)'}
                     </h4>
                     {/* The dashes used to be a <path> at hardcoded pixel
                         coordinates while the icons were laid out with
@@ -157,7 +157,7 @@ const Guideline: React.FC = () => {
                             <div className="w-16 h-16 bg-red-50 border-2 border-red-200 rounded-lg flex items-center justify-center">
                                 <Server className="w-8 h-8 text-red-500" />
                             </div>
-                            <span className="text-xs font-bold text-red-600 mt-2 bg-red-50 px-2 py-1 rounded whitespace-nowrap">Operator Stores Data</span>
+                            <span className="text-xs font-bold text-red-600 mt-2 bg-red-50 px-2 py-1 rounded whitespace-nowrap">{language === 'KO' ? '운영 기관이 데이터 보관' : 'Operator Stores Data'}</span>
                         </div>
 
                         <Database className="absolute left-[14%] top-[128px] -translate-x-1/2 -translate-y-1/2 w-10 h-10 text-slate-400" />
@@ -167,9 +167,9 @@ const Guideline: React.FC = () => {
 
                 {/* Scenario B: DataSpace */}
                 <div className="bg-white p-6 rounded-2xl border border-emerald-200 shadow-lg relative overflow-hidden">
-                    <div className="absolute top-0 right-0 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">Secure</div>
+                    <div className="absolute top-0 right-0 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">{language === 'KO' ? '안전' : 'Secure'}</div>
                     <h4 className="text-center font-bold text-emerald-600 mb-6 flex items-center justify-center gap-2">
-                        <CheckCircle2 className="w-5 h-5" /> DataSpace (Decentralized)
+                        <CheckCircle2 className="w-5 h-5" /> {language === 'KO' ? '데이터스페이스 (분산형)' : 'DataSpace (Decentralized)'}
                     </h4>
                     <div className="relative h-40 flex justify-between items-center px-8">
                         
@@ -178,13 +178,13 @@ const Guideline: React.FC = () => {
                             <div className="w-12 h-12 bg-blue-50 border-2 border-blue-500 rounded-full flex items-center justify-center">
                                 <Database className="w-6 h-6 text-blue-600" />
                             </div>
-                            <span className="text-xs font-bold text-slate-600 mt-2">Provider</span>
+                            <span className="text-xs font-bold text-slate-600 mt-2">{language === 'KO' ? '제공자' : 'Provider'}</span>
                         </div>
 
                         {/* The Tunnel */}
                         <div className="flex-1 h-12 bg-slate-100 rounded-lg mx-4 flex items-center justify-center relative border border-slate-300 shadow-inner">
                             <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,#f1f5f9_10px,#f1f5f9_20px)] opacity-50"></div>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest z-10 bg-white/80 px-2 rounded">Encrypted Tunnel</span>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest z-10 bg-white/80 px-2 rounded">{language === 'KO' ? '암호화 터널' : 'Encrypted Tunnel'}</span>
                             
                             {/* Hidden Packet Animation */}
                             <div className="absolute left-2 w-4 h-4 bg-emerald-500 rounded-full animate-[moveRight_2s_linear_infinite] shadow-[0_0_10px_#10b981]"></div>
@@ -203,7 +203,7 @@ const Guideline: React.FC = () => {
                             <div className="w-12 h-12 bg-purple-50 border-2 border-purple-500 rounded-full flex items-center justify-center">
                                 <Database className="w-6 h-6 text-purple-600" />
                             </div>
-                            <span className="text-xs font-bold text-slate-600 mt-2">Consumer</span>
+                            <span className="text-xs font-bold text-slate-600 mt-2">{language === 'KO' ? '소비자' : 'Consumer'}</span>
                         </div>
 
                         {/* Operator (Blind) */}
@@ -211,7 +211,7 @@ const Guideline: React.FC = () => {
                             <div className="flex flex-col items-center">
                                 <Server className="w-8 h-8 text-slate-300" />
                                 <div className="bg-slate-200 text-slate-500 text-[9px] px-2 py-0.5 rounded mt-1 flex items-center gap-1">
-                                    <Eye className="w-3 h-3" /> Blind
+                                    <Eye className="w-3 h-3" /> {language === 'KO' ? '내용 확인 불가' : 'Blind'}
                                 </div>
                             </div>
                         </div>
@@ -227,10 +227,10 @@ const Guideline: React.FC = () => {
         {/* Header */}
         <div className="text-center space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-100 text-indigo-700 text-sm font-bold uppercase tracking-wider">
-                Common Language of Data
+                {language === 'KO' ? '데이터의 공통 언어' : 'Common Language of Data'}
             </div>
             <h2 className="text-4xl font-extrabold text-slate-900">
-                Semantic Web & Ontology
+                {language === 'KO' ? '시맨틱 웹 & 온톨로지' : 'Semantic Web & Ontology'}
             </h2>
             <p className="text-slate-500 max-w-2xl mx-auto text-lg">
                 {language === 'KO' 
@@ -248,9 +248,9 @@ const Guideline: React.FC = () => {
 
             <div className="absolute top-6 left-6 z-10">
                 <h3 className="text-white font-bold text-xl flex items-center gap-2">
-                    <Share2 className="w-6 h-6 text-indigo-400" /> Knowledge Graph
+                    <Share2 className="w-6 h-6 text-indigo-400" /> {language === 'KO' ? '지식 그래프' : 'Knowledge Graph'}
                 </h3>
-                <p className="text-slate-400 text-xs mt-1">Dynamic Linking of Entities via RDF Triples</p>
+                <p className="text-slate-400 text-xs mt-1">{language === 'KO' ? 'RDF 트리플로 엔티티를 동적으로 연결합니다' : 'Dynamic Linking of Entities via RDF Triples'}</p>
             </div>
 
             <svg className="w-full h-full absolute inset-0" viewBox="0 0 800 450">
@@ -276,10 +276,10 @@ const Guideline: React.FC = () => {
 
                 {/* Satellite Nodes */}
                 {[
-                    { id: 1, label: 'Manufacturer', val: 'LG Energy Sol', x: 200, y: 100, color: '#3b82f6', pred: 'cx:manufacturer' },
-                    { id: 2, label: 'Material', val: 'Lithium', x: 600, y: 100, color: '#10b981', pred: 'cx:hasPart' },
-                    { id: 3, label: 'Certificate', val: 'ISO 14001', x: 600, y: 350, color: '#f59e0b', pred: 'cx:compliantWith' },
-                    { id: 4, label: 'Carbon', val: '125 kgCO2e', x: 200, y: 350, color: '#ef4444', pred: 'cx:hasPCF' },
+                    { id: 1, label: language === 'KO' ? '제조사' : 'Manufacturer', val: 'LG Energy Sol', x: 200, y: 100, color: '#3b82f6', pred: 'cx:manufacturer' },
+                    { id: 2, label: language === 'KO' ? '소재' : 'Material', val: 'Lithium', x: 600, y: 100, color: '#10b981', pred: 'cx:hasPart' },
+                    { id: 3, label: language === 'KO' ? '인증서' : 'Certificate', val: 'ISO 14001', x: 600, y: 350, color: '#f59e0b', pred: 'cx:compliantWith' },
+                    { id: 4, label: language === 'KO' ? '탄소' : 'Carbon', val: '125 kgCO2e', x: 200, y: 350, color: '#ef4444', pred: 'cx:hasPCF' },
                 ].map((node, i) => (
                     <g key={i}>
                         {/* Link Line */}
@@ -328,9 +328,11 @@ const Guideline: React.FC = () => {
                 <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-110 transition-transform">
                     <Network className="w-6 h-6" />
                 </div>
-                <h3 className="font-bold text-slate-900 text-lg mb-2">RDF (Graph Data Model)</h3>
+                <h3 className="font-bold text-slate-900 text-lg mb-2">{language === 'KO' ? 'RDF (그래프 데이터 모델)' : 'RDF (Graph Data Model)'}</h3>
                 <p className="text-sm text-slate-600 leading-relaxed">
-                    데이터를 "주어-서술어-목적어"의 Triple 형태로 표현하여, 데이터 간의 관계를 그래프 구조로 연결합니다.
+                    {language === 'KO'
+                        ? '데이터를 "주어-서술어-목적어"의 Triple 형태로 표현하여, 데이터 간의 관계를 그래프 구조로 연결합니다.'
+                        : 'Expresses data as "subject-predicate-object" triples, linking relationships between data into a graph structure.'}
                     <br/><span className="text-xs text-indigo-600 font-mono mt-2 block">Example: (Car) -&gt; (hasPart) -&gt; (Battery)</span>
                 </p>
             </div>
@@ -338,18 +340,22 @@ const Guideline: React.FC = () => {
                 <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 mb-4 group-hover:scale-110 transition-transform">
                     <BookOpen className="w-6 h-6" />
                 </div>
-                <h3 className="font-bold text-slate-900 text-lg mb-2">Ontology (OWL/SHACL)</h3>
+                <h3 className="font-bold text-slate-900 text-lg mb-2">{language === 'KO' ? '온톨로지 (OWL/SHACL)' : 'Ontology (OWL/SHACL)'}</h3>
                 <p className="text-sm text-slate-600 leading-relaxed">
-                    데이터의 개념과 관계를 정의하는 "공통 어휘집"입니다. 산업 표준(e.g., Catena-X) 온톨로지를 사용하여 서로 다른 시스템이 동일한 의미로 소통합니다.
+                    {language === 'KO'
+                        ? '데이터의 개념과 관계를 정의하는 "공통 어휘집"입니다. 산업 표준(e.g., Catena-X) 온톨로지를 사용하여 서로 다른 시스템이 동일한 의미로 소통합니다.'
+                        : 'A "shared vocabulary" that defines the concepts and relationships of data. Industry-standard ontologies (e.g., Catena-X) let different systems communicate with identical meaning.'}
                 </p>
             </div>
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-purple-300 transition-colors group">
                 <div className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600 mb-4 group-hover:scale-110 transition-transform">
                     <Brain className="w-6 h-6" />
                 </div>
-                <h3 className="font-bold text-slate-900 text-lg mb-2">Reasoning (추론)</h3>
+                <h3 className="font-bold text-slate-900 text-lg mb-2">{language === 'KO' ? '추론 (Reasoning)' : 'Reasoning'}</h3>
                 <p className="text-sm text-slate-600 leading-relaxed">
-                    명시되지 않은 사실을 논리적으로 유추합니다. 예: "배터리 부품을 납품하는 A사는 자동으로 자동차 공급망의 일원이다."
+                    {language === 'KO'
+                        ? '명시되지 않은 사실을 논리적으로 유추합니다. 예: "배터리 부품을 납품하는 A사는 자동으로 자동차 공급망의 일원이다."'
+                        : 'Logically infers facts that were never stated explicitly. E.g., "Company A, which supplies battery parts, is automatically part of the automotive supply chain."'}
                 </p>
             </div>
         </div>
@@ -359,7 +365,7 @@ const Guideline: React.FC = () => {
             <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
                 <div className="flex items-center justify-between mb-4">
                     <h4 className="font-bold text-slate-700 flex items-center gap-2">
-                        <Database className="w-5 h-5 text-slate-400" /> Legacy Data (Siloed)
+                        <Database className="w-5 h-5 text-slate-400" /> {language === 'KO' ? '기존 데이터 (사일로)' : 'Legacy Data (Siloed)'}
                     </h4>
                     <span className="text-xs font-bold bg-slate-200 text-slate-500 px-2 py-1 rounded">CSV / RDB</span>
                 </div>
@@ -368,7 +374,9 @@ const Guideline: React.FC = () => {
                     <div className="text-slate-500">8821, "Battery Pack", "L-99", 125</div>
                     <div className="text-slate-500">9912, "Motor Assy", "M-01", 85</div>
                     <div className="mt-4 text-red-500 italic">
-                        * 문제점: "supplier_id"가 무엇을 의미하는지, "co2"의 단위가 무엇인지 기계는 알 수 없음 (사람의 해석 필요).
+                        {language === 'KO'
+                            ? '* 문제점: "supplier_id"가 무엇을 의미하는지, "co2"의 단위가 무엇인지 기계는 알 수 없음 (사람의 해석 필요).'
+                            : '* Problem: A machine cannot tell what "supplier_id" means or what unit "co2" uses (human interpretation required).'}
                     </div>
                 </div>
             </div>
@@ -376,7 +384,7 @@ const Guideline: React.FC = () => {
             <div className="bg-indigo-50 rounded-2xl p-6 border border-indigo-100">
                 <div className="flex items-center justify-between mb-4">
                     <h4 className="font-bold text-indigo-900 flex items-center gap-2">
-                        <FileJson className="w-5 h-5 text-indigo-600" /> Semantic Data (Linked)
+                        <FileJson className="w-5 h-5 text-indigo-600" /> {language === 'KO' ? '시맨틱 데이터 (연결형)' : 'Semantic Data (Linked)'}
                     </h4>
                     <span className="text-xs font-bold bg-indigo-200 text-indigo-800 px-2 py-1 rounded">JSON-LD</span>
                 </div>
@@ -395,7 +403,9 @@ const Guideline: React.FC = () => {
   }
 }`}</pre>
                     <div className="mt-2 text-slate-400 italic border-t border-slate-700 pt-2">
-                        * 장점: "@context"를 통해 전 세계 어디서나 동일한 의미로 해석 가능. 기계 자동 처리 가능.
+                        {language === 'KO'
+                            ? '* 장점: "@context"를 통해 전 세계 어디서나 동일한 의미로 해석 가능. 기계 자동 처리 가능.'
+                            : '* Benefit: "@context" makes the meaning identical anywhere in the world, so machines can process it automatically.'}
                     </div>
                 </div>
             </div>
@@ -408,7 +418,7 @@ const Guideline: React.FC = () => {
         {/* Header */}
         <div className="text-center space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100 text-blue-700 text-sm font-bold uppercase tracking-wider">
-                Paradigm Shift
+                {language === 'KO' ? '패러다임의 전환' : 'Paradigm Shift'}
             </div>
             <h2 className="text-4xl font-extrabold text-slate-900">
                 Data Space vs. Data Lake
@@ -425,8 +435,8 @@ const Guideline: React.FC = () => {
             {/* Data Lake (Legacy) */}
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
                 <div className="p-6 border-b border-slate-100 bg-slate-50 text-center">
-                    <h3 className="text-xl font-bold text-slate-700">Legacy: Data Lake</h3>
-                    <p className="text-sm text-slate-500">Centralized, Copy-based, Siloed</p>
+                    <h3 className="text-xl font-bold text-slate-700">{language === 'KO' ? '기존 방식: 데이터 레이크' : 'Legacy: Data Lake'}</h3>
+                    <p className="text-sm text-slate-500">{language === 'KO' ? '중앙 집중형, 복제 기반, 사일로화' : 'Centralized, Copy-based, Siloed'}</p>
                 </div>
                 <div className="h-64 relative bg-slate-100 flex items-center justify-center overflow-hidden">
                     {/* SVG Animation: Data Flowing to Center */}
@@ -435,7 +445,7 @@ const Guideline: React.FC = () => {
                         <ellipse cx="200" cy="150" rx="60" ry="30" fill="#cbd5e1" stroke="#94a3b8" strokeWidth="2" />
                         <path d="M 200 120 V 135" stroke="#94a3b8" strokeWidth="2" />
                         <path d="M 200 135 C 170 135, 170 165, 200 165 C 230 165, 230 135, 200 135" fill="#e2e8f0" />
-                        <text x="200" y="155" textAnchor="middle" fontSize="10" fill="#475569" fontWeight="bold">Big Data Lake</text>
+                        <text x="200" y="155" textAnchor="middle" fontSize="10" fill="#475569" fontWeight="bold">{language === 'KO' ? '빅데이터 레이크' : 'Big Data Lake'}</text>
 
                         {/* Sources Flowing In */}
                         {[0, 1, 2, 3].map(i => {
@@ -446,7 +456,7 @@ const Guideline: React.FC = () => {
                             return (
                                 <g key={i}>
                                     <circle cx={x} cy={y} r="15" fill="#fff" stroke="#64748b" strokeWidth="2" />
-                                    <text x={x} y={y+4} textAnchor="middle" fontSize="8" fill="#64748b">Src</text>
+                                    <text x={x} y={y+4} textAnchor="middle" fontSize="8" fill="#64748b">{language === 'KO' ? '소스' : 'Src'}</text>
                                     <path 
                                         d={`M ${x} ${y} L 200 150`} 
                                         stroke="#94a3b8" 
@@ -469,19 +479,19 @@ const Guideline: React.FC = () => {
                 </div>
                 <div className="p-6 bg-white flex-1">
                     <ul className="space-y-3 text-sm text-slate-600">
-                        <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-500" /> 데이터 복제 및 이동 필수 (보안 취약)</li>
-                        <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-500" /> 데이터 소유권 상실 (플랫폼 종속)</li>
-                        <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-500" /> 실시간성 부족 (Batch 처리 위주)</li>
+                        <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-500" /> {language === 'KO' ? '데이터 복제 및 이동 필수 (보안 취약)' : 'Requires copying and moving data (security exposure)'}</li>
+                        <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-500" /> {language === 'KO' ? '데이터 소유권 상실 (플랫폼 종속)' : 'Loss of data ownership (platform lock-in)'}</li>
+                        <li className="flex items-center gap-2"><XCircle className="w-4 h-4 text-red-500" /> {language === 'KO' ? '실시간성 부족 (Batch 처리 위주)' : 'Limited real-time capability (batch-oriented)'}</li>
                     </ul>
                 </div>
             </div>
 
             {/* Data Space (Future) */}
             <div className="bg-white rounded-2xl border-2 border-blue-500 shadow-xl overflow-hidden flex flex-col relative transform scale-105 z-10">
-                <div className="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">Recommended</div>
+                <div className="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">{language === 'KO' ? '권장' : 'Recommended'}</div>
                 <div className="p-6 border-b border-blue-100 bg-blue-50 text-center">
-                    <h3 className="text-xl font-bold text-blue-700">Future: Data Space</h3>
-                    <p className="text-sm text-blue-600">Federated, Sovereign, P2P</p>
+                    <h3 className="text-xl font-bold text-blue-700">{language === 'KO' ? '차세대: 데이터 스페이스' : 'Future: Data Space'}</h3>
+                    <p className="text-sm text-blue-600">{language === 'KO' ? '연합형, 데이터 주권 보장, P2P' : 'Federated, Sovereign, P2P'}</p>
                 </div>
                 <div className="h-64 relative bg-slate-900 flex items-center justify-center overflow-hidden">
                     {/* SVG Animation: Mesh Network */}
@@ -536,9 +546,9 @@ const Guideline: React.FC = () => {
                 </div>
                 <div className="p-6 bg-white flex-1">
                     <ul className="space-y-3 text-sm text-slate-700">
-                        <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500" /> 탈 중앙화된 데이터 거래 (보안강화)</li>
-                        <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500" /> 기업의 영업비밀을 보장(블록체인)</li>
-                        <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500" /> 표준 커넥터(EDC) 기반 상호운용성</li>
+                        <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500" /> {language === 'KO' ? '탈 중앙화된 데이터 거래 (보안강화)' : 'Decentralized data transactions (stronger security)'}</li>
+                        <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500" /> {language === 'KO' ? '기업의 영업비밀을 보장(블록체인)' : 'Trade secrets protected (blockchain-backed)'}</li>
+                        <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500" /> {language === 'KO' ? '표준 커넥터(EDC) 기반 상호운용성' : 'Interoperability via standard connectors (EDC)'}</li>
                     </ul>
                 </div>
             </div>
@@ -547,37 +557,37 @@ const Guideline: React.FC = () => {
         {/* Deep Dive Table */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div className="p-6 border-b border-slate-100 bg-slate-50">
-                <h3 className="font-bold text-slate-900 text-lg">Expert Comparison Analysis</h3>
+                <h3 className="font-bold text-slate-900 text-lg">{language === 'KO' ? '전문가 비교 분석' : 'Expert Comparison Analysis'}</h3>
             </div>
             <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left">
                     <thead>
                         <tr className="bg-white border-b border-slate-100 text-slate-500">
-                            <th className="px-6 py-4 font-bold w-1/4">구분 (Dimensions)</th>
-                            <th className="px-6 py-4 font-bold w-1/3">Data Lake (Legacy)</th>
-                            <th className="px-6 py-4 font-bold text-blue-600 w-1/3">Data Space (Next-Gen)</th>
+                            <th className="px-6 py-4 font-bold w-1/4">{language === 'KO' ? '구분' : 'Dimensions'}</th>
+                            <th className="px-6 py-4 font-bold w-1/3">{language === 'KO' ? '데이터 레이크 (기존)' : 'Data Lake (Legacy)'}</th>
+                            <th className="px-6 py-4 font-bold text-blue-600 w-1/3">{language === 'KO' ? '데이터 스페이스 (차세대)' : 'Data Space (Next-Gen)'}</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                         <tr className="hover:bg-slate-50">
-                            <td className="px-6 py-4 font-bold text-slate-700">아키텍처 (Architecture)</td>
-                            <td className="px-6 py-4 text-slate-600">중앙 집중식 (Centralized)<br/><span className="text-xs text-slate-400">모든 데이터를 한 곳에 모음</span></td>
-                            <td className="px-6 py-4 text-blue-700 font-medium">분산형 메시 (Decentralized Mesh)<br/><span className="text-xs text-blue-400">데이터는 소스에 남고 연결만 수행</span></td>
+                            <td className="px-6 py-4 font-bold text-slate-700">{language === 'KO' ? '아키텍처' : 'Architecture'}</td>
+                            <td className="px-6 py-4 text-slate-600">{language === 'KO' ? '중앙 집중식 (Centralized)' : 'Centralized'}<br/><span className="text-xs text-slate-400">{language === 'KO' ? '모든 데이터를 한 곳에 모음' : 'All data gathered in one place'}</span></td>
+                            <td className="px-6 py-4 text-blue-700 font-medium">{language === 'KO' ? '분산형 메시 (Decentralized Mesh)' : 'Decentralized Mesh'}<br/><span className="text-xs text-blue-400">{language === 'KO' ? '데이터는 소스에 남고 연결만 수행' : 'Data stays at the source; only connections are made'}</span></td>
                         </tr>
                         <tr className="hover:bg-slate-50">
-                            <td className="px-6 py-4 font-bold text-slate-700">데이터 주권 (Sovereignty)</td>
-                            <td className="px-6 py-4 text-slate-600">플랫폼 사업자 종속<br/><span className="text-xs text-slate-400">업로드 순간 제어권 상실</span></td>
-                            <td className="px-6 py-4 text-blue-700 font-medium">데이터 소유자 제어<br/><span className="text-xs text-blue-400">접근 정책(Policy)으로 제어권 유지</span></td>
+                            <td className="px-6 py-4 font-bold text-slate-700">{language === 'KO' ? '데이터 주권' : 'Sovereignty'}</td>
+                            <td className="px-6 py-4 text-slate-600">{language === 'KO' ? '플랫폼 사업자 종속' : 'Locked in to the platform operator'}<br/><span className="text-xs text-slate-400">{language === 'KO' ? '업로드 순간 제어권 상실' : 'Control is lost the moment data is uploaded'}</span></td>
+                            <td className="px-6 py-4 text-blue-700 font-medium">{language === 'KO' ? '데이터 소유자 제어' : 'Controlled by the data owner'}<br/><span className="text-xs text-blue-400">{language === 'KO' ? '접근 정책(Policy)으로 제어권 유지' : 'Control retained through access policies'}</span></td>
                         </tr>
                         <tr className="hover:bg-slate-50">
-                            <td className="px-6 py-4 font-bold text-slate-700">보안 및 신뢰 (Trust)</td>
-                            <td className="px-6 py-4 text-slate-600">경계 보안 (Perimeter Security)<br/><span className="text-xs text-slate-400">내부자 위협에 취약</span></td>
-                            <td className="px-6 py-4 text-blue-700 font-medium">제로 트러스트 (Zero Trust)<br/><span className="text-xs text-blue-400">DID/VC 기반 상호 인증 필수</span></td>
+                            <td className="px-6 py-4 font-bold text-slate-700">{language === 'KO' ? '보안 및 신뢰' : 'Security & Trust'}</td>
+                            <td className="px-6 py-4 text-slate-600">{language === 'KO' ? '경계 보안 (Perimeter Security)' : 'Perimeter Security'}<br/><span className="text-xs text-slate-400">{language === 'KO' ? '내부자 위협에 취약' : 'Vulnerable to insider threats'}</span></td>
+                            <td className="px-6 py-4 text-blue-700 font-medium">{language === 'KO' ? '제로 트러스트 (Zero Trust)' : 'Zero Trust'}<br/><span className="text-xs text-blue-400">{language === 'KO' ? 'DID/VC 기반 상호 인증 필수' : 'Mutual authentication via DID/VC required'}</span></td>
                         </tr>
                         <tr className="hover:bg-slate-50">
-                            <td className="px-6 py-4 font-bold text-slate-700">비용 효율성 (Cost)</td>
-                            <td className="px-6 py-4 text-slate-600">높음 (중복 저장/전송 비용)<br/><span className="text-xs text-slate-400">ETL 파이프라인 유지보수 비용</span></td>
-                            <td className="px-6 py-4 text-blue-700 font-medium">낮음 (On-Demand 접근)<br/><span className="text-xs text-blue-400">필요한 시점에 필요한 만큼만 전송</span></td>
+                            <td className="px-6 py-4 font-bold text-slate-700">{language === 'KO' ? '비용 효율성' : 'Cost'}</td>
+                            <td className="px-6 py-4 text-slate-600">{language === 'KO' ? '높음 (중복 저장/전송 비용)' : 'High (duplicate storage and transfer costs)'}<br/><span className="text-xs text-slate-400">{language === 'KO' ? 'ETL 파이프라인 유지보수 비용' : 'Ongoing ETL pipeline maintenance'}</span></td>
+                            <td className="px-6 py-4 text-blue-700 font-medium">{language === 'KO' ? '낮음 (On-Demand 접근)' : 'Low (on-demand access)'}<br/><span className="text-xs text-blue-400">{language === 'KO' ? '필요한 시점에 필요한 만큼만 전송' : 'Transfer only what is needed, when it is needed'}</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -590,10 +600,12 @@ const Guideline: React.FC = () => {
     <div className="space-y-8 animate-fadeIn">
         <div className="text-center mb-8">
             <h2 className="text-3xl font-extrabold text-slate-900 mb-4">
-                Data Space Governance Framework
+                {language === 'KO' ? '데이터 스페이스 거버넌스 프레임워크' : 'Data Space Governance Framework'}
             </h2>
             <p className="text-slate-500 max-w-2xl mx-auto">
-                신뢰 기반의 데이터 생태계를 유지하기 위한 규칙, 절차 및 역할에 대한 정의입니다.
+                {language === 'KO'
+                    ? '신뢰 기반의 데이터 생태계를 유지하기 위한 규칙, 절차 및 역할에 대한 정의입니다.'
+                    : 'The rules, procedures, and roles that keep a trust-based data ecosystem running.'}
             </p>
         </div>
 
@@ -628,11 +640,11 @@ const Guideline: React.FC = () => {
                 {/* Participants */}
                 <g transform="translate(250, 350)">
                     <circle r="30" fill="#1e293b" stroke="#64748b" strokeWidth="2" />
-                    <text x="0" y="5" textAnchor="middle" fill="white" fontSize="10">Provider</text>
+                    <text x="0" y="5" textAnchor="middle" fill="white" fontSize="10">{language === 'KO' ? '제공자' : 'Provider'}</text>
                 </g>
                 <g transform="translate(550, 350)">
                     <circle r="30" fill="#1e293b" stroke="#64748b" strokeWidth="2" />
-                    <text x="0" y="5" textAnchor="middle" fill="white" fontSize="10">Consumer</text>
+                    <text x="0" y="5" textAnchor="middle" fill="white" fontSize="10">{language === 'KO' ? '소비자' : 'Consumer'}</text>
                 </g>
 
                 {/* Connection Lines */}
@@ -655,25 +667,27 @@ const Guideline: React.FC = () => {
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                 <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
                     <Shield className="w-5 h-5 text-emerald-500" />
-                    Data Sovereignty (데이터 주권)
+                    {language === 'KO' ? '데이터 주권 (Data Sovereignty)' : 'Data Sovereignty'}
                 </h3>
                 <p className="text-sm text-slate-600 mb-4">
-                    데이터 제공자는 데이터가 언제, 누구에게, 어떤 조건으로 사용되는지 100% 제어할 수 있습니다. 
-                    이는 단순한 접근 제어를 넘어, 사용 기간 제한, 재배포 금지 등 기술적 강제력을 포함합니다.
+                    {language === 'KO'
+                        ? '데이터 제공자는 데이터가 언제, 누구에게, 어떤 조건으로 사용되는지 100% 제어할 수 있습니다. 이는 단순한 접근 제어를 넘어, 사용 기간 제한, 재배포 금지 등 기술적 강제력을 포함합니다.'
+                        : 'Data providers retain full control over when, by whom, and under what conditions their data is used. This goes beyond simple access control to technically enforced limits such as usage periods and redistribution bans.'}
                 </p>
                 <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 text-xs text-slate-500">
-                    <span className="font-bold text-slate-700">ODRL Policy Example:</span><br/>
+                    <span className="font-bold text-slate-700">{language === 'KO' ? 'ODRL 정책 예시:' : 'ODRL Policy Example:'}</span><br/>
                     "Allow usage for 30 days only for purpose 'AI_Training'."
                 </div>
             </div>
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                 <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
                     <UserPlus className="w-5 h-5 text-blue-500" />
-                    Identity & Trust (신원 및 신뢰)
+                    {language === 'KO' ? '신원 및 신뢰 (Identity & Trust)' : 'Identity & Trust'}
                 </h3>
                 <p className="text-sm text-slate-600 mb-4">
-                    모든 참여자는 신뢰할 수 있는 기관(Trust Anchor)으로부터 검증된 디지털 신원(DID/VC)을 발급받아야 합니다.
-                    익명의 참여자는 네트워크에 접속할 수 없으며, 모든 트랜잭션은 부인 방지(Non-repudiation) 됩니다.
+                    {language === 'KO'
+                        ? '모든 참여자는 신뢰할 수 있는 기관(Trust Anchor)으로부터 검증된 디지털 신원(DID/VC)을 발급받아야 합니다. 익명의 참여자는 네트워크에 접속할 수 없으며, 모든 트랜잭션은 부인 방지(Non-repudiation) 됩니다.'
+                        : 'Every participant must obtain a verified digital identity (DID/VC) from a Trust Anchor. Anonymous parties cannot join the network, and every transaction carries non-repudiation.'}
                 </p>
                 <div className="flex gap-2">
                     <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded">X.509</span>
@@ -688,8 +702,8 @@ const Guideline: React.FC = () => {
   const renderExchange = () => (
     <div className="space-y-8 animate-fadeIn">
         <div className="text-center">
-            <h2 className="text-3xl font-extrabold text-slate-900 mb-2">Dataspace Protocol Flow</h2>
-            <p className="text-slate-500">표준화된 데이터 교환 프로토콜(DSP)의 단계별 프로세스입니다.</p>
+            <h2 className="text-3xl font-extrabold text-slate-900 mb-2">{language === 'KO' ? '데이터스페이스 프로토콜 흐름' : 'Dataspace Protocol Flow'}</h2>
+            <p className="text-slate-500">{language === 'KO' ? '표준화된 데이터 교환 프로토콜(DSP)의 단계별 프로세스입니다.' : 'The step-by-step process of the standardized Dataspace Protocol (DSP).'}</p>
         </div>
 
         <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm overflow-x-auto">
@@ -698,10 +712,10 @@ const Guideline: React.FC = () => {
                 <div className="absolute top-1/2 left-0 w-full h-1 bg-slate-100 -z-10"></div>
                 
                 {[
-                    { id: 1, title: 'Discovery', icon: Search, desc: 'Catalog Search' },
-                    { id: 2, title: 'Negotiation', icon: Handshake, desc: 'Contract Agree' },
-                    { id: 3, title: 'Transfer', icon: ArrowRightLeft, desc: 'EDR Token' },
-                    { id: 4, title: 'Usage', icon: Database, desc: 'P2P Stream' }
+                    { id: 1, title: language === 'KO' ? '탐색' : 'Discovery', icon: Search, desc: language === 'KO' ? '카탈로그 검색' : 'Catalog Search' },
+                    { id: 2, title: language === 'KO' ? '협상' : 'Negotiation', icon: Handshake, desc: language === 'KO' ? '계약 합의' : 'Contract Agree' },
+                    { id: 3, title: language === 'KO' ? '전송' : 'Transfer', icon: ArrowRightLeft, desc: language === 'KO' ? 'EDR 토큰 발급' : 'EDR Token' },
+                    { id: 4, title: language === 'KO' ? '사용' : 'Usage', icon: Database, desc: language === 'KO' ? 'P2P 스트리밍' : 'P2P Stream' }
                 ].map((step, idx) => (
                     <div key={idx} className="flex flex-col items-center bg-white p-4">
                         <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-3 shadow-lg ${
@@ -720,10 +734,11 @@ const Guideline: React.FC = () => {
         </div>
 
         <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-            <h3 className="font-bold text-slate-900 mb-4">Technical Detail: EDR (Endpoint Data Reference)</h3>
+            <h3 className="font-bold text-slate-900 mb-4">{language === 'KO' ? '기술 상세: EDR (Endpoint Data Reference)' : 'Technical Detail: EDR (Endpoint Data Reference)'}</h3>
             <p className="text-sm text-slate-600 mb-4">
-                계약 협상이 완료되면 소비자(Consumer)는 EDR 토큰을 발급받습니다. 이 토큰은 실제 데이터가 위치한 Data Plane에 접근할 수 있는 일회성 열쇠입니다.
-                제어 평면(Control Plane)과 데이터 평면(Data Plane)의 분리를 통해 보안성과 확장성을 극대화합니다.
+                {language === 'KO'
+                    ? '계약 협상이 완료되면 소비자(Consumer)는 EDR 토큰을 발급받습니다. 이 토큰은 실제 데이터가 위치한 Data Plane에 접근할 수 있는 일회성 열쇠입니다. 제어 평면(Control Plane)과 데이터 평면(Data Plane)의 분리를 통해 보안성과 확장성을 극대화합니다.'
+                    : 'Once contract negotiation completes, the consumer receives an EDR token — a one-time key granting access to the Data Plane where the actual data resides. Separating the Control Plane from the Data Plane maximizes both security and scalability.'}
             </p>
             <div className="font-mono text-xs bg-slate-900 text-emerald-400 p-4 rounded-xl">
                 {`{
@@ -745,48 +760,48 @@ const Guideline: React.FC = () => {
   const renderArchitecture = () => (
     <div className="space-y-8 animate-fadeIn">
         <div className="text-center">
-            <h2 className="text-3xl font-extrabold text-slate-900 mb-2">EDC Connector Architecture</h2>
-            <p className="text-slate-500">Eclipse Dataspace Components (EDC) 구조도</p>
+            <h2 className="text-3xl font-extrabold text-slate-900 mb-2">{language === 'KO' ? 'EDC 커넥터 아키텍처' : 'EDC Connector Architecture'}</h2>
+            <p className="text-slate-500">{language === 'KO' ? 'Eclipse Dataspace Components (EDC) 구조도' : 'Structure of the Eclipse Dataspace Components (EDC)'}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Control Plane */}
             <div className="bg-blue-50 border border-blue-200 rounded-3xl p-8 relative overflow-hidden">
-                <div className="absolute top-0 right-0 bg-blue-200 text-blue-800 text-xs font-bold px-3 py-1 rounded-bl-xl">Brain</div>
+                <div className="absolute top-0 right-0 bg-blue-200 text-blue-800 text-xs font-bold px-3 py-1 rounded-bl-xl">{language === 'KO' ? '두뇌' : 'Brain'}</div>
                 <h3 className="text-xl font-bold text-blue-900 mb-4 flex items-center gap-2">
                     <Cpu className="w-6 h-6" /> Control Plane
                 </h3>
                 <ul className="space-y-3">
                     <li className="bg-white p-3 rounded-xl border border-blue-100 text-sm font-medium text-slate-700 shadow-sm flex items-center gap-2">
-                        <UserPlus className="w-4 h-4 text-blue-500" /> Identity & IAM
+                        <UserPlus className="w-4 h-4 text-blue-500" /> {language === 'KO' ? '신원 및 접근 관리 (IAM)' : 'Identity & IAM'}
                     </li>
                     <li className="bg-white p-3 rounded-xl border border-blue-100 text-sm font-medium text-slate-700 shadow-sm flex items-center gap-2">
-                        <Search className="w-4 h-4 text-blue-500" /> Catalog Management
+                        <Search className="w-4 h-4 text-blue-500" /> {language === 'KO' ? '카탈로그 관리' : 'Catalog Management'}
                     </li>
                     <li className="bg-white p-3 rounded-xl border border-blue-100 text-sm font-medium text-slate-700 shadow-sm flex items-center gap-2">
-                        <FileText className="w-4 h-4 text-blue-500" /> Contract Negotiation
+                        <FileText className="w-4 h-4 text-blue-500" /> {language === 'KO' ? '계약 협상' : 'Contract Negotiation'}
                     </li>
                     <li className="bg-white p-3 rounded-xl border border-blue-100 text-sm font-medium text-slate-700 shadow-sm flex items-center gap-2">
-                        <Scale className="w-4 h-4 text-blue-500" /> Policy Enforcement
+                        <Scale className="w-4 h-4 text-blue-500" /> {language === 'KO' ? '정책 집행' : 'Policy Enforcement'}
                     </li>
                 </ul>
             </div>
 
             {/* Data Plane */}
             <div className="bg-emerald-50 border border-emerald-200 rounded-3xl p-8 relative overflow-hidden">
-                <div className="absolute top-0 right-0 bg-emerald-200 text-emerald-800 text-xs font-bold px-3 py-1 rounded-bl-xl">Muscle</div>
+                <div className="absolute top-0 right-0 bg-emerald-200 text-emerald-800 text-xs font-bold px-3 py-1 rounded-bl-xl">{language === 'KO' ? '근육' : 'Muscle'}</div>
                 <h3 className="text-xl font-bold text-emerald-900 mb-4 flex items-center gap-2">
                     <Database className="w-6 h-6" /> Data Plane
                 </h3>
                 <ul className="space-y-3">
                     <li className="bg-white p-3 rounded-xl border border-emerald-100 text-sm font-medium text-slate-700 shadow-sm flex items-center gap-2">
-                        <RefreshCw className="w-4 h-4 text-emerald-500" /> Data Transfer (HTTP/S3/MQTT)
+                        <RefreshCw className="w-4 h-4 text-emerald-500" /> {language === 'KO' ? '데이터 전송 (HTTP/S3/MQTT)' : 'Data Transfer (HTTP/S3/MQTT)'}
                     </li>
                     <li className="bg-white p-3 rounded-xl border border-emerald-100 text-sm font-medium text-slate-700 shadow-sm flex items-center gap-2">
-                        <Lock className="w-4 h-4 text-emerald-500" /> Encryption & Decryption
+                        <Lock className="w-4 h-4 text-emerald-500" /> {language === 'KO' ? '암호화 및 복호화' : 'Encryption & Decryption'}
                     </li>
                     <li className="bg-white p-3 rounded-xl border border-emerald-100 text-sm font-medium text-slate-700 shadow-sm flex items-center gap-2">
-                        <Globe className="w-4 h-4 text-emerald-500" /> Public API Gateway
+                        <Globe className="w-4 h-4 text-emerald-500" /> {language === 'KO' ? '퍼블릭 API 게이트웨이' : 'Public API Gateway'}
                     </li>
                 </ul>
             </div>
@@ -794,7 +809,7 @@ const Guideline: React.FC = () => {
 
         {/* Extensions */}
         <div className="bg-slate-900 text-white rounded-2xl p-6 text-center">
-            <h4 className="font-bold mb-4">Extensions (Pluggable Modules)</h4>
+            <h4 className="font-bold mb-4">{language === 'KO' ? '확장 모듈 (플러그인)' : 'Extensions (Pluggable Modules)'}</h4>
             <div className="flex flex-wrap justify-center gap-4">
                 {['Azure Vault', 'AWS S3', 'PostgreSQL', 'Hashicorp Vault', 'Prometheus'].map((ext, i) => (
                     <span key={i} className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-700 text-sm font-mono text-blue-300">
@@ -808,14 +823,14 @@ const Guideline: React.FC = () => {
 
   const renderOnboarding = () => (
     <div className="space-y-8 animate-fadeIn">
-        <h2 className="text-2xl font-bold text-slate-900 mb-6">Onboarding Roadmap</h2>
+        <h2 className="text-2xl font-bold text-slate-900 mb-6">{language === 'KO' ? '온보딩 로드맵' : 'Onboarding Roadmap'}</h2>
         <div className="relative border-l-2 border-slate-200 ml-4 space-y-12 py-4">
             {[
-                { title: 'Step 1: Registration', desc: '포털 가입 및 BPN(Business Partner Number) 발급 신청' },
-                { title: 'Step 2: Identity Verification', desc: 'Clearing House를 통한 기업 실체 확인 및 VC 발급' },
-                { title: 'Step 3: Connector Setup', desc: 'EDC 커넥터 설치 (Docker/Kubernetes) 및 DAPS 연동' },
-                { title: 'Step 4: Asset Publication', desc: '데이터 소스 연결 및 카탈로그 자산 등록 (Contract Definition)' },
-                { title: 'Step 5: Data Exchange', desc: '파트너와 계약 체결 및 데이터 전송 시작' }
+                { title: language === 'KO' ? '1단계: 가입 등록' : 'Step 1: Registration', desc: language === 'KO' ? '포털 가입 및 BPN(Business Partner Number) 발급 신청' : 'Sign up on the portal and apply for a BPN (Business Partner Number).' },
+                { title: language === 'KO' ? '2단계: 신원 검증' : 'Step 2: Identity Verification', desc: language === 'KO' ? 'Clearing House를 통한 기업 실체 확인 및 VC 발급' : 'Verify the company through the Clearing House and receive a VC.' },
+                { title: language === 'KO' ? '3단계: 커넥터 구축' : 'Step 3: Connector Setup', desc: language === 'KO' ? 'EDC 커넥터 설치 (Docker/Kubernetes) 및 DAPS 연동' : 'Install the EDC connector (Docker/Kubernetes) and integrate with DAPS.' },
+                { title: language === 'KO' ? '4단계: 자산 등록' : 'Step 4: Asset Publication', desc: language === 'KO' ? '데이터 소스 연결 및 카탈로그 자산 등록 (Contract Definition)' : 'Connect data sources and publish catalog assets (Contract Definition).' },
+                { title: language === 'KO' ? '5단계: 데이터 교환' : 'Step 5: Data Exchange', desc: language === 'KO' ? '파트너와 계약 체결 및 데이터 전송 시작' : 'Conclude contracts with partners and begin transferring data.' }
             ].map((step, idx) => (
                 <div key={idx} className="relative pl-8">
                     <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-600 border-4 border-white shadow-sm"></div>
@@ -826,11 +841,11 @@ const Guideline: React.FC = () => {
         </div>
         <div className="bg-blue-50 p-6 rounded-xl border border-blue-100 flex justify-between items-center">
             <div>
-                <h4 className="font-bold text-blue-900">Need Help?</h4>
-                <p className="text-sm text-blue-700">Check out our detailed technical documentation.</p>
+                <h4 className="font-bold text-blue-900">{language === 'KO' ? '도움이 필요하신가요?' : 'Need Help?'}</h4>
+                <p className="text-sm text-blue-700">{language === 'KO' ? '상세 기술 문서를 확인해 보세요.' : 'Check out our detailed technical documentation.'}</p>
             </div>
             <button className="px-4 py-2 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition-colors text-sm">
-                View Docs
+                {language === 'KO' ? '문서 보기' : 'View Docs'}
             </button>
         </div>
     </div>
@@ -841,10 +856,10 @@ const Guideline: React.FC = () => {
         {/* Header */}
         <div className="text-center space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-100 text-purple-700 text-sm font-bold uppercase tracking-wider">
-                Discovery Engine
+                {language === 'KO' ? '탐색 엔진' : 'Discovery Engine'}
             </div>
             <h2 className="text-4xl font-extrabold text-slate-900">
-                Federated Metadata Search
+                {language === 'KO' ? '연합 메타데이터 검색' : 'Federated Metadata Search'}
             </h2>
             <p className="text-slate-500 max-w-2xl mx-auto text-lg">
                 {language === 'KO' 
@@ -858,14 +873,14 @@ const Guideline: React.FC = () => {
             {/* Before */}
             <div className="bg-slate-50 p-8 rounded-2xl border border-slate-200 opacity-80 hover:opacity-100 transition-opacity">
                 <h3 className="text-lg font-bold text-slate-600 mb-6 flex items-center gap-2">
-                    <XCircle className="w-5 h-5 text-red-500" /> Before: Manual & Siloed
+                    <XCircle className="w-5 h-5 text-red-500" /> {language === 'KO' ? 'Before: 수작업과 사일로' : 'Before: Manual & Siloed'}
                 </h3>
                 <div className="relative h-48 bg-white rounded-xl border border-slate-200 p-4 flex flex-col justify-center items-center gap-4 border-dashed">
                     <div className="flex gap-4 w-full justify-center">
                         {[1, 2, 3].map(i => (
                             <div key={i} className="w-16 h-20 bg-slate-100 border border-slate-300 rounded flex flex-col items-center justify-center gap-1 relative group">
                                 <Database className="w-6 h-6 text-slate-400" />
-                                <span className="text-[10px] text-slate-500">Silo {i}</span>
+                                <span className="text-[10px] text-slate-500">{language === 'KO' ? `사일로 ${i}` : `Silo ${i}`}</span>
                                 <div className="absolute -top-2 -right-2 bg-red-500 rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <Lock className="w-3 h-3 text-white" />
                                 </div>
@@ -874,22 +889,22 @@ const Guideline: React.FC = () => {
                     </div>
                     <div className="flex flex-col items-center gap-2 w-full animate-pulse">
                         <div className="bg-red-50 text-red-600 text-xs px-3 py-1 rounded-full border border-red-100">
-                            "Where is the data?"
+                            {language === 'KO' ? '"그 데이터, 어디 있죠?"' : '"Where is the data?"'}
                         </div>
                         <Search className="w-6 h-6 text-slate-400" />
                     </div>
                 </div>
                 <div className="mt-4 text-sm text-slate-500">
-                    <p>• 데이터 위치 파악 불가 (Dark Data)</p>
-                    <p>• 엑셀/이메일로 메타데이터 수동 공유</p>
-                    <p>• 검색 소요 시간: 수 일(Days)</p>
+                    <p>{language === 'KO' ? '• 데이터 위치 파악 불가 (Dark Data)' : '• No visibility into where data lives (Dark Data)'}</p>
+                    <p>{language === 'KO' ? '• 엑셀/이메일로 메타데이터 수동 공유' : '• Metadata shared by hand over Excel and email'}</p>
+                    <p>{language === 'KO' ? '• 검색 소요 시간: 수 일(Days)' : '• Time to find data: days'}</p>
                 </div>
             </div>
 
             {/* After */}
             <div className="bg-purple-50 p-8 rounded-2xl border border-purple-200">
                 <h3 className="text-lg font-bold text-purple-800 mb-6 flex items-center gap-2">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500" /> After: Federated Catalog
+                    <CheckCircle2 className="w-5 h-5 text-emerald-500" /> {language === 'KO' ? 'After: 연합 카탈로그' : 'After: Federated Catalog'}
                 </h3>
                 <div className="relative h-48 bg-white rounded-xl border border-purple-100 shadow-sm p-4 overflow-hidden">
                     <svg className="w-full h-full absolute inset-0" viewBox="0 0 300 150">
@@ -916,13 +931,13 @@ const Guideline: React.FC = () => {
                         })}
                     </svg>
                     <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur px-3 py-1 rounded-full shadow-sm border border-purple-100 text-xs font-bold text-purple-700">
-                        DCAT Protocol Sync
+                        {language === 'KO' ? 'DCAT 프로토콜 동기화' : 'DCAT Protocol Sync'}
                     </div>
                 </div>
                 <div className="mt-4 text-sm text-purple-800">
-                    <p>• 글로벌 통합 검색 (Global Visibility)</p>
-                    <p>• 크롤러 기반 자동 업데이트 (Real-time)</p>
-                    <p>• 검색 소요 시간: 수 초(Seconds)</p>
+                    <p>{language === 'KO' ? '• 글로벌 통합 검색 (Global Visibility)' : '• Unified global search (full visibility)'}</p>
+                    <p>{language === 'KO' ? '• 크롤러 기반 자동 업데이트 (Real-time)' : '• Crawler-driven automatic updates (real-time)'}</p>
+                    <p>{language === 'KO' ? '• 검색 소요 시간: 수 초(Seconds)' : '• Time to find data: seconds'}</p>
                 </div>
             </div>
         </div>
@@ -931,44 +946,44 @@ const Guideline: React.FC = () => {
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
             <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                 <BarChart3 className="w-6 h-6 text-emerald-500" />
-                Performance Impact
+                {language === 'KO' ? '성과 개선 효과' : 'Performance Impact'}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
-                    <p className="text-sm text-slate-500 mb-1">Search Efficiency</p>
+                    <p className="text-sm text-slate-500 mb-1">{language === 'KO' ? '검색 효율' : 'Search Efficiency'}</p>
                     <div className="flex items-end gap-2">
                         <span className="text-4xl font-extrabold text-slate-900">95%</span>
-                        <span className="text-sm text-emerald-500 font-bold mb-1">Faster</span>
+                        <span className="text-sm text-emerald-500 font-bold mb-1">{language === 'KO' ? '단축' : 'Faster'}</span>
                     </div>
                     <div className="w-full h-2 bg-slate-100 rounded-full mt-2 overflow-hidden">
                         <div className="h-full bg-slate-400 w-[5%] float-left"></div>
                         <div className="h-full bg-emerald-500 w-[95%] float-left"></div>
                     </div>
-                    <p className="text-xs text-slate-400 mt-1">2 Weeks -&gt; 2 Minutes</p>
+                    <p className="text-xs text-slate-400 mt-1">{language === 'KO' ? '2주 -> 2분' : '2 Weeks -> 2 Minutes'}</p>
                 </div>
                 <div>
-                    <p className="text-sm text-slate-500 mb-1">Data Discovery Rate</p>
+                    <p className="text-sm text-slate-500 mb-1">{language === 'KO' ? '데이터 발견율' : 'Data Discovery Rate'}</p>
                     <div className="flex items-end gap-2">
                         <span className="text-4xl font-extrabold text-slate-900">4.5x</span>
-                        <span className="text-sm text-blue-500 font-bold mb-1">Increase</span>
+                        <span className="text-sm text-blue-500 font-bold mb-1">{language === 'KO' ? '증가' : 'Increase'}</span>
                     </div>
                     <div className="w-full h-2 bg-slate-100 rounded-full mt-2 overflow-hidden">
                         <div className="h-full bg-slate-400 w-[20%] float-left"></div>
                         <div className="h-full bg-blue-500 w-[80%] float-left"></div>
                     </div>
-                    <p className="text-xs text-slate-400 mt-1">Siloed vs Federated</p>
+                    <p className="text-xs text-slate-400 mt-1">{language === 'KO' ? '사일로 방식 대비 연합 방식' : 'Siloed vs Federated'}</p>
                 </div>
                 <div>
-                    <p className="text-sm text-slate-500 mb-1">Compliance Cost</p>
+                    <p className="text-sm text-slate-500 mb-1">{language === 'KO' ? '규제 대응 비용' : 'Compliance Cost'}</p>
                     <div className="flex items-end gap-2">
                         <span className="text-4xl font-extrabold text-slate-900">60%</span>
-                        <span className="text-sm text-emerald-500 font-bold mb-1">Savings</span>
+                        <span className="text-sm text-emerald-500 font-bold mb-1">{language === 'KO' ? '절감' : 'Savings'}</span>
                     </div>
                     <div className="w-full h-2 bg-slate-100 rounded-full mt-2 overflow-hidden">
                         <div className="h-full bg-emerald-500 w-[60%] float-left"></div>
                         <div className="h-full bg-slate-400 w-[40%] float-left"></div>
                     </div>
-                    <p className="text-xs text-slate-400 mt-1">Auto-Tagging & Governance</p>
+                    <p className="text-xs text-slate-400 mt-1">{language === 'KO' ? '자동 태깅 및 거버넌스' : 'Auto-Tagging & Governance'}</p>
                 </div>
             </div>
         </div>
@@ -980,10 +995,10 @@ const Guideline: React.FC = () => {
         {/* Header */}
         <div className="text-center space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-sm font-bold uppercase tracking-wider">
-                Privacy-Preserving AI
+                {language === 'KO' ? '프라이버시 보존형 AI' : 'Privacy-Preserving AI'}
             </div>
             <h2 className="text-4xl font-extrabold text-slate-900">
-                Federated Learning (연합 학습)
+                {language === 'KO' ? '연합 학습 (Federated Learning)' : 'Federated Learning'}
             </h2>
             <p className="text-slate-500 max-w-2xl mx-auto text-lg">
                 {language === 'KO' 
@@ -1003,7 +1018,7 @@ const Guideline: React.FC = () => {
                 {/* Central Server */}
                 <g transform="translate(400, 200)">
                     <circle r="50" fill="#064e3b" stroke="#10b981" strokeWidth="4" />
-                    <text x="0" y="5" textAnchor="middle" fill="#10b981" fontSize="12" fontWeight="bold">Global Model</text>
+                    <text x="0" y="5" textAnchor="middle" fill="#10b981" fontSize="12" fontWeight="bold">{language === 'KO' ? '글로벌 모델' : 'Global Model'}</text>
                     {/* Pulsing Effect */}
                     <circle r="60" fill="none" stroke="#10b981" strokeWidth="2" opacity="0.5">
                         <animate attributeName="r" from="50" to="80" dur="2s" repeatCount="indefinite" />
@@ -1025,7 +1040,7 @@ const Guideline: React.FC = () => {
                             
                             {/* Node */}
                             <circle cx={x} cy={y} r="30" fill="#1e293b" stroke="#94a3b8" strokeWidth="2" />
-                            <text x={x} y={y+40} textAnchor="middle" fill="#94a3b8" fontSize="10">Local Data {i+1}</text>
+                            <text x={x} y={y+40} textAnchor="middle" fill="#94a3b8" fontSize="10">{language === 'KO' ? `로컬 데이터 ${i+1}` : `Local Data ${i+1}`}</text>
                             
                             {/* Brain Icon (Model) Traveling */}
                             <circle r="8" fill="#10b981">
@@ -1050,47 +1065,47 @@ const Guideline: React.FC = () => {
 
             {/* Labels */}
             <div className="absolute top-4 left-4 bg-black/50 text-emerald-400 px-4 py-2 rounded-full border border-emerald-500/50 backdrop-blur-sm">
-                <span className="font-bold flex items-center gap-2"><Radio className="w-4 h-4 animate-pulse" /> Compute-to-Data Active</span>
+                <span className="font-bold flex items-center gap-2"><Radio className="w-4 h-4 animate-pulse" /> {language === 'KO' ? 'Compute-to-Data 동작 중' : 'Compute-to-Data Active'}</span>
             </div>
         </div>
 
         {/* Comparison Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm opacity-70 hover:opacity-100 transition-opacity">
-                <h4 className="text-sm font-bold text-slate-500 uppercase mb-4">Traditional AI Training</h4>
+                <h4 className="text-sm font-bold text-slate-500 uppercase mb-4">{language === 'KO' ? '기존 AI 학습 방식' : 'Traditional AI Training'}</h4>
                 <ul className="space-y-4">
                     <li className="flex gap-3 items-start">
                         <div className="bg-red-100 p-1.5 rounded text-red-600"><Database className="w-4 h-4" /></div>
                         <div>
-                            <span className="font-bold text-slate-700 block">Data Centralization</span>
-                            <span className="text-xs text-slate-500">All raw data must be moved to central server. High risk.</span>
+                            <span className="font-bold text-slate-700 block">{language === 'KO' ? '데이터 중앙 집중' : 'Data Centralization'}</span>
+                            <span className="text-xs text-slate-500">{language === 'KO' ? '원본 데이터를 모두 중앙 서버로 옮겨야 하므로 위험이 큽니다.' : 'All raw data must be moved to central server. High risk.'}</span>
                         </div>
                     </li>
                     <li className="flex gap-3 items-start">
                         <div className="bg-red-100 p-1.5 rounded text-red-600"><Lock className="w-4 h-4" /></div>
                         <div>
-                            <span className="font-bold text-slate-700 block">Privacy Concerns</span>
-                            <span className="text-xs text-slate-500">Sensitive PII or Trade Secrets exposed to aggregator.</span>
+                            <span className="font-bold text-slate-700 block">{language === 'KO' ? '프라이버시 우려' : 'Privacy Concerns'}</span>
+                            <span className="text-xs text-slate-500">{language === 'KO' ? '민감한 개인정보나 영업비밀이 취합 주체에 그대로 노출됩니다.' : 'Sensitive PII or Trade Secrets exposed to aggregator.'}</span>
                         </div>
                     </li>
                 </ul>
             </div>
 
             <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 shadow-sm">
-                <h4 className="text-sm font-bold text-emerald-600 uppercase mb-4">Federated Learning (Data Space)</h4>
+                <h4 className="text-sm font-bold text-emerald-600 uppercase mb-4">{language === 'KO' ? '연합 학습 (데이터 스페이스)' : 'Federated Learning (Data Space)'}</h4>
                 <ul className="space-y-4">
                     <li className="flex gap-3 items-start">
                         <div className="bg-emerald-100 p-1.5 rounded text-emerald-600"><Cpu className="w-4 h-4" /></div>
                         <div>
-                            <span className="font-bold text-emerald-900 block">Local Training</span>
-                            <span className="text-xs text-emerald-700">Raw data never leaves the premise. Only model weights travel.</span>
+                            <span className="font-bold text-emerald-900 block">{language === 'KO' ? '현장 내 학습' : 'Local Training'}</span>
+                            <span className="text-xs text-emerald-700">{language === 'KO' ? '원본 데이터는 사업장을 벗어나지 않고, 모델 가중치만 오갑니다.' : 'Raw data never leaves the premise. Only model weights travel.'}</span>
                         </div>
                     </li>
                     <li className="flex gap-3 items-start">
                         <div className="bg-emerald-100 p-1.5 rounded text-emerald-600"><Network className="w-4 h-4" /></div>
                         <div>
-                            <span className="font-bold text-emerald-900 block">Collective Intelligence</span>
-                            <span className="text-xs text-emerald-700">Benefits from global dataset without sharing data.</span>
+                            <span className="font-bold text-emerald-900 block">{language === 'KO' ? '집단 지성' : 'Collective Intelligence'}</span>
+                            <span className="text-xs text-emerald-700">{language === 'KO' ? '데이터를 공유하지 않고도 전체 데이터셋의 학습 효과를 누립니다.' : 'Benefits from global dataset without sharing data.'}</span>
                         </div>
                     </li>
                 </ul>
@@ -1102,8 +1117,8 @@ const Guideline: React.FC = () => {
   const renderLegal = () => (
     <div className="space-y-8 animate-fadeIn">
         <div className="text-center">
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">Legal & Compliance</h2>
-            <p className="text-slate-500">Global Standards and Regulatory Alignment</p>
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">{language === 'KO' ? '법률 및 규제 준수' : 'Legal & Compliance'}</h2>
+            <p className="text-slate-500">{language === 'KO' ? '글로벌 표준 및 규제와의 정합성' : 'Global Standards and Regulatory Alignment'}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
@@ -1112,16 +1127,20 @@ const Guideline: React.FC = () => {
                     <h3 className="font-bold text-lg text-slate-900">EU Data Act</h3>
                 </div>
                 <p className="text-sm text-slate-600 leading-relaxed">
-                    Korea DataSpace is designed to be fully compliant with the European Data Act, ensuring fairness in the allocation of data value and facilitating data access and use.
+                    {language === 'KO'
+                        ? 'Korea DataSpace는 유럽 데이터법(European Data Act)을 완전히 준수하도록 설계되어, 데이터 가치의 공정한 배분과 데이터 접근·활용을 보장합니다.'
+                        : 'Korea DataSpace is designed to be fully compliant with the European Data Act, ensuring fairness in the allocation of data value and facilitating data access and use.'}
                 </p>
             </div>
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                 <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-purple-600"><Lock className="w-6 h-6" /></div>
-                    <h3 className="font-bold text-lg text-slate-900">GDPR Compliance</h3>
+                    <h3 className="font-bold text-lg text-slate-900">{language === 'KO' ? 'GDPR 준수' : 'GDPR Compliance'}</h3>
                 </div>
                 <p className="text-sm text-slate-600 leading-relaxed">
-                    Built-in privacy controls and consent management features ensure strict adherence to GDPR regulations for personal data handling within industrial contexts.
+                    {language === 'KO'
+                        ? '개인정보 보호 기능과 동의 관리 기능을 기본 탑재하여, 산업 현장에서의 개인정보 처리에 대해 GDPR 규정을 엄격히 준수합니다.'
+                        : 'Built-in privacy controls and consent management features ensure strict adherence to GDPR regulations for personal data handling within industrial contexts.'}
                 </p>
             </div>
         </div>
@@ -1130,17 +1149,17 @@ const Guideline: React.FC = () => {
 
   const renderFeatures = () => (
     <div className="space-y-8 animate-fadeIn">
-        <h2 className="text-2xl font-bold text-slate-900 text-center mb-6">Key Platform Features</h2>
+        <h2 className="text-2xl font-bold text-slate-900 text-center mb-6">{language === 'KO' ? '주요 플랫폼 기능' : 'Key Platform Features'}</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-                { title: 'Connector', icon: Layers, desc: 'EDC-based secure gateway' },
-                { title: 'Catalog', icon: Search, desc: 'Federated asset discovery' },
-                { title: 'Contract', icon: FileText, desc: 'Automated policy negotiation' },
-                { title: 'Transfer', icon: RefreshCw, desc: 'P2P encrypted streaming' },
-                { title: 'Identity', icon: UserPlus, desc: 'DID & VC management' },
-                { title: 'Clearing', icon: Scale, desc: 'Transaction settlement' },
-                { title: 'Audit', icon: FileCheck, desc: 'Immutable usage logs' },
-                { title: 'App Store', icon: LayoutGrid, desc: 'Data-driven applications' }
+                { title: language === 'KO' ? '커넥터' : 'Connector', icon: Layers, desc: language === 'KO' ? 'EDC 기반 보안 게이트웨이' : 'EDC-based secure gateway' },
+                { title: language === 'KO' ? '카탈로그' : 'Catalog', icon: Search, desc: language === 'KO' ? '연합형 자산 탐색' : 'Federated asset discovery' },
+                { title: language === 'KO' ? '계약' : 'Contract', icon: FileText, desc: language === 'KO' ? '정책 자동 협상' : 'Automated policy negotiation' },
+                { title: language === 'KO' ? '전송' : 'Transfer', icon: RefreshCw, desc: language === 'KO' ? 'P2P 암호화 스트리밍' : 'P2P encrypted streaming' },
+                { title: language === 'KO' ? '신원' : 'Identity', icon: UserPlus, desc: language === 'KO' ? 'DID 및 VC 관리' : 'DID & VC management' },
+                { title: language === 'KO' ? '정산' : 'Clearing', icon: Scale, desc: language === 'KO' ? '거래 정산 처리' : 'Transaction settlement' },
+                { title: language === 'KO' ? '감사' : 'Audit', icon: FileCheck, desc: language === 'KO' ? '위변조 불가 사용 이력' : 'Immutable usage logs' },
+                { title: language === 'KO' ? '앱 스토어' : 'App Store', icon: LayoutGrid, desc: language === 'KO' ? '데이터 기반 애플리케이션' : 'Data-driven applications' }
             ].map((feat, i) => (
                 <div key={i} className="bg-white p-4 rounded-xl border border-slate-200 text-center hover:shadow-md transition-shadow">
                     <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-600">
@@ -1158,7 +1177,7 @@ const Guideline: React.FC = () => {
     // Extended Glossary Data based on user request and existing terms
     const glossaryItems = [
         { 
-            category: 'Core Services',
+            category: language === 'KO' ? '핵심 서비스' : 'Core Services',
             items: [
                 { term: 'Identity Provider', defKO: '사용자 및 기업의 신원 인증 및 관리 서비스.', defEN: 'Service for authentication and management of user and corporate identities.' },
                 { term: 'Policy Hub', defKO: '데이터 사용 정책을 설정하고 관리할 수 있는 서비스.', defEN: 'Service to set and manage data usage policies.' },
@@ -1173,7 +1192,7 @@ const Guideline: React.FC = () => {
             ]
         },
         { 
-            category: 'Sustainability & ESG',
+            category: language === 'KO' ? '지속가능성 & ESG' : 'Sustainability & ESG',
             items: [
                 { term: 'DPP (Digital Product Passport)', defKO: '제품의 디지털 여권을 생성하여 제품 정보와 추적성을 관리하는 솔루션.', defEN: 'Solution generating digital passports to manage product info and traceability.' },
                 { term: 'PCF (Product Carbon Footprint)', defKO: '제품의 탄소 발자국을 계산하고 보고할 수 있는 솔루션.', defEN: 'Solution for calculating and reporting the carbon footprint of products.' },
@@ -1182,7 +1201,7 @@ const Guideline: React.FC = () => {
             ]
         },
         { 
-            category: 'Supply Chain & Operations',
+            category: language === 'KO' ? '공급망 & 운영' : 'Supply Chain & Operations',
             items: [
                 { term: 'Trace-X', defKO: '공급망 전반에서 부품과 재료의 이동 경로를 추적하여 투명성을 높이는 솔루션.', defEN: 'Solution tracking parts and materials across the supply chain for transparency.' },
                 { term: 'PURIS', defKO: '공급망 내 위험 요소를 모니터링하고 관리하는 솔루션.', defEN: 'Solution for monitoring and managing risk factors within the supply chain.' },
@@ -1192,7 +1211,7 @@ const Guideline: React.FC = () => {
             ]
         },
         { 
-            category: 'Technology & Standards',
+            category: language === 'KO' ? '기술 & 표준' : 'Technology & Standards',
             items: [
                 { term: 'EDC (Connector)', defKO: '데이터의 안전한 교환과 연결을 위한 기술로, 공유를 위해 기술적 프로토콜과 인터페이스를 정의.', defEN: 'Technology for secure data exchange, defining protocols and interfaces.' },
                 { term: 'AAS (Asset Administration Shell)', defKO: '데이터를 일관되게 표현하고 교환하기 위해 특정한 규격과 표준을 정의하는 기술.', defEN: 'Standard for consistent data representation and exchange (Digital Twin).' },
@@ -1214,8 +1233,8 @@ const Guideline: React.FC = () => {
     return (
         <div className="space-y-8 animate-fadeIn">
             <div className="text-center mb-8">
-                <h2 className="text-3xl font-extrabold text-slate-900 mb-2">DataSpace Glossary</h2>
-                <p className="text-slate-500">Essential terminology and solutions for the ecosystem</p>
+                <h2 className="text-3xl font-extrabold text-slate-900 mb-2">{language === 'KO' ? '데이터스페이스 용어 사전' : 'DataSpace Glossary'}</h2>
+                <p className="text-slate-500">{language === 'KO' ? '생태계를 이해하는 데 필요한 핵심 용어와 솔루션' : 'Essential terminology and solutions for the ecosystem'}</p>
             </div>
             
             <div className="space-y-8">
