@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { Building2, Server, ShieldCheck, Zap, Database, Globe, Info, Activity, Radio, Cpu, X, Signal, Map as MapIcon, Navigation, Lock, FileText, CheckCircle2, BadgeCheck, Search, Users } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { SECTOR_LABELS, lookupOrg, sectorOf } from '../directory';
+import type { Sector } from '../directory';
 
 interface MapNode {
   id: string;
@@ -34,13 +36,38 @@ const GLOBAL_NODES: MapNode[] = [
     isHighlighted: true,
     // Expanded Data for KR-HUB
     activeCompanies: [
-        'Hyundai Motor', 'LG Energy Sol', 'Samsung Electronics', 'POSCO', 'Doosan Robotics',
-        'SK On', 'Hanwha Solutions', 'CJ Logistics', 'KT', 'Naver Cloud',
-        'Kakao Enterprise', 'Hyundai Mobis', 'Hyundai WIA', 'LG Chem', 'Lotte Chemical',
-        'HMM', 'Korean Air', 'KAI', 'HL Mando', 'LS Electric',
-        'KITECH', 'KIAT', 'KETI', 'KEIT',
-        'onepredict', 'MakinaRocks',
-        'KIA', 'LG', 'SK', 'SK Energy', 'SK AX'
+        // Semiconductor and electronics
+        'Samsung Electronics', 'SK hynix', 'SK Siltron', 'Samsung Electro-Mechanics',
+        'LG Electronics', 'LG Display', 'LG Innotek',
+        // Automotive
+        'Hyundai Motor', 'Kia', 'Hyundai Mobis', 'HL Mando', 'Hyundai WIA', 'Hyundai Transys',
+        // Battery and materials
+        'LG Energy Solution', 'Samsung SDI', 'SK On', 'EcoPro BM',
+        'POSCO', 'POSCO Future M', 'Hyundai Steel', 'Korea Zinc',
+        // Chemicals
+        'LG Chem', 'Lotte Chemical', 'Hanwha Solutions', 'Kumho Petrochemical',
+        // Shipbuilding, heavy industry and machinery
+        'HD Hyundai Heavy Industries', 'Hanwha Ocean', 'Samsung Heavy Industries',
+        'Doosan Enerbility', 'HD Hyundai Infracore', 'Hyundai Rotem', 'Hyosung Heavy Industries',
+        'Doosan Robotics', 'Hyundai Robotics', 'Rainbow Robotics', 'LS Electric',
+        // Energy
+        'KEPCO', 'SK Energy', 'S-OIL', 'GS Caltex', 'KOGAS',
+        // ICT and industrial AI
+        'Naver', 'Naver Cloud', 'Kakao', 'Kakao Enterprise', 'Samsung SDS', 'LG CNS',
+        'SK AX', 'KT', 'SK Telecom', 'AhnLab', 'Hancom', 'onepredict', 'MakinaRocks',
+        // Logistics
+        'HMM', 'CJ Logistics', 'Pan Ocean', 'Hanjin Transportation', 'Busan Port Authority',
+        // Aerospace and defence
+        'Korean Air', 'Korea Aerospace Industries', 'Hanwha Aerospace', 'LIG Nex1',
+        // Bio and construction
+        'Samsung Biologics', 'Celltrion', 'Samsung C&T', 'Hyundai E&C',
+        // Research institutes
+        'KIST', 'ETRI', 'KITECH', 'KETI', 'KIMS', 'KERI', 'KIMM', 'KRISS', 'KISTI',
+        'KIER', 'KRICT', 'KIOST',
+        // Public agencies and universities
+        'KIAT', 'KEIT', 'KOTRA', 'NIPA', 'KISA',
+        'Korea Institute of Robot Industry Advancement',
+        'DGIST', 'UNIST'
     ]
   },
   { 
@@ -292,6 +319,10 @@ const TransactionMap: React.FC = () => {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [showLedgerModal, setShowLedgerModal] = useState(false);
   const [showCompanyModal, setShowCompanyModal] = useState(false); // Modal State
+  // Directory filters, and the member whose profile is open
+  const [companyQuery, setCompanyQuery] = useState('');
+  const [sectorFilter, setSectorFilter] = useState<Sector | 'All'>('All');
+  const [openOrg, setOpenOrg] = useState<string | null>(null);
 
   // Switch Data based on view mode
   const currentNodes = viewMode === 'GLOBAL' ? GLOBAL_NODES : KOREA_NODES;
@@ -567,7 +598,7 @@ const TransactionMap: React.FC = () => {
                                     ))}
                                     {selectedNode.activeCompanies.length > 4 && (
                                         <button 
-                                            onClick={() => setShowCompanyModal(true)}
+                                            onClick={() => { setCompanyQuery(''); setSectorFilter('All'); setOpenOrg(null); setShowCompanyModal(true); }}
                                             className="text-[10px] bg-blue-600/20 text-blue-300 px-2 py-1 rounded border border-blue-500/30 hover:bg-blue-600 hover:text-white transition-colors flex items-center gap-1"
                                         >
                                             +{selectedNode.activeCompanies.length - 4}{language === 'KO' ? '개 더보기' : ' More'}
@@ -580,6 +611,125 @@ const TransactionMap: React.FC = () => {
                 </div>
             )}
         </div>
+
+        {/* --- ORGANISATION PROFILE --- */}
+        {openOrg && (() => {
+            const isKo = language === 'KO';
+            const org = lookupOrg(openOrg);
+            const sec = sectorOf(openOrg);
+            const kindLabel = {
+                Enterprise: { en: 'Enterprise', ko: '기업' },
+                Institute: { en: 'Research institute', ko: '연구기관' },
+                Agency: { en: 'Public agency', ko: '공공기관' },
+                Academia: { en: 'University', ko: '대학' },
+            }[org?.kind ?? 'Enterprise'];
+            const detailed = Boolean(org?.summary);
+            // Stable per organisation rather than random, so the figure does not
+            // change every time the card is opened.
+            const assets = 3 + (openOrg.length % 9);
+
+            return (
+                <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fadeIn"
+                    onClick={() => setOpenOrg(null)}>
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-scaleUp flex flex-col max-h-[85vh]"
+                        onClick={(e) => e.stopPropagation()}>
+                        <div className="bg-slate-900 text-white p-5 flex items-start justify-between gap-4 shrink-0">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center font-bold text-lg shrink-0">
+                                    {openOrg.charAt(0)}
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-bold leading-tight">{isKo ? (org?.nameKo || openOrg) : openOrg}</h3>
+                                    {isKo && org?.nameKo && <p className="text-[11px] text-slate-400 mt-0.5">{openOrg}</p>}
+                                    <div className="flex flex-wrap items-center gap-1.5 mt-2">
+                                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-600">
+                                            {SECTOR_LABELS[sec][isKo ? 'ko' : 'en']}
+                                        </span>
+                                        {/* Research institutes and agencies have a sector
+                                            that already says what they are - no need to
+                                            print the same word twice. */}
+                                        {(isKo ? kindLabel.ko : kindLabel.en) !== SECTOR_LABELS[sec][isKo ? 'ko' : 'en'] && (
+                                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-700">
+                                                {isKo ? kindLabel.ko : kindLabel.en}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                            <button onClick={() => setOpenOrg(null)}
+                                aria-label={isKo ? '프로필 닫기' : 'Close the profile'}
+                                className="text-white/70 hover:text-white hover:bg-white/20 rounded-full p-1.5 transition-colors">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <div className="p-5 space-y-4 overflow-y-auto bg-slate-50">
+                            {detailed ? (
+                                <>
+                                    <p className="text-sm text-slate-700 leading-relaxed">{isKo ? org?.summaryKo : org?.summary}</p>
+
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div className="bg-white p-3 rounded-xl border border-slate-200">
+                                            <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">{isKo ? '본사' : 'Headquarters'}</p>
+                                            <p className="text-sm font-bold text-slate-900">{isKo ? org?.hqKo : org?.hq}</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded-xl border border-slate-200">
+                                            <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">{isKo ? '설립' : 'Founded'}</p>
+                                            <p className="text-sm font-bold text-slate-900 tabular-nums">{org?.founded}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-white p-4 rounded-xl border border-slate-200">
+                                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-2">{isKo ? '데이터스페이스 역할' : 'Role in the dataspace'}</p>
+                                        <p className="text-sm text-slate-700 leading-relaxed">{isKo ? org?.roleKo : org?.role}</p>
+                                    </div>
+                                </>
+                            ) : (
+                                <p className="text-sm text-slate-500 leading-relaxed">
+                                    {isKo
+                                        ? '해외 파트너 기관으로, 상세 프로필은 아직 등록되지 않았습니다.'
+                                        : 'An overseas partner. A detailed profile has not been registered yet.'}
+                                </p>
+                            )}
+
+                            <div className="bg-white p-4 rounded-xl border border-slate-200">
+                                <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-3">{isKo ? '연동 정보' : 'Connection'}</p>
+                                <div className="space-y-2 text-xs">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-slate-500">{isKo ? '소속 노드' : 'Node'}</span>
+                                        <span className="font-medium text-slate-800">{selectedNode ? getNodeLabel(selectedNode, language) : '-'}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-slate-500">EDC {isKo ? '커넥터' : 'connector'}</span>
+                                        <span className="font-mono text-[11px] text-slate-700">
+                                            edc-{openOrg.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 18)}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-slate-500">{isKo ? '공개 데이터 자산' : 'Published data assets'}</span>
+                                        <span className="font-mono tabular-nums text-slate-800">{assets}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-slate-500">{isKo ? '상태' : 'Status'}</span>
+                                        <span className="inline-flex items-center gap-1.5 font-medium text-emerald-700">
+                                            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                                            {isKo ? '연동 중' : 'Connected'}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="p-4 border-t border-slate-200 bg-white flex justify-end shrink-0">
+                            <button onClick={() => setOpenOrg(null)}
+                                className="px-5 py-2 bg-slate-900 text-white rounded-lg text-sm font-bold hover:bg-slate-800 transition-colors">
+                                {isKo ? '닫기' : 'Close'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        })()}
 
         {/* --- COMPANY LIST POPUP MODAL --- */}
         {showCompanyModal && selectedNode && (
@@ -601,37 +751,98 @@ const TransactionMap: React.FC = () => {
                         </button>
                     </div>
 
-                    {/* Search Bar (Mock) */}
-                    <div className="p-4 border-b border-slate-200 bg-slate-50">
-                        <div className="relative">
-                            <input 
-                                type="text" 
-                                placeholder={language === 'KO' ? '파트너 기업 검색...' : 'Search partner company...'}
-                                className="w-full pl-9 pr-4 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-blue-500"
-                            />
-                            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                        </div>
-                    </div>
+                    {(() => {
+                        const isKo = language === 'KO';
+                        const members: string[] = selectedNode.activeCompanies ?? [];
+                        // Only offer sectors this node actually has, so no chip is ever empty.
+                        const sectors: Sector[] = Array.from(new Set<Sector>(members.map(sectorOf)))
+                            .sort((a, b) => SECTOR_LABELS[a][isKo ? 'ko' : 'en'].localeCompare(SECTOR_LABELS[b][isKo ? 'ko' : 'en']));
+                        const countBySector = (sec: Sector) => members.filter((m) => sectorOf(m) === sec).length;
+                        const q = companyQuery.trim().toLowerCase();
+                        const shown = members.filter((m) => {
+                            if (sectorFilter !== 'All' && sectorOf(m) !== sectorFilter) return false;
+                            if (!q) return true;
+                            const org = lookupOrg(m);
+                            // Search both names, so Korean typing finds an English record.
+                            return [m, org?.nameKo, org?.summary, org?.summaryKo]
+                                .filter(Boolean).join(' ').toLowerCase().includes(q);
+                        });
 
-                    {/* Content Grid */}
-                    <div className="p-6 overflow-y-auto bg-slate-50 flex-1">
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            {selectedNode.activeCompanies?.map((company, idx) => (
-                                <div key={idx} className="bg-white p-4 rounded-xl border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all flex items-center gap-3 group cursor-pointer">
-                                    <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-xs group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
-                                        {company.charAt(0)}
+                        return (
+                            <>
+                                <div className="p-4 border-b border-slate-200 bg-slate-50 space-y-3 shrink-0">
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            value={companyQuery}
+                                            onChange={(e) => setCompanyQuery(e.target.value)}
+                                            placeholder={isKo ? '기업·기관 검색...' : 'Search organisations...'}
+                                            className="w-full pl-9 pr-4 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-blue-500"
+                                        />
+                                        <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                                     </div>
-                                    <div className="overflow-hidden">
-                                        <h4 className="font-bold text-slate-800 text-sm truncate">{company}</h4>
-                                        <div className="flex items-center gap-1.5 mt-1">
-                                            <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                                            <span className="text-[10px] text-slate-500">{language === 'KO' ? '운영 중' : 'Active'}</span>
-                                        </div>
+                                    <div className="flex flex-wrap gap-1.5">
+                                        <button
+                                            onClick={() => setSectorFilter('All')}
+                                            className={`px-2.5 py-1 rounded-full text-[11px] font-bold border transition-colors ${
+                                                sectorFilter === 'All'
+                                                    ? 'bg-slate-900 text-white border-slate-900'
+                                                    : 'bg-white text-slate-600 border-slate-300 hover:border-slate-400'
+                                            }`}
+                                        >
+                                            {isKo ? '전체' : 'All'} <span className="opacity-60">{members.length}</span>
+                                        </button>
+                                        {sectors.map((sec) => (
+                                            <button
+                                                key={sec}
+                                                onClick={() => setSectorFilter(sec)}
+                                                className={`px-2.5 py-1 rounded-full text-[11px] font-bold border transition-colors ${
+                                                    sectorFilter === sec
+                                                        ? 'bg-blue-600 text-white border-blue-600'
+                                                        : 'bg-white text-slate-600 border-slate-300 hover:border-blue-300'
+                                                }`}
+                                            >
+                                                {SECTOR_LABELS[sec][isKo ? 'ko' : 'en']} <span className="opacity-60">{countBySector(sec)}</span>
+                                            </button>
+                                        ))}
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    </div>
+
+                                <div className="p-6 overflow-y-auto bg-slate-50 flex-1">
+                                    {shown.length === 0 ? (
+                                        <p className="text-sm text-slate-500 text-center py-12">
+                                            {isKo ? '조건에 맞는 기업·기관이 없습니다.' : 'No organisation matches those filters.'}
+                                        </p>
+                                    ) : (
+                                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                            {shown.map((company) => {
+                                                const org = lookupOrg(company);
+                                                const sec = sectorOf(company);
+                                                return (
+                                                    <button
+                                                        key={company}
+                                                        type="button"
+                                                        onClick={() => setOpenOrg(company)}
+                                                        className="bg-white p-4 rounded-xl border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all flex items-center gap-3 group text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                                                    >
+                                                        <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-xs group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors shrink-0">
+                                                            {company.charAt(0)}
+                                                        </div>
+                                                        <div className="overflow-hidden">
+                                                            <h4 className="font-bold text-slate-800 text-sm truncate">
+                                                                {isKo ? (org?.nameKo || company) : company}
+                                                            </h4>
+                                                            <p className="text-[10px] text-slate-500 truncate">{SECTOR_LABELS[sec][isKo ? 'ko' : 'en']}</p>
+                                                        </div>
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
+                                </div>
+                            </>
+                        );
+                    })()}
 
                     {/* Footer */}
                     <div className="p-4 border-t border-slate-200 bg-white flex justify-end">
