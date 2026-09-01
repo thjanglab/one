@@ -1,0 +1,79 @@
+name: Verify render & deploy
+
+on:
+  push:
+    branches:
+      - main
+      - claude/run-program-qmahxu
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Build and verify every screen renders
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Serve the production build
+        run: |
+          npx vite preview --port 4173 --host 127.0.0.1 &
+          for i in $(seq 1 60); do
+            curl -sf http://127.0.0.1:4173 >/dev/null && echo "preview is up" && exit 0
+            sleep 1
+          done
+          echo "preview server did not start" >&2
+          exit 1
+
+      - name: Verify every route renders
+        run: npm run verify:render -- http://127.0.0.1:4173
+
+      - name: Upload render report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: render-report
+          path: render-report/
+
+      - name: Package the site for Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: verify
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
