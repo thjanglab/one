@@ -363,7 +363,7 @@ const PCFModule: React.FC = () => {
                                             </div>
                                             <div className="flex items-center gap-1 bg-white px-2 py-1 rounded border border-slate-200 text-[10px] text-slate-600">
                                                 <Globe className="w-3 h-3 text-blue-500" />
-                                                Issuer: InterX Cert
+                                                Issuer: Korea Cert
                                             </div>
                                         </div>
                                     </div>

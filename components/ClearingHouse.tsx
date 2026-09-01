@@ -762,7 +762,7 @@ const ClearingHouse: React.FC = () => {
                                         <div className="w-12 h-12 bg-slate-900 text-white flex items-center justify-center rounded-lg font-bold text-xl">IX</div>
                                         <div>
                                             <h3 className="font-serif text-2xl font-bold text-slate-900 tracking-wide">VERIFIABLE CREDENTIAL</h3>
-                                            <p className="text-xs text-slate-500 uppercase tracking-widest">InterX DataSpace Clearing House</p>
+                                            <p className="text-xs text-slate-500 uppercase tracking-widest">Korea DataSpace Clearing House</p>
                                         </div>
                                     </div>
                                     <div className="text-right">

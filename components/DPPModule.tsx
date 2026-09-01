@@ -364,7 +364,7 @@ const DPPModule: React.FC = () => {
                                     <div className="w-full h-full border-2 border-red-700 rounded-full flex flex-col items-center justify-center text-red-700 font-bold uppercase text-[10px] tracking-widest bg-red-700/5">
                                         <span>Verified</span>
                                         <span className="text-lg">Passed</span>
-                                        <span>InterX</span>
+                                        <span>Korea</span>
                                     </div>
                                 </div>
                             </div>

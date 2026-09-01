@@ -28,8 +28,13 @@ const Navbar: React.FC = () => {
     <>
       <nav className="fixed top-0 left-0 h-full w-64 bg-white border-r border-slate-200 z-50 hidden md:flex flex-col overflow-y-auto">
         <div className="p-8 border-b border-slate-100 flex items-center justify-start">
-          <Link to="/overview" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10">
+          {/* The orange mark is the X of "Manufacturing-X", so it sits tight
+              against the hyphen rather than standing alone before the name. */}
+          <Link to="/overview" className="flex items-center group">
+            <span className="text-base font-bold tracking-tight text-slate-900 whitespace-nowrap">
+              K. Manufacturing-
+            </span>
+            <span className="relative w-5 h-5 shrink-0 -ml-0.5">
                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
                   <path 
                       d="M20 15 L45 50 L20 85 H35 L60 50 L85 85 H70 L45 50 L70 15 H85 L60 50 L35 15 H20 Z" 
@@ -39,9 +44,6 @@ const Navbar: React.FC = () => {
                       fill="none"
                   />
                </svg>
-            </div>
-            <span className="text-xl font-bold tracking-tight text-slate-900">
-              Kore<span className="text-[#FF8A00]">a</span>
             </span>
           </Link>
         </div>
@@ -284,8 +286,11 @@ export const MobileHeader: React.FC = () => {
   return (
     <>
       <header className="md:hidden h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sticky top-0 z-40">
-         <Link to="/overview" className="flex items-center gap-2">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
+         <Link to="/overview" className="flex items-center">
+            <span className="text-base font-bold text-slate-900 whitespace-nowrap">
+              K. Manufacturing-
+            </span>
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 shrink-0 -ml-0.5">
                   <path 
                       d="M20 15 L45 50 L20 85 H35 L60 50 L85 85 H70 L45 50 L70 15 H85 L60 50 L35 15 H20 Z" 
                       stroke="#FF8A00" 
@@ -294,9 +299,6 @@ export const MobileHeader: React.FC = () => {
                       fill="none"
                   />
             </svg>
-            <span className="text-lg font-bold text-slate-900">
-              Kore<span className="text-[#FF8A00]">a</span>
-            </span>
         </Link>
         <div className="flex items-center gap-2">
             <button 

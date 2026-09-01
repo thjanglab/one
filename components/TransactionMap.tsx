@@ -114,7 +114,12 @@ const KOREA_NODES: MapNode[] = [
     { 
       id: 'SEOUL-HQ', x: 50, y: 22, label: 'Korea HQ (Seoul)', type: 'hub', color: '#3b82f6', 
       status: 'Active', throughput: '5.2 GB/s', partners: 50, description: 'Main Control Tower & ID Provider.',
-      activeCompanies: ['InterX', 'KOTRA', 'KETI', 'KIST', 'KISA', 'NIPA']
+      activeCompanies: [
+        'Korea', 'KOTRA', 'KETI', 'KIST', 'KISA', 'NIPA',
+        'KITECH', 'KIAT', 'KEIT',
+        'Naver Cloud', 'onepredict', 'MakinaRocks',
+        'HYUNDAI', 'KIA', 'LG', 'SK', 'SAMSUNG',
+      ]
     },
     { 
       id: 'PANGYO-RD', x: 55, y: 30, label: 'R&D Center (Pangyo)', type: 'infra', color: '#8b5cf6', 

@@ -279,7 +279,7 @@ const IntelligentSCM: React.FC = () => {
                 contractId: `CTR-${new Date().getFullYear()}-${Math.floor(Math.random() * 10000)}`,
                 industry: selectedIndustry ? INDUSTRIES.find(i => i.id === selectedIndustry)?.label : '일반',
                 product: selectedProduct || '표준 부품',
-                parties: 'InterX (구매자) <-> S-Tech (공급자)',
+                parties: 'Korea (구매자) <-> S-Tech (공급자)',
                 terms: 'LME 지수 연동 변동 가격제',
                 clause: '제 4.2조: 24시간 이상 납기 지연 시 자동 위약금 부과',
                 status: '전자 서명 완료 (DID 앵커링)',
@@ -728,7 +728,7 @@ const IntelligentSCM: React.FC = () => {
                         <div className="absolute top-24 right-8 z-10 pointer-events-none" style={{ animation: 'stamp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s forwards', opacity: 0 }}>
                             <div className="w-28 h-28 border-4 border-blue-700 rounded-full flex items-center justify-center p-1 opacity-80">
                                 <div className="w-full h-full border-2 border-blue-700 rounded-full flex flex-col items-center justify-center text-blue-700 font-bold uppercase text-xs tracking-widest bg-blue-700/5 rotate-[-12deg]">
-                                    <span>InterX</span>
+                                    <span>Korea</span>
                                     <span className="text-lg">Verified</span>
                                     <span>AI Cert</span>
                                 </div>
@@ -1200,13 +1200,13 @@ const IntelligentSCM: React.FC = () => {
                                     <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
                                         <div className="absolute top-0 right-0 p-4 opacity-10"><FileText className="w-24 h-24" /></div>
                                         <p className="text-sm text-slate-600 mb-4 font-serif">
-                                            This agreement is made between <strong>InterX Co., Ltd.</strong> and <strong>{reportData.expertName}</strong>.
+                                            This agreement is made between <strong>Korea Co., Ltd.</strong> and <strong>{reportData.expertName}</strong>.
                                             The expert agrees to provide technical consulting services as described in the Scope of Work.
                                         </p>
                                         <div className="flex justify-between items-end mt-8">
                                             <div className="text-center">
                                                 <div className="font-script text-2xl text-blue-600 mb-1">Signed.AI</div>
-                                                <div className="border-t border-slate-300 w-32 pt-1 text-[10px] text-slate-400 uppercase">InterX Authorized</div>
+                                                <div className="border-t border-slate-300 w-32 pt-1 text-[10px] text-slate-400 uppercase">Korea Authorized</div>
                                             </div>
                                             <div className="text-center">
                                                 <div className="font-script text-2xl text-slate-800 mb-1">{reportData.expertName}</div>
@@ -1260,7 +1260,7 @@ const IntelligentSCM: React.FC = () => {
                                     <div className="grid grid-cols-2 gap-8 mb-6 text-sm">
                                         <div>
                                             <span className="block font-bold text-slate-700">구매자 (Buyer)</span>
-                                            <span className="block text-slate-600">InterX Corp.</span>
+                                            <span className="block text-slate-600">Korea Corp.</span>
                                         </div>
                                         <div className="text-right">
                                             <span className="block font-bold text-slate-700">공급자 (Supplier)</span>
