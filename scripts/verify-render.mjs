@@ -35,6 +35,29 @@ await mkdir(OUT, { recursive: true });
 const results = [];
 let failed = 0;
 
+// Hot-linked imagery (Unsplash stock photos, generated QR codes) is not
+// bundled with the app, so whether it actually loads depends on the network
+// the browser sits behind. Count it here: a blocked CDN must not fail the
+// run, but it should be visible in the log rather than silently missing.
+const external = { loaded: 0, blocked: 0, hosts: new Map() };
+const noteHost = (url, key) => {
+  let host;
+  try { host = new URL(url).host; } catch { host = url; }
+  const entry = external.hosts.get(host) || { loaded: 0, blocked: 0 };
+  entry[key]++;
+  external.hosts.set(host, entry);
+};
+page.on('response', (res) => {
+  if (!EXTERNAL.test(res.url())) return;
+  if (res.status() < 400) { external.loaded++; noteHost(res.url(), 'loaded'); }
+  else { external.blocked++; noteHost(res.url(), 'blocked'); }
+});
+page.on('requestfailed', (r) => {
+  if (!EXTERNAL.test(r.url())) return;
+  external.blocked++;
+  noteHost(r.url(), 'blocked');
+});
+
 for (const route of ROUTES) {
   const problems = [];
   const onPageError = (e) => problems.push(`uncaught: ${e.message}`);
@@ -77,6 +100,14 @@ await browser.close();
 await writeFile(`${OUT}/report.json`, JSON.stringify(results, null, 2));
 
 console.log(`\n${results.length - failed}/${results.length} routes rendered cleanly.`);
+
+console.log(`\nExternally hosted assets: ${external.loaded} loaded, ${external.blocked} blocked`);
+for (const [host, n] of [...external.hosts].sort()) {
+  console.log(`  ${host}: ${n.loaded} loaded, ${n.blocked} blocked`);
+}
+if (external.blocked > 0) {
+  console.log('  (blocked third-party assets do not fail this check - the app itself still rendered)');
+}
 if (failed > 0) {
   console.error(`${failed} route(s) failed. Screenshots in ./${OUT}/`);
   process.exit(1);
