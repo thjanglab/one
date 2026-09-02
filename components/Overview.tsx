@@ -3,8 +3,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend, PieChart, Pie, Cell } from 'recharts';
 import { Users, Database, Activity, Globe, ArrowUpRight, Zap, ShieldCheck, X, TrendingUp, Network, Building2, Search, Filter, ChevronRight } from 'lucide-react';
-import { MOCK_ASSETS, MOCK_COMPANIES } from '../constants';
+import { MOCK_ASSETS } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
+import { DIRECTORY, SECTOR_LABELS, lookupOrg, sectorOf } from '../directory';
+import type { Sector } from '../directory';
+import OrgProfileModal from './OrgProfileModal';
 import TransactionMap from './TransactionMap';
 
 const trafficData = [
@@ -17,28 +20,45 @@ const trafficData = [
   { name: '23:59', upload: 250, download: 430 },
 ];
 
-const getEcosystemData = (language: string) => [
-  { name: language === 'KO' ? '자동차' : 'Automotive', value: 35, color: '#3b82f6' },
-  { name: language === 'KO' ? '전자' : 'Electronics', value: 25, color: '#8b5cf6' },
-  { name: language === 'KO' ? '에너지' : 'Energy', value: 20, color: '#f59e0b' },
-  { name: language === 'KO' ? '물류' : 'Logistics', value: 15, color: '#10b981' },
-  { name: language === 'KO' ? '기타' : 'Other', value: 5, color: '#64748b' },
-];
+// Fixed order, never cycled. The tail folds into "Other" rather than
+// generating a ninth hue.
+const SHARE_COLORS = ['#3b82f6', '#8b5cf6', '#f59e0b', '#10b981', '#ef4444', '#0ea5e9'];
+
+/**
+ * Industry split of the actual directory, so the chart, the headline count and
+ * the participant list all describe the same set of organisations.
+ */
+const getEcosystemData = (language: string) => {
+  const counts = new Map<Sector, number>();
+  DIRECTORY.forEach((org) => counts.set(org.sector, (counts.get(org.sector) ?? 0) + 1));
+  const ranked = Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
+  const top = ranked.slice(0, 5);
+  const restTotal = ranked.slice(5).reduce((sum, [, n]) => sum + n, 0);
+  const rows = top.map(([sec, n], i) => ({
+    name: SECTOR_LABELS[sec][language === 'KO' ? 'ko' : 'en'],
+    value: n,
+    color: SHARE_COLORS[i],
+  }));
+  if (restTotal > 0) {
+    rows.push({ name: language === 'KO' ? '기타' : 'Other', value: restTotal, color: '#64748b' });
+  }
+  return rows;
+};
 
 // Mock Data for Popups
 const getReportData = (language: string) => ({
     PARTICIPANTS: {
         title: language === 'KO' ? "에코시스템 참여 기업" : "Ecosystem Participants",
-        total: 142,
+        total: DIRECTORY.length,
         growth: "+12%",
         chartData: [
             { name: language === 'KO' ? '1월' : 'Jan', value: 80 },
             { name: language === 'KO' ? '2월' : 'Feb', value: 95 },
             { name: language === 'KO' ? '3월' : 'Mar', value: 110 },
             { name: language === 'KO' ? '4월' : 'Apr', value: 125 },
-            { name: language === 'KO' ? '5월' : 'May', value: 142 }
+            { name: language === 'KO' ? '5월' : 'May', value: DIRECTORY.length }
         ],
-        companies: MOCK_COMPANIES
+        companies: DIRECTORY.filter((o) => o.summary).slice(0, 5)
     },
     VOLUME: {
         title: language === 'KO' ? "데이터 볼륨 분석" : "Data Volume Analytics",
@@ -95,6 +115,8 @@ const Overview: React.FC = () => {
     const { t, language } = useLanguage();
     const [activeReport, setActiveReport] = useState<ReportKey | null>(null);
     const [showAllCompanies, setShowAllCompanies] = useState(false);
+    const [participantSector, setParticipantSector] = useState<Sector | 'All'>('All');
+    const [openOrg, setOpenOrg] = useState<string | null>(null);
     const [companySearch, setCompanySearch] = useState('');
 
     const ecosystemData = getEcosystemData(language);
@@ -161,34 +183,39 @@ const Overview: React.FC = () => {
                             </div>
                         ) : activeReport === 'PARTICIPANTS' ? (
                             <div className="space-y-6">
-                                <div className="h-64 w-full bg-white border border-slate-100 rounded-xl p-4 shadow-sm flex items-center justify-center relative">
-                                    <h4 className="absolute top-4 left-4 text-xs font-bold text-slate-500 uppercase">{language === 'KO' ? '산업별 분포' : 'Industry Distribution'}</h4>
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <PieChart>
-                                            <Pie
-                                                data={ecosystemData}
-                                                cx="50%"
-                                                cy="50%"
-                                                innerRadius={60}
-                                                outerRadius={80}
-                                                paddingAngle={5}
-                                                dataKey="value"
-                                            >
-                                                {ecosystemData.map((entry, index) => (
-                                                    <Cell key={`cell-${index}`} fill={entry.color} />
+                                {/* Seventeen sectors is too many for a donut - the tail would
+                                    collapse into an "Other" wedge larger than any real one. Ranked
+                                    bars show every sector at its own size, directly labelled. */}
+                                {(() => {
+                                    const isKo = language === 'KO';
+                                    const rows = Array.from(
+                                        DIRECTORY.reduce((acc, org) => acc.set(org.sector, (acc.get(org.sector) ?? 0) + 1), new Map<Sector, number>())
+                                    ).sort((a, b) => b[1] - a[1]);
+                                    const max = rows[0]?.[1] ?? 1;
+                                    return (
+                                        <div className="w-full bg-white border border-slate-100 rounded-xl p-4 shadow-sm">
+                                            <h4 className="text-xs font-bold text-slate-500 uppercase mb-4">{isKo ? '산업별 분포' : 'Industry Distribution'}</h4>
+                                            <ul className="space-y-2">
+                                                {rows.map(([sec, n]) => (
+                                                    <li key={sec} className="flex items-center gap-3">
+                                                        <span className="w-28 shrink-0 text-xs text-slate-600 truncate">{SECTOR_LABELS[sec][isKo ? 'ko' : 'en']}</span>
+                                                        <span className="flex-1 h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                                                            <span className="block h-full bg-indigo-500 rounded-full transition-all duration-700"
+                                                                style={{ width: `${(n / max) * 100}%` }} />
+                                                        </span>
+                                                        <span className="w-8 shrink-0 text-right text-xs font-mono tabular-nums text-slate-700">{n}</span>
+                                                    </li>
                                                 ))}
-                                            </Pie>
-                                            <Tooltip contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 10px rgba(0,0,0,0.1)'}} />
-                                            <Legend verticalAlign="bottom" height={36} />
-                                        </PieChart>
-                                    </ResponsiveContainer>
-                                </div>
+                                            </ul>
+                                        </div>
+                                    );
+                                })()}
                                 
                                 <div>
                                     <div className="flex justify-between items-center mb-3">
                                         <h4 className="text-sm font-bold text-slate-800">{language === 'KO' ? '주요 파트너 TOP 5' : 'Top 5 Partners'}</h4>
                                         <button 
-                                            onClick={() => setShowAllCompanies(true)}
+                                            onClick={() => { setCompanySearch(''); setParticipantSector('All'); setShowAllCompanies(true); }}
                                             className="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1"
                                         >
                                             {language === 'KO' ? '전체 목록 보기' : 'View Full List'} <ChevronRight className="w-3 h-3" />
@@ -196,16 +223,21 @@ const Overview: React.FC = () => {
                                     </div>
                                     <div className="space-y-2">
                                         {(data as any).companies.map((comp: any) => (
-                                            <div key={comp.id} className="flex items-center gap-3 p-2 hover:bg-slate-50 rounded-lg transition-colors border border-transparent hover:border-slate-100">
-                                                <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs text-slate-600 border border-slate-200">
-                                                    {comp.logo}
+                                            <button
+                                                key={comp.name}
+                                                type="button"
+                                                onClick={() => setOpenOrg(comp.name)}
+                                                className="w-full flex items-center gap-3 p-2 hover:bg-slate-50 rounded-lg transition-colors border border-transparent hover:border-slate-100 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                                            >
+                                                <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs text-slate-600 border border-slate-200 shrink-0">
+                                                    {comp.name.charAt(0)}
                                                 </div>
-                                                <div className="flex-1">
-                                                    <div className="text-sm font-bold text-slate-800">{comp.name}</div>
-                                                    <div className="text-xs text-slate-500">{comp.industry}</div>
+                                                <div className="flex-1 overflow-hidden">
+                                                    <div className="text-sm font-bold text-slate-800 truncate">{language === 'KO' ? (comp.nameKo || comp.name) : comp.name}</div>
+                                                    <div className="text-xs text-slate-500 truncate">{SECTOR_LABELS[comp.sector as Sector][language === 'KO' ? 'ko' : 'en']}</div>
                                                 </div>
-                                                <span className="text-[10px] font-mono bg-slate-100 px-2 py-1 rounded text-slate-500">{language === 'KO' ? `자산 ${comp.productsCount}건` : `${comp.productsCount} Assets`}</span>
-                                            </div>
+                                                <ChevronRight className="w-4 h-4 text-slate-300 shrink-0" />
+                                            </button>
                                         ))}
                                     </div>
                                 </div>
@@ -279,6 +311,10 @@ const Overview: React.FC = () => {
             {renderReportContent()}
 
             {/* FULL COMPANY LIST MODAL */}
+            {openOrg && (
+                <OrgProfileModal name={openOrg} onClose={() => setOpenOrg(null)} />
+            )}
+
             {showAllCompanies && (
                 <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4 animate-fadeIn">
                     <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden animate-scaleUp flex flex-col max-h-[85vh]">
@@ -292,44 +328,104 @@ const Overview: React.FC = () => {
                             </button>
                         </div>
                         
-                        <div className="p-4 border-b border-slate-200 bg-slate-50">
-                            <div className="relative">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                                <input 
-                                    type="text" 
-                                    placeholder={language === 'KO' ? '기업명, 산업 분야로 검색...' : 'Search by company name, industry...'}
-                                    className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-300 focus:outline-none focus:border-blue-500"
-                                    value={companySearch}
-                                    onChange={(e) => setCompanySearch(e.target.value)}
-                                />
-                            </div>
-                        </div>
+                        {(() => {
+                            const isKo = language === 'KO';
+                            const label = (sec: Sector) => SECTOR_LABELS[sec][isKo ? 'ko' : 'en'];
+                            const sectors: Sector[] = Array.from(new Set<Sector>(DIRECTORY.map((o) => o.sector)))
+                                .sort((a, b) => label(a).localeCompare(label(b)));
+                            const countIn = (sec: Sector) => DIRECTORY.filter((o) => o.sector === sec).length;
+                            const q = companySearch.trim().toLowerCase();
+                            const shown = DIRECTORY.filter((org) => {
+                                if (participantSector !== 'All' && org.sector !== participantSector) return false;
+                                if (!q) return true;
+                                // Match either language, so a Korean query finds an English record.
+                                return [org.name, org.nameKo, org.summary, org.summaryKo, label(org.sector)]
+                                    .filter(Boolean).join(' ').toLowerCase().includes(q);
+                            });
 
-                        <div className="flex-1 overflow-y-auto p-6 bg-slate-50/50">
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {/* Dynamically generate more mock companies for demo */}
-                                {[...MOCK_COMPANIES, ...MOCK_COMPANIES, ...MOCK_COMPANIES].map((company, idx) => ({...company, id: `${company.id}_${idx}`}))
-                                    .filter(c => c.name.toLowerCase().includes(companySearch.toLowerCase()) || c.industry.toLowerCase().includes(companySearch.toLowerCase()))
-                                    .map((company, idx) => (
-                                    <div key={idx} className="bg-white p-4 rounded-xl border border-slate-200 hover:border-blue-300 shadow-sm transition-all group">
-                                        <div className="flex items-center gap-3 mb-3">
-                                            <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold border border-slate-200 group-hover:bg-blue-50 group-hover:text-blue-600">
-                                                {company.logo}
-                                            </div>
-                                            <div className="overflow-hidden">
-                                                <h4 className="font-bold text-slate-900 truncate">{company.name}</h4>
-                                                <p className="text-xs text-slate-500 truncate">{company.industry}</p>
-                                            </div>
+                            return (
+                                <>
+                                    <div className="p-4 border-b border-slate-200 bg-slate-50 space-y-3 shrink-0">
+                                        <div className="relative">
+                                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                            <input
+                                                type="text"
+                                                placeholder={isKo ? '기업·기관명, 산업 분야로 검색...' : 'Search by name or industry...'}
+                                                className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-300 focus:outline-none focus:border-blue-500"
+                                                value={companySearch}
+                                                onChange={(e) => setCompanySearch(e.target.value)}
+                                            />
                                         </div>
-                                        <p className="text-xs text-slate-500 line-clamp-2 mb-3">{company.description}</p>
-                                        <div className="flex items-center justify-between pt-3 border-t border-slate-50">
-                                            <span className="text-[10px] font-mono bg-slate-100 px-2 py-1 rounded text-slate-500">{language === 'KO' ? `항목: ${company.productsCount}` : `Items: ${company.productsCount}`}</span>
-                                            <button className="text-xs font-bold text-blue-600 hover:underline">{language === 'KO' ? '프로필' : 'Profile'}</button>
+                                        <div className="flex flex-wrap gap-1.5">
+                                            <button
+                                                onClick={() => setParticipantSector('All')}
+                                                className={`px-2.5 py-1 rounded-full text-[11px] font-bold border transition-colors ${
+                                                    participantSector === 'All'
+                                                        ? 'bg-slate-900 text-white border-slate-900'
+                                                        : 'bg-white text-slate-600 border-slate-300 hover:border-slate-400'
+                                                }`}
+                                            >
+                                                {isKo ? '전체' : 'All'} <span className="opacity-60">{DIRECTORY.length}</span>
+                                            </button>
+                                            {sectors.map((sec) => (
+                                                <button
+                                                    key={sec}
+                                                    onClick={() => setParticipantSector(sec)}
+                                                    className={`px-2.5 py-1 rounded-full text-[11px] font-bold border transition-colors ${
+                                                        participantSector === sec
+                                                            ? 'bg-blue-600 text-white border-blue-600'
+                                                            : 'bg-white text-slate-600 border-slate-300 hover:border-blue-300'
+                                                    }`}
+                                                >
+                                                    {label(sec)} <span className="opacity-60">{countIn(sec)}</span>
+                                                </button>
+                                            ))}
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                        </div>
+
+                                    <div className="flex-1 overflow-y-auto p-6 bg-slate-50/50">
+                                        {shown.length === 0 ? (
+                                            <p className="text-sm text-slate-500 text-center py-12">
+                                                {isKo ? '조건에 맞는 기업·기관이 없습니다.' : 'No organisation matches those filters.'}
+                                            </p>
+                                        ) : (
+                                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                                {shown.map((org) => (
+                                                    <button
+                                                        key={org.name}
+                                                        type="button"
+                                                        onClick={() => setOpenOrg(org.name)}
+                                                        className="bg-white p-4 rounded-xl border border-slate-200 hover:border-blue-300 shadow-sm transition-all group text-left flex flex-col focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                                                    >
+                                                        <div className="flex items-center gap-3 mb-3">
+                                                            <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold border border-slate-200 group-hover:bg-blue-50 group-hover:text-blue-600 shrink-0">
+                                                                {org.name.charAt(0)}
+                                                            </div>
+                                                            <div className="overflow-hidden">
+                                                                <h4 className="font-bold text-slate-900 truncate">{isKo ? (org.nameKo || org.name) : org.name}</h4>
+                                                                <p className="text-xs text-slate-500 truncate">{label(org.sector)}</p>
+                                                            </div>
+                                                        </div>
+                                                        <p className="text-xs text-slate-500 line-clamp-2 mb-3 flex-1">
+                                                            {(isKo ? org.summaryKo : org.summary)
+                                                                ?? (isKo ? '해외 파트너 기관입니다.' : 'An overseas partner.')}
+                                                        </p>
+                                                        <div className="flex items-center justify-between pt-3 border-t border-slate-100 w-full">
+                                                            <span className="text-[10px] font-mono bg-slate-100 px-2 py-1 rounded text-slate-500">
+                                                                {org.hq ? (isKo ? org.hqKo : org.hq) : (isKo ? '해외' : 'Overseas')}
+                                                            </span>
+                                                            <span className="text-xs font-bold text-blue-600 group-hover:underline">
+                                                                {isKo ? '프로필' : 'Profile'}
+                                                            </span>
+                                                        </div>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </>
+                            );
+                        })()}
                         
                         <div className="p-4 border-t border-slate-200 bg-white text-right">
                             <button onClick={() => setShowAllCompanies(false)} className="px-6 py-2 bg-slate-100 text-slate-600 font-bold rounded-lg hover:bg-slate-200">
@@ -369,7 +465,7 @@ const Overview: React.FC = () => {
                         </span>
                     </div>
                     <div>
-                        <h3 className="text-2xl font-bold text-slate-900">142</h3>
+                        <h3 className="text-2xl font-bold text-slate-900">{DIRECTORY.length}</h3>
                         <p className="text-xs text-slate-500 font-medium uppercase tracking-wide">{t('ov_part_comp')}</p>
                     </div>
                 </div>
