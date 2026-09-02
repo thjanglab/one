@@ -46,6 +46,15 @@ to it. The page carries `noindex`; a `robots.txt` would do nothing, since
 crawlers only read one at the domain root and a project page does not own
 that.
 
+Opening it goes fullscreen, which is what the fixed 1600×900 stage is for
+and what keeps the URL off a projector. The browser only grants fullscreen
+off a user gesture, so the request rides on the 열기 click; a checkbox on
+the gate turns it off for anyone sharing a single window in a call. It can
+still be refused — iOS Safari does not do fullscreen outside video — and a
+refusal just opens the demo windowed. One thing to know on the day:
+reloading drops out of fullscreen and the remembered session means there is
+no gate click to ride on, so press F11 after a reload.
+
 It is a **separate page, not a route**. It runs on a fixed 1600×900 stage
 scaled to the window and styles `html` and `body` itself, and the platform's
 Tailwind base stylesheet — which resets box-sizing, borders and line-height —
