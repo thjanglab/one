@@ -18,10 +18,11 @@ export default defineConfig(({ mode }) => {
           input: {
             // The platform SPA.
             main: path.resolve(__dirname, 'index.html'),
-            // The 국가 제조데이터뱅크 concept demo, on its own page so it does
-            // not inherit the platform's Tailwind base styles. See
-            // databank.html for why that matters.
-            databank: path.resolve(__dirname, 'databank.html'),
+            // The 국가 제조데이터 라이브러리 현황 concept demo, on its own page so
+            // it does not inherit the platform's Tailwind base styles, and on
+            // an unlisted path behind a passphrase because it is handed out
+            // for seminars. See d/7k2q9x/index.html and gate.tsx.
+            databank: path.resolve(__dirname, 'd/7k2q9x/index.html'),
           },
         },
       },

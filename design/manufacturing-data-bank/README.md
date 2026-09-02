@@ -61,6 +61,28 @@ modals' 95), without which the grade-modal step would hide its own
 `다음 ▶` button. Tooltips inside modals became visible as a side effect;
 they were being drawn behind them before.
 
+## The passphrase gate, and what it is worth
+
+The demo sits at an unlisted path behind a passphrase screen (`gate.tsx`),
+because it is handed out for external seminars. Two things it does buy: the
+page is not readable by someone who merely has the link, and the demo bundle
+is behind a dynamic import, so it is not even fetched until the passphrase
+is accepted. The passphrase ships as a SHA-256 digest rather than in the
+clear, which keeps it from being a grep-able string.
+
+None of that is access control, and it should not be described as such.
+GitHub Pages serves static files with no server-side auth: the check runs in
+the visitor's own browser, and anyone who opens devtools is past it. A short
+passphrase is also cheap to brute-force offline against a known digest.
+
+Making it real means a host that can refuse the request. The cheapest route
+is Cloudflare Pages with Cloudflare Access in front — the same `dist/`,
+deployed with `wrangler pages deploy dist`, and an Access policy (email
+one-time PIN, or a shared service token) on the resulting `*.pages.dev`
+hostname. Unauthenticated requests are then rejected at the edge and the
+bundle is never served. That needs a Cloudflare account and its API
+credentials, which is why it is written down rather than done.
+
 ## One thing the brief describes that the artboard does not do
 
 `HANDOFF.md` describes an upgrade prompt on the account screen's asset tower
