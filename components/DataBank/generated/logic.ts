@@ -456,7 +456,24 @@ const REC_DETAIL = [
 ];
 const REC_LINES = { 0:['p0'], 1:['p5'], 2:['r충남'], 3:['p3'], 4:[], 5:[], 6:['r대구'], 7:['p2'], 8:['p4'], 9:['r인천'] };
 const TOUR = [
-  { screen:'map', target:'map-card', text:'전국 1,284개사의 제조데이터가 두 갈래 경로로 유통되는 모습입니다.' },
+  { screen:'map', target:'map-kpi', state:{ mapAxis:'전체', mapSel:null },
+    text:'제도가 돌기 시작하면 먼저 규모가 보입니다. 1,284개사가 42,610건, 215.1TB를 예치했습니다.' },
+  { screen:'map', target:'map-card', state:{ mapAxis:'전체', mapSel:null },
+    text:'전국 유통 지도입니다. 원의 크기는 예치 건수, 색은 그 지역에서 비중이 높은 축입니다.' },
+  { screen:'map', target:'map-hub', state:{ mapAxis:'전체', mapSel:null },
+    text:'가운데 육각형이 세종의 국가 제조데이터 허브입니다. 지금까지 31,200건이 등재됐습니다.' },
+  { screen:'map', target:'map-axis', state:{ mapAxis:'제1축', mapSel:null },
+    text:'제1축만 켜 보겠습니다. 모든 지역에서 선이 허브로 모입니다 — 원본이 공개 카탈로그에 등재된다는 뜻입니다.' },
+  { screen:'map', target:'map-axis', state:{ mapAxis:'제2축', mapSel:null },
+    text:'제2축입니다. 허브를 거치지 않고 기업끼리 직접 이어집니다. 원본은 기업에 그대로 남습니다.' },
+  { screen:'map', target:'map-axis', state:{ mapAxis:'전체', mapSel:null },
+    text:'두 축을 함께 놓고 보면, 하나의 통로가 아니라 성격이 다른 두 개의 경로라는 점이 드러납니다.' },
+  { screen:'map', target:'map-rank', state:{ mapAxis:'전체', mapSel:'경기' },
+    text:'예치의 70%가 산업단지가 밀집한 다섯 지역에 몰려 있습니다. 경기가 10,670건으로 가장 많습니다.' },
+  { screen:'map', target:'map-records', state:{ mapAxis:'전체', mapSel:null },
+    text:'오른쪽은 실시간 거래 기록입니다. 모든 거래는 클리어링 하우스에 남고 사후에 고칠 수 없습니다.' },
+  { screen:'map', target:'map-case', state:{ mapAxis:'전체', mapSel:null },
+    text:'그러면 이 1,284개사 가운데 한 곳으로 들어가 보겠습니다.' },
   { screen:'account', target:'acct-card', text:'K사의 데이터 계좌입니다. 보유 데이터가 얼마의 자산으로 잡히는지 보십시오.' },
   { screen:'deposit', target:'ds-picker', text:'데이터를 예치합니다. 어떤 데이터인지에 따라 길이 갈립니다.' },
   { screen:'deposit', target:'ds-a', text:'설비 진동 데이터를 선택해 보십시오. 범용 축으로 판정됩니다.' },
@@ -647,6 +664,11 @@ export class DataBankLogic extends React.Component<any, any> {
     const n = Math.max(0, Math.min(TOUR.length - 1, i));
     const t = TOUR[n];
     this.setState({ tourStep: n });
+    // A step that talks about one axis has to be looking at that axis, so it
+    // carries the state it narrates. Every dashboard step names mapAxis and
+    // mapSel outright, which is what makes stepping backwards land on the
+    // same screen as stepping forwards.
+    if (t.state) this.setState(t.state);
     if (t.tab && t.tab !== this.state.tab) this.setState({ tab: t.tab });
     if (t.screen !== this.state.screen) this.go(t.screen);
     this.later(() => this.restartRing(), 450);

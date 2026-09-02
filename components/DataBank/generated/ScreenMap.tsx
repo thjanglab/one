@@ -34,7 +34,7 @@ export default function ScreenMap({ v }: { v: any }) {
         {" "}
       </div>
       {" "}
-      <div style={S("display:flex;gap:12px;margin-top:12px;flex:none")}>
+      <div data-tour="map-kpi" style={S("display:flex;gap:12px;margin-top:12px;flex:none")}>
         {" "}
         <div className="scp8" onClick={v?.openPopFirms} data-tip="데이터 계좌를 개설한 제조기업 수" style={S("flex:1;position:relative;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:9px 13px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
@@ -186,7 +186,7 @@ export default function ScreenMap({ v }: { v: any }) {
             {" "}
             <span style={S("font-size:13.5px;font-weight:700;color:#fff;letter-spacing:-0.3px")}>전국 데이터 유통 지도</span>
             {" "}
-            <div style={S("margin-left:auto;display:flex;gap:5px")}>
+            <div data-tour="map-axis" style={S("margin-left:auto;display:flex;gap:5px")}>
               {" "}
               <div onClick={v?.setAxisAll} style={S(v?.axisAll)}>전체</div>
               {" "}
@@ -233,7 +233,7 @@ export default function ScreenMap({ v }: { v: any }) {
             {(v?.showHubPanel) ? (
               <>
                 {" "}
-                <div style={S("position:absolute;right:14px;top:14px;z-index:3;width:212px;box-sizing:border-box;background:rgba(10,31,58,0.88);border:1px solid #1E4A7A;border-radius:5px;padding:10px 12px")}>
+                <div data-tour="map-hub" style={S("position:absolute;right:14px;top:14px;z-index:3;width:212px;box-sizing:border-box;background:rgba(10,31,58,0.88);border:1px solid #1E4A7A;border-radius:5px;padding:10px 12px")}>
                   {" "}
                   <div style={S("display:flex;align-items:center;gap:8px;margin-bottom:8px")}>
                     {" "}
@@ -342,7 +342,7 @@ export default function ScreenMap({ v }: { v: any }) {
               {" "}
             </div>
             {" "}
-            <div className="scpb" onClick={v?.mapCase} data-tip="지도의 한 지역에 속한 개별 기업 화면으로 이동합니다" style={S("position:absolute;right:16px;bottom:14px;z-index:3;background:#fff;color:#1F4E79;font-size:12.5px;font-weight:700;padding:9px 16px;border-radius:3px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>개별 기업 사례 보기 →</div>
+            <div className="scpb" onClick={v?.mapCase} data-tour="map-case" data-tip="지도의 한 지역에 속한 개별 기업 화면으로 이동합니다" style={S("position:absolute;right:16px;bottom:14px;z-index:3;background:#fff;color:#1F4E79;font-size:12.5px;font-weight:700;padding:9px 16px;border-radius:3px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>개별 기업 사례 보기 →</div>
             {" "}
             {(v?.mapZoom) ? (
               <>
@@ -522,7 +522,7 @@ export default function ScreenMap({ v }: { v: any }) {
         {" "}
         <div style={S("flex:1;display:flex;flex-direction:column;gap:12px;min-width:0;position:relative")}>
           {" "}
-          <div style={S("flex:0 0 331px;box-sizing:border-box;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:9px 12px;display:flex;flex-direction:column;min-height:0")}>
+          <div data-tour="map-rank" style={S("flex:0 0 331px;box-sizing:border-box;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:9px 12px;display:flex;flex-direction:column;min-height:0")}>
             {" "}
             <div style={S("font-size:13px;font-weight:700;color:#1F4E79;margin-bottom:6px;flex:none")}>시도별 예치 순위</div>
             {" "}
@@ -626,7 +626,7 @@ export default function ScreenMap({ v }: { v: any }) {
             {" "}
           </div>
           {" "}
-          <div style={S("flex:1;box-sizing:border-box;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:7px 12px;display:flex;flex-direction:column;min-height:0")}>
+          <div data-tour="map-records" style={S("flex:1;box-sizing:border-box;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:7px 12px;display:flex;flex-direction:column;min-height:0")}>
             {" "}
             <div style={S("display:flex;align-items:center;gap:8px;margin-bottom:4px;flex:none")}>
               {" "}
