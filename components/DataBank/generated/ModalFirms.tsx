@@ -164,19 +164,21 @@ export default function ModalFirms({ v }: { v: any }) {
           {" "}
           <div style={S("display:flex;align-items:center;justify-content:space-between;margin-top:14px")}>
             {" "}
-            <div style={S("font-size:12px;color:#8A9099")}>1~8 / 1,284</div>
+            <div style={S("font-size:12px;color:#8A9099")}>{"상위 "}{I(v?.firmTotal)}{"개사 중 "}{I(v?.firmFrom)}~{I(v?.firmTo)}</div>
             {" "}
             <div style={S("display:flex;gap:5px")}>
               {" "}
-              <div style={S("font-size:12px;font-weight:600;color:#A0A5AC;padding:6px 11px;border:1px solid #E1E4E8;border-radius:3px")}>◀</div>
+              <div onClick={v?.firmPrev} style={S(v?.firmPrevStyle)}>◀</div>
               {" "}
-              <div style={S("font-size:12px;font-weight:700;color:#fff;background:#1F4E79;padding:6px 12px;border:1px solid #1F4E79;border-radius:3px")}>1</div>
+              {L(v?.firmPages).map((p: any, $index: number) => (
+                <React.Fragment key={$index}>
+                  {" "}
+                  <div onClick={p?.go} style={S(p?.style)}>{I(p?.label)}</div>
+                  {" "}
+                </React.Fragment>
+              ))}
               {" "}
-              <div style={S("font-size:12px;font-weight:600;color:#5B5F66;padding:6px 12px;border:1px solid #E1E4E8;border-radius:3px")}>2</div>
-              {" "}
-              <div style={S("font-size:12px;font-weight:600;color:#5B5F66;padding:6px 12px;border:1px solid #E1E4E8;border-radius:3px")}>3</div>
-              {" "}
-              <div style={S("font-size:12px;font-weight:600;color:#5B5F66;padding:6px 11px;border:1px solid #E1E4E8;border-radius:3px")}>▶</div>
+              <div onClick={v?.firmNext} style={S(v?.firmNextStyle)}>▶</div>
               {" "}
             </div>
             {" "}

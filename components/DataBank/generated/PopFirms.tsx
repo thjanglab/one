@@ -319,19 +319,21 @@ export default function PopFirms({ v }: { v: any }) {
               {" "}
               <div style={S("display:flex;align-items:center;justify-content:space-between;margin-top:12px")}>
                 {" "}
-                <span style={S("font-size:11.5px;color:#8A9099")}>1~{I(v?.firmResultCount)}{" / 1,284"}</span>
+                <span style={S("font-size:11.5px;color:#8A9099")}>{"상위 "}{I(v?.fTotal)}{"개사 중 "}{I(v?.fFrom)}~{I(v?.fTo)}</span>
                 {" "}
                 <div style={S("display:flex;gap:5px")}>
                   {" "}
-                  <span style={S("font-size:11.5px;color:#A0A5AC;border:1px solid #E1E4E8;padding:4px 9px;border-radius:3px;cursor:pointer")}>이전</span>
+                  <span onClick={v?.fPrev} style={S(v?.fPrevStyle)}>이전</span>
                   {" "}
-                  <span style={S("font-size:11.5px;font-weight:700;color:#fff;background:#1F4E79;padding:4px 10px;border-radius:3px")}>1</span>
+                  {L(v?.fPages).map((p: any, $index: number) => (
+                    <React.Fragment key={$index}>
+                      {" "}
+                      <span onClick={p?.go} style={S(p?.style)}>{I(p?.label)}</span>
+                      {" "}
+                    </React.Fragment>
+                  ))}
                   {" "}
-                  <span style={S("font-size:11.5px;color:#5B5F66;border:1px solid #E1E4E8;padding:4px 10px;border-radius:3px;cursor:pointer")}>2</span>
-                  {" "}
-                  <span style={S("font-size:11.5px;color:#5B5F66;border:1px solid #E1E4E8;padding:4px 10px;border-radius:3px;cursor:pointer")}>3</span>
-                  {" "}
-                  <span style={S("font-size:11.5px;color:#5B5F66;border:1px solid #E1E4E8;padding:4px 9px;border-radius:3px;cursor:pointer")}>다음</span>
+                  <span onClick={v?.fNext} style={S(v?.fNextStyle)}>다음</span>
                   {" "}
                 </div>
                 {" "}

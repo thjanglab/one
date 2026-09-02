@@ -38,10 +38,11 @@ that first load needs network access.
 through the same 35 steps and compares the position, size and text of every
 rendered element after each one. Its header has the setup commands.
 
-Last run: **32 of 35 states identical, 4 differing rows out of 21,241**, all
-of them a count-up animation caught a digit apart mid-tween. Running the
-prototype against *itself* produces the same order of noise, so the port is
-not measurably distinguishable from the design.
+Last run: **32 of 35 states identical, 4 differing rows out of 21,249**, all
+of them a count-up animation caught a digit apart mid-tween or a box a pixel
+along its entrance. Running the prototype against *itself* produces the same
+order of noise, so the port is not measurably distinguishable from the
+design.
 
 ## One thing the brief describes that the artboard does not do
 

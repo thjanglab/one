@@ -52,7 +52,7 @@ input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 1px #1F4E79,0 0 0
 
   <div style="flex:none;height:58px;background:#1F4E79;display:flex;align-items:center;justify-content:space-between;padding:0 24px">
     <div style="display:flex;align-items:baseline;gap:10px">
-      <span style="color:#fff;font-size:19px;font-weight:700;letter-spacing:-0.4px">국가 제조데이터뱅크</span>
+      <span style="color:#fff;font-size:19px;font-weight:700;letter-spacing:-0.4px">국가 제조데이터 라이브러리 현황</span>
       <span style="color:#A9C3DC;font-size:13px">(가칭)</span>
     </div>
     <div style="display:flex;align-items:center;gap:14px">
@@ -125,13 +125,13 @@ input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 1px #1F4E79,0 0 0
         </table>
 
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px">
-          <div style="font-size:12px;color:#8A9099">1~8 / 1,284</div>
+          <div style="font-size:12px;color:#8A9099">상위 {{ firmTotal }}개사 중 {{ firmFrom }}~{{ firmTo }}</div>
           <div style="display:flex;gap:5px">
-            <div style="font-size:12px;font-weight:600;color:#A0A5AC;padding:6px 11px;border:1px solid #E1E4E8;border-radius:3px">◀</div>
-            <div style="font-size:12px;font-weight:700;color:#fff;background:#1F4E79;padding:6px 12px;border:1px solid #1F4E79;border-radius:3px">1</div>
-            <div style="font-size:12px;font-weight:600;color:#5B5F66;padding:6px 12px;border:1px solid #E1E4E8;border-radius:3px">2</div>
-            <div style="font-size:12px;font-weight:600;color:#5B5F66;padding:6px 12px;border:1px solid #E1E4E8;border-radius:3px">3</div>
-            <div style="font-size:12px;font-weight:600;color:#5B5F66;padding:6px 11px;border:1px solid #E1E4E8;border-radius:3px">▶</div>
+            <div onClick="{{ firmPrev }}" style="{{ firmPrevStyle }}">◀</div>
+            <sc-for list="{{ firmPages }}" as="p" hint-placeholder-count="3">
+              <div onClick="{{ p.go }}" style="{{ p.style }}">{{ p.label }}</div>
+            </sc-for>
+            <div onClick="{{ firmNext }}" style="{{ firmNextStyle }}">▶</div>
           </div>
         </div>
       </div>
@@ -1089,13 +1089,13 @@ EQ_A07        2026-08-11     0.094   0.061     +11.7     <span style="animation:
                   </div>
                 </sc-for>
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
-                  <span style="font-size:11.5px;color:#8A9099">1~{{ firmResultCount }} / 1,284</span>
+                  <span style="font-size:11.5px;color:#8A9099">상위 {{ fTotal }}개사 중 {{ fFrom }}~{{ fTo }}</span>
                   <div style="display:flex;gap:5px">
-                    <span style="font-size:11.5px;color:#A0A5AC;border:1px solid #E1E4E8;padding:4px 9px;border-radius:3px;cursor:pointer">이전</span>
-                    <span style="font-size:11.5px;font-weight:700;color:#fff;background:#1F4E79;padding:4px 10px;border-radius:3px">1</span>
-                    <span style="font-size:11.5px;color:#5B5F66;border:1px solid #E1E4E8;padding:4px 10px;border-radius:3px;cursor:pointer">2</span>
-                    <span style="font-size:11.5px;color:#5B5F66;border:1px solid #E1E4E8;padding:4px 10px;border-radius:3px;cursor:pointer">3</span>
-                    <span style="font-size:11.5px;color:#5B5F66;border:1px solid #E1E4E8;padding:4px 9px;border-radius:3px;cursor:pointer">다음</span>
+                    <span onClick="{{ fPrev }}" style="{{ fPrevStyle }}">이전</span>
+                    <sc-for list="{{ fPages }}" as="p" hint-placeholder-count="3">
+                      <span onClick="{{ p.go }}" style="{{ p.style }}">{{ p.label }}</span>
+                    </sc-for>
+                    <span onClick="{{ fNext }}" style="{{ fNextStyle }}">다음</span>
                   </div>
                 </div>
                 <div style="margin-top:9px;font-size:11px;color:#A0A5AC">행을 클릭하면 우측에 기업 상세가 표시됩니다. 도넛·업종 막대를 눌러 조건을 좁힐 수 있습니다.</div>
@@ -3129,7 +3129,23 @@ const FIRMS = [
   ['D사','기계금속',156,8,62,86,'제1축','2026.08.09'],
   ['E사','자동차',143,11,57,75,'제2축','2026.08.09'],
   ['F사','전기전자',128,6,48,74,'제1축','2026.08.08'],
-  ['G사','기계금속',112,5,41,66,'혼합','2026.08.08']
+  ['G사','기계금속',112,5,41,66,'혼합','2026.08.08'],
+  ['H사','전기전자',104,4,38,62,'제1축','2026.08.08'],
+  ['I사','자동차',97,6,35,56,'제2축','2026.08.07'],
+  ['J사','석유화학',91,4,33,54,'제2축','2026.08.07'],
+  ['L사','기계금속',86,3,30,53,'제1축','2026.08.07'],
+  ['M사','기타',80,2,27,51,'제1축','2026.08.06'],
+  ['N사','자동차',74,5,26,43,'제2축','2026.08.06'],
+  ['O사','전기전자',69,3,24,42,'제1축','2026.08.06'],
+  ['P사','기계금속',63,2,21,40,'혼합','2026.08.05'],
+  ['Q사','석유화학',58,3,19,36,'제2축','2026.08.05'],
+  ['R사','자동차',52,2,17,33,'제2축','2026.08.05'],
+  ['S사','전기전자',47,1,15,31,'제1축','2026.08.04'],
+  ['T사','기타',41,1,13,27,'제1축','2026.08.04'],
+  ['U사','기계금속',36,1,11,24,'제1축','2026.08.04'],
+  ['V사','석유화학',30,1,9,20,'제2축','2026.08.03'],
+  ['W사','자동차',25,0,7,18,'제2축','2026.08.03'],
+  ['X사','기타',18,0,5,13,'제1축','2026.08.03']
 ];
 const DSETS = [
   ['설비 진동·온도 시계열','K사','기계금속','제1축','Silver','3.2GB','2026.08.11',18,'8,000만원'],
@@ -3273,7 +3289,23 @@ const TOP_FIRMS = [
   ['G사','기계금속','경북',112,5,41,66,'혼합',false,'중견기업','2026.08.08'],
   ['H사','조선','경남',96,4,36,56,'제2축',false,'중소기업','2026.08.07'],
   ['I사','기타','대구',68,2,22,44,'제1축',false,'중소기업','2026.08.07'],
-  ['K사','기계금속','경기',42,3,12,27,'혼합',true,'중소기업','2026.08.11']
+  ['K사','기계금속','경기',42,3,12,27,'혼합',true,'중소기업','2026.08.11'],
+  ['J사','자동차','울산',306,26,134,146,'제2축',false,'대기업','2026.08.11'],
+  ['L사','석유화학','전남',231,15,96,120,'제2축',false,'대기업','2026.08.10'],
+  ['M사','기계금속','경남',174,9,68,97,'제2축',false,'중견기업','2026.08.10'],
+  ['N사','전기전자','경기',165,11,66,88,'제1축',false,'중견기업','2026.08.09'],
+  ['O사','자동차','충남',138,7,54,77,'제1축',false,'중견기업','2026.08.09'],
+  ['P사','조선','울산',121,6,46,69,'제2축',false,'중견기업','2026.08.08'],
+  ['Q사','기계금속','대구',108,4,40,64,'혼합',false,'중견기업','2026.08.08'],
+  ['R사','석유화학','충북',92,5,35,52,'제2축',false,'중소기업','2026.08.07'],
+  ['S사','전기전자','인천',84,3,31,50,'제1축',false,'중소기업','2026.08.07'],
+  ['T사','자동차','경기',77,4,28,45,'제2축',false,'중소기업','2026.08.07'],
+  ['U사','기계금속','경남',71,2,25,44,'제2축',false,'중소기업','2026.08.06'],
+  ['V사','조선','전남',64,3,22,39,'제2축',false,'중소기업','2026.08.06'],
+  ['W사','기타','서울',57,2,19,36,'제1축',false,'중소기업','2026.08.06'],
+  ['X사','전기전자','충북',51,1,17,33,'제1축',false,'중소기업','2026.08.05'],
+  ['Y사','기계금속','경북',46,2,15,29,'혼합',false,'중소기업','2026.08.05'],
+  ['Z사','기타','광주',33,1,11,21,'제1축',false,'중소기업','2026.08.04']
 ];
 const NEW_SPLIT = { '3월':[4,16,76], '4월':[5,22,105], '5월':[6,29,143], '6월':[7,35,172], '7월':[9,44,215], '8월':[3,14,70] };
 const SIZE_COLOR = { '대기업':'#1F4E79', '중견기업':'#2E86AB', '중소기업':'#A9C3DC' };
@@ -3409,7 +3441,7 @@ const INIT = { screen:'map', ds:'A', tab:'loan', gold:3, silver:12, bronze:27, j
   period:'month', kind:'전체', axisFilter:null, gradeSel:null, txSel:null, modal:false,
   dragging:false, pulse:null, flashGrade:null, simDone:false, fundPct:0, invested:false, hoverCol:null, accSel:null,
   kpiHover:null, distSel:null, trendRange:6, polHover:null, polSel:null, tourOn:false, tourStep:0, gradeModal:false, dsJudged:{ A:false, B:false },
-  dash:null, firmInd:'전체', setGrade:'전체', setAxis:'전체', setSel:null, simDelta:0, simFrom:0,
+  dash:null, firmInd:'전체', firmPage:0, setGrade:'전체', setAxis:'전체', setSel:null, simDelta:0, simFrom:0,
   introPhase:0, txMore:false, towerUp:false,
   mapAnim:true, mapShow:true, mapAxis:'전체', mapSel:null, mapHover:null, mapRec:null, mapRecSel:null, mapZoom:false, mapSort:'cnt',
   mapPop:null, popGrade:'전체', popAxis:'전체',
@@ -3418,7 +3450,7 @@ const INIT = { screen:'map', ds:'A', tab:'loan', gold:3, silver:12, bronze:27, j
   cumPeriod:'6개월', cumMode:'건수', cumOff:{}, cumLabels:false, cumZoom:null, cumDrag:null,
   setGradeSel:null, setPurposeSel:null, setPage:0, setSort:null,
   chHover:null, cumHover:null, firmLabels:false,
-  fSize:null, fInd:null, fMonth:null, fSort:'count', fRow:null,
+  fSize:null, fInd:null, fMonth:null, fSort:'count', fRow:null, fPage:0,
   capPeriod:'6개월', capLabels:false, capZoom:null, capDrag:null, capHover:null,
   moneyPeriod:'6개월', moneyLabels:false, moneyZoom:null, moneyDrag:null, moneyHover:null,
   capMode:'누적 용량', capTypeSel:null, capGradeSel:null, capPage:0, capSort:'tb', capOff:{},
@@ -3981,15 +4013,45 @@ class Component extends DCLogic {
     const axisPill = (a) => 'display:inline-block;font-size:11.5px;font-weight:700;color:#fff;padding:3px 9px;border-radius:2px;background:'
       + (a === '제1축' ? BLUE : a === '제2축' ? ORANGE : '#9AA0A8');
     const gradePill = (g) => 'display:inline-block;font-size:11.5px;font-weight:700;color:#fff;padding:3px 9px;border-radius:2px;background:' + GRADE_C[g];
+    const FIRM_PER_PAGE = 8;
     const firmRowsAll = FIRMS.filter((f) => s.firmInd === '전체' || f[1] === s.firmInd);
-    const firmRows = firmRowsAll.map((f, i) => ({
+    const firmPageCount = Math.max(1, Math.ceil(firmRowsAll.length / FIRM_PER_PAGE));
+    // An industry filter can leave fewer pages than the one being viewed, so
+    // clamp rather than showing an empty table.
+    const firmPage = Math.min(s.firmPage, firmPageCount - 1);
+    const firmStart = firmPage * FIRM_PER_PAGE;
+    const firmRows = firmRowsAll.slice(firmStart, firmStart + FIRM_PER_PAGE).map((f, i) => ({
       name: f[0], ind: f[1], count: f[2].toLocaleString(), g: f[3], s: f[4], b: f[5],
       axis: f[6], date: f[7], current: !!f[8], axisStyle: axisPill(f[6]),
       rowStyle: 'transition:background-color 400ms ease-out;animation:fadeUp 260ms ease-out both;animation-delay:' + (i * 40) + 'ms;background:' + (f[8] ? '#EAF2F9' : 'transparent')
     }));
-    const firmChips = ['전체','자동차','전기전자','석유화학','기계금속','기타'].map((label) => ({
-      label, style: chip(s.firmInd === label), go: () => this.setState({ firmInd: label })
+    const firmPageBtn = (on) => 'font-size:12px;font-weight:' + (on ? '700' : '600') + ';padding:6px 12px;border-radius:3px;cursor:pointer;transition:background-color 300ms ease-out,color 300ms ease-out;'
+      + (on ? 'color:#fff;background:' + NAVY + ';border:1px solid ' + NAVY + ';' : 'color:#5B5F66;background:#fff;border:1px solid #E1E4E8;');
+    const firmStepBtn = (enabled) => 'font-size:12px;font-weight:600;padding:6px 11px;border:1px solid #E1E4E8;border-radius:3px;transition:color 300ms ease-out;color:'
+      + (enabled ? '#5B5F66;cursor:pointer' : '#A0A5AC;cursor:default');
+    const firmPages = Array.from({ length: firmPageCount }, (_, i) => ({
+      label: String(i + 1), style: firmPageBtn(firmPage === i),
+      go: () => this.setState({ firmPage: i })
     }));
+    const firmChips = ['전체','자동차','전기전자','석유화학','기계금속','기타'].map((label) => ({
+      label, style: chip(s.firmInd === label), go: () => this.setState({ firmInd: label, firmPage: 0 })
+    }));
+
+    // Paging for the dashboard's 참여 기업 popup. Its state is kept apart from
+    // the policy screen's firm table (firmPage) on purpose: both tables list
+    // companies, and sharing a page number would make one jump when the other
+    // is paged.
+    const F_PER_PAGE = 10;
+    const fFiltered = () => TOP_FIRMS.filter((r) => (!s.fSize || r[9] === s.fSize) && (!s.fInd || r[1] === s.fInd));
+    const fPageCount = () => Math.max(1, Math.ceil(fFiltered().length / F_PER_PAGE));
+    // Narrowing by size or industry can leave fewer pages than the one being
+    // viewed, so clamp rather than showing an empty table.
+    const fPageNow = () => Math.min(s.fPage, fPageCount() - 1);
+    const fStart = () => fPageNow() * F_PER_PAGE;
+    const fPageBtn = (on) => 'font-size:11.5px;padding:4px 10px;border-radius:3px;cursor:pointer;transition:background-color 300ms ease-out,color 300ms ease-out;'
+      + (on ? 'font-weight:700;color:#fff;background:' + NAVY + ';border:1px solid ' + NAVY + ';' : 'color:#5B5F66;background:#fff;border:1px solid #E1E4E8;');
+    const fStepBtn = (enabled) => 'font-size:11.5px;border:1px solid #E1E4E8;padding:4px 9px;border-radius:3px;transition:color 300ms ease-out;color:'
+      + (enabled ? '#5B5F66;cursor:pointer' : '#A0A5AC;cursor:default');
     const setsAll = DSETS.filter((d) => (s.setGrade === '전체' || d[4] === s.setGrade) && (s.setAxis === '전체' || d[3] === s.setAxis));
     const setRows = setsAll.map((d, i) => {
       const gi = DSETS.indexOf(d);
@@ -4572,7 +4634,7 @@ class Component extends DCLogic {
       firmScale: FIRM_SIZES.map((f) => {
         const on = !s.fSize || s.fSize === f[0];
         return { name: f[0], count: f[1].toLocaleString() + '개사', pct: f[2] + '%',
-          click: () => this.setState({ fSize: s.fSize === f[0] ? null : f[0], fRow: null }),
+          click: () => this.setState({ fSize: s.fSize === f[0] ? null : f[0], fRow: null, fPage: 0 }),
           dot: 'width:9px;height:9px;border-radius:2px;flex:none;transition:background-color 400ms ease-out;background:' + (on ? f[3] : '#D8DDE3'),
           rowStyle: 'display:flex;align-items:center;gap:9px;padding:5px 6px;border-bottom:1px solid #F0F1F3;border-radius:3px;cursor:pointer;transition:background-color 300ms ease-out,opacity 300ms ease-out;opacity:' + (on ? 1 : 0.45) + ';background:' + (s.fSize === f[0] ? '#EAF2F9' : 'transparent') };
       }),
@@ -4586,15 +4648,15 @@ class Component extends DCLogic {
         bar: 'display:block;height:100%;border-radius:0 2px 2px 0;transform-origin:left;animation:barGrowX 500ms cubic-bezier(0.16,1,0.3,1) both;width:' + (NEW_SPLIT[s.fMonth][i] / NEW_SPLIT[s.fMonth][2] * 100).toFixed(1) + '%;background:' + f[3] })) : [],
       closeFirmMonth: () => this.setState({ fMonth: null }),
       popFirmChips: [
-        s.fSize ? { label: '규모 · ' + s.fSize, clear: () => this.setState({ fSize: null, fRow: null }) } : null,
-        s.fInd ? { label: '업종 · ' + s.fInd, clear: () => this.setState({ fInd: null, fRow: null }) } : null
+        s.fSize ? { label: '규모 · ' + s.fSize, clear: () => this.setState({ fSize: null, fRow: null, fPage: 0 }) } : null,
+        s.fInd ? { label: '업종 · ' + s.fInd, clear: () => this.setState({ fInd: null, fRow: null, fPage: 0 }) } : null
       ].filter(Boolean),
       firmChipsOn: !!(s.fSize || s.fInd),
-      clearFirmFilters: () => this.setState({ fSize: null, fInd: null, fRow: null }),
+      clearFirmFilters: () => this.setState({ fSize: null, fInd: null, fRow: null, fPage: 0 }),
       firmSortCount: 'width:96px;text-align:right;font-size:11.5px;cursor:pointer;transition:color 300ms ease-out;color:' + (s.fSort === 'count' ? '#1F4E79;font-weight:700' : '#5B5F66'),
       firmSortValue: 'width:82px;text-align:right;font-size:11.5px;cursor:pointer;transition:color 300ms ease-out;color:' + (s.fSort === 'value' ? '#1F4E79;font-weight:700' : '#5B5F66'),
-      setFirmSortCount: () => this.setState({ fSort: 'count' }),
-      setFirmSortValue: () => this.setState({ fSort: 'value' }),
+      setFirmSortCount: () => this.setState({ fSort: 'count', fPage: 0 }),
+      setFirmSortValue: () => this.setState({ fSort: 'value', fPage: 0 }),
       firmDonut: (() => {
         const seg = (nm, a, b) => (s.fSize && s.fSize !== nm ? '#DCE1E6' : SIZE_COLOR[nm]) + ' ' + a + '% ' + b + '%';
         return 'width:132px;height:132px;border-radius:50%;flex:none;cursor:pointer;animation:donutIn 700ms ease-out both;transition:filter 400ms ease-out;background:conic-gradient('
@@ -4606,7 +4668,7 @@ class Component extends DCLogic {
         let pct = (Math.atan2(dx, -dy) * 180 / Math.PI) / 3.6;
         if (pct < 0) pct += 100;
         const hit = pct < 3.3 ? '대기업' : pct < 20.1 ? '중견기업' : '중소기업';
-        this.setState({ fSize: s.fSize === hit ? null : hit, fRow: null });
+        this.setState({ fSize: s.fSize === hit ? null : hit, fRow: null, fPage: 0 });
       },
       newFirms: NEW_FIRMS.map((n, i) => ({ label: n[0], value: s.firmLabels || true ? n[1].toLocaleString() : '',
         tip: n[0] + '  ·  신규 참여 ' + n[1].toLocaleString() + '개사' + (i > 0 ? '\n전월 대비 ' + ((n[1] - NEW_FIRMS[i - 1][1]) >= 0 ? '▲ +' : '▼ ') + (n[1] - NEW_FIRMS[i - 1][1]) + '개사' : '') + (n[2] ? '\n집계 진행 중' : ''),
@@ -4618,21 +4680,32 @@ class Component extends DCLogic {
         const on = !s.fInd || s.fInd === r[0];
         return { name: r[0], value: r[1].toLocaleString() + '개사',
           tip: r[0] + '  ·  ' + r[1].toLocaleString() + '개사 (' + (r[1] / 1284 * 100).toFixed(1) + '%)\n클릭하면 하단 표가 이 업종으로 걸러집니다',
-          click: () => this.setState({ fInd: s.fInd === r[0] ? null : r[0], fRow: null }),
+          click: () => this.setState({ fInd: s.fInd === r[0] ? null : r[0], fRow: null, fPage: 0 }),
           rowStyle: 'display:flex;align-items:center;gap:12px;margin-bottom:8px;padding:2px 6px;border-radius:3px;cursor:pointer;transition:background-color 300ms ease-out,opacity 300ms ease-out;opacity:' + (on ? 1 : 0.45) + ';background:' + (s.fInd === r[0] ? '#EAF2F9' : 'transparent'),
           bar: 'height:100%;border-radius:0 2px 2px 0;transform-origin:left;animation:barGrowX 700ms cubic-bezier(0.16,1,0.3,1) both;width:' + (r[1] / 324 * 100).toFixed(1) + '%;background:' + (on ? (s.fInd === r[0] ? NAVY : '#2E86AB') : '#C9D2DA') };
       }),
       topFirms: (() => {
-        let rows = TOP_FIRMS.filter((r) => (!s.fSize || r[9] === s.fSize) && (!s.fInd || r[1] === s.fInd));
         const val = (r) => r[4] * 2000 + r[5] * 800 + r[6] * 200;
-        rows = rows.slice().sort((a, b) => s.fSort === 'value' ? val(b) - val(a) : b[3] - a[3]);
+        let rows = fFiltered().slice().sort((a, b) => s.fSort === 'value' ? val(b) - val(a) : b[3] - a[3]);
+        rows = rows.slice(fStart(), fStart() + F_PER_PAGE);
         return rows.map((r) => ({ name: r[0], ind: r[1], region: r[2], count: r[3].toLocaleString() + '건',
           g: r[4], sv: r[5], b: r[6], axis: r[7], cur: r[8], size: r[9], value: fmtMan(val(r)),
           click: () => this.setState({ fRow: r[0] }),
           rowStyle: 'display:flex;align-items:center;padding:9px 10px;border-bottom:1px solid #F0F1F3;cursor:pointer;transition:background-color 300ms ease-out;background:' + (s.fRow === r[0] ? '#DCE9F5' : r[8] ? '#EAF2F9' : 'transparent'),
           axisStyle: 'font-size:10.5px;font-weight:700;color:#fff;padding:2px 7px;border-radius:2px;white-space:nowrap;background:' + (r[7] === '제1축' ? BLUE : r[7] === '제2축' ? ORANGE : '#8A9099') }));
       })(),
-      firmResultCount: TOP_FIRMS.filter((r) => (!s.fSize || r[9] === s.fSize) && (!s.fInd || r[1] === s.fInd)).length,
+      firmResultCount: fFiltered().length,
+      fFrom: fFiltered().length ? fStart() + 1 : 0,
+      fTo: Math.min(fFiltered().length, fStart() + F_PER_PAGE),
+      fTotal: fFiltered().length,
+      fPages: Array.from({ length: fPageCount() }, (_, i) => ({
+        label: String(i + 1), style: fPageBtn(fPageNow() === i),
+        go: () => this.setState({ fPage: i })
+      })),
+      fPrevStyle: fStepBtn(fPageNow() > 0),
+      fNextStyle: fStepBtn(fPageNow() < fPageCount() - 1),
+      fPrev: () => this.setState({ fPage: Math.max(0, fPageNow() - 1) }),
+      fNext: () => this.setState({ fPage: Math.min(fPageCount() - 1, fPageNow() + 1) }),
       firmRowOpen: !!s.fRow,
       firmDetail: (() => {
         const r = TOP_FIRMS.find((x) => x[0] === s.fRow);
@@ -4862,7 +4935,15 @@ class Component extends DCLogic {
       openFirms: () => this.setState({ dash: 'firms' }),
       openSets: () => this.setState({ dash: 'sets' }),
       closeDash: () => this.setState({ dash: null, setSel: null }),
-      firmChips, firmRows, gradeChips, axisChips, setRows,
+      firmChips, firmRows, firmPages,
+      firmFrom: firmRowsAll.length ? firmStart + 1 : 0,
+      firmTo: Math.min(firmRowsAll.length, firmStart + FIRM_PER_PAGE),
+      firmTotal: firmRowsAll.length,
+      firmPrevStyle: firmStepBtn(firmPage > 0),
+      firmNextStyle: firmStepBtn(firmPage < firmPageCount - 1),
+      firmPrev: () => this.setState({ firmPage: Math.max(0, firmPage - 1) }),
+      firmNext: () => this.setState({ firmPage: Math.min(firmPageCount - 1, firmPage + 1) }),
+      gradeChips, axisChips, setRows,
       setPageLabel: '1~' + setRows.length + ' / 42,610',
       setDetailOpen: dsel !== null,
       closeSetDetail: () => this.setState({ setSel: null }),
