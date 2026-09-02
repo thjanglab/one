@@ -33,7 +33,7 @@ export default function Artboard({ v }: { v: any }) {
           {" "}
           <div style={S("display:flex;align-items:baseline;gap:10px")}>
             {" "}
-            <span style={S("color:#fff;font-size:19px;font-weight:700;letter-spacing:-0.4px")}>국가 제조데이터뱅크</span>
+            <span style={S("color:#fff;font-size:19px;font-weight:700;letter-spacing:-0.4px")}>국가 제조데이터 라이브러리 현황</span>
             {" "}
             <span style={S("color:#A9C3DC;font-size:13px")}>(가칭)</span>
             {" "}
