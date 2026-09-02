@@ -66,7 +66,7 @@ export default function Artboard({ v }: { v: any }) {
         {(v?.tourOn) ? (
           <>
             {" "}
-            <div style={S("position:absolute;left:26px;bottom:26px;z-index:75;max-width:620px;pointer-events:none;background:#1F4E79;color:#fff;border-radius:5px;padding:15px 20px;box-shadow:0 10px 28px rgba(0,0,0,0.26);display:flex;align-items:center;gap:14px;animation:slideUpIn 400ms ease-out both")}>
+            <div style={S("position:absolute;left:26px;bottom:26px;z-index:120;max-width:620px;pointer-events:none;background:#1F4E79;color:#fff;border-radius:5px;padding:15px 20px;box-shadow:0 10px 28px rgba(0,0,0,0.26);display:flex;align-items:center;gap:14px;animation:slideUpIn 400ms ease-out both")}>
               {" "}
               <span style={S("flex:none;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.16);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700")}>{I(v?.tourNo)}</span>
               {" "}
@@ -74,7 +74,7 @@ export default function Artboard({ v }: { v: any }) {
               {" "}
             </div>
             {" "}
-            <div style={S("position:absolute;right:26px;bottom:26px;z-index:75;background:#fff;border:1px solid #D6DBE0;border-radius:5px;padding:9px 10px;box-shadow:0 10px 28px rgba(31,78,121,0.18);display:flex;align-items:center;gap:8px")}>
+            <div style={S("position:absolute;right:26px;bottom:26px;z-index:120;background:#fff;border:1px solid #D6DBE0;border-radius:5px;padding:9px 10px;box-shadow:0 10px 28px rgba(31,78,121,0.18);display:flex;align-items:center;gap:8px")}>
               {" "}
               <div onClick={v?.tourPrev} style={S(v?.prevStyle)}>◀ 이전</div>
               {" "}
@@ -94,7 +94,7 @@ export default function Artboard({ v }: { v: any }) {
         {(v?.tourOff2) ? (
           <>
             {" "}
-            <div className="scp5" onClick={v?.tourOn2} data-tip="가이드 투어를 다시 켭니다" style={S("position:absolute;right:26px;bottom:26px;z-index:75;background:#fff;border:1px solid #D6DBE0;border-radius:3px;padding:8px 14px;font-size:12px;font-weight:600;color:#7A8089;cursor:pointer;box-shadow:0 4px 14px rgba(31,78,121,0.12);transition:color 400ms ease-out,background-color 400ms ease-out")}>투어 켜기</div>
+            <div className="scp5" onClick={v?.tourOn2} data-tip="가이드 투어를 다시 켭니다" style={S("position:absolute;right:26px;bottom:26px;z-index:120;background:#fff;border:1px solid #D6DBE0;border-radius:3px;padding:8px 14px;font-size:12px;font-weight:600;color:#7A8089;cursor:pointer;box-shadow:0 4px 14px rgba(31,78,121,0.12);transition:color 400ms ease-out,background-color 400ms ease-out")}>투어 켜기</div>
             {" "}
           </>
         ) : null}

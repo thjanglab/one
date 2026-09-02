@@ -294,7 +294,7 @@ input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 1px #1F4E79,0 0 0
         <div style="font-size:18px;font-weight:700;color:#1F4E79;line-height:1.55;letter-spacing:-0.4px">설비에서 나온 데이터는 쌓아둔 그대로는 쓸 수 없습니다.<br>정리 단계를 거칠수록 쓸 수 있는 범위가 넓어지고, 그만큼 자산 가치가 올라갑니다.</div>
         <div style="font-size:12.5px;color:#8A9099;margin-top:9px">아래는 K사의 '설비 진동·온도 시계열' 데이터가 단계별로 어떻게 바뀌는지를 보여줍니다.</div>
 
-        <div style="display:flex;gap:16px;align-items:stretch;margin-top:20px">
+        <div data-tour="grade-cards" style="display:flex;gap:16px;align-items:stretch;margin-top:20px">
 
           <div style="flex:1;display:flex;flex-direction:column;background:#fff;border:1px solid #E1E4E8;border-top:4px solid #A0673A;border-radius:4px;padding:16px 18px 0;animation:fadeUp 400ms ease-out both">
             <div style="font-size:15px;font-weight:700;color:#7C4A22;letter-spacing:-0.3px">Bronze — 원본 적재 (Raw)</div>
@@ -383,12 +383,12 @@ EQ_A07        2026-08-11     0.094   0.061     +11.7     <span style="animation:
   </sc-if>
 
   <sc-if value="{{ tourOn }}">
-  <div style="position:absolute;left:26px;bottom:26px;z-index:75;max-width:620px;pointer-events:none;background:#1F4E79;color:#fff;border-radius:5px;padding:15px 20px;box-shadow:0 10px 28px rgba(0,0,0,0.26);display:flex;align-items:center;gap:14px;animation:slideUpIn 400ms ease-out both">
+  <div style="position:absolute;left:26px;bottom:26px;z-index:120;max-width:620px;pointer-events:none;background:#1F4E79;color:#fff;border-radius:5px;padding:15px 20px;box-shadow:0 10px 28px rgba(0,0,0,0.26);display:flex;align-items:center;gap:14px;animation:slideUpIn 400ms ease-out both">
     <span style="flex:none;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.16);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700">{{ tourNo }}</span>
     <span style="font-size:14.5px;font-weight:600;line-height:1.5;letter-spacing:-0.3px">{{ tourText }}</span>
   </div>
 
-  <div style="position:absolute;right:26px;bottom:26px;z-index:75;background:#fff;border:1px solid #D6DBE0;border-radius:5px;padding:9px 10px;box-shadow:0 10px 28px rgba(31,78,121,0.18);display:flex;align-items:center;gap:8px">
+  <div style="position:absolute;right:26px;bottom:26px;z-index:120;background:#fff;border:1px solid #D6DBE0;border-radius:5px;padding:9px 10px;box-shadow:0 10px 28px rgba(31,78,121,0.18);display:flex;align-items:center;gap:8px">
     <div onClick="{{ tourPrev }}" style="{{ prevStyle }}">◀ 이전</div>
     <div style="font-size:12.5px;font-weight:700;color:#1A1D21;padding:0 6px;white-space:nowrap">{{ tourNo }} / {{ tourTotal }} 단계</div>
     <div onClick="{{ tourNext }}" style="{{ nextStyle }}">다음 ▶</div>
@@ -398,7 +398,7 @@ EQ_A07        2026-08-11     0.094   0.061     +11.7     <span style="animation:
   </sc-if>
 
   <sc-if value="{{ tourOff2 }}">
-  <div onClick="{{ tourOn2 }}" data-tip="가이드 투어를 다시 켭니다" style="position:absolute;right:26px;bottom:26px;z-index:75;background:#fff;border:1px solid #D6DBE0;border-radius:3px;padding:8px 14px;font-size:12px;font-weight:600;color:#7A8089;cursor:pointer;box-shadow:0 4px 14px rgba(31,78,121,0.12);transition:color 400ms ease-out,background-color 400ms ease-out" style-hover="background:#EAF2F9;color:#1F4E79">투어 켜기</div>
+  <div onClick="{{ tourOn2 }}" data-tip="가이드 투어를 다시 켭니다" style="position:absolute;right:26px;bottom:26px;z-index:120;background:#fff;border:1px solid #D6DBE0;border-radius:3px;padding:8px 14px;font-size:12px;font-weight:600;color:#7A8089;cursor:pointer;box-shadow:0 4px 14px rgba(31,78,121,0.12);transition:color 400ms ease-out,background-color 400ms ease-out" style-hover="background:#EAF2F9;color:#1F4E79">투어 켜기</div>
   </sc-if>
 
   <sc-if value="{{ modal }}">
@@ -1883,7 +1883,7 @@ EQ_A07        2026-08-11     0.094   0.061     +11.7     <span style="animation:
             </div>
           </div>
 
-          <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px;border-left:1px solid rgba(255,255,255,0.16);padding-left:24px;padding-top:30px;min-width:0">
+          <div data-tour="acct-limit" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px;border-left:1px solid rgba(255,255,255,0.16);padding-left:24px;padding-top:30px;min-width:0">
             <div style="display:flex;align-items:center;gap:14px">
               <div style="flex:1;min-width:0">
                 <div style="font-size:12.5px;color:#A9C3DC;margin-bottom:5px">담보 가능 한도</div>
@@ -1922,7 +1922,7 @@ EQ_A07        2026-08-11     0.094   0.061     +11.7     <span style="animation:
         </div>
 
         <div style="display:flex;gap:14px;margin-top:12px;height:186px">
-          <div style="flex:0 0 38%;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:14px 16px;display:flex;flex-direction:column;min-width:0">
+          <div data-tour="acct-tower" style="flex:0 0 38%;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:14px 16px;display:flex;flex-direction:column;min-width:0">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
               <span style="font-size:13.5px;font-weight:700;color:#1F4E79">자산 타워</span>
               <span onClick="{{ openGrade }}" data-tip="Bronze·Silver·Gold 3단계의 차이를 예시로 설명합니다" style="margin-left:auto;font-size:11px;font-weight:600;color:#2E86AB;cursor:pointer;padding:3px 8px;border-radius:3px;border:1px solid #CFE3EE;transition:background-color 400ms ease-out" style-hover="background:#EAF4F9">데이터 등급이란?</span>
@@ -1979,7 +1979,7 @@ EQ_A07        2026-08-11     0.094   0.061     +11.7     <span style="animation:
             <div style="margin-top:7px;padding-top:7px;border-top:1px solid #F0F1F3;font-size:11px;color:#8A9099">등급 상향과 신규 예치에 따른 자산 증가</div>
           </div>
 
-          <div style="flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:14px 16px;display:flex;flex-direction:column;min-width:0">
+          <div data-tour="acct-axis" style="flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:14px 16px;display:flex;flex-direction:column;min-width:0">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;min-height:22px">
               <span style="font-size:13.5px;font-weight:700;color:#1F4E79">축별 보유 현황</span>
               <sc-if value="{{ hasAxisFilter }}">
@@ -2014,7 +2014,7 @@ EQ_A07        2026-08-11     0.094   0.061     +11.7     <span style="animation:
           </div>
         </div>
 
-        <div style="background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:11px 16px;margin-top:12px">
+        <div data-tour="acct-tx" style="background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:11px 16px;margin-top:12px">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
             <div style="display:flex;align-items:center;gap:14px">
               <div style="font-size:13.5px;font-weight:700;color:#1F4E79">최근 거래내역</div>
@@ -2193,7 +2193,7 @@ EQ_A07        2026-08-11     0.094   0.061     +11.7     <span style="animation:
             <div style="font-size:12.5px;color:#7A8089;margin-top:4px">예치할 데이터셋을 선택하면 성격에 따라 축이 자동 판정되고, 운용 경로가 분기됩니다.</div>
           </div>
           <div style="display:flex;align-items:center;gap:14px;flex:none">
-            <div onClick="{{ toggleCompare }}" style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:7px 11px 7px 8px;border-radius:4px;transition:background-color 400ms ease-out" style-hover="background:#EDEFF2">
+            <div data-tour="dep-compare" onClick="{{ toggleCompare }}" style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:7px 11px 7px 8px;border-radius:4px;transition:background-color 400ms ease-out" style-hover="background:#EDEFF2">
               <div style="{{ switchTrack }}"><div style="{{ switchKnob }}"></div></div>
               <span style="font-size:12.5px;font-weight:700;color:#1A1D21;white-space:nowrap">두 경로 나란히 보기</span>
             </div>
@@ -2270,7 +2270,7 @@ EQ_A07        2026-08-11     0.094   0.061     +11.7     <span style="animation:
         </sc-if>
 
         <sc-if value="{{ judged }}">
-        <div style="background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;margin-top:14px;display:flex;gap:28px;align-items:center;animation:fadeUp 500ms ease-out both">
+        <div data-tour="dep-judge" style="background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;margin-top:14px;display:flex;gap:28px;align-items:center;animation:fadeUp 500ms ease-out both">
           <div style="flex:1">
             <div style="font-size:14px;font-weight:700;color:#1F4E79;margin-bottom:14px">축 자동 판정</div>
             <div style="display:flex;gap:14px">
@@ -2298,7 +2298,7 @@ EQ_A07        2026-08-11     0.094   0.061     +11.7     <span style="animation:
         </div>
 
         <sc-if value="{{ singleFlow }}">
-        <div style="{{ flowBox }}">
+        <div data-tour="dep-flow" style="{{ flowBox }}">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
             <span style="font-size:14px;font-weight:700;color:{{ flowColor }}">운용 경로</span>
             <span style="{{ flowTagStyle }}">{{ flowTag }}</span>
@@ -2429,7 +2429,7 @@ EQ_A07        2026-08-11     0.094   0.061     +11.7     <span style="animation:
               </div>
               </sc-if>
               <sc-if value="{{ evalReady }}">
-              <div style="animation:fadeUp 500ms ease-out both">
+              <div data-tour="eval-metrics" style="animation:fadeUp 500ms ease-out both">
                 <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px">
                   <span style="font-size:13px;font-weight:700;color:#1A1D21">판정 지표 (100점 만점)</span>
                   <span style="font-size:12px;color:#7A8089;white-space:nowrap;flex:none">종합 <b style="font-size:15px;color:#1F4E79"><span data-count="{{ totalScore }}" data-fmt="plain" data-unit="점">{{ totalScore }}</span></b>점 · 판정 등급 <b style="{{ gradeLabelStyle }}">{{ gradeLabel }}</b></span>
@@ -2459,7 +2459,7 @@ EQ_A07        2026-08-11     0.094   0.061     +11.7     <span style="animation:
             </div>
           </div>
 
-          <div style="flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(31,78,121,0.10)">
+          <div data-tour="eval-maturity" style="flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(31,78,121,0.10)">
             <div style="font-size:14px;font-weight:700;color:#1F4E79;margin-bottom:14px">기업 데이터 거버넌스 성숙도 · 5단계</div>
 
             <div style="display:flex;flex-direction:column;gap:6px">
@@ -2517,7 +2517,7 @@ EQ_A07        2026-08-11     0.094   0.061     +11.7     <span style="animation:
         <div style="margin-top:14px;font-size:11.5px;color:#8A9099;line-height:1.6">데이터 자산의 품질 등급과 보유 기업의 처리 역량은 분리하여 진단하며, 진단 결과에 따라 정책 지원 수단을 차등 적용합니다.</div>
 
         <sc-if value="{{ showResult }}">
-        <div style="position:absolute;right:28px;bottom:22px;background:#1F4E79;border-left:4px solid #C9A227;border-radius:4px;padding:16px 20px;display:flex;align-items:center;gap:22px;box-shadow:0 8px 24px rgba(31,78,121,0.30);animation:slideUpIn 600ms ease-out both;z-index:5">
+        <div data-tour="eval-result" style="position:absolute;right:28px;bottom:22px;background:#1F4E79;border-left:4px solid #C9A227;border-radius:4px;padding:16px 20px;display:flex;align-items:center;gap:22px;box-shadow:0 8px 24px rgba(31,78,121,0.30);animation:slideUpIn 600ms ease-out both;z-index:5">
           <div>
             <div style="font-size:11.5px;font-weight:600;color:#C9A227;letter-spacing:0.3px;margin-bottom:6px">Gold 상향 반영 결과</div>
             <div style="font-size:17px;font-weight:700;color:#fff;letter-spacing:-0.4px">평가액 +1,200만원 · 담보 가능액 +1,080만원</div>
@@ -3418,12 +3418,42 @@ const TOUR = [
     text:'오른쪽은 실시간 거래 기록입니다. 모든 거래는 클리어링 하우스에 남고 사후에 고칠 수 없습니다.' },
   { screen:'map', target:'map-case', state:{ mapAxis:'전체', mapSel:null },
     text:'그러면 이 1,284개사 가운데 한 곳으로 들어가 보겠습니다.' },
-  { screen:'account', target:'acct-card', text:'K사의 데이터 계좌입니다. 보유 데이터가 얼마의 자산으로 잡히는지 보십시오.' },
-  { screen:'deposit', target:'ds-picker', text:'데이터를 예치합니다. 어떤 데이터인지에 따라 길이 갈립니다.' },
-  { screen:'deposit', target:'ds-a', text:'설비 진동 데이터를 선택해 보십시오. 범용 축으로 판정됩니다.' },
-  { screen:'deposit', target:'ds-b', text:'이번엔 공정 레시피입니다. 같은 기업 데이터인데 경로가 완전히 다릅니다.' },
-  { screen:'evaluate', target:'medallion', text:'예치된 데이터에 등급이 매겨집니다. 메달리온 3단계입니다.' },
-  { screen:'evaluate', target:'gold-sim', text:'Gold로 올리면 어떻게 되는지 보십시오.' },
+  { screen:'account', target:'acct-card', state:{ gradeModal:false },
+    text:'K사의 데이터 계좌입니다. 보유 42건이 2억 1,000만원의 자산으로 인정됐습니다.' },
+  { screen:'account', target:'acct-limit', state:{ gradeModal:false },
+    text:'그 자산으로 8,580만원까지 조달할 수 있습니다. 평가액의 40.9%입니다.' },
+  { screen:'account', target:'acct-tower', state:{ gradeModal:false },
+    text:'자산 타워입니다. 같은 42건이라도 등급에 따라 담보 인정률이 70·40·10%로 갈립니다.' },
+  { screen:'account', target:'grade-cards', state:{ gradeModal:true },
+    text:'등급이 무엇인지 보십시오. 같은 설비 데이터라도 어디까지 정리했느냐로 인정 비율이 10%에서 70%까지 벌어집니다.' },
+  { screen:'account', target:'acct-axis', state:{ gradeModal:false },
+    text:'보유 데이터는 제1축 29건, 제2축 13건입니다. 축에 따라 유통 경로와 보상 방식이 다릅니다.' },
+  { screen:'account', target:'acct-tx', state:{ gradeModal:false },
+    text:'적립·평가·예치가 모두 계좌에 기록으로 남습니다. 자산 계좌와 같은 방식입니다.' },
+
+  { screen:'deposit', target:'ds-picker', state:{ ds:'A', compare:false, judging:false, dsJudged:{ A:true, B:true } },
+    text:'데이터를 예치합니다. 성격이 다른 두 데이터셋을 준비했습니다.' },
+  { screen:'deposit', target:'ds-a', state:{ ds:'A', compare:false, judging:false, dsJudged:{ A:true, B:true } },
+    text:'설비 진동·온도 시계열입니다. 제1축, 범용 데이터로 판정됩니다.' },
+  { screen:'deposit', target:'dep-judge', state:{ ds:'A', compare:false, judging:false, dsJudged:{ A:true, B:true } },
+    text:'판정은 네 기준으로 이뤄집니다 — 공개 가능성, 희소성, 기밀성, 재사용 범용성.' },
+  { screen:'deposit', target:'ds-b', state:{ ds:'B', compare:false, judging:false, dsJudged:{ A:true, B:true } },
+    text:'이번엔 사출 공정 레시피입니다. 같은 기업 데이터인데 제2축으로 갈립니다.' },
+  { screen:'deposit', target:'dep-flow', state:{ ds:'B', compare:false, judging:false, dsJudged:{ A:true, B:true } },
+    text:'제2축은 원본이 기업에 남습니다. 이용 목적·기간·횟수를 지정한 조건부 계약으로만 거래됩니다.' },
+  { screen:'deposit', target:'dep-compare', state:{ compare:true, judging:false, dsJudged:{ A:true, B:true } },
+    text:'두 경로를 나란히 놓고 보십시오. 같은 기업의 데이터인데 운용 방식이 이렇게 다릅니다.' },
+
+  { screen:'evaluate', target:'medallion', state:{ upPhase:0, applied:false },
+    text:'예치된 데이터에 등급이 매겨집니다. 메달리온 3단계, 현재는 Silver입니다.' },
+  { screen:'evaluate', target:'eval-metrics', state:{ upPhase:0, applied:false },
+    text:'일곱 개 지표로 종합 71점입니다. 활용 이력과 희소성이 낮아 Gold에 못 미쳤습니다.' },
+  { screen:'evaluate', target:'eval-maturity', state:{ upPhase:0, applied:false },
+    text:'데이터 자산과 별개로 기업의 처리 역량도 진단합니다. 3단계 이상이 참여 기준선입니다.' },
+  { screen:'evaluate', target:'gold-sim', state:{ upPhase:0, applied:false },
+    text:'Gold로 올리면 어떻게 되는지, 눌러서 보십시오.' },
+  { screen:'evaluate', target:'eval-result', state:{ upPhase:6 },
+    text:'등급 하나가 오르니 평가액이 1,200만원, 담보 가능액이 1,080만원 늘었습니다.' },
   { screen:'operate', tab:'loan', target:'limit-card', text:'등급이 오르니 담보 한도가 올랐습니다. 데이터가 돈이 되는 지점입니다.' },
   { screen:'operate', tab:'loan', target:'fund-tab', text:'펀딩 탭도 보십시오. 담보와 성격이 다릅니다.' },
   { screen:'policy', target:'kpi-row', text:'이 구조가 전국으로 확산되면 이런 그림이 됩니다.' }
@@ -3663,7 +3693,7 @@ class Component extends DCLogic {
   buildOverlay() {
     if (!this.stage || this.overlay) return;
     const ov = document.createElement('div');
-    ov.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:60';
+    ov.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:118';
     this.stage.appendChild(ov);
     this.overlay = ov;
 
