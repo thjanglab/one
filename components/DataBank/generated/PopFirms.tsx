@@ -317,9 +317,17 @@ export default function PopFirms({ v }: { v: any }) {
                 </React.Fragment>
               ))}
               {" "}
+              {(v?.fEmpty) ? (
+                <>
+                  {" "}
+                  <div style={S("padding:26px 10px;text-align:center;font-size:12px;color:#8A9099;border-bottom:1px solid #F0F1F3")}>선택한 조건에 해당하는 기업이 없습니다</div>
+                  {" "}
+                </>
+              ) : null}
+              {" "}
               <div style={S("display:flex;align-items:center;justify-content:space-between;margin-top:12px")}>
                 {" "}
-                <span style={S("font-size:11.5px;color:#8A9099")}>{"상위 "}{I(v?.fTotal)}{"개사 중 "}{I(v?.fFrom)}~{I(v?.fTo)}</span>
+                <span style={S("font-size:11.5px;color:#8A9099")}>{I(v?.fRange)}</span>
                 {" "}
                 <div style={S("display:flex;gap:5px")}>
                   {" "}

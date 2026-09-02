@@ -88,7 +88,7 @@ export default function ModalFirms({ v }: { v: any }) {
               {" "}
               <span style={S("font-size:12px;color:#A0A5AC")}>⌕</span>
               {" "}
-              <input type="text" placeholder="기업명 검색" style={S("border:none;outline:none;font-size:12.5px;width:100%;color:#1A1D21;font-family:inherit")} />
+              <input type="text" placeholder="기업명 검색" value={v?.firmQuery} onChange={v?.setFirmQuery} style={S("border:none;outline:none;font-size:12.5px;width:100%;color:#1A1D21;font-family:inherit")} />
               {" "}
             </div>
             {" "}
@@ -158,13 +158,25 @@ export default function ModalFirms({ v }: { v: any }) {
                 </React.Fragment>
               ))}
               {" "}
+              {(v?.firmEmpty) ? (
+                <>
+                  {" "}
+                  <tr>
+                    {" "}
+                    <td colSpan="6" style={S("padding:28px 12px;text-align:center;font-size:12.5px;color:#8A9099;border-bottom:1px solid #F0F1F3")}>{I(v?.firmEmptyNote)}</td>
+                    {" "}
+                  </tr>
+                  {" "}
+                </>
+              ) : null}
+              {" "}
             </tbody>
             {" "}
           </table>
           {" "}
           <div style={S("display:flex;align-items:center;justify-content:space-between;margin-top:14px")}>
             {" "}
-            <div style={S("font-size:12px;color:#8A9099")}>{"상위 "}{I(v?.firmTotal)}{"개사 중 "}{I(v?.firmFrom)}~{I(v?.firmTo)}</div>
+            <div style={S("font-size:12px;color:#8A9099")}>{I(v?.firmRange)}</div>
             {" "}
             <div style={S("display:flex;gap:5px")}>
               {" "}

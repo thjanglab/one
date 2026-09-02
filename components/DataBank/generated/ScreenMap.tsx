@@ -16,7 +16,7 @@ export default function ScreenMap({ v }: { v: any }) {
           {" "}
           <div style={S("font-size:19px;font-weight:700;color:#1A1D21;letter-spacing:-0.4px")}>국가 데이터 현황판</div>
           {" "}
-          <div style={S("font-size:12px;color:#7A8089;margin-top:4px")}>국가 제조데이터뱅크 (가칭) 등록 기준 · 2026.08</div>
+          <div style={S("font-size:12px;color:#7A8089;margin-top:4px")}>국가 제조데이터뱅크 등록 기준 · 2026.08</div>
           {" "}
         </div>
         {" "}

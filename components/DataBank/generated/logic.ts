@@ -504,7 +504,7 @@ const INIT = { screen:'map', ds:'A', tab:'loan', gold:3, silver:12, bronze:27, j
   period:'month', kind:'전체', axisFilter:null, gradeSel:null, txSel:null, modal:false,
   dragging:false, pulse:null, flashGrade:null, simDone:false, fundPct:0, invested:false, hoverCol:null, accSel:null,
   kpiHover:null, distSel:null, trendRange:6, polHover:null, polSel:null, tourOn:false, tourStep:0, gradeModal:false, dsJudged:{ A:false, B:false },
-  dash:null, firmInd:'전체', firmPage:0, setGrade:'전체', setAxis:'전체', setSel:null, simDelta:0, simFrom:0,
+  dash:null, firmInd:'전체', firmPage:0, firmQ:'', setGrade:'전체', setAxis:'전체', setSel:null, simDelta:0, simFrom:0,
   introPhase:0, txMore:false, towerUp:false,
   mapAnim:true, mapShow:true, mapAxis:'전체', mapSel:null, mapHover:null, mapRec:null, mapRecSel:null, mapZoom:false, mapSort:'cnt',
   mapPop:null, popGrade:'전체', popAxis:'전체',
@@ -1081,7 +1081,9 @@ export class DataBankLogic extends React.Component<any, any> {
       + (a === '제1축' ? BLUE : a === '제2축' ? ORANGE : '#9AA0A8');
     const gradePill = (g) => 'display:inline-block;font-size:11.5px;font-weight:700;color:#fff;padding:3px 9px;border-radius:2px;background:' + GRADE_C[g];
     const FIRM_PER_PAGE = 8;
-    const firmRowsAll = FIRMS.filter((f) => s.firmInd === '전체' || f[1] === s.firmInd);
+    const firmQ = (s.firmQ || '').trim().toLowerCase();
+    const firmRowsAll = FIRMS.filter((f) => (s.firmInd === '전체' || f[1] === s.firmInd)
+      && (!firmQ || f[0].toLowerCase().includes(firmQ)));
     const firmPageCount = Math.max(1, Math.ceil(firmRowsAll.length / FIRM_PER_PAGE));
     // An industry filter can leave fewer pages than the one being viewed, so
     // clamp rather than showing an empty table.
@@ -1762,9 +1764,10 @@ export class DataBankLogic extends React.Component<any, any> {
           axisStyle: 'font-size:10.5px;font-weight:700;color:#fff;padding:2px 7px;border-radius:2px;white-space:nowrap;background:' + (r[7] === '제1축' ? BLUE : r[7] === '제2축' ? ORANGE : '#8A9099') }));
       })(),
       firmResultCount: fFiltered().length,
-      fFrom: fFiltered().length ? fStart() + 1 : 0,
-      fTo: Math.min(fFiltered().length, fStart() + F_PER_PAGE),
-      fTotal: fFiltered().length,
+      fEmpty: fFiltered().length === 0,
+      fRange: fFiltered().length
+        ? '상위 ' + fFiltered().length + '개사 중 ' + (fStart() + 1) + '~' + Math.min(fFiltered().length, fStart() + F_PER_PAGE)
+        : '조회 결과 없음',
       fPages: Array.from({ length: fPageCount() }, (_, i) => ({
         label: String(i + 1), style: fPageBtn(fPageNow() === i),
         go: () => this.setState({ fPage: i })
@@ -2003,9 +2006,13 @@ export class DataBankLogic extends React.Component<any, any> {
       openSets: () => this.setState({ dash: 'sets' }),
       closeDash: () => this.setState({ dash: null, setSel: null }),
       firmChips, firmRows, firmPages,
-      firmFrom: firmRowsAll.length ? firmStart + 1 : 0,
-      firmTo: Math.min(firmRowsAll.length, firmStart + FIRM_PER_PAGE),
-      firmTotal: firmRowsAll.length,
+      firmQuery: s.firmQ,
+      setFirmQuery: (e) => this.setState({ firmQ: e.target.value, firmPage: 0 }),
+      firmEmpty: firmRowsAll.length === 0,
+      firmEmptyNote: firmQ ? '‘' + s.firmQ.trim() + '’에 해당하는 기업이 없습니다' : '조건에 맞는 기업이 없습니다',
+      firmRange: firmRowsAll.length
+        ? '상위 ' + firmRowsAll.length + '개사 중 ' + (firmStart + 1) + '~' + Math.min(firmRowsAll.length, firmStart + FIRM_PER_PAGE)
+        : '검색 결과 없음',
       firmPrevStyle: firmStepBtn(firmPage > 0),
       firmNextStyle: firmStepBtn(firmPage < firmPageCount - 1),
       firmPrev: () => this.setState({ firmPage: Math.max(0, firmPage - 1) }),
