@@ -19,6 +19,24 @@ const ROUTES = [
   'asset/recipe_ai', 'asset/data_batt_cycle',
 ];
 
+// Every target the check visits: the SPA's hash routes plus the standalone
+// pages that are their own build entry. The demo reads its copy off the stage
+// rather than a <main>, and its opening sequence runs for about 3.5s.
+const TARGETS = [
+  ...ROUTES.map((route) => ({
+    name: `/${route}`,
+    url: `${BASE}/#/${route}`,
+    text: () => document.querySelector('main')?.innerText.trim() ?? '',
+    settle: 1500,
+  })),
+  {
+    name: 'databank.html',
+    url: `${BASE}/databank.html`,
+    text: () => document.body.innerText.trim(),
+    settle: 4500,
+  },
+];
+
 // Assets that legitimately live on third-party hosts. A blocked CDN in a
 // sandboxed runner must not be reported as an application defect.
 const EXTERNAL = /^https?:\/\/(?!localhost|127\.0\.0\.1)/;
@@ -58,7 +76,7 @@ page.on('requestfailed', (r) => {
   noteHost(r.url(), 'blocked');
 });
 
-for (const route of ROUTES) {
+for (const target of TARGETS) {
   const problems = [];
   const onPageError = (e) => problems.push(`uncaught: ${e.message}`);
   const onConsole = (m) => {
@@ -76,10 +94,10 @@ for (const route of ROUTES) {
   page.on('console', onConsole);
   page.on('requestfailed', onRequestFailed);
 
-  await page.goto(`${BASE}/#/${route}`, { waitUntil: 'domcontentloaded', timeout: 60_000 });
-  await page.waitForTimeout(1500); // let animations and charts settle
+  await page.goto(target.url, { waitUntil: 'domcontentloaded', timeout: 60_000 });
+  await page.waitForTimeout(target.settle); // let animations and charts settle
 
-  const text = await page.evaluate(() => document.querySelector('main')?.innerText.trim() ?? '');
+  const text = await page.evaluate(target.text);
 
   page.off('pageerror', onPageError);
   page.off('console', onConsole);
@@ -87,24 +105,24 @@ for (const route of ROUTES) {
 
   if (text.length < MIN_TEXT) problems.push(`rendered only ${text.length} chars of text`);
 
-  const name = route.replace(/\//g, '_');
+  const name = target.name.replace(/^\//, '').replace(/\//g, '_');
   await page.screenshot({ path: `${OUT}/${name}.png`, fullPage: true });
 
   const ok = problems.length === 0;
   if (!ok) failed++;
-  results.push({ route, ok, chars: text.length, problems });
-  console.log(`${ok ? 'PASS' : 'FAIL'}  /${route.padEnd(22)} text=${String(text.length).padStart(6)}${problems.length ? '  ' + problems.join(' | ') : ''}`);
+  results.push({ route: target.name, ok, chars: text.length, problems });
+  console.log(`${ok ? 'PASS' : 'FAIL'}  ${target.name.padEnd(23)} text=${String(text.length).padStart(6)}${problems.length ? '  ' + problems.join(' | ') : ''}`);
 }
 
 await browser.close();
 await writeFile(`${OUT}/report.json`, JSON.stringify(results, null, 2));
 
-console.log(`\n${results.length - failed}/${results.length} routes rendered cleanly.`);
+console.log(`\n${results.length - failed}/${results.length} screens rendered cleanly.`);
 
 const summary = [
   `### Render check`,
   ``,
-  `${results.length - failed}/${results.length} routes rendered cleanly.`,
+  `${results.length - failed}/${results.length} screens rendered cleanly.`,
   ``,
   `Externally hosted assets: **${external.loaded} loaded, ${external.blocked} blocked**`,
   ``,
@@ -120,6 +138,6 @@ const summary = [
 console.log('\n' + summary);
 await writeFile(`${OUT}/summary.md`, summary + '\n');
 if (failed > 0) {
-  console.error(`${failed} route(s) failed. Screenshots in ./${OUT}/`);
+  console.error(`${failed} screen(s) failed. Screenshots in ./${OUT}/`);
   process.exit(1);
 }

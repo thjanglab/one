@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - claude/run-program-qmahxu
+      - claude/claude-design-demo-handover-qcsc0z
   workflow_dispatch:
 
 permissions:

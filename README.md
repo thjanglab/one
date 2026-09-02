@@ -24,11 +24,37 @@ GEMINI_API_KEY=your-key-here
 
 Everything else runs without it.
 
+## 국가 제조데이터뱅크 demo
+
+`http://localhost:3000/databank.html` is a six-screen concept demo of the
+proposed National Manufacturing Data Bank — 현황판 · 계좌 · 예치 · 평가 ·
+운용 · 정책 대시보드 — built for showing at government briefings. Every
+figure on it is illustrative, which the bar across the top says outright.
+
+It is a **separate page, not a route**. It runs on a fixed 1600×900 stage
+scaled to the window and styles `html` and `body` itself, and the platform's
+Tailwind base stylesheet — which resets box-sizing, borders and line-height —
+would pull it off the metrics it was designed against. Keeping it on its own
+entry is what makes it match the design pixel for pixel.
+
+The screens are compiled from the Claude Design handoff rather than
+hand-written, so a design change means re-running the converter rather than
+chasing edits through the markup:
+
+```bash
+node scripts/dc-to-tsx.mjs design/manufacturing-data-bank/artboard.dc.html \
+  components/DataBank/generated
+```
+
+`design/manufacturing-data-bank/README.md` covers the source files, how to
+open the original prototype, and how the port is verified against it.
+
 ## Verifying that every screen renders
 
-`npm run verify:render` opens all 23 routes in a real browser and fails if
-any of them throws, logs a console error, fails a local request, or comes
-back visually empty. Screenshots and a JSON report land in `render-report/`.
+`npm run verify:render` opens all 23 routes plus `databank.html` in a real
+browser and fails if any of them throws, logs a console error, fails a local
+request, or comes back visually empty. Screenshots and a JSON report land in
+`render-report/`.
 
 ```bash
 npm run build
@@ -80,7 +106,9 @@ directory.
 | `npm run build` | Compile Tailwind, then build to `dist/` |
 | `npm run preview` | Serve the production build |
 | `npm run css` | Rebuild `index.css` from `tailwind.src.css` |
-| `npm run verify:render` | Browser render check across every route |
+| `npm run verify:render` | Browser render check across every screen |
+| `node scripts/dc-to-tsx.mjs` | Recompile the data bank demo from its design source |
+| `node scripts/compare-to-design.mjs` | Check that demo against the design prototype |
 
 `index.css` is generated, not committed. `npm run dev` and `npm run build`
 regenerate it automatically; run `npm run css` yourself if you change class

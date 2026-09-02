@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutGrid, ShoppingBag, BarChart3, Database, Search, Bell, Settings, Cpu, Globe, BookOpen, GraduationCap, Briefcase, Store, Link as LinkIcon, Leaf, Tag, BadgeCheck, Wand2, Zap, Play, Network, KeyRound, Map, Bot, Workflow, Share2, X, Copy, Check, Lock, Monitor, Shield } from 'lucide-react';
+import { LayoutGrid, ShoppingBag, BarChart3, Database, Search, Bell, Settings, Cpu, Globe, BookOpen, GraduationCap, Briefcase, Store, Link as LinkIcon, Leaf, Tag, BadgeCheck, Wand2, Zap, Play, Network, KeyRound, Map, Bot, Workflow, Share2, X, Copy, Check, Lock, Monitor, Shield, Landmark } from 'lucide-react';
 import { CURRENT_USER } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -61,6 +61,13 @@ const Navbar: React.FC = () => {
             <Store className="w-5 h-5 text-blue-600" />
             {t('nav_portal')}
           </Link>
+          {/* The data bank demo is its own page, not a route: it runs on a
+              fixed 1600x900 stage and carries none of this layout. A plain
+              anchor, relative so it still resolves from a sub-path. */}
+          <a href="databank.html" className="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-medium">
+            <Landmark className="w-5 h-5 text-[#1F4E79]" />
+            {language === 'KO' ? '국가 제조데이터뱅크' : 'Manufacturing Data Bank'}
+          </a>
 
           {/* Sustainability Section */}
           <div className="pt-2 pb-1 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">{language === 'KO' ? '지속가능성' : 'Sustainability'}</div>
