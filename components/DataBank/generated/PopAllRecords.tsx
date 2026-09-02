@@ -29,9 +29,9 @@ export default function PopAllRecords({ v }: { v: any }) {
           {" "}
           <div style={S("margin-left:auto;display:flex;align-items:center;gap:10px")}>
             {" "}
-            <span className="scpg" data-tip="조회 결과를 CSV로 내려받습니다" style={S("font-size:11.5px;font-weight:600;color:#1F4E79;border:1px solid #C9D6E2;padding:6px 12px;border-radius:3px;cursor:pointer;white-space:nowrap;transition:background-color 400ms ease-out")}>CSV 내려받기</span>
+            <span className="scph" data-tip="조회 결과를 CSV로 내려받습니다" style={S("font-size:11.5px;font-weight:600;color:#1F4E79;border:1px solid #C9D6E2;padding:6px 12px;border-radius:3px;cursor:pointer;white-space:nowrap;transition:background-color 400ms ease-out")}>CSV 내려받기</span>
             {" "}
-            <div className="scp1" onClick={v?.closePop} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
+            <div className="scp2" onClick={v?.closePop} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
             {" "}
           </div>
           {" "}
@@ -162,7 +162,7 @@ export default function PopAllRecords({ v }: { v: any }) {
               {L(v?.allRows).map((r: any, $index: number) => (
                 <React.Fragment key={$index}>
                   {" "}
-                  <div className="scpd" onClick={r?.click} style={S(r?.rowStyle)}>
+                  <div className="scpe" onClick={r?.click} style={S(r?.rowStyle)}>
                     {" "}
                     <span style={S("width:138px;flex:none;font-size:11px;color:#7A8089;letter-spacing:0.2px")}>{I(r?.id)}</span>
                     {" "}
@@ -246,7 +246,7 @@ export default function PopAllRecords({ v }: { v: any }) {
                     {" "}
                   </div>
                   {" "}
-                  <div className="scp1" onClick={v?.closeRec} style={S("flex:none;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
+                  <div className="scp2" onClick={v?.closeRec} style={S("flex:none;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
                   {" "}
                 </div>
                 {" "}

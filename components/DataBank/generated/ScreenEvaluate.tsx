@@ -16,13 +16,13 @@ export default function ScreenEvaluate({ v }: { v: any }) {
       {" "}
       <div style={S("display:flex;gap:16px;align-items:stretch")}>
         {" "}
-        <div className="scp8" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+        <div className="scp9" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
           <div style={S("display:flex;align-items:center;gap:10px;margin-bottom:14px")}>
             {" "}
             <span style={S("font-size:14px;font-weight:700;color:#1F4E79")}>데이터 자산 등급 · 메달리온 3단계</span>
             {" "}
-            <span className="scpj" onClick={v?.openGrade} data-tip="Bronze·Silver·Gold 3단계의 차이를 예시로 설명합니다" style={S("margin-left:auto;font-size:11.5px;font-weight:600;color:#2E86AB;cursor:pointer;padding:3px 8px;border-radius:3px;border:1px solid #CFE3EE;transition:background-color 400ms ease-out")}>데이터 등급이란?</span>
+            <span className="scpk" onClick={v?.openGrade} data-tip="Bronze·Silver·Gold 3단계의 차이를 예시로 설명합니다" style={S("margin-left:auto;font-size:11.5px;font-weight:600;color:#2E86AB;cursor:pointer;padding:3px 8px;border-radius:3px;border:1px solid #CFE3EE;transition:background-color 400ms ease-out")}>데이터 등급이란?</span>
             {" "}
           </div>
           {" "}
@@ -34,7 +34,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
               {" "}
               <div style={S("width:76px;flex:none")} />
               {" "}
-              <div className="scps" ref={v?.goldRowRef} data-tip="Gold — 건당 인정 가액 2,000만원" style={S(v?.goldRowStyle)}>
+              <div className="scpt" ref={v?.goldRowRef} data-tip="Gold — 건당 인정 가액 2,000만원" style={S(v?.goldRowStyle)}>
                 {" "}
                 <div style={S("font-size:14px;font-weight:700;color:#8A6C11")}>Gold — 활용 단계</div>
                 {" "}
@@ -48,7 +48,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
               {" "}
               <div style={S("width:38px;flex:none")} />
               {" "}
-              <div className="scpt" ref={v?.silverRowRef} data-tip="Silver — 건당 인정 가액 800만원" style={S(v?.silverRowStyle)}>
+              <div className="scpu" ref={v?.silverRowRef} data-tip="Silver — 건당 인정 가액 800만원" style={S(v?.silverRowStyle)}>
                 {" "}
                 <div style={S("font-size:14px;font-weight:700;color:#3A3E44")}>Silver — 정제 단계</div>
                 {" "}
@@ -62,7 +62,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
               {" "}
               <div style={S("width:0px;flex:none")} />
               {" "}
-              <div className="scpu" data-tip="Bronze — 건당 인정 가액 200만원" style={S("flex:1;background:#F7F1EB;border:1px solid #DFC9B4;border-left:5px solid #A0673A;border-radius:3px;padding:11px 14px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+              <div className="scpv" data-tip="Bronze — 건당 인정 가액 200만원" style={S("flex:1;background:#F7F1EB;border:1px solid #DFC9B4;border-left:5px solid #A0673A;border-radius:3px;padding:11px 14px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
                 {" "}
                 <div style={S("font-size:14px;font-weight:700;color:#7C4A22")}>Bronze — 원본 단계</div>
                 {" "}
@@ -139,7 +139,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
                   {L(v?.metrics).map((m: any, $index: number) => (
                     <React.Fragment key={$index}>
                       {" "}
-                      <div className="scp2" data-tip={m?.tip} style={S("display:flex;align-items:center;gap:12px;margin-bottom:7px;padding:2px 4px;border-radius:3px;transition:background-color 400ms ease-out")}>
+                      <div className="scp3" data-tip={m?.tip} style={S("display:flex;align-items:center;gap:12px;margin-bottom:7px;padding:2px 4px;border-radius:3px;transition:background-color 400ms ease-out")}>
                         {" "}
                         <div style={S("width:74px;flex:none;font-size:12.5px;color:#3A3E44")}>{I(m?.name)}</div>
                         {" "}
@@ -175,7 +175,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
           {" "}
           <div style={S("margin-top:14px")}>
             {" "}
-            <div className="scpv" data-tour="gold-sim" onClick={v?.upClick} data-tip={v?.upTip} style={S(v?.upBtnStyle)}>{I(v?.upBtnLabel)}</div>
+            <div className="scpw" data-tour="gold-sim" onClick={v?.upClick} data-tip={v?.upTip} style={S(v?.upBtnStyle)}>{I(v?.upBtnLabel)}</div>
             {" "}
             {(v?.upLoading) ? (
               <>
@@ -193,7 +193,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
           {" "}
         </div>
         {" "}
-        <div className="scp8" data-tour="eval-maturity" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+        <div className="scp9" data-tour="eval-maturity" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
           <div style={S("font-size:14px;font-weight:700;color:#1F4E79;margin-bottom:14px")}>기업 데이터 거버넌스 성숙도 · 5단계</div>
           {" "}
@@ -203,7 +203,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
               {" "}
               <div style={S("width:112px;flex:none")} />
               {" "}
-              <div className="scpw" data-tip="미도달 단계" style={S("flex:1;background:#FAFBFC;border:1px solid #E6E8EB;border-radius:3px;padding:10px 13px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+              <div className="scpx" data-tip="미도달 단계" style={S("flex:1;background:#FAFBFC;border:1px solid #E6E8EB;border-radius:3px;padding:10px 13px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
                 {" "}
                 <div style={S("font-size:13px;font-weight:700;color:#8A9099")}>5단계 자율 데이터 거버넌스</div>
                 {" "}
@@ -217,7 +217,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
               {" "}
               <div style={S("width:84px;flex:none")} />
               {" "}
-              <div className="scpw" data-tip="미도달 단계" style={S("flex:1;background:#FAFBFC;border:1px solid #E6E8EB;border-radius:3px;padding:10px 13px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+              <div className="scpx" data-tip="미도달 단계" style={S("flex:1;background:#FAFBFC;border:1px solid #E6E8EB;border-radius:3px;padding:10px 13px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
                 {" "}
                 <div style={S("font-size:13px;font-weight:700;color:#8A9099")}>4단계 AI 기반 변환</div>
                 {" "}
@@ -241,7 +241,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
               {" "}
               <div style={S("width:56px;flex:none")} />
               {" "}
-              <div className="scpx" data-tip="현재 단계 — 데이터 거래·금융 연계 대상" style={S("flex:1;background:#EAF2F9;border:2px solid #1F4E79;border-radius:3px;padding:10px 13px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+              <div className="scpy" data-tip="현재 단계 — 데이터 거래·금융 연계 대상" style={S("flex:1;background:#EAF2F9;border:2px solid #1F4E79;border-radius:3px;padding:10px 13px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
                 {" "}
                 <div style={S("display:flex;align-items:center;gap:8px")}>
                   {" "}
@@ -261,7 +261,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
               {" "}
               <div style={S("width:28px;flex:none")} />
               {" "}
-              <div className="scpw" data-tip="전처리 자동화 도구·컨설팅 지원 대상" style={S("flex:1;background:#FAFBFC;border:1px solid #E6E8EB;border-radius:3px;padding:10px 13px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+              <div className="scpx" data-tip="전처리 자동화 도구·컨설팅 지원 대상" style={S("flex:1;background:#FAFBFC;border:1px solid #E6E8EB;border-radius:3px;padding:10px 13px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
                 {" "}
                 <div style={S("font-size:13px;font-weight:700;color:#5B5F66")}>2단계 규칙 기반 정제</div>
                 {" "}
@@ -275,7 +275,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
               {" "}
               <div style={S("width:0px;flex:none")} />
               {" "}
-              <div className="scpw" data-tip="전처리 자동화 도구·컨설팅 지원 대상" style={S("flex:1;background:#FAFBFC;border:1px solid #E6E8EB;border-radius:3px;padding:10px 13px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+              <div className="scpx" data-tip="전처리 자동화 도구·컨설팅 지원 대상" style={S("flex:1;background:#FAFBFC;border:1px solid #E6E8EB;border-radius:3px;padding:10px 13px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
                 {" "}
                 <div style={S("font-size:13px;font-weight:700;color:#5B5F66")}>1단계 기본 데이터 변환</div>
                 {" "}
@@ -308,7 +308,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
               {" "}
             </div>
             {" "}
-            <div className="scpy" onClick={v?.goApplied} data-tip="운용 화면에서 담보 한도 변화를 확인합니다" style={S("flex:none;background:#fff;color:#1F4E79;font-size:13.5px;font-weight:700;padding:11px 18px;border-radius:3px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out,background-color 400ms ease-out")}>운용 화면에서 확인 →</div>
+            <div className="scpz" onClick={v?.goApplied} data-tip="운용 화면에서 담보 한도 변화를 확인합니다" style={S("flex:none;background:#fff;color:#1F4E79;font-size:13.5px;font-weight:700;padding:11px 18px;border-radius:3px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out,background-color 400ms ease-out")}>운용 화면에서 확인 →</div>
             {" "}
           </div>
           {" "}

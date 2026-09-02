@@ -22,7 +22,7 @@ export default function ScreenMap({ v }: { v: any }) {
         {" "}
         <div style={S("display:flex;align-items:center;gap:8px")}>
           {" "}
-          <span className="scp7" onClick={v?.openPopCh} data-tip="클리어링 하우스 운영 현황을 봅니다" style={S("display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:#5B5F66;background:#F1F3F5;border:1px solid #E1E4E8;padding:5px 11px;border-radius:12px;cursor:pointer;transition:background-color 400ms ease-out")}>
+          <span className="scp8" onClick={v?.openPopCh} data-tip="클리어링 하우스 운영 현황을 봅니다" style={S("display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:#5B5F66;background:#F1F3F5;border:1px solid #E1E4E8;padding:5px 11px;border-radius:12px;cursor:pointer;transition:background-color 400ms ease-out")}>
             <span style={S("width:7px;height:7px;border-radius:50%;background:#1E7A46")} />
             클리어링 하우스 정상 운영
             <span style={S("color:#2E86AB;font-weight:700")}>→</span>
@@ -36,9 +36,9 @@ export default function ScreenMap({ v }: { v: any }) {
       {" "}
       <div data-tour="map-kpi" style={S("display:flex;gap:12px;margin-top:12px;flex:none")}>
         {" "}
-        <div className="scp8" onClick={v?.openPopFirms} data-tip="데이터 계좌를 개설한 제조기업 수" style={S("flex:1;position:relative;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:9px 13px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+        <div className="scp9" onClick={v?.openPopFirms} data-tip="데이터 계좌를 개설한 제조기업 수" style={S("flex:1;position:relative;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:9px 13px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
-          <span className="scp9" style={S("position:absolute;right:12px;bottom:9px;font-size:10px;font-weight:600;color:#2E86AB;opacity:0;transition:opacity 400ms ease-out")}>상세 보기 →</span>
+          <span className="scpa" style={S("position:absolute;right:12px;bottom:9px;font-size:10px;font-weight:600;color:#2E86AB;opacity:0;transition:opacity 400ms ease-out")}>상세 보기 →</span>
           {" "}
           <div style={S("display:flex;align-items:center;justify-content:space-between")}>
             {" "}
@@ -64,9 +64,9 @@ export default function ScreenMap({ v }: { v: any }) {
           {" "}
         </div>
         {" "}
-        <div className="scp8" onClick={v?.openPopSets} data-tip="제1축 31,200건 + 제2축 11,410건" style={S("flex:1;position:relative;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:9px 13px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+        <div className="scp9" onClick={v?.openPopSets} data-tip="제1축 31,200건 + 제2축 11,410건" style={S("flex:1;position:relative;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:9px 13px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
-          <span className="scp9" style={S("position:absolute;right:12px;bottom:9px;font-size:10px;font-weight:600;color:#2E86AB;opacity:0;transition:opacity 400ms ease-out")}>상세 보기 →</span>
+          <span className="scpa" style={S("position:absolute;right:12px;bottom:9px;font-size:10px;font-weight:600;color:#2E86AB;opacity:0;transition:opacity 400ms ease-out")}>상세 보기 →</span>
           {" "}
           <div style={S("display:flex;align-items:center;justify-content:space-between")}>
             {" "}
@@ -91,9 +91,9 @@ export default function ScreenMap({ v }: { v: any }) {
           {" "}
         </div>
         {" "}
-        <div className="scp8" onClick={v?.openPopCap} data-tip="예치 데이터셋의 저장 용량 합계" style={S("flex:1;position:relative;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:9px 13px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+        <div className="scp9" onClick={v?.openPopCap} data-tip="예치 데이터셋의 저장 용량 합계" style={S("flex:1;position:relative;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:9px 13px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
-          <span className="scp9" style={S("position:absolute;right:12px;bottom:9px;font-size:10px;font-weight:600;color:#2E86AB;opacity:0;transition:opacity 400ms ease-out")}>상세 보기 →</span>
+          <span className="scpa" style={S("position:absolute;right:12px;bottom:9px;font-size:10px;font-weight:600;color:#2E86AB;opacity:0;transition:opacity 400ms ease-out")}>상세 보기 →</span>
           {" "}
           <div style={S("display:flex;align-items:center;justify-content:space-between")}>
             {" "}
@@ -118,9 +118,9 @@ export default function ScreenMap({ v }: { v: any }) {
           {" "}
         </div>
         {" "}
-        <div className="scp8" onClick={v?.openPopMoney} data-tip="K.M-X 조건부 이용 계약 정산 합계" style={S("flex:1;position:relative;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:9px 13px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+        <div className="scp9" onClick={v?.openPopMoney} data-tip="K.M-X 조건부 이용 계약 정산 합계" style={S("flex:1;position:relative;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:9px 13px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
-          <span className="scp9" style={S("position:absolute;right:12px;bottom:9px;font-size:10px;font-weight:600;color:#2E86AB;opacity:0;transition:opacity 400ms ease-out")}>상세 보기 →</span>
+          <span className="scpa" style={S("position:absolute;right:12px;bottom:9px;font-size:10px;font-weight:600;color:#2E86AB;opacity:0;transition:opacity 400ms ease-out")}>상세 보기 →</span>
           {" "}
           <div style={S("display:flex;align-items:center;justify-content:space-between")}>
             {" "}
@@ -145,9 +145,9 @@ export default function ScreenMap({ v }: { v: any }) {
           {" "}
         </div>
         {" "}
-        <div className="scp8" onClick={v?.openPopZone} data-tip="예치 실적이 있는 광역 지방자치단체" style={S("flex:1;position:relative;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:9px 13px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+        <div className="scp9" onClick={v?.openPopZone} data-tip="예치 실적이 있는 광역 지방자치단체" style={S("flex:1;position:relative;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:9px 13px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
-          <span className="scp9" style={S("position:absolute;right:12px;bottom:9px;font-size:10px;font-weight:600;color:#2E86AB;opacity:0;transition:opacity 400ms ease-out")}>상세 보기 →</span>
+          <span className="scpa" style={S("position:absolute;right:12px;bottom:9px;font-size:10px;font-weight:600;color:#2E86AB;opacity:0;transition:opacity 400ms ease-out")}>상세 보기 →</span>
           {" "}
           <div style={S("display:flex;align-items:center;justify-content:space-between")}>
             {" "}
@@ -194,7 +194,7 @@ export default function ScreenMap({ v }: { v: any }) {
               {" "}
               <div onClick={v?.setAxis2} style={S(v?.axis2)}>제2축</div>
               {" "}
-              <div className="scpa" onClick={v?.mapReplay} data-tip="진입 애니메이션을 다시 재생합니다" style={S("font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:3px;cursor:pointer;color:#9FC0DD;border:1px solid rgba(255,255,255,0.28);transition:background-color 400ms ease-out,color 400ms ease-out")}>↻ 다시 보기</div>
+              <div className="scpb" onClick={v?.mapReplay} data-tip="진입 애니메이션을 다시 재생합니다" style={S("font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:3px;cursor:pointer;color:#9FC0DD;border:1px solid rgba(255,255,255,0.28);transition:background-color 400ms ease-out,color 400ms ease-out")}>↻ 다시 보기</div>
               {" "}
             </div>
             {" "}
@@ -342,7 +342,7 @@ export default function ScreenMap({ v }: { v: any }) {
               {" "}
             </div>
             {" "}
-            <div className="scpb" onClick={v?.mapCase} data-tour="map-case" data-tip="지도의 한 지역에 속한 개별 기업 화면으로 이동합니다" style={S("position:absolute;right:16px;bottom:14px;z-index:3;background:#fff;color:#1F4E79;font-size:12.5px;font-weight:700;padding:9px 16px;border-radius:3px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>개별 기업 사례 보기 →</div>
+            <div className="scpc" onClick={v?.mapCase} data-tour="map-case" data-tip="지도의 한 지역에 속한 개별 기업 화면으로 이동합니다" style={S("position:absolute;right:16px;bottom:14px;z-index:3;background:#fff;color:#1F4E79;font-size:12.5px;font-weight:700;padding:9px 16px;border-radius:3px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>개별 기업 사례 보기 →</div>
             {" "}
             {(v?.mapZoom) ? (
               <>
@@ -720,7 +720,7 @@ export default function ScreenMap({ v }: { v: any }) {
                     {" "}
                   </div>
                   {" "}
-                  <div className="scp1" onClick={v?.closeRec} style={S("flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
+                  <div className="scp2" onClick={v?.closeRec} style={S("flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
                   {" "}
                 </div>
                 {" "}

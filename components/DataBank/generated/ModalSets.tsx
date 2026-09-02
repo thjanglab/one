@@ -27,7 +27,7 @@ export default function ModalSets({ v }: { v: any }) {
             {" "}
           </div>
           {" "}
-          <div className="scp1" onClick={v?.closeDash} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
+          <div className="scp2" onClick={v?.closeDash} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
           {" "}
         </div>
         {" "}
@@ -233,7 +233,7 @@ export default function ModalSets({ v }: { v: any }) {
               {L(v?.setRows).map((d: any, $index: number) => (
                 <React.Fragment key={$index}>
                   {" "}
-                  <tr className="scp2" onClick={d?.click} style={S(d?.rowStyle)}>
+                  <tr className="scp3" onClick={d?.click} style={S(d?.rowStyle)}>
                     {" "}
                     <td style={S("font-size:13px;color:#1A1D21;font-weight:600;padding:11px 12px;border-bottom:1px solid #F0F1F3")}>{I(d?.name)}</td>
                     {" "}
@@ -303,7 +303,7 @@ export default function ModalSets({ v }: { v: any }) {
                   {" "}
                 </div>
                 {" "}
-                <div className="scp1" onClick={v?.closeSetDetail} style={S("flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
+                <div className="scp2" onClick={v?.closeSetDetail} style={S("flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
                 {" "}
               </div>
               {" "}

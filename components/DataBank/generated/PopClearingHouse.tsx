@@ -24,7 +24,7 @@ export default function PopClearingHouse({ v }: { v: any }) {
             {" "}
           </div>
           {" "}
-          <div className="scp1" onClick={v?.closePop} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
+          <div className="scp2" onClick={v?.closePop} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
           {" "}
         </div>
         {" "}
@@ -145,7 +145,7 @@ export default function PopClearingHouse({ v }: { v: any }) {
                 {L(v?.chDayCols).map((b: any, $index: number) => (
                   <React.Fragment key={$index}>
                     {" "}
-                    <div className="scpc" onClick={b?.click} onMouseDown={b?.down} onMouseEnter={b?.over} onMouseUp={b?.up} data-tip={b?.tip} style={S(b?.barWrap)}>
+                    <div className="scpd" onClick={b?.click} onMouseDown={b?.down} onMouseEnter={b?.over} onMouseUp={b?.up} data-tip={b?.tip} style={S(b?.barWrap)}>
                       {" "}
                       <span style={S("font-size:8.5px;font-weight:700;color:#5B5F66;white-space:nowrap")}>{I(b?.label)}</span>
                       {" "}
@@ -283,7 +283,7 @@ export default function PopClearingHouse({ v }: { v: any }) {
           {L(v?.chEvRows).map((e: any, $index: number) => (
             <React.Fragment key={$index}>
               {" "}
-              <div className="scpd" style={S(e?.rowStyle)}>
+              <div className="scpe" style={S(e?.rowStyle)}>
                 {" "}
                 <span style={S("width:132px;flex:none;font-size:12px;color:#5B5F66")}>{I(e?.when)}</span>
                 {" "}

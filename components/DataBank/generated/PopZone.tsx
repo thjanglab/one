@@ -21,7 +21,7 @@ export default function PopZone({ v }: { v: any }) {
             <span style={S("color:#8A9099;font-weight:600")}>— 16개 시도 · 세종 국가 허브</span>
           </div>
           {" "}
-          <div className="scp1" onClick={v?.closePop} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
+          <div className="scp2" onClick={v?.closePop} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
           {" "}
         </div>
         {" "}
@@ -90,7 +90,7 @@ export default function PopZone({ v }: { v: any }) {
               {L(v?.zoneRows).map((z: any, $index: number) => (
                 <React.Fragment key={$index}>
                   {" "}
-                  <div className="scpd" style={S("display:flex;align-items:center;padding:9px 10px;border-bottom:1px solid #F0F1F3;transition:background-color 300ms ease-out")}>
+                  <div className="scpe" style={S("display:flex;align-items:center;padding:9px 10px;border-bottom:1px solid #F0F1F3;transition:background-color 300ms ease-out")}>
                     {" "}
                     <span style={S("width:56px;flex:none;font-size:12.5px;font-weight:700;color:#1A1D21")}>{I(z?.name)}</span>
                     {" "}

@@ -21,7 +21,7 @@ export default function PopCapacity({ v }: { v: any }) {
             <span style={S("color:#8A9099;font-weight:600")}>— 총 215.1 TB</span>
           </div>
           {" "}
-          <div className="scp1" onClick={v?.closePop} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
+          <div className="scp2" onClick={v?.closePop} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
           {" "}
         </div>
         {" "}
@@ -52,7 +52,7 @@ export default function PopCapacity({ v }: { v: any }) {
                   {L(v?.capTypes).map((t: any, $index: number) => (
                     <React.Fragment key={$index}>
                       {" "}
-                      <div className="scpe" onClick={t?.click} data-tip={t?.tip} style={S(t?.rowStyle)}>
+                      <div className="scpf" onClick={t?.click} data-tip={t?.tip} style={S(t?.rowStyle)}>
                         {" "}
                         <span style={S(t?.dot)} />
                         {" "}
@@ -211,7 +211,7 @@ export default function PopCapacity({ v }: { v: any }) {
                   {L(v?.capStack?.cols).map((c: any, $index: number) => (
                     <React.Fragment key={$index}>
                       {" "}
-                      <div className="scpf" onMouseEnter={c?.over} onMouseDown={c?.down} onMouseUp={c?.up} data-tip={c?.tip} style={S("flex:1;min-width:0;cursor:crosshair;display:flex;justify-content:center;align-items:flex-start;transition:background 300ms ease-out")}>
+                      <div className="scpg" onMouseEnter={c?.over} onMouseDown={c?.down} onMouseUp={c?.up} data-tip={c?.tip} style={S("flex:1;min-width:0;cursor:crosshair;display:flex;justify-content:center;align-items:flex-start;transition:background 300ms ease-out")}>
                         {" "}
                         <span style={S("font-size:9px;font-weight:700;color:#3A3E44;background:rgba(255,255,255,0.85);border-radius:2px;padding:0 2px;white-space:nowrap")}>{I(c?.value)}</span>
                         {" "}
@@ -300,7 +300,7 @@ export default function PopCapacity({ v }: { v: any }) {
           {L(v?.capRegionRows).map((r: any, $index: number) => (
             <React.Fragment key={$index}>
               {" "}
-              <div className="scpd" style={S("display:flex;align-items:center;padding:9px 10px;border-bottom:1px solid #F0F1F3;transition:background-color 300ms ease-out")}>
+              <div className="scpe" style={S("display:flex;align-items:center;padding:9px 10px;border-bottom:1px solid #F0F1F3;transition:background-color 300ms ease-out")}>
                 {" "}
                 <span style={S("width:44px;flex:none;font-size:13px;font-weight:700;color:#1A1D21")}>{I(r?.name)}</span>
                 {" "}

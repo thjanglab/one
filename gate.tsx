@@ -26,6 +26,27 @@ const UNLOCKED_KEY = 'databank-unlocked';
 
 const FONT = "'Pretendard','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕','Noto Sans KR','Nanum Gothic',sans-serif";
 
+/**
+ * Goes fullscreen, the way pressing F11 would look.
+ *
+ * The browser only grants this off a user gesture, which is why it is called
+ * from the submit handler rather than after the demo mounts — the click on
+ * 열기 is the gesture. It can still be refused (iOS Safari does not do
+ * fullscreen on anything but video, and a policy can forbid it), so the
+ * result is ignored: a refused request must not stop the demo from opening.
+ */
+async function goFullscreen() {
+  const el = document.documentElement as HTMLElement & {
+    webkitRequestFullscreen?: () => Promise<void>;
+  };
+  try {
+    if (el.requestFullscreen) await el.requestFullscreen({ navigationUI: 'hide' });
+    else if (el.webkitRequestFullscreen) await el.webkitRequestFullscreen();
+  } catch {
+    /* refused or unsupported — open windowed instead */
+  }
+}
+
 async function matches(entered: string) {
   const bytes = new TextEncoder().encode(entered);
   const digest = await crypto.subtle.digest('SHA-256', bytes);
@@ -38,6 +59,10 @@ function Gate() {
   const [error, setError] = useState('');
   const [checking, setChecking] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
+  // On by default: the demo is a fixed stage meant to fill a projector. Left
+  // as a choice because a presenter sharing a single window in a video call
+  // wants the opposite.
+  const [fullscreen, setFullscreen] = useState(true);
   const input = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -74,6 +99,8 @@ function Gate() {
       return;
     }
     try { sessionStorage.setItem(UNLOCKED_KEY, '1'); } catch { /* private mode */ }
+    // Before unmounting the gate, while this click still counts as a gesture.
+    if (fullscreen) await goFullscreen();
     setUnlocked(true);
   };
 
@@ -121,11 +148,26 @@ function Gate() {
           />
           <div style={{ minHeight: 20, marginTop: 8, fontSize: 12, color: '#C0392B' }}>{error}</div>
 
+          <label
+            style={{
+              display: 'flex', alignItems: 'center', gap: 8, marginTop: 2, marginBottom: 14,
+              fontSize: 12.5, color: '#5B5F66', cursor: 'pointer', userSelect: 'none',
+            }}
+          >
+            <input
+              type="checkbox"
+              checked={fullscreen}
+              onChange={(e) => setFullscreen(e.target.checked)}
+              style={{ width: 14, height: 14, accentColor: '#1F4E79', cursor: 'pointer' }}
+            />
+            전체화면으로 열기
+          </label>
+
           <button
             type="submit"
             disabled={checking || !value.trim()}
             style={{
-              width: '100%', marginTop: 6, border: 'none', borderRadius: 3, padding: '12px 0',
+              width: '100%', border: 'none', borderRadius: 3, padding: '12px 0',
               fontSize: 14, fontWeight: 700, fontFamily: 'inherit', letterSpacing: '-0.3px',
               color: '#fff', background: value.trim() ? '#1F4E79' : '#9BA7B2',
               cursor: value.trim() && !checking ? 'pointer' : 'default',

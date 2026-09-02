@@ -27,7 +27,7 @@ export default function ModalFirms({ v }: { v: any }) {
             {" "}
           </div>
           {" "}
-          <div className="scp1" onClick={v?.closeDash} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
+          <div className="scp2" onClick={v?.closeDash} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
           {" "}
         </div>
         {" "}
@@ -121,7 +121,7 @@ export default function ModalFirms({ v }: { v: any }) {
               {L(v?.firmRows).map((f: any, $index: number) => (
                 <React.Fragment key={$index}>
                   {" "}
-                  <tr className="scp2" style={S(f?.rowStyle)}>
+                  <tr className="scp3" style={S(f?.rowStyle)}>
                     {" "}
                     <td style={S("padding:11px 12px;border-bottom:1px solid #F0F1F3")}>
                       {" "}

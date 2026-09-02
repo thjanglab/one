@@ -21,7 +21,7 @@ export default function PopSets({ v }: { v: any }) {
             <span style={S("color:#8A9099;font-weight:600")}>— 총 42,610건</span>
           </div>
           {" "}
-          <div className="scp1" onClick={v?.closePop} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
+          <div className="scp2" onClick={v?.closePop} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
           {" "}
         </div>
         {" "}
@@ -57,7 +57,7 @@ export default function PopSets({ v }: { v: any }) {
                   {L(v?.gradeSlices).map((g: any, $index: number) => (
                     <React.Fragment key={$index}>
                       {" "}
-                      <div className="scpe" onClick={g?.click} style={S(g?.style)}>
+                      <div className="scpf" onClick={g?.click} style={S(g?.style)}>
                         {" "}
                         <span style={S(g?.dot)} />
                         {" "}
@@ -225,7 +225,7 @@ export default function PopSets({ v }: { v: any }) {
                   {L(v?.cumChart?.cols).map((c: any, $index: number) => (
                     <React.Fragment key={$index}>
                       {" "}
-                      <div className="scpf" onMouseDown={c?.down} onMouseEnter={c?.over} onMouseUp={c?.up} data-tip={c?.tip} style={S("flex:1;min-width:0;cursor:crosshair;display:flex;justify-content:center;align-items:flex-start;transition:background 300ms ease-out")}>
+                      <div className="scpg" onMouseDown={c?.down} onMouseEnter={c?.over} onMouseUp={c?.up} data-tip={c?.tip} style={S("flex:1;min-width:0;cursor:crosshair;display:flex;justify-content:center;align-items:flex-start;transition:background 300ms ease-out")}>
                         {" "}
                         <span style={S("font-size:9px;font-weight:700;color:#3A3E44;background:rgba(255,255,255,0.85);border-radius:2px;padding:0 2px;white-space:nowrap")}>{I(c?.value)}</span>
                         {" "}
@@ -338,7 +338,7 @@ export default function PopSets({ v }: { v: any }) {
           {L(v?.popSetRows).map((r: any, $index: number) => (
             <React.Fragment key={$index}>
               {" "}
-              <div className="scpd" style={S("display:flex;align-items:center;padding:10px;border-bottom:1px solid #F0F1F3;transition:background-color 300ms ease-out")}>
+              <div className="scpe" style={S("display:flex;align-items:center;padding:10px;border-bottom:1px solid #F0F1F3;transition:background-color 300ms ease-out")}>
                 {" "}
                 <span style={S("flex:1;font-size:12.5px;font-weight:600;color:#1A1D21")}>{I(r?.ds)}</span>
                 {" "}

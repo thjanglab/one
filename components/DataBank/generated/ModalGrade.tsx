@@ -21,7 +21,7 @@ export default function ModalGrade({ v }: { v: any }) {
             <span style={S("color:#8A9099;font-weight:600")}>— 같은 데이터, 다른 값</span>
           </div>
           {" "}
-          <div className="scp1" onClick={v?.closeGrade} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
+          <div className="scp2" onClick={v?.closeGrade} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
           {" "}
         </div>
         {" "}
@@ -256,7 +256,7 @@ export default function ModalGrade({ v }: { v: any }) {
         {" "}
         <div style={S("flex:none;display:flex;justify-content:flex-end;padding:15px 28px;border-top:1px solid #E1E4E8")}>
           {" "}
-          <div className="scp3" onClick={v?.closeGrade} style={S("background:#1F4E79;color:#fff;font-size:13.5px;font-weight:700;padding:11px 24px;border-radius:3px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>닫기</div>
+          <div className="scp4" onClick={v?.closeGrade} style={S("background:#1F4E79;color:#fff;font-size:13.5px;font-weight:700;padding:11px 24px;border-radius:3px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>닫기</div>
           {" "}
         </div>
         {" "}

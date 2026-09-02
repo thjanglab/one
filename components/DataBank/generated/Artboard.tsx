@@ -27,7 +27,21 @@ export default function Artboard({ v }: { v: any }) {
     <div style={S("position:fixed;inset:0;overflow:hidden;background:#D8DBDF")}>
       <div ref={v?.stageRef} style={S("position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:50% 50%;background:#F5F6F8;display:flex;flex-direction:column;box-shadow:0 2px 24px rgba(0,0,0,0.18)")}>
         {" "}
-        <div style={S("flex:none;height:30px;background:#F2F2F2;border-bottom:1px solid #DEDEDE;display:flex;align-items:center;padding:0 20px;font-size:11.5px;color:#5B5F66;letter-spacing:-0.2px")}>개념 시연(Concept Demo) — 실제 구현물이 아니며, 제언하는 제도가 작동할 때의 모습입니다. 표시된 수치는 모두 예시값입니다.</div>
+        <div style={S("flex:none;height:30px;background:#F2F2F2;border-bottom:1px solid #DEDEDE;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:11.5px;color:#5B5F66;letter-spacing:-0.2px")}>
+          {" "}
+          <span>개념 시연(Concept Demo) — 실제 구현물이 아니며, 제언하는 제도가 작동할 때의 모습입니다. 표시된 수치는 모두 예시값입니다.</span>
+          {" "}
+          <div className="scp0" onClick={v?.toggleFull} data-tip={v?.fullTip} style={S(v?.fullBtn)}>
+            {" "}
+            <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={S("flex:none")}><path d={v?.fullIcon} /></svg>
+            {" "}
+            <span style={S("font-weight:600")}>전체화면</span>
+            {" "}
+            <span style={S(v?.fullTrack)}><span style={S(v?.fullKnob)} /></span>
+            {" "}
+          </div>
+          {" "}
+        </div>
         {" "}
         <div style={S("flex:none;height:58px;background:#1F4E79;display:flex;align-items:center;justify-content:space-between;padding:0 24px")}>
           {" "}
@@ -51,7 +65,7 @@ export default function Artboard({ v }: { v: any }) {
             {" "}
             <span style={S("color:#fff;font-size:13.5px;font-weight:600;padding:6px 12px;background:rgba(255,255,255,0.12);border-radius:3px")}>K사</span>
             {" "}
-            <div className="scp0" onClick={v?.resetDemo} data-tip="모든 선택·슬라이더 값을 초기 상태로 되돌립니다" style={S("color:#fff;font-size:12.5px;font-weight:600;padding:7px 14px;border:1px solid rgba(255,255,255,0.45);border-radius:3px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),background-color 400ms ease-out,box-shadow 400ms ease-out")}>데모 초기화</div>
+            <div className="scp1" onClick={v?.resetDemo} data-tip="모든 선택·슬라이더 값을 초기 상태로 되돌립니다" style={S("color:#fff;font-size:12.5px;font-weight:600;padding:7px 14px;border:1px solid rgba(255,255,255,0.45);border-radius:3px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),background-color 400ms ease-out,box-shadow 400ms ease-out")}>데모 초기화</div>
             {" "}
           </div>
           {" "}
@@ -84,7 +98,7 @@ export default function Artboard({ v }: { v: any }) {
               {" "}
               <div style={S("width:1px;height:20px;background:#E1E4E8;margin:0 2px")} />
               {" "}
-              <div className="scp4" onClick={v?.tourOff} data-tip="투어를 끄고 자유 탐색 모드로 전환합니다" style={S("font-size:12.5px;font-weight:600;color:#7A8089;padding:8px 12px;border-radius:3px;cursor:pointer;transition:background-color 400ms ease-out,color 400ms ease-out")}>투어 끄기</div>
+              <div className="scp5" onClick={v?.tourOff} data-tip="투어를 끄고 자유 탐색 모드로 전환합니다" style={S("font-size:12.5px;font-weight:600;color:#7A8089;padding:8px 12px;border-radius:3px;cursor:pointer;transition:background-color 400ms ease-out,color 400ms ease-out")}>투어 끄기</div>
               {" "}
             </div>
             {" "}
@@ -94,7 +108,7 @@ export default function Artboard({ v }: { v: any }) {
         {(v?.tourOff2) ? (
           <>
             {" "}
-            <div className="scp5" onClick={v?.tourOn2} data-tip="가이드 투어를 다시 켭니다" style={S("position:absolute;right:26px;bottom:26px;z-index:120;background:#fff;border:1px solid #D6DBE0;border-radius:3px;padding:8px 14px;font-size:12px;font-weight:600;color:#7A8089;cursor:pointer;box-shadow:0 4px 14px rgba(31,78,121,0.12);transition:color 400ms ease-out,background-color 400ms ease-out")}>투어 켜기</div>
+            <div className="scp6" onClick={v?.tourOn2} data-tip="가이드 투어를 다시 켭니다" style={S("position:absolute;right:26px;bottom:26px;z-index:120;background:#fff;border:1px solid #D6DBE0;border-radius:3px;padding:8px 14px;font-size:12px;font-weight:600;color:#7A8089;cursor:pointer;box-shadow:0 4px 14px rgba(31,78,121,0.12);transition:color 400ms ease-out,background-color 400ms ease-out")}>투어 켜기</div>
             {" "}
           </>
         ) : null}
@@ -120,7 +134,7 @@ export default function Artboard({ v }: { v: any }) {
             {L(v?.nav).map((n: any, $index: number) => (
               <React.Fragment key={$index}>
                 {" "}
-                <div className="scp6" onClick={n?.go} style={S(n?.style)}>
+                <div className="scp7" onClick={n?.go} style={S(n?.style)}>
                   {" "}
                   <span style={S(n?.iconWrap)}>
                     {" "}
