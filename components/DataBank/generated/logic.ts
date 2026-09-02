@@ -564,7 +564,8 @@ const INIT = { screen:'map', ds:'A', tab:'loan', gold:3, silver:12, bronze:27, j
   capPeriod:'6개월', capLabels:false, capZoom:null, capDrag:null, capHover:null,
   moneyPeriod:'6개월', moneyLabels:false, moneyZoom:null, moneyDrag:null, moneyHover:null,
   capMode:'누적 용량', capTypeSel:null, capGradeSel:null, capPage:0, capSort:'tb', capOff:{},
-  moneyAxisSel:null, moneyStageSel:null, moneyMonthSel:null, moneyPage:0, moneySort:'amt', moneyOff:{} };
+  moneyAxisSel:null, moneyStageSel:null, moneyMonthSel:null, moneyPage:0, moneySort:'amt', moneyOff:{},
+  isFull:false };
 const CAP_STACK = [
   ['9월',31.4,18.9,5.5,2.4],['10월',36.9,22.2,6.5,2.8],['11월',42.6,25.6,7.5,3.2],
   ['12월',47.8,28.8,8.4,3.6],['1월',53.0,31.9,9.3,4.0],['2월',58.4,35.1,10.3,4.3],
@@ -659,6 +660,12 @@ export class DataBankLogic extends React.Component<any, any> {
     };
     window.addEventListener('resize', this._fit);
     this._fit();
+    // The gate can have put the page in fullscreen before the demo mounted,
+    // and F11 changes it without going through the toggle, so the switch
+    // reads the document rather than remembering what it last did.
+    this._onFull = () => this.setState({ isFull: !!document.fullscreenElement });
+    document.addEventListener('fullscreenchange', this._onFull);
+    this._onFull();
     this.buildOverlay();
     this.animateCounts();
     this.enterScreen(this.state.screen);
@@ -745,7 +752,25 @@ export class DataBankLogic extends React.Component<any, any> {
   }
   componentWillUnmount() {
     if (this._fit) window.removeEventListener('resize', this._fit);
+    if (this._onFull) document.removeEventListener('fullscreenchange', this._onFull);
     this._timers.forEach(clearTimeout);
+  }
+
+  /**
+   * The switch in the notice bar. The click is the user gesture the browser
+   * insists on, so this is the only place fullscreen can be entered once the
+   * gate is gone — which is what makes it the way back after a reload.
+   *
+   * Nothing here sets isFull: the fullscreenchange listener does that, so the
+   * switch shows what the document is actually doing rather than what was
+   * asked for. A refusal therefore leaves it reading off.
+   */
+  toggleFull() {
+    const el = document.documentElement;
+    const p = document.fullscreenElement
+      ? document.exitFullscreen && document.exitFullscreen()
+      : el.requestFullscreen && el.requestFullscreen({ navigationUI: 'hide' });
+    if (p && p.catch) p.catch(() => {});
   }
 
   later(fn, ms) { const t = setTimeout(fn, ms); this._timers.push(t); return t; }
@@ -1354,6 +1379,19 @@ export class DataBankLogic extends React.Component<any, any> {
         cellStyle: base + 'text-align:right;color:#5B5F66;',
         deltaStyle: base + 'text-align:right;font-weight:700;color:' + (dir === 'up' ? '#1E7A46' : dir === 'down' ? ORANGE : '#8A9099') };
     };
+    // The notice bar's fullscreen switch. Every value here is derived from
+    // s.isFull, which tracks the document rather than the last click, so F11
+    // and Esc move the switch just as the switch itself does.
+    const full = s.isFull;
+    const fullBtn = 'flex:none;display:flex;align-items:center;gap:7px;margin-left:16px;padding:3px 9px;white-space:nowrap;cursor:pointer;user-select:none;border-radius:3px;'
+      + 'border:1px solid ' + (full ? '#B9C9D8' : '#DCDEE1') + ';background:' + (full ? '#EAF1F7' : '#FAFAFB') + ';color:' + (full ? NAVY : '#5B5F66') + ';'
+      + 'transition:background-color 400ms ease-out,border-color 400ms ease-out,color 400ms ease-out';
+    const fullTrack = 'position:relative;flex:none;width:24px;height:13px;border-radius:7px;transition:background-color 400ms ease-out;background:' + (full ? NAVY : '#C3C7CC');
+    const fullKnob = 'position:absolute;top:2px;left:2px;width:9px;height:9px;border-radius:50%;background:#fff;transition:transform 400ms cubic-bezier(0.16,1,0.3,1);transform:translateX(' + (full ? 11 : 0) + 'px)';
+    const fullIcon = full
+      ? 'M8 3v3a2 2 0 0 1-2 2H3 M16 3v3a2 2 0 0 0 2 2h3 M8 21v-3a2 2 0 0 0-2-2H3 M16 21v-3a2 2 0 0 1 2-2h3'
+      : 'M8 3H5a2 2 0 0 0-2 2v3 M16 3h3a2 2 0 0 1 2 2v3 M8 21H5a2 2 0 0 1-2-2v-3 M16 21h3a2 2 0 0 0 2-2v-3';
+
     const g = s.gradeSel;
     const arc = (name) => 'cursor:pointer;transition:stroke 400ms ease-out;stroke:' + (g && g !== name ? '#DDE0E3' : GRADE_C[name]);
     const segBase = 'display:flex;align-items:center;padding-left:14px;color:#fff;font-size:13.5px;font-weight:700;cursor:pointer;transition:opacity 400ms ease-out;';
@@ -1361,6 +1399,12 @@ export class DataBankLogic extends React.Component<any, any> {
     return {
       stageRef: (el) => { this.stage = el; if (this._fit) this._fit(); },
       nav, resetDemo: () => this.resetDemo(),
+
+      toggleFull: () => this.toggleFull(),
+      fullBtn, fullTrack, fullKnob, fullIcon,
+      fullTip: full
+        ? '전체화면을 해제하고 창 모드로 돌아갑니다. Esc 로도 해제됩니다.'
+        : '전체화면으로 전환합니다. 주소창과 탭이 사라져 시연 화면만 남습니다.',
 
       isMap: s.screen === 'map',
       mapShow: s.mapShow, mapNodes, radial, p2p,

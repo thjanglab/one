@@ -51,9 +51,14 @@ and what keeps the URL off a projector. The browser only grants fullscreen
 off a user gesture, so the request rides on the 열기 click; a checkbox on
 the gate turns it off for anyone sharing a single window in a call. It can
 still be refused — iOS Safari does not do fullscreen outside video — and a
-refusal just opens the demo windowed. One thing to know on the day:
-reloading drops out of fullscreen and the remembered session means there is
-no gate click to ride on, so press F11 after a reload.
+refusal just opens the demo windowed.
+
+The notice bar carries a 전체화면 switch at its right end, opposite the
+concept-demo line, so fullscreen can be turned on and off mid-presentation
+without leaving the demo. It reads `document.fullscreenElement` rather than
+remembering its own clicks, so F11 and Esc move it too — and it is the way
+back into fullscreen after a reload, which drops out of it and leaves no
+gate click to ride on.
 
 It is a **separate page, not a route**. It runs on a fixed 1600×900 stage
 scaled to the window and styles `html` and `body` itself, and the platform's

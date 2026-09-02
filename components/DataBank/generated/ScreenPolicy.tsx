@@ -16,7 +16,7 @@ export default function ScreenPolicy({ v }: { v: any }) {
         {" "}
         <span style={S("font-size:11.5px;font-weight:700;color:#1F4E79;border:1px solid #1F4E79;padding:3px 9px;border-radius:2px")}>정책기관 조회 모드</span>
         {" "}
-        <div className="scp14" onClick={v?.goMap} data-tip="전국 유통 지도 화면으로 이동합니다" style={S("margin-left:auto;font-size:12.5px;font-weight:600;color:#1F4E79;background:#fff;border:1px solid #C9D6E2;padding:7px 14px;border-radius:3px;cursor:pointer;white-space:nowrap;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out,background-color 400ms ease-out")}>국가 데이터 현황판 →</div>
+        <div className="scp15" onClick={v?.goMap} data-tip="전국 유통 지도 화면으로 이동합니다" style={S("margin-left:auto;font-size:12.5px;font-weight:600;color:#1F4E79;background:#fff;border:1px solid #C9D6E2;padding:7px 14px;border-radius:3px;cursor:pointer;white-space:nowrap;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out,background-color 400ms ease-out")}>국가 데이터 현황판 →</div>
         {" "}
       </div>
       {" "}
@@ -24,7 +24,7 @@ export default function ScreenPolicy({ v }: { v: any }) {
       {" "}
       <div data-tour="kpi-row" style={S("display:flex;gap:14px")}>
         {" "}
-        <div className="scp8" onClick={v?.openFirms} onMouseEnter={v?.kpiOn0} onMouseLeave={v?.kpiOff} data-tip="데이터 계좌를 개설한 제조기업 수 — 클릭 시 상세" style={S("flex:1;position:relative;overflow:hidden;cursor:pointer;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:16px 18px 30px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+        <div className="scp9" onClick={v?.openFirms} onMouseEnter={v?.kpiOn0} onMouseLeave={v?.kpiOff} data-tip="데이터 계좌를 개설한 제조기업 수 — 클릭 시 상세" style={S("flex:1;position:relative;overflow:hidden;cursor:pointer;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:16px 18px 30px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
           <div style={S("font-size:12.5px;color:#7A8089;margin-bottom:9px")}>누적 예치 기업</div>
           {" "}
@@ -43,7 +43,7 @@ export default function ScreenPolicy({ v }: { v: any }) {
           {" "}
         </div>
         {" "}
-        <div className="scp8" onClick={v?.openSets} onMouseEnter={v?.kpiOn1} onMouseLeave={v?.kpiOff} data-tip="제1축 31,200건 + 제2축 11,410건 — 클릭 시 상세" style={S("flex:1;position:relative;overflow:hidden;cursor:pointer;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:16px 18px 30px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+        <div className="scp9" onClick={v?.openSets} onMouseEnter={v?.kpiOn1} onMouseLeave={v?.kpiOff} data-tip="제1축 31,200건 + 제2축 11,410건 — 클릭 시 상세" style={S("flex:1;position:relative;overflow:hidden;cursor:pointer;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:16px 18px 30px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
           <div style={S("font-size:12.5px;color:#7A8089;margin-bottom:9px")}>누적 예치 건수</div>
           {" "}
@@ -62,7 +62,7 @@ export default function ScreenPolicy({ v }: { v: any }) {
           {" "}
         </div>
         {" "}
-        <div className="scp8" onMouseEnter={v?.kpiOn2} onMouseLeave={v?.kpiOff} data-tip="등급별 인정 가액 기준 총 평가액" style={S("flex:1;position:relative;overflow:hidden;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:16px 18px 30px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+        <div className="scp9" onMouseEnter={v?.kpiOn2} onMouseLeave={v?.kpiOff} data-tip="등급별 인정 가액 기준 총 평가액" style={S("flex:1;position:relative;overflow:hidden;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:16px 18px 30px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
           <div style={S("font-size:12.5px;color:#7A8089;margin-bottom:9px")}>총 평가액</div>
           {" "}
@@ -78,7 +78,7 @@ export default function ScreenPolicy({ v }: { v: any }) {
           {" "}
         </div>
         {" "}
-        <div className="scp8" onMouseEnter={v?.kpiOn3} onMouseLeave={v?.kpiOff} data-tip="정책금융기관 담보 대출 실행 누계" style={S("flex:1;position:relative;overflow:hidden;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:16px 18px 30px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+        <div className="scp9" onMouseEnter={v?.kpiOn3} onMouseLeave={v?.kpiOff} data-tip="정책금융기관 담보 대출 실행 누계" style={S("flex:1;position:relative;overflow:hidden;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:16px 18px 30px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
           <div style={S("font-size:12.5px;color:#7A8089;margin-bottom:9px")}>담보 실행액</div>
           {" "}
@@ -98,7 +98,7 @@ export default function ScreenPolicy({ v }: { v: any }) {
       {" "}
       <div style={S("display:flex;gap:16px;margin-top:14px")}>
         {" "}
-        <div className="scp8" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+        <div className="scp9" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
           <div style={S("display:flex;align-items:center;gap:10px;margin-bottom:14px")}>
             {" "}
@@ -124,7 +124,7 @@ export default function ScreenPolicy({ v }: { v: any }) {
           {" "}
           <div style={S("display:flex;gap:12px")}>
             {" "}
-            <div className="scp15" onClick={v?.distA} style={S(v?.distCard1)}>
+            <div className="scp16" onClick={v?.distA} style={S(v?.distCard1)}>
               {" "}
               <div style={S("font-size:12.5px;font-weight:700;color:#1F4E79")}>제1축 범용 데이터</div>
               {" "}
@@ -141,7 +141,7 @@ export default function ScreenPolicy({ v }: { v: any }) {
               {" "}
             </div>
             {" "}
-            <div className="scp16" onClick={v?.distB} style={S(v?.distCard2)}>
+            <div className="scp17" onClick={v?.distB} style={S(v?.distCard2)}>
               {" "}
               <div style={S("font-size:12.5px;font-weight:700;color:#8F400C")}>제2축 기업 핵심 데이터</div>
               {" "}
@@ -200,7 +200,7 @@ export default function ScreenPolicy({ v }: { v: any }) {
           {" "}
         </div>
         {" "}
-        <div className="scp8" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+        <div className="scp9" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
           <div style={S("display:flex;align-items:center;gap:10px;margin-bottom:14px")}>
             {" "}

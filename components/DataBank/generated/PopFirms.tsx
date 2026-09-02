@@ -21,7 +21,7 @@ export default function PopFirms({ v }: { v: any }) {
             <span style={S("color:#8A9099;font-weight:600")}>— 총 1,284개사</span>
           </div>
           {" "}
-          <div className="scp1" onClick={v?.closePop} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
+          <div className="scp2" onClick={v?.closePop} style={S("width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
           {" "}
         </div>
         {" "}
@@ -54,7 +54,7 @@ export default function PopFirms({ v }: { v: any }) {
                   {L(v?.firmScale).map((f: any, $index: number) => (
                     <React.Fragment key={$index}>
                       {" "}
-                      <div className="scpe" onClick={f?.click} style={S(f?.rowStyle)}>
+                      <div className="scpf" onClick={f?.click} style={S(f?.rowStyle)}>
                         {" "}
                         <span style={S(f?.dot)} />
                         {" "}
@@ -278,7 +278,7 @@ export default function PopFirms({ v }: { v: any }) {
               {L(v?.topFirms).map((r: any, $index: number) => (
                 <React.Fragment key={$index}>
                   {" "}
-                  <div className="scpe" onClick={r?.click} style={S(r?.rowStyle)}>
+                  <div className="scpf" onClick={r?.click} style={S(r?.rowStyle)}>
                     {" "}
                     <span style={S("width:52px;flex:none;font-size:13px;font-weight:700;color:#1A1D21")}>{I(r?.name)}</span>
                     {" "}

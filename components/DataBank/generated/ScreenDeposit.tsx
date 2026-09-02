@@ -22,7 +22,7 @@ export default function ScreenDeposit({ v }: { v: any }) {
         {" "}
         <div style={S("display:flex;align-items:center;gap:14px;flex:none")}>
           {" "}
-          <div className="scpm" data-tour="dep-compare" onClick={v?.toggleCompare} style={S("display:flex;align-items:center;gap:10px;cursor:pointer;padding:7px 11px 7px 8px;border-radius:4px;transition:background-color 400ms ease-out")}>
+          <div className="scpn" data-tour="dep-compare" onClick={v?.toggleCompare} style={S("display:flex;align-items:center;gap:10px;cursor:pointer;padding:7px 11px 7px 8px;border-radius:4px;transition:background-color 400ms ease-out")}>
             {" "}
             <div style={S(v?.switchTrack)}><div style={S(v?.switchKnob)} /></div>
             {" "}
@@ -30,7 +30,7 @@ export default function ScreenDeposit({ v }: { v: any }) {
             {" "}
           </div>
           {" "}
-          <div className="scp3" onClick={v?.finishDeposit} data-tip="예치를 확정하고 평가 단계로 이동합니다" style={S("background:#1F4E79;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:3px;cursor:pointer;letter-spacing:-0.3px;white-space:nowrap;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>예치 완료</div>
+          <div className="scp4" onClick={v?.finishDeposit} data-tip="예치를 확정하고 평가 단계로 이동합니다" style={S("background:#1F4E79;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:3px;cursor:pointer;letter-spacing:-0.3px;white-space:nowrap;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>예치 완료</div>
           {" "}
         </div>
         {" "}
@@ -42,7 +42,7 @@ export default function ScreenDeposit({ v }: { v: any }) {
         {" "}
         <div style={S("display:flex;gap:14px")}>
           {" "}
-          <div className="scpn" data-tour="ds-a" onClick={v?.pickA} data-tip="센서 로그 · 공개 가능성이 높은 데이터" style={S(v?.cardAStyle)}>
+          <div className="scpo" data-tour="ds-a" onClick={v?.pickA} data-tip="센서 로그 · 공개 가능성이 높은 데이터" style={S(v?.cardAStyle)}>
             {" "}
             <div style={S("display:flex;align-items:center;justify-content:space-between;margin-bottom:8px")}>
               {" "}
@@ -82,7 +82,7 @@ export default function ScreenDeposit({ v }: { v: any }) {
             {" "}
           </div>
           {" "}
-          <div className="scpo" data-tour="ds-b" onClick={v?.pickB} data-tip="공정 설정값 · 기밀성이 높은 데이터" style={S(v?.cardBStyle)}>
+          <div className="scpp" data-tour="ds-b" onClick={v?.pickB} data-tip="공정 설정값 · 기밀성이 높은 데이터" style={S(v?.cardBStyle)}>
             {" "}
             <div style={S("display:flex;align-items:center;justify-content:space-between;margin-bottom:8px")}>
               {" "}
@@ -196,7 +196,7 @@ export default function ScreenDeposit({ v }: { v: any }) {
                 {L(v?.criteria).map((c: any, $index: number) => (
                   <React.Fragment key={$index}>
                     {" "}
-                    <div className="scpp" data-tip={c?.tip} style={S("flex:1;border:1px solid #EDEFF1;border-radius:4px;padding:12px 13px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+                    <div className="scpq" data-tip={c?.tip} style={S("flex:1;border:1px solid #EDEFF1;border-radius:4px;padding:12px 13px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
                       {" "}
                       <div style={S("font-size:12.5px;color:#5B5F66;margin-bottom:10px")}>{I(c?.name)}</div>
                       {" "}
@@ -225,7 +225,7 @@ export default function ScreenDeposit({ v }: { v: any }) {
               {" "}
               <div style={S("font-size:12px;color:#7A8089;margin-bottom:9px")}>판정 결과</div>
               {" "}
-              <div className="scpq" style={S(v?.verdictBox)}>
+              <div className="scpr" style={S(v?.verdictBox)}>
                 {" "}
                 <div style={S("font-size:12.5px;font-weight:600;opacity:0.85;margin-bottom:4px")}>{I(v?.verdictKicker)}</div>
                 {" "}
@@ -263,7 +263,7 @@ export default function ScreenDeposit({ v }: { v: any }) {
                       {" "}
                       <div style={S(s?.wrap)}>
                         {" "}
-                        <div className="scpr" onClick={s?.click} data-tip={s?.tip} style={S(s?.box)}>
+                        <div className="scps" onClick={s?.click} data-tip={s?.tip} style={S(s?.box)}>
                           {" "}
                           <div style={S("font-size:11px;font-weight:700;opacity:0.55;margin-bottom:6px")}>{"STEP "}{I(s?.n)}</div>
                           {" "}

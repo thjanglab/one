@@ -22,9 +22,9 @@ export default function ScreenAccount({ v }: { v: any }) {
         {" "}
         <div style={S("position:absolute;top:14px;right:20px;display:flex;gap:8px;z-index:2")}>
           {" "}
-          <div className="scph" onClick={v?.replayIntro} data-tip="오프닝 시퀀스를 처음부터 다시 재생합니다" style={S("font-size:12px;font-weight:600;color:#C7D9E8;border:1px solid rgba(255,255,255,0.38);padding:7px 12px;border-radius:3px;cursor:pointer;transition:background-color 400ms ease-out,color 400ms ease-out")}>↻ 처음부터 보기</div>
+          <div className="scpi" onClick={v?.replayIntro} data-tip="오프닝 시퀀스를 처음부터 다시 재생합니다" style={S("font-size:12px;font-weight:600;color:#C7D9E8;border:1px solid rgba(255,255,255,0.38);padding:7px 12px;border-radius:3px;cursor:pointer;transition:background-color 400ms ease-out,color 400ms ease-out")}>↻ 처음부터 보기</div>
           {" "}
-          <div className="scpi" onClick={v?.openModal} data-tip="이번 달 예치·적립·평가 내역 명세서" style={S("font-size:12px;font-weight:600;color:#1F4E79;background:#fff;padding:7px 13px;border-radius:3px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>이번 달 명세서</div>
+          <div className="scpj" onClick={v?.openModal} data-tip="이번 달 예치·적립·평가 내역 명세서" style={S("font-size:12px;font-weight:600;color:#1F4E79;background:#fff;padding:7px 13px;border-radius:3px;cursor:pointer;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>이번 달 명세서</div>
           {" "}
         </div>
         {" "}
@@ -209,7 +209,7 @@ export default function ScreenAccount({ v }: { v: any }) {
             {" "}
             <span style={S("font-size:13.5px;font-weight:700;color:#1F4E79")}>자산 타워</span>
             {" "}
-            <span className="scpj" onClick={v?.openGrade} data-tip="Bronze·Silver·Gold 3단계의 차이를 예시로 설명합니다" style={S("margin-left:auto;font-size:11px;font-weight:600;color:#2E86AB;cursor:pointer;padding:3px 8px;border-radius:3px;border:1px solid #CFE3EE;transition:background-color 400ms ease-out")}>데이터 등급이란?</span>
+            <span className="scpk" onClick={v?.openGrade} data-tip="Bronze·Silver·Gold 3단계의 차이를 예시로 설명합니다" style={S("margin-left:auto;font-size:11px;font-weight:600;color:#2E86AB;cursor:pointer;padding:3px 8px;border-radius:3px;border:1px solid #CFE3EE;transition:background-color 400ms ease-out")}>데이터 등급이란?</span>
             {" "}
           </div>
           {" "}
@@ -303,7 +303,7 @@ export default function ScreenAccount({ v }: { v: any }) {
               {L(v?.growthCols).map((g: any, $index: number) => (
                 <React.Fragment key={$index}>
                   {" "}
-                  <div className="scpf" data-tip={g?.tip} style={S("flex:1;cursor:default;transition:background 300ms ease-out")} />
+                  <div className="scpg" data-tip={g?.tip} style={S("flex:1;cursor:default;transition:background 300ms ease-out")} />
                   {" "}
                 </React.Fragment>
               ))}
@@ -357,7 +357,7 @@ export default function ScreenAccount({ v }: { v: any }) {
               {" "}
               <div style={S("flex:1;display:flex;flex-direction:column;min-width:0")}>
                 {" "}
-                <div className="scpj" onClick={v?.pickAxis1} style={S(v?.axisRow1)}>
+                <div className="scpk" onClick={v?.pickAxis1} style={S(v?.axisRow1)}>
                   {" "}
                   <div style={S("font-size:12.5px;font-weight:700;color:#1F4E79")}>제1축 범용 데이터</div>
                   {" "}
@@ -371,7 +371,7 @@ export default function ScreenAccount({ v }: { v: any }) {
                   {" "}
                 </div>
                 {" "}
-                <div className="scpk" onClick={v?.pickAxis2} style={S(v?.axisRow2)}>
+                <div className="scpl" onClick={v?.pickAxis2} style={S(v?.axisRow2)}>
                   {" "}
                   <div style={S("font-size:12.5px;font-weight:700;color:#8F400C")}>제2축 기업 핵심 데이터</div>
                   {" "}
@@ -449,7 +449,7 @@ export default function ScreenAccount({ v }: { v: any }) {
                 {L(v?.txRowsShown).map((t: any, $index: number) => (
                   <React.Fragment key={$index}>
                     {" "}
-                    <tr className="scpl" onClick={t?.click} data-tip={t?.tip} style={S(t?.style)}>
+                    <tr className="scpm" onClick={t?.click} data-tip={t?.tip} style={S(t?.style)}>
                       {" "}
                       <td style={S(t?.dateCell)}>{I(t?.date)}</td>
                       {" "}
@@ -499,7 +499,7 @@ export default function ScreenAccount({ v }: { v: any }) {
           {(v?.txMoreShow) ? (
             <>
               {" "}
-              <span className="scpj" onClick={v?.txToggleMore} style={S("margin-left:auto;font-size:11.5px;font-weight:700;color:#1F4E79;cursor:pointer;padding:4px 10px;border:1px solid #CFE3EE;border-radius:3px;transition:background-color 400ms ease-out")}>{I(v?.txMoreLabel)}</span>
+              <span className="scpk" onClick={v?.txToggleMore} style={S("margin-left:auto;font-size:11.5px;font-weight:700;color:#1F4E79;cursor:pointer;padding:4px 10px;border:1px solid #CFE3EE;border-radius:3px;transition:background-color 400ms ease-out")}>{I(v?.txMoreLabel)}</span>
               {" "}
             </>
           ) : null}
@@ -533,7 +533,7 @@ export default function ScreenAccount({ v }: { v: any }) {
                 {" "}
               </div>
               {" "}
-              <div className="scp1" onClick={v?.closeTx} style={S("flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
+              <div className="scp2" onClick={v?.closeTx} style={S("flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
               {" "}
             </div>
             {" "}

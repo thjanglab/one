@@ -16,9 +16,9 @@ export default function ScreenOperate({ v }: { v: any }) {
       {" "}
       <div style={S("display:flex;gap:6px;border-bottom:1px solid #E1E4E8;margin-bottom:16px")}>
         {" "}
-        <div className="scp5" onClick={v?.pickLoan} style={S(v?.tabLoanStyle)}>담보 대출</div>
+        <div className="scp6" onClick={v?.pickLoan} style={S(v?.tabLoanStyle)}>담보 대출</div>
         {" "}
-        <div className="scp5" data-tour="fund-tab" onClick={v?.pickFund} style={S(v?.tabFundStyle)}>데이터 펀딩</div>
+        <div className="scp6" data-tour="fund-tab" onClick={v?.pickFund} style={S(v?.tabFundStyle)}>데이터 펀딩</div>
         {" "}
       </div>
       {" "}
@@ -27,7 +27,7 @@ export default function ScreenOperate({ v }: { v: any }) {
           {" "}
           <div style={S("display:flex;gap:16px;align-items:stretch;animation:fadeIn 200ms ease-out both")}>
             {" "}
-            <div className="scp8" style={S("flex:none;width:236px;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+            <div className="scp9" style={S("flex:none;width:236px;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
               {" "}
               <div style={S("font-size:14px;font-weight:700;color:#1F4E79;margin-bottom:14px")}>보유 건수 조정</div>
               {" "}
@@ -80,7 +80,7 @@ export default function ScreenOperate({ v }: { v: any }) {
               {" "}
             </div>
             {" "}
-            <div className="scp8" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+            <div className="scp9" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
               {" "}
               <div style={S("font-size:14px;font-weight:700;color:#1F4E79;margin-bottom:12px")}>담보 산정 내역</div>
               {" "}
@@ -111,7 +111,7 @@ export default function ScreenOperate({ v }: { v: any }) {
                   {L(v?.rows).map((r: any, $index: number) => (
                     <React.Fragment key={$index}>
                       {" "}
-                      <tr className="scpz" data-tip={r?.tip} style={S("transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out,background-color 400ms ease-out;cursor:default")}>
+                      <tr className="scp10" data-tip={r?.tip} style={S("transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out,background-color 400ms ease-out;cursor:default")}>
                         {" "}
                         <td style={S(r?.gradeCell)}>
                           {" "}
@@ -140,7 +140,7 @@ export default function ScreenOperate({ v }: { v: any }) {
                     </React.Fragment>
                   ))}
                   {" "}
-                  <tr className="scpg" style={S("background:#F7F8FA;transition:background-color 400ms ease-out")}>
+                  <tr className="scph" style={S("background:#F7F8FA;transition:background-color 400ms ease-out")}>
                     {" "}
                     <td style={S("padding:12px 10px;font-size:13px;font-weight:700;color:#1A1D21;border-bottom:1px solid #E1E4E8")}>합계</td>
                     {" "}
@@ -169,7 +169,7 @@ export default function ScreenOperate({ v }: { v: any }) {
             {" "}
             <div style={S("flex:none;width:250px;display:flex;flex-direction:column;gap:14px")}>
               {" "}
-              <div className="scp10" data-tour="limit-card" data-tip="등급별 담보 가능액의 합계" style={S("background:#1F4E79;border-radius:5px;padding:22px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+              <div className="scp11" data-tour="limit-card" data-tip="등급별 담보 가능액의 합계" style={S("background:#1F4E79;border-radius:5px;padding:22px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
                 {" "}
                 <div style={S("font-size:12.5px;color:#A9C3DC;margin-bottom:10px")}>대출 가능 한도</div>
                 {" "}
@@ -194,13 +194,13 @@ export default function ScreenOperate({ v }: { v: any }) {
                 {" "}
               </div>
               {" "}
-              <div className="scp8" style={S("background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:14px 16px;font-size:12.5px;line-height:1.75;color:#4A4E55;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+              <div className="scp9" style={S("background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:14px 16px;font-size:12.5px;line-height:1.75;color:#4A4E55;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
                 등급이 상향되면 인정 가액과 담보 인정률이 함께 상승합니다.
                 <br />
                 <span style={S("color:#1F4E79;font-weight:700")}>Silver 12건을 Gold로 상향할 경우 담보 가능액 +1억 2,960만원</span>
               </div>
               {" "}
-              <div className="scpv" onClick={v?.simClick} data-tip={v?.simTip} style={S(v?.simBtnStyle)}>{I(v?.simLabel)}</div>
+              <div className="scpw" onClick={v?.simClick} data-tip={v?.simTip} style={S(v?.simBtnStyle)}>{I(v?.simLabel)}</div>
               {" "}
               {(v?.simDone) ? (
                 <>
@@ -228,7 +228,7 @@ export default function ScreenOperate({ v }: { v: any }) {
           {" "}
           <div style={S("display:flex;gap:16px;align-items:stretch;animation:fadeIn 200ms ease-out both")}>
             {" "}
-            <div className="scp8" style={S("flex:none;width:400px;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+            <div className="scp9" style={S("flex:none;width:400px;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
               {" "}
               <div style={S("font-size:14px;font-weight:700;color:#1F4E79;margin-bottom:12px")}>담보 대출과 데이터 펀딩의 차이</div>
               {" "}
@@ -272,7 +272,7 @@ export default function ScreenOperate({ v }: { v: any }) {
               {" "}
             </div>
             {" "}
-            <div className="scp8" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+            <div className="scp9" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
               {" "}
               <div style={S("font-size:14px;font-weight:700;color:#1F4E79;margin-bottom:14px")}>펀딩 조성 시뮬레이션</div>
               {" "}
@@ -310,7 +310,7 @@ export default function ScreenOperate({ v }: { v: any }) {
                   </div>
                 </div>
                 {" "}
-                <div className="scp11" onClick={v?.investClick} data-tip="신규 투자기관 참여를 가정하고 조성률을 재계산합니다" style={S(v?.investBtnStyle)}>{I(v?.investLabel)}</div>
+                <div className="scp12" onClick={v?.investClick} data-tip="신규 투자기관 참여를 가정하고 조성률을 재계산합니다" style={S(v?.investBtnStyle)}>{I(v?.investLabel)}</div>
                 {" "}
               </div>
               {" "}
@@ -393,7 +393,7 @@ export default function ScreenOperate({ v }: { v: any }) {
         </>
       ) : null}
       {" "}
-      <div className="scp8" style={S("background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;margin-top:16px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+      <div className="scp9" style={S("background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;margin-top:16px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
         {" "}
         <div style={S("display:flex;align-items:baseline;gap:12px;margin-bottom:12px")}>
           {" "}
@@ -425,7 +425,7 @@ export default function ScreenOperate({ v }: { v: any }) {
           {" "}
           <tbody>
             {" "}
-            <tr className="scp12" onClick={v?.openAcc0} data-tip="제2축 · 조건부 이용 계약 2회 정산 — 클릭 시 정산 상세" style={S(v?.accRow0)}>
+            <tr className="scp13" onClick={v?.openAcc0} data-tip="제2축 · 조건부 이용 계약 2회 정산 — 클릭 시 정산 상세" style={S(v?.accRow0)}>
               {" "}
               <td style={S("font-size:13px;color:#1A1D21;padding:10px 12px;border-bottom:1px solid #F0F1F3")}>K.M-X 거래 정산 (2건)</td>
               {" "}
@@ -438,7 +438,7 @@ export default function ScreenOperate({ v }: { v: any }) {
               {" "}
             </tr>
             {" "}
-            <tr className="scp13" onClick={v?.openAcc1} data-tip="제1축 · 공공 데이터허브 개방 실적 — 클릭 시 정산 상세" style={S(v?.accRow1)}>
+            <tr className="scp14" onClick={v?.openAcc1} data-tip="제1축 · 공공 데이터허브 개방 실적 — 클릭 시 정산 상세" style={S(v?.accRow1)}>
               {" "}
               <td style={S("font-size:13px;color:#1A1D21;padding:10px 12px;border-bottom:1px solid #F0F1F3")}>공공 데이터허브 개방 실적 인센티브</td>
               {" "}
@@ -451,7 +451,7 @@ export default function ScreenOperate({ v }: { v: any }) {
               {" "}
             </tr>
             {" "}
-            <tr className="scpg" style={S("background:#F7F8FA;transition:background-color 400ms ease-out")}>
+            <tr className="scph" style={S("background:#F7F8FA;transition:background-color 400ms ease-out")}>
               {" "}
               <td style={S("font-size:13px;font-weight:700;color:#1A1D21;padding:11px 12px;border-bottom:1px solid #E1E4E8")}>합계</td>
               {" "}
@@ -497,7 +497,7 @@ export default function ScreenOperate({ v }: { v: any }) {
                 {" "}
               </div>
               {" "}
-              <div className="scp1" onClick={v?.closeAcc} style={S("flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
+              <div className="scp2" onClick={v?.closeAcc} style={S("flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#7A8089;cursor:pointer;border-radius:3px;transition:background-color 400ms ease-out")}>✕</div>
               {" "}
             </div>
             {" "}
