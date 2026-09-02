@@ -30,10 +30,24 @@ const TARGETS = [
     settle: 1500,
   })),
   {
-    name: 'databank.html',
-    url: `${BASE}/databank.html`,
+    // The gate itself. It is a short page by design, so it is checked for
+    // the control it must show rather than for a paragraph of copy.
+    name: 'databank (gate)',
+    url: `${BASE}/d/7k2q9x/`,
     text: () => document.body.innerText.trim(),
-    settle: 4500,
+    settle: 1200,
+    minText: 20,
+  },
+  {
+    // The demo behind it. The check unlocks by setting the same session flag
+    // the gate sets, rather than carrying the passphrase in the repository.
+    name: 'databank (demo)',
+    url: `${BASE}/d/7k2q9x/`,
+    prepare: (page) => page.addInitScript(() => {
+      try { sessionStorage.setItem('databank-unlocked', '1'); } catch { /* private mode */ }
+    }),
+    text: () => document.body.innerText.trim(),
+    settle: 5000,
   },
 ];
 
@@ -94,6 +108,7 @@ for (const target of TARGETS) {
   page.on('console', onConsole);
   page.on('requestfailed', onRequestFailed);
 
+  if (target.prepare) await target.prepare(page);
   await page.goto(target.url, { waitUntil: 'domcontentloaded', timeout: 60_000 });
   await page.waitForTimeout(target.settle); // let animations and charts settle
 
@@ -103,9 +118,10 @@ for (const target of TARGETS) {
   page.off('console', onConsole);
   page.off('requestfailed', onRequestFailed);
 
-  if (text.length < MIN_TEXT) problems.push(`rendered only ${text.length} chars of text`);
+  const floor = target.minText ?? MIN_TEXT;
+  if (text.length < floor) problems.push(`rendered only ${text.length} chars of text`);
 
-  const name = target.name.replace(/^\//, '').replace(/\//g, '_');
+  const name = target.name.replace(/^\//, '').replace(/[\/ ()]+/g, '_');
   await page.screenshot({ path: `${OUT}/${name}.png`, fullPage: true });
 
   const ok = problems.length === 0;

@@ -24,12 +24,27 @@ GEMINI_API_KEY=your-key-here
 
 Everything else runs without it.
 
-## 국가 제조데이터뱅크 demo
+## 국가 제조데이터 라이브러리 현황 demo
 
-`http://localhost:3000/databank.html` is a six-screen concept demo of the
+`http://localhost:3000/d/7k2q9x/` is a six-screen concept demo of the
 proposed National Manufacturing Data Bank — 현황판 · 계좌 · 예치 · 평가 ·
 운용 · 정책 대시보드 — built for showing at government briefings. Every
 figure on it is illustrative, which the bar across the top says outright.
+
+It asks for a passphrase, which is not in this repository: the demo is
+handed out for external seminars and the passphrase goes with it. Be clear
+about what that check is worth — GitHub Pages has no server-side auth, so it
+runs in the visitor's browser and anyone willing to open devtools gets past
+it. It keeps the page from being readable by someone who merely has the
+link, and holds the demo bundle back behind a dynamic import until the
+passphrase is right; it is not access control. `gate.tsx` says the same at
+the top, and `design/manufacturing-data-bank/README.md` covers what real
+gating would take.
+
+The path is unlisted for the same reason, and nothing on the platform links
+to it. The page carries `noindex`; a `robots.txt` would do nothing, since
+crawlers only read one at the domain root and a project page does not own
+that.
 
 It is a **separate page, not a route**. It runs on a fixed 1600×900 stage
 scaled to the window and styles `html` and `body` itself, and the platform's
@@ -51,9 +66,11 @@ open the original prototype, and how the port is verified against it.
 
 ## Verifying that every screen renders
 
-`npm run verify:render` opens all 23 routes plus `databank.html` in a real
-browser and fails if any of them throws, logs a console error, fails a local
-request, or comes back visually empty. Screenshots and a JSON report land in
+`npm run verify:render` opens all 23 routes plus the demo — once at its gate
+and once past it — in a real browser, and fails if any of them throws, logs a
+console error, fails a local request, or comes back visually empty. It gets
+past the gate by setting the same session flag the gate sets, so the
+passphrase stays out of the repository. Screenshots and a JSON report land in
 `render-report/`.
 
 ```bash

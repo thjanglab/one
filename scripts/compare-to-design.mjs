@@ -1,5 +1,5 @@
 /**
- * Fidelity check for the 국가 제조데이터뱅크 demo.
+ * Fidelity check for the 국가 제조데이터 라이브러리 현황 demo.
  *
  * Drives the original design prototype and the built page through the same
  * script of clicks, and after every step compares the geometry and text of
@@ -28,7 +28,7 @@
  * Then, against a production build served on 4173:
  *
  *   node scripts/compare-to-design.mjs \
- *     http://127.0.0.1:4180/index.html http://127.0.0.1:4173/databank.html
+ *     http://127.0.0.1:4180/index.html http://127.0.0.1:4173/d/7k2q9x/
  *
  * Expect a handful of differing rows, not zero: the count-up animations are
  * sampled wherever they happen to be, so a figure mid-tween reads a digit
@@ -88,6 +88,12 @@ async function run(url) {
     args: ['--no-sandbox'],
   });
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
+  // The built page sits behind the passphrase gate. Unlock it the way the
+  // render check does — by setting the flag the gate sets — so the
+  // passphrase stays out of the repository.
+  await page.addInitScript(() => {
+    try { sessionStorage.setItem('databank-unlocked', '1'); } catch { /* private mode */ }
+  });
   const problems = [];
   page.on('pageerror', (e) => problems.push(`pageerror: ${e.message}`));
   page.on('console', (m) => {
@@ -143,7 +149,7 @@ async function run(url) {
 }
 
 const designUrl = process.argv[2] || 'http://127.0.0.1:4180/index.html';
-const buildUrl = process.argv[3] || 'http://127.0.0.1:4173/databank.html';
+const buildUrl = process.argv[3] || 'http://127.0.0.1:4173/d/7k2q9x/';
 const reportPath = process.argv[4] || 'render-report/design-comparison.txt';
 
 const design = await run(designUrl);
