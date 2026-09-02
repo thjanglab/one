@@ -121,7 +121,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
             {(v?.evalReady) ? (
               <>
                 {" "}
-                <div style={S("animation:fadeUp 500ms ease-out both")}>
+                <div data-tour="eval-metrics" style={S("animation:fadeUp 500ms ease-out both")}>
                   {" "}
                   <div style={S("display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px")}>
                     {" "}
@@ -193,7 +193,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
           {" "}
         </div>
         {" "}
-        <div className="scp8" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
+        <div className="scp8" data-tour="eval-maturity" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;transition:transform 400ms cubic-bezier(0.16,1,0.3,1),box-shadow 400ms ease-out")}>
           {" "}
           <div style={S("font-size:14px;font-weight:700;color:#1F4E79;margin-bottom:14px")}>기업 데이터 거버넌스 성숙도 · 5단계</div>
           {" "}
@@ -298,7 +298,7 @@ export default function ScreenEvaluate({ v }: { v: any }) {
       {(v?.showResult) ? (
         <>
           {" "}
-          <div style={S("position:absolute;right:28px;bottom:22px;background:#1F4E79;border-left:4px solid #C9A227;border-radius:4px;padding:16px 20px;display:flex;align-items:center;gap:22px;box-shadow:0 8px 24px rgba(31,78,121,0.30);animation:slideUpIn 600ms ease-out both;z-index:5")}>
+          <div data-tour="eval-result" style={S("position:absolute;right:28px;bottom:22px;background:#1F4E79;border-left:4px solid #C9A227;border-radius:4px;padding:16px 20px;display:flex;align-items:center;gap:22px;box-shadow:0 8px 24px rgba(31,78,121,0.30);animation:slideUpIn 600ms ease-out both;z-index:5")}>
             {" "}
             <div>
               {" "}

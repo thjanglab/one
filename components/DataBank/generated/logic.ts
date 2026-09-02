@@ -456,13 +456,60 @@ const REC_DETAIL = [
 ];
 const REC_LINES = { 0:['p0'], 1:['p5'], 2:['r충남'], 3:['p3'], 4:[], 5:[], 6:['r대구'], 7:['p2'], 8:['p4'], 9:['r인천'] };
 const TOUR = [
-  { screen:'map', target:'map-card', text:'전국 1,284개사의 제조데이터가 두 갈래 경로로 유통되는 모습입니다.' },
-  { screen:'account', target:'acct-card', text:'K사의 데이터 계좌입니다. 보유 데이터가 얼마의 자산으로 잡히는지 보십시오.' },
-  { screen:'deposit', target:'ds-picker', text:'데이터를 예치합니다. 어떤 데이터인지에 따라 길이 갈립니다.' },
-  { screen:'deposit', target:'ds-a', text:'설비 진동 데이터를 선택해 보십시오. 범용 축으로 판정됩니다.' },
-  { screen:'deposit', target:'ds-b', text:'이번엔 공정 레시피입니다. 같은 기업 데이터인데 경로가 완전히 다릅니다.' },
-  { screen:'evaluate', target:'medallion', text:'예치된 데이터에 등급이 매겨집니다. 메달리온 3단계입니다.' },
-  { screen:'evaluate', target:'gold-sim', text:'Gold로 올리면 어떻게 되는지 보십시오.' },
+  { screen:'map', target:'map-kpi', state:{ mapAxis:'전체', mapSel:null },
+    text:'제도가 돌기 시작하면 먼저 규모가 보입니다. 1,284개사가 42,610건, 215.1TB를 예치했습니다.' },
+  { screen:'map', target:'map-card', state:{ mapAxis:'전체', mapSel:null },
+    text:'전국 유통 지도입니다. 원의 크기는 예치 건수, 색은 그 지역에서 비중이 높은 축입니다.' },
+  { screen:'map', target:'map-hub', state:{ mapAxis:'전체', mapSel:null },
+    text:'가운데 육각형이 세종의 국가 제조데이터 허브입니다. 지금까지 31,200건이 등재됐습니다.' },
+  { screen:'map', target:'map-axis', state:{ mapAxis:'제1축', mapSel:null },
+    text:'제1축만 켜 보겠습니다. 모든 지역에서 선이 허브로 모입니다 — 원본이 공개 카탈로그에 등재된다는 뜻입니다.' },
+  { screen:'map', target:'map-axis', state:{ mapAxis:'제2축', mapSel:null },
+    text:'제2축입니다. 허브를 거치지 않고 기업끼리 직접 이어집니다. 원본은 기업에 그대로 남습니다.' },
+  { screen:'map', target:'map-axis', state:{ mapAxis:'전체', mapSel:null },
+    text:'두 축을 함께 놓고 보면, 하나의 통로가 아니라 성격이 다른 두 개의 경로라는 점이 드러납니다.' },
+  { screen:'map', target:'map-rank', state:{ mapAxis:'전체', mapSel:'경기' },
+    text:'예치의 70%가 산업단지가 밀집한 다섯 지역에 몰려 있습니다. 경기가 10,670건으로 가장 많습니다.' },
+  { screen:'map', target:'map-records', state:{ mapAxis:'전체', mapSel:null },
+    text:'오른쪽은 실시간 거래 기록입니다. 모든 거래는 클리어링 하우스에 남고 사후에 고칠 수 없습니다.' },
+  { screen:'map', target:'map-case', state:{ mapAxis:'전체', mapSel:null },
+    text:'그러면 이 1,284개사 가운데 한 곳으로 들어가 보겠습니다.' },
+  { screen:'account', target:'acct-card', state:{ gradeModal:false },
+    text:'K사의 데이터 계좌입니다. 보유 42건이 2억 1,000만원의 자산으로 인정됐습니다.' },
+  { screen:'account', target:'acct-limit', state:{ gradeModal:false },
+    text:'그 자산으로 8,580만원까지 조달할 수 있습니다. 평가액의 40.9%입니다.' },
+  { screen:'account', target:'acct-tower', state:{ gradeModal:false },
+    text:'자산 타워입니다. 같은 42건이라도 등급에 따라 담보 인정률이 70·40·10%로 갈립니다.' },
+  { screen:'account', target:'grade-cards', state:{ gradeModal:true },
+    text:'설비에서 나온 데이터는 쌓아둔 그대로는 쓸 수 없습니다. 정리 단계를 거칠수록 쓸 수 있는 범위가 넓어지고, 그만큼 자산 가치가 올라갑니다.' },
+  { screen:'account', target:'acct-axis', state:{ gradeModal:false },
+    text:'보유 데이터는 제1축 29건, 제2축 13건입니다. 축에 따라 유통 경로와 보상 방식이 다릅니다.' },
+  { screen:'account', target:'acct-tx', state:{ gradeModal:false },
+    text:'적립·평가·예치가 모두 계좌에 기록으로 남습니다. 자산 계좌와 같은 방식입니다.' },
+
+  { screen:'deposit', target:'ds-picker', state:{ ds:'A', compare:false, judging:false, dsJudged:{ A:true, B:true } },
+    text:'데이터를 예치합니다. 성격이 다른 두 데이터셋을 준비했습니다.' },
+  { screen:'deposit', target:'ds-a', state:{ ds:'A', compare:false, judging:false, dsJudged:{ A:true, B:true } },
+    text:'설비 진동·온도 시계열입니다. 제1축, 범용 데이터로 판정됩니다.' },
+  { screen:'deposit', target:'dep-judge', state:{ ds:'A', compare:false, judging:false, dsJudged:{ A:true, B:true } },
+    text:'판정은 네 기준으로 이뤄집니다 — 공개 가능성, 희소성, 기밀성, 재사용 범용성.' },
+  { screen:'deposit', target:'ds-b', state:{ ds:'B', compare:false, judging:false, dsJudged:{ A:true, B:true } },
+    text:'이번엔 사출 공정 레시피입니다. 같은 기업 데이터인데 제2축으로 갈립니다.' },
+  { screen:'deposit', target:'dep-flow', state:{ ds:'B', compare:false, judging:false, dsJudged:{ A:true, B:true } },
+    text:'제2축은 원본이 기업에 남습니다. 이용 목적·기간·횟수를 지정한 조건부 계약으로만 거래됩니다.' },
+  { screen:'deposit', target:'dep-compare', state:{ compare:true, judging:false, dsJudged:{ A:true, B:true } },
+    text:'두 경로를 나란히 놓고 보십시오. 같은 기업의 데이터인데 운용 방식이 이렇게 다릅니다.' },
+
+  { screen:'evaluate', target:'medallion', state:{ upPhase:0, applied:false },
+    text:'예치된 데이터에 등급이 매겨집니다. 메달리온 3단계, 현재는 Silver입니다.' },
+  { screen:'evaluate', target:'eval-metrics', state:{ upPhase:0, applied:false },
+    text:'일곱 개 지표로 종합 71점입니다. 활용 이력과 희소성이 낮아 Gold에 못 미쳤습니다.' },
+  { screen:'evaluate', target:'eval-maturity', state:{ upPhase:0, applied:false },
+    text:'데이터 자산과 별개로 기업의 처리 역량도 진단합니다. 3단계 이상이 참여 기준선입니다.' },
+  { screen:'evaluate', target:'gold-sim', state:{ upPhase:0, applied:false },
+    text:'Gold로 올리면 어떻게 되는지, 눌러서 보십시오.' },
+  { screen:'evaluate', target:'eval-result', state:{ upPhase:6 },
+    text:'등급 하나가 오르니 평가액이 1,200만원, 담보 가능액이 1,080만원 늘었습니다.' },
   { screen:'operate', tab:'loan', target:'limit-card', text:'등급이 오르니 담보 한도가 올랐습니다. 데이터가 돈이 되는 지점입니다.' },
   { screen:'operate', tab:'loan', target:'fund-tab', text:'펀딩 탭도 보십시오. 담보와 성격이 다릅니다.' },
   { screen:'policy', target:'kpi-row', text:'이 구조가 전국으로 확산되면 이런 그림이 됩니다.' }
@@ -647,6 +694,11 @@ export class DataBankLogic extends React.Component<any, any> {
     const n = Math.max(0, Math.min(TOUR.length - 1, i));
     const t = TOUR[n];
     this.setState({ tourStep: n });
+    // A step that talks about one axis has to be looking at that axis, so it
+    // carries the state it narrates. Every dashboard step names mapAxis and
+    // mapSel outright, which is what makes stepping backwards land on the
+    // same screen as stepping forwards.
+    if (t.state) this.setState(t.state);
     if (t.tab && t.tab !== this.state.tab) this.setState({ tab: t.tab });
     if (t.screen !== this.state.screen) this.go(t.screen);
     this.later(() => this.restartRing(), 450);
@@ -701,7 +753,7 @@ export class DataBankLogic extends React.Component<any, any> {
   buildOverlay() {
     if (!this.stage || this.overlay) return;
     const ov = document.createElement('div');
-    ov.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:60';
+    ov.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:118';
     this.stage.appendChild(ov);
     this.overlay = ov;
 

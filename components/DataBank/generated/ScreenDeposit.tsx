@@ -22,7 +22,7 @@ export default function ScreenDeposit({ v }: { v: any }) {
         {" "}
         <div style={S("display:flex;align-items:center;gap:14px;flex:none")}>
           {" "}
-          <div className="scpm" onClick={v?.toggleCompare} style={S("display:flex;align-items:center;gap:10px;cursor:pointer;padding:7px 11px 7px 8px;border-radius:4px;transition:background-color 400ms ease-out")}>
+          <div className="scpm" data-tour="dep-compare" onClick={v?.toggleCompare} style={S("display:flex;align-items:center;gap:10px;cursor:pointer;padding:7px 11px 7px 8px;border-radius:4px;transition:background-color 400ms ease-out")}>
             {" "}
             <div style={S(v?.switchTrack)}><div style={S(v?.switchKnob)} /></div>
             {" "}
@@ -185,7 +185,7 @@ export default function ScreenDeposit({ v }: { v: any }) {
       {(v?.judged) ? (
         <>
           {" "}
-          <div style={S("background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;margin-top:14px;display:flex;gap:28px;align-items:center;animation:fadeUp 500ms ease-out both")}>
+          <div data-tour="dep-judge" style={S("background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:18px 20px;margin-top:14px;display:flex;gap:28px;align-items:center;animation:fadeUp 500ms ease-out both")}>
             {" "}
             <div style={S("flex:1")}>
               {" "}
@@ -242,7 +242,7 @@ export default function ScreenDeposit({ v }: { v: any }) {
           {(v?.singleFlow) ? (
             <>
               {" "}
-              <div style={S(v?.flowBox)}>
+              <div data-tour="dep-flow" style={S(v?.flowBox)}>
                 {" "}
                 <div style={S("display:flex;align-items:center;gap:10px;margin-bottom:14px")}>
                   {" "}

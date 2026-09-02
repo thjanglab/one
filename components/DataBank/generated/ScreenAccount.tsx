@@ -114,7 +114,7 @@ export default function ScreenAccount({ v }: { v: any }) {
           {" "}
         </div>
         {" "}
-        <div style={S("flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px;border-left:1px solid rgba(255,255,255,0.16);padding-left:24px;padding-top:30px;min-width:0")}>
+        <div data-tour="acct-limit" style={S("flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px;border-left:1px solid rgba(255,255,255,0.16);padding-left:24px;padding-top:30px;min-width:0")}>
           {" "}
           <div style={S("display:flex;align-items:center;gap:14px")}>
             {" "}
@@ -203,7 +203,7 @@ export default function ScreenAccount({ v }: { v: any }) {
       {" "}
       <div style={S("display:flex;gap:14px;margin-top:12px;height:186px")}>
         {" "}
-        <div style={S("flex:0 0 38%;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:14px 16px;display:flex;flex-direction:column;min-width:0")}>
+        <div data-tour="acct-tower" style={S("flex:0 0 38%;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:14px 16px;display:flex;flex-direction:column;min-width:0")}>
           {" "}
           <div style={S("display:flex;align-items:center;gap:10px;margin-bottom:12px")}>
             {" "}
@@ -327,7 +327,7 @@ export default function ScreenAccount({ v }: { v: any }) {
           {" "}
         </div>
         {" "}
-        <div style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:14px 16px;display:flex;flex-direction:column;min-width:0")}>
+        <div data-tour="acct-axis" style={S("flex:1;background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:14px 16px;display:flex;flex-direction:column;min-width:0")}>
           {" "}
           <div style={S("display:flex;align-items:center;gap:8px;margin-bottom:12px;min-height:22px")}>
             {" "}
@@ -397,7 +397,7 @@ export default function ScreenAccount({ v }: { v: any }) {
         {" "}
       </div>
       {" "}
-      <div style={S("background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:11px 16px;margin-top:12px")}>
+      <div data-tour="acct-tx" style={S("background:#fff;border:1px solid #E1E4E8;border-radius:5px;padding:11px 16px;margin-top:12px")}>
         {" "}
         <div style={S("display:flex;align-items:center;justify-content:space-between;margin-bottom:9px")}>
           {" "}

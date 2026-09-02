@@ -35,7 +35,7 @@ export default function ModalGrade({ v }: { v: any }) {
           {" "}
           <div style={S("font-size:12.5px;color:#8A9099;margin-top:9px")}>아래는 K사의 '설비 진동·온도 시계열' 데이터가 단계별로 어떻게 바뀌는지를 보여줍니다.</div>
           {" "}
-          <div style={S("display:flex;gap:16px;align-items:stretch;margin-top:20px")}>
+          <div data-tour="grade-cards" style={S("display:flex;gap:16px;align-items:stretch;margin-top:20px")}>
             {" "}
             <div style={S("flex:1;display:flex;flex-direction:column;background:#fff;border:1px solid #E1E4E8;border-top:4px solid #A0673A;border-radius:4px;padding:16px 18px 0;animation:fadeUp 400ms ease-out both")}>
               {" "}
