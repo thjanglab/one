@@ -30,7 +30,7 @@ const FullscreenToggle: React.FC<{ className?: string }> = ({ className = '' }) 
           ? language === 'KO' ? '전체화면을 해제합니다. Esc 로도 해제됩니다.' : 'Leave fullscreen. Esc also works.'
           : language === 'KO' ? '주소창과 탭을 감추고 화면 전체를 씁니다.' : 'Hide the address bar and tabs, and use the whole screen.'
       }
-      className={`flex items-center gap-2 shrink-0 whitespace-nowrap rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-colors ${
+      className={`flex items-center gap-2 shrink-0 whitespace-nowrap rounded-lg border px-2.5 py-1 text-xs font-medium transition-colors ${
         isFull
           ? 'border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100'
           : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
