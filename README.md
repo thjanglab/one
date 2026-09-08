@@ -24,6 +24,44 @@ GEMINI_API_KEY=your-key-here
 
 Everything else runs without it.
 
+## The passphrase gate
+
+Both pages — the platform and the data-library demo — ask for a passphrase
+before they load anything. It is not in this repository: the pages are shown
+at external seminars and the passphrase goes with them.
+
+Be clear about what that check is worth. GitHub Pages has no server-side
+auth, so it runs in the visitor's browser and anyone willing to open devtools
+gets past it, and a short passphrase is cheap to brute-force offline against
+a known digest. It is a closed door, not a lock. What it does buy is that
+neither page is readable by someone who merely has the link, and that both
+bundles sit behind a dynamic import — the platform's 1.9 MB chunk and the
+demo's 459 kB one are not fetched at all until the passphrase is accepted.
+`components/gate/passphrase.ts` says the same at the top, and
+`design/manufacturing-data-bank/README.md` covers what real gating would
+take.
+
+One code opens both. Unlocking is remembered in `sessionStorage` under a key
+the two pages share, so a reload mid-presentation does not re-prompt and
+moving between the platform and the demo in the same tab does not either —
+but the next person to open the podium machine has to ask. Both pages carry
+`noindex`; a `robots.txt` would do nothing, since crawlers only read one at
+the domain root and a project page does not own that.
+
+Opening either page goes fullscreen. The browser only grants that off a user
+gesture, so the request rides on the 열기 click; a checkbox on the gate turns
+it off for anyone sharing a single window in a call. It can still be refused
+— iOS Safari does not do fullscreen outside video — and a refusal just opens
+the page windowed.
+
+Each page then carries a 전체화면 switch at the right end of its topmost bar
+— the platform's own top bar, the demo's concept-demo notice bar — so
+fullscreen can be turned on and off without leaving the page. Both read
+`document.fullscreenElement` rather than remembering their own clicks, so
+F11 and Esc move them too, and a refused request leaves them reading off
+instead of lying. That switch is also the way back after a reload, which
+drops out of fullscreen and leaves no gate click to ride on.
+
 ## 국가 제조데이터 라이브러리 현황 demo
 
 `http://localhost:3000/d/7k2q9x/` is a six-screen concept demo of the
@@ -31,34 +69,10 @@ proposed National Manufacturing Data Bank — 현황판 · 계좌 · 예치 · �
 운용 · 정책 대시보드 — built for showing at government briefings. Every
 figure on it is illustrative, which the bar across the top says outright.
 
-It asks for a passphrase, which is not in this repository: the demo is
-handed out for external seminars and the passphrase goes with it. Be clear
-about what that check is worth — GitHub Pages has no server-side auth, so it
-runs in the visitor's browser and anyone willing to open devtools gets past
-it. It keeps the page from being readable by someone who merely has the
-link, and holds the demo bundle back behind a dynamic import until the
-passphrase is right; it is not access control. `gate.tsx` says the same at
-the top, and `design/manufacturing-data-bank/README.md` covers what real
-gating would take.
-
-The path is unlisted for the same reason, and nothing on the platform links
-to it. The page carries `noindex`; a `robots.txt` would do nothing, since
-crawlers only read one at the domain root and a project page does not own
-that.
-
-Opening it goes fullscreen, which is what the fixed 1600×900 stage is for
-and what keeps the URL off a projector. The browser only grants fullscreen
-off a user gesture, so the request rides on the 열기 click; a checkbox on
-the gate turns it off for anyone sharing a single window in a call. It can
-still be refused — iOS Safari does not do fullscreen outside video — and a
-refusal just opens the demo windowed.
-
-The notice bar carries a 전체화면 switch at its right end, opposite the
-concept-demo line, so fullscreen can be turned on and off mid-presentation
-without leaving the demo. It reads `document.fullscreenElement` rather than
-remembering its own clicks, so F11 and Esc move it too — and it is the way
-back into fullscreen after a reload, which drops out of it and leaves no
-gate click to ride on.
+It sits behind the shared passphrase gate described above, on an unlisted
+path that nothing on the platform links to. Fullscreen matters more here
+than anywhere else: the demo runs on a fixed 1600×900 stage built to fill a
+projector, and fullscreen is what keeps the URL off it.
 
 It is a **separate page, not a route**. It runs on a fixed 1600×900 stage
 scaled to the window and styles `html` and `body` itself, and the platform's
@@ -80,11 +94,12 @@ open the original prototype, and how the port is verified against it.
 
 ## Verifying that every screen renders
 
-`npm run verify:render` opens all 23 routes plus the demo — once at its gate
-and once past it — in a real browser, and fails if any of them throws, logs a
-console error, fails a local request, or comes back visually empty. It gets
-past the gate by setting the same session flag the gate sets, so the
-passphrase stays out of the repository. Screenshots and a JSON report land in
+`npm run verify:render` opens both gates, all 23 routes and the demo behind
+them — 26 targets — in a real browser, and fails if any of them throws, logs
+a console error, fails a local request, or comes back visually empty. The two
+gate targets run first, before anything has unlocked the session; the rest
+get past by setting the same session flag the gate sets, so the passphrase
+stays out of the repository. Screenshots and a JSON report land in
 `render-report/`.
 
 ```bash

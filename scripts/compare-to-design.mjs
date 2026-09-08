@@ -92,7 +92,7 @@ async function run(url) {
   // render check does — by setting the flag the gate sets — so the
   // passphrase stays out of the repository.
   await page.addInitScript(() => {
-    try { sessionStorage.setItem('databank-unlocked', '1'); } catch { /* private mode */ }
+    try { sessionStorage.setItem('kds-unlocked', '1'); } catch { /* private mode */ }
   });
   const problems = [];
   page.on('pageerror', (e) => problems.push(`pageerror: ${e.message}`));

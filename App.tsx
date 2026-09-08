@@ -2,6 +2,7 @@
 import React from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar, { MobileHeader } from './components/Navbar';
+import FullscreenToggle from './components/FullscreenToggle';
 import Marketplace from './components/Marketplace';
 import AssetDetail from './components/AssetDetail';
 import Dashboard from './components/Dashboard';
@@ -36,7 +37,15 @@ const App: React.FC = () => {
             <MobileHeader />
             <Navbar />
             
-            <main className="flex-1 md:ml-64 p-4 md:p-8 overflow-y-auto h-screen">
+            <div className="flex-1 md:ml-64 flex flex-col h-screen">
+              {/* The top bar exists to carry the fullscreen switch at its
+                  right end. It is desktop-only: on mobile the header above
+                  already is the topmost bar, and carries the same switch. */}
+              <div className="hidden md:flex h-10 shrink-0 items-center justify-end border-b border-slate-200 bg-white px-6">
+                <FullscreenToggle />
+              </div>
+
+              <main className="flex-1 p-4 md:p-8 overflow-y-auto">
                 <div className="max-w-7xl mx-auto">
                     <Routes>
                         <Route path="/" element={<Navigate to="/overview" replace />} />
@@ -64,7 +73,8 @@ const App: React.FC = () => {
                         <Route path="/tutorial" element={<Tutorial />} />
                     </Routes>
                 </div>
-            </main>
+              </main>
+            </div>
           </div>
         </Router>
       </AssetProvider>
