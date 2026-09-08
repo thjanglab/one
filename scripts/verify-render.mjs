@@ -19,33 +19,52 @@ const ROUTES = [
   'asset/recipe_ai', 'asset/data_batt_cycle',
 ];
 
-// Every target the check visits: the SPA's hash routes plus the standalone
-// pages that are their own build entry. The demo reads its copy off the stage
-// rather than a <main>, and its opening sequence runs for about 3.5s.
+// Both pages sit behind the same passphrase gate. The check gets past it by
+// setting the session flag the gate sets, rather than carrying the passphrase
+// in the repository.
+// An init script stays registered for every later navigation, so this only
+// needs to run once — the first target that asks for it unlocks the rest.
+let unlockArmed = false;
+const unlock = async (page) => {
+  if (unlockArmed) return;
+  unlockArmed = true;
+  await page.addInitScript(() => {
+    try { sessionStorage.setItem('kds-unlocked', '1'); } catch { /* private mode */ }
+  });
+};
+
+// Every target the check visits: the two gates, then the SPA's hash routes and
+// the demo behind them. The demo reads its copy off the stage rather than a
+// <main>, and its opening sequence runs for about 3.5s.
 const TARGETS = [
-  ...ROUTES.map((route) => ({
-    name: `/${route}`,
-    url: `${BASE}/#/${route}`,
-    text: () => document.querySelector('main')?.innerText.trim() ?? '',
-    settle: 1500,
-  })),
+  // The gates themselves. They are short pages by design, so each is checked
+  // for the control it must show rather than for a paragraph of copy. They run
+  // first, before any target has unlocked the session.
   {
-    // The gate itself. It is a short page by design, so it is checked for
-    // the control it must show rather than for a paragraph of copy.
+    name: 'platform (gate)',
+    url: `${BASE}/`,
+    text: () => document.body.innerText.trim(),
+    settle: 1200,
+    minText: 20,
+  },
+  {
     name: 'databank (gate)',
     url: `${BASE}/d/7k2q9x/`,
     text: () => document.body.innerText.trim(),
     settle: 1200,
     minText: 20,
   },
+  ...ROUTES.map((route) => ({
+    name: `/${route}`,
+    url: `${BASE}/#/${route}`,
+    prepare: unlock,
+    text: () => document.querySelector('main')?.innerText.trim() ?? '',
+    settle: 2000,
+  })),
   {
-    // The demo behind it. The check unlocks by setting the same session flag
-    // the gate sets, rather than carrying the passphrase in the repository.
     name: 'databank (demo)',
     url: `${BASE}/d/7k2q9x/`,
-    prepare: (page) => page.addInitScript(() => {
-      try { sessionStorage.setItem('databank-unlocked', '1'); } catch { /* private mode */ }
-    }),
+    prepare: unlock,
     text: () => document.body.innerText.trim(),
     settle: 5000,
   },

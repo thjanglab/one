@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { LayoutGrid, ShoppingBag, BarChart3, Database, Search, Bell, Settings, Cpu, Globe, BookOpen, GraduationCap, Briefcase, Store, Link as LinkIcon, Leaf, Tag, BadgeCheck, Wand2, Zap, Play, Network, KeyRound, Map, Bot, Workflow, Share2, X, Copy, Check, Lock, Monitor, Shield } from 'lucide-react';
 import { CURRENT_USER } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
+import FullscreenToggle from './FullscreenToggle';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -320,6 +321,7 @@ export const MobileHeader: React.FC = () => {
             <button className="p-2 text-slate-600">
               <Settings className="w-6 h-6" />
             </button>
+            <FullscreenToggle />
         </div>
       </header>
 

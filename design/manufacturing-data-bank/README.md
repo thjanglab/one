@@ -63,7 +63,8 @@ they were being drawn behind them before.
 
 ## The passphrase gate, and what it is worth
 
-The demo sits at an unlisted path behind a passphrase screen (`gate.tsx`),
+The demo sits at an unlisted path behind a passphrase screen
+(`components/gate/`, shared with the platform),
 because it is handed out for external seminars. Two things it does buy: the
 page is not readable by someone who merely has the link, and the demo bundle
 is behind a dynamic import, so it is not even fetched until the passphrase
