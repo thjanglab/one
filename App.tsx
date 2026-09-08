@@ -37,15 +37,22 @@ const App: React.FC = () => {
             <MobileHeader />
             <Navbar />
             
-            <div className="flex-1 md:ml-64 flex flex-col h-screen">
-              {/* The top bar exists to carry the fullscreen switch at its
-                  right end. It is desktop-only: on mobile the header above
-                  already is the topmost bar, and carries the same switch. */}
-              <div className="hidden md:flex h-10 shrink-0 items-center justify-end border-b border-slate-200 bg-white px-6">
-                <FullscreenToggle />
-              </div>
+            {/* The fullscreen switch rides in the top-right corner rather
+                than in a bar of its own: it is a control for whoever is
+                presenting, not part of any screen, and out of the flow it
+                costs no vertical space and shifts nothing.
 
-              <main className="flex-1 p-4 md:p-8 overflow-y-auto">
+                It sits inside main's 32px padding band, ending at y=30 —
+                above where every screen starts drawing. That matters: several
+                screens put their own button in that corner (제품 추가, 자산
+                등록, 초기화, 데이터 교환), and measured across all 23 routes at
+                1280, 1440 and 1920px, nothing is painted under it. Fixed
+                rather than sticky so it stays reachable while the screen
+                scrolls. Desktop only; the mobile header carries the same
+                switch. */}
+            <FullscreenToggle className="hidden md:flex fixed top-1 right-4 z-30 bg-white/95 backdrop-blur-sm shadow-sm" />
+
+            <main className="flex-1 md:ml-64 p-4 md:p-8 overflow-y-auto h-screen">
                 <div className="max-w-7xl mx-auto">
                     <Routes>
                         <Route path="/" element={<Navigate to="/overview" replace />} />
@@ -73,8 +80,7 @@ const App: React.FC = () => {
                         <Route path="/tutorial" element={<Tutorial />} />
                     </Routes>
                 </div>
-              </main>
-            </div>
+            </main>
           </div>
         </Router>
       </AssetProvider>

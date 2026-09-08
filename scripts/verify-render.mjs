@@ -46,6 +46,10 @@ const TARGETS = [
     text: () => document.body.innerText.trim(),
     settle: 1200,
     minText: 20,
+    // A gate that renders but no longer gates would still have passed the
+    // checks above, so say what it must and must not show.
+    must: () => (document.querySelector('#code') ? '' : 'no passphrase field')
+      || (document.querySelector('main') ? 'the app rendered without a passphrase' : ''),
   },
   {
     name: 'databank (gate)',
@@ -53,6 +57,8 @@ const TARGETS = [
     text: () => document.body.innerText.trim(),
     settle: 1200,
     minText: 20,
+    must: () => (document.querySelector('#code') ? '' : 'no passphrase field')
+      || (document.querySelector('[data-tip]') ? 'the demo rendered without a passphrase' : ''),
   },
   ...ROUTES.map((route) => ({
     name: `/${route}`,
@@ -139,6 +145,11 @@ for (const target of TARGETS) {
 
   const floor = target.minText ?? MIN_TEXT;
   if (text.length < floor) problems.push(`rendered only ${text.length} chars of text`);
+
+  if (target.must) {
+    const why = await page.evaluate(target.must);
+    if (why) problems.push(why);
+  }
 
   const name = target.name.replace(/^\//, '').replace(/[\/ ()]+/g, '_');
   await page.screenshot({ path: `${OUT}/${name}.png`, fullPage: true });

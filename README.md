@@ -54,9 +54,14 @@ it off for anyone sharing a single window in a call. It can still be refused
 — iOS Safari does not do fullscreen outside video — and a refusal just opens
 the page windowed.
 
-Each page then carries a 전체화면 switch at the right end of its topmost bar
-— the platform's own top bar, the demo's concept-demo notice bar — so
-fullscreen can be turned on and off without leaving the page. Both read
+Each page then carries a 전체화면 switch in its top-right corner — the
+platform floats it in the padding above the content, the demo puts it at the
+right end of its concept-demo notice bar — so fullscreen can be turned on and
+off without leaving the page. The platform's is out of the flow, so it costs
+no vertical space and shifts nothing; it ends at y=30, above where every
+screen starts drawing, which matters because several screens put their own
+button in that corner. Measured across all 23 routes at 1280, 1440 and
+1920px: nothing is painted under it. Both read
 `document.fullscreenElement` rather than remembering their own clicks, so
 F11 and Esc move them too, and a refused request leaves them reading off
 instead of lying. That switch is also the way back after a reload, which
